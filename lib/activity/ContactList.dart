@@ -15,6 +15,7 @@ class ContactList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Kevin APP',
         theme: ThemeData(
           primarySwatch: Colors.blue,
