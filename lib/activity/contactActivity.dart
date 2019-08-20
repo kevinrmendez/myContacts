@@ -8,7 +8,7 @@ class ContactActivity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Kevin APP',
+        title: 'My Contacts',
         theme: ThemeData(
           // This is the theme of your application.
           //
@@ -23,7 +23,7 @@ class ContactActivity extends StatelessWidget {
         ),
         home: Scaffold(
           appBar: AppBar(
-            title: Text('YOUR CONTACTS'),
+            title: Text('My Contacts'),
           ),
           body: Center(
             child: Column(

@@ -81,6 +81,7 @@ class ContactList extends StatelessWidget {
                           children: <Widget>[
                             Container(
                               width: 200,
+                              margin: EdgeInsets.only(top: 40),
                               child: Text(
                                 'Your contact list is empty',
                                 textAlign: TextAlign.center,
