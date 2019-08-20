@@ -32,26 +32,49 @@ class ContactDetails extends StatelessWidget {
         ),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(bottom: 30),
-                child: Text(
-                  name,
-                  style: TextStyle(fontSize: 40),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 30),
-                child: Text(
-                  phone,
-                  style: TextStyle(fontSize: 40),
-                ),
+              Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(bottom: 30, left: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.blue[300],
+                          ),
+                        ),
+                        Text(
+                          name,
+                          style: TextStyle(fontSize: 40),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 30, left: 30),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                            padding: EdgeInsets.only(right: 20),
+                            child: Icon(Icons.phone, color: Colors.blue[300])),
+                        Text(
+                          phone,
+                          style: TextStyle(fontSize: 40),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               image == null
                   ? Container(
                       child: Image.asset('assets/person.png'),
-                      height: 60,
+                      height: 100,
                     )
                   : Container(
                       child: Image.file(File(image)),
