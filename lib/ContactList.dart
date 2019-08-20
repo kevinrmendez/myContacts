@@ -19,9 +19,8 @@ class ContactList extends StatelessWidget {
         home: Scaffold(
           body: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Text('Contacts'),
                 FutureBuilder(
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     print(snapshot.data);
@@ -38,22 +37,46 @@ class ContactList extends StatelessWidget {
                           child: ListView.builder(
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, int index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                  bottom: BorderSide(
-                                      width: 2, color: Colors.grey[200]),
-                                )),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      snapshot.data[index].name,
-                                      style: TextStyle(
-                                          color: Colors.blue[300],
-                                          fontSize: 30),
-                                    ),
-                                    Text(snapshot.data[index].phone.toString())
-                                  ],
+                              // return Container(
+                              //   decoration: BoxDecoration(
+                              //       border: Border(
+                              //     bottom: BorderSide(
+                              //         width: 2, color: Colors.grey[200]),
+                              //   )),
+                              //   child: Row(
+                              //     children: <Widget>[
+                              //       ClipRRect(
+                              //         borderRadius: BorderRadius.circular(50),
+                              //         child: Image.asset(
+                              //           'assets/meSnow.jpg',
+                              //           height: 60,
+                              //         ),
+                              //       ),
+                              //       Text(
+                              //         snapshot.data[index].name,
+                              //         style: TextStyle(
+                              //             color: Colors.blue[300],
+                              //             fontSize: 30),
+                              //       ),
+                              //       Container(
+                              //         padding: EdgeInsets.all(10),
+                              //         child: Text(
+                              //           snapshot.data[index].phone.toString(),
+                              //           style: TextStyle(fontSize: 30),
+                              //         ),
+                              //       )
+                              //     ],
+                              //   ),
+                              // );
+                              return Card(
+                                child: ListTile(
+                                  leading: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Image.asset('assets/meSnow.jpg')),
+                                  title: Text(
+                                      'name: ${snapshot.data[index].name}'),
+                                  subtitle: Text(
+                                      'phone: ${snapshot.data[index].phone.toString()}'),
                                 ),
                               );
                             },
