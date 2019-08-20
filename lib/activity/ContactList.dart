@@ -20,40 +20,34 @@ class ContactList extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                FutureBuilder(
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    print(snapshot.data);
-                    // if (snapshot.connectionState == ConnectionState.waiting) {
-
-                    // }
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return Text('Loading');
-                      case ConnectionState.none:
-                        return Text('no data');
-                      default:
+          appBar: AppBar(
+            title: Text('YOUR CONTACTS'),
+          ),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              FutureBuilder(
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  // print(snapshot.data);
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return CircularProgressIndicator();
+                    case ConnectionState.none:
+                      return Text('no data');
+                    default:
+                      if (snapshot.data.length > 0) {
                         return Flexible(
                           child: ListView.builder(
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, int index) {
                               return Card(
                                 child: ListTile(
-                                  // leading: ClipOval(
-                                  //     child: snapshot.data[index].image == "" ||
-                                  //             snapshot.data[index].image == null
-                                  //         ? Image.asset('assets/meSnow.jpg')
-                                  //         : Image.file(File(
-                                  //             snapshot.data[index].image))),
                                   leading: CircleAvatar(
                                     backgroundImage: snapshot
                                                     .data[index].image ==
                                                 "" ||
                                             snapshot.data[index].image == null
-                                        ? AssetImage('assets/meSnow.jpg')
+                                        ? AssetImage('assets/person-w.png')
                                         : FileImage(
                                             File(snapshot.data[index].image)),
                                   ),
@@ -81,13 +75,35 @@ class ContactList extends StatelessWidget {
                             },
                           ),
                         );
-                    }
-                  },
-                  future: getContactList(),
-                ),
-                // ListView(children: db.contacts() as List<Widget>)
-              ],
-            ),
+                      } else {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              width: 200,
+                              child: Text(
+                                'Your contact list is empty',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 25),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 40),
+                              child: Text(
+                                'go back to the main menu and add your contacts',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 17),
+                              ),
+                            )
+                          ],
+                        );
+                      }
+                  }
+                },
+                future: getContactList(),
+              ),
+              // ListView(children: db.contacts() as List<Widget>)
+            ],
           ),
         ));
   }

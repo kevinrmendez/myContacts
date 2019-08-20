@@ -27,6 +27,9 @@ class ContactDetails extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
+        appBar: AppBar(
+          title: Text(name),
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -45,7 +48,20 @@ class ContactDetails extends StatelessWidget {
                   style: TextStyle(fontSize: 40),
                 ),
               ),
-              Container(height: 400, child: Image.file(File(image)))
+              image == null
+                  ? Container(
+                      child: Image.asset('assets/person.png'),
+                      height: 60,
+                    )
+                  : Container(
+                      child: Image.file(File(image)),
+                      height: 300,
+                    )
+              // Container(
+              //     height: 400,
+              //     child: image == null
+              //         ? Image.asset('assets/person.png')
+              //         : Image.file(File(image)))
             ],
           ),
         ),

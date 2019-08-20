@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:kevin_app/components/contact_form.dart';
 
-import 'ContactList.dart';
+import './ContactList.dart';
 
 class ContactActivity extends StatelessWidget {
   @override
@@ -22,37 +22,33 @@ class ContactActivity extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
+          appBar: AppBar(
+            title: Text('YOUR CONTACTS'),
+          ),
           body: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text('Add contact'),
-                ContactForm(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: RaisedButton(
-                    onPressed: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ContactList()),
-                      );
-                    },
-                    child: Text('Contact List'),
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: Text(
+                    'Add your contacts',
+                    style: TextStyle(fontSize: 30),
                   ),
                 ),
-                // FutureBuilder(
-                //   builder: (context,AsyncSnapshot snapshot) {
-                //     switch (snapshot.connectionState) {
-                //       case ConnectionState.none:
-                //           return Text('no camera available');
-                //         break;
-                //       default:
-                //         return RaisedButton(onPressed: ,)
-                //     }
-                //   },
-                // ),
+                Container(height: 100, child: Image.asset('assets/person.png')),
+                ContactForm(),
               ],
             ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.contacts),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ContactList()),
+              );
+            },
           ),
         ));
   }
