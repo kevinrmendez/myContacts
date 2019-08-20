@@ -4,7 +4,8 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This is an flutter app that helps you to store the data of your contacts in your mobile device
+You can take a picture with your camera and add it to your contact profile
 
 A few resources to get you started if this is your first Flutter project:
 
