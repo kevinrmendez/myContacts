@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:kevin_app/components/contact_form.dart';
 
 import 'ContactList.dart';
@@ -38,7 +39,18 @@ class ContactActivity extends StatelessWidget {
                     },
                     child: Text('Contact List'),
                   ),
-                )
+                ),
+                // FutureBuilder(
+                //   builder: (context,AsyncSnapshot snapshot) {
+                //     switch (snapshot.connectionState) {
+                //       case ConnectionState.none:
+                //           return Text('no camera available');
+                //         break;
+                //       default:
+                //         return RaisedButton(onPressed: ,)
+                //     }
+                //   },
+                // ),
               ],
             ),
           ),

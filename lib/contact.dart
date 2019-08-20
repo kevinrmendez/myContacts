@@ -3,8 +3,9 @@ class Contact {
   int id;
   final String name;
   final int phone;
+  final String image;
 
-  Contact({this.name, this.phone}) {
+  Contact({this.name, this.phone, this.image = ""}) {
     Contact.counter++;
     this.id = counter;
   }
@@ -14,6 +15,7 @@ class Contact {
       'id': id,
       'name': name,
       'phone': phone,
+      'image': image,
     };
   }
 
@@ -21,6 +23,6 @@ class Contact {
   // each dog when using the print statement.
   @override
   String toString() {
-    return 'Contact{id: $id, name: $name, phone: $phone}';
+    return 'Contact{id: $id, name: $name, phone: $phone, image: $image}';
   }
 }

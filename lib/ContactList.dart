@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'dart:async';
+import 'dart:io';
+
+import 'contactDetails.dart';
 
 class ContactList extends StatelessWidget {
   final ContactDb db = ContactDb();
@@ -37,46 +40,42 @@ class ContactList extends StatelessWidget {
                           child: ListView.builder(
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, int index) {
-                              // return Container(
-                              //   decoration: BoxDecoration(
-                              //       border: Border(
-                              //     bottom: BorderSide(
-                              //         width: 2, color: Colors.grey[200]),
-                              //   )),
-                              //   child: Row(
-                              //     children: <Widget>[
-                              //       ClipRRect(
-                              //         borderRadius: BorderRadius.circular(50),
-                              //         child: Image.asset(
-                              //           'assets/meSnow.jpg',
-                              //           height: 60,
-                              //         ),
-                              //       ),
-                              //       Text(
-                              //         snapshot.data[index].name,
-                              //         style: TextStyle(
-                              //             color: Colors.blue[300],
-                              //             fontSize: 30),
-                              //       ),
-                              //       Container(
-                              //         padding: EdgeInsets.all(10),
-                              //         child: Text(
-                              //           snapshot.data[index].phone.toString(),
-                              //           style: TextStyle(fontSize: 30),
-                              //         ),
-                              //       )
-                              //     ],
-                              //   ),
-                              // );
                               return Card(
                                 child: ListTile(
-                                  leading: ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: Image.asset('assets/meSnow.jpg')),
+                                  // leading: ClipOval(
+                                  //     child: snapshot.data[index].image == "" ||
+                                  //             snapshot.data[index].image == null
+                                  //         ? Image.asset('assets/meSnow.jpg')
+                                  //         : Image.file(File(
+                                  //             snapshot.data[index].image))),
+                                  leading: CircleAvatar(
+                                    backgroundImage: snapshot
+                                                    .data[index].image ==
+                                                "" ||
+                                            snapshot.data[index].image == null
+                                        ? AssetImage('assets/meSnow.jpg')
+                                        : FileImage(
+                                            File(snapshot.data[index].image)),
+                                  ),
+                                  // : Container()),
                                   title: Text(
                                       'name: ${snapshot.data[index].name}'),
                                   subtitle: Text(
                                       'phone: ${snapshot.data[index].phone.toString()}'),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ContactDetails(
+                                                name: snapshot.data[index].name,
+                                                phone: snapshot
+                                                    .data[index].phone
+                                                    .toString(),
+                                                image:
+                                                    snapshot.data[index].image,
+                                              )),
+                                    );
+                                  },
                                 ),
                               );
                             },

@@ -3,6 +3,9 @@ import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactList.dart';
 import 'package:kevin_app/ContactDb.dart';
 
+import 'package:kevin_app/cameraActivity.dart';
+import 'package:camera/camera.dart';
+
 class ContactForm extends StatefulWidget {
   @override
   ContactFormState createState() {
@@ -21,6 +24,7 @@ class ContactFormState extends State<ContactForm> {
   final phoneController = TextEditingController();
   final ContactDb db = ContactDb();
   String action = "save";
+  String image;
 
   @override
   void dispose() {
@@ -94,8 +98,11 @@ class ContactFormState extends State<ContactForm> {
                     } else {
                       Contact contact = Contact(
                           name: nameController.text,
-                          phone: int.parse(phoneController.text));
+                          phone: int.parse(phoneController.text),
+                          image: image);
                       await db.insertContact(contact);
+                      print(contact);
+                      print(image);
                     }
                     nameController.text = "";
                     phoneController.text = "";
@@ -107,6 +114,28 @@ class ContactFormState extends State<ContactForm> {
                   child: Text(action),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: action == "save"
+                    ? RaisedButton(
+                        onPressed: () async {
+                          final cameras = await availableCameras();
+                          final firstCamera = cameras.first;
+                          image = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CameraActivity(
+                                      camera: firstCamera,
+                                    )),
+                          );
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text('Picture has been taken')));
+                          print(image.toString());
+                        },
+                        child: Text('Take picture'),
+                      )
+                    : Container(),
+              )
             ],
           ),
         ) // Build this out in the next steps.
