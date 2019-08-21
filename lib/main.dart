@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
 
+import 'activity/contactActivity2.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: ContactActivity(),
+      home: ContactActivity2(),
     );
   }
 }

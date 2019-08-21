@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/cameraActivity.dart';
 import 'package:kevin_app/contact.dart';
@@ -7,6 +9,10 @@ import 'package:kevin_app/ContactDb.dart';
 import 'package:camera/camera.dart';
 
 class ContactForm extends StatefulWidget {
+  StreamController streamController;
+
+  ContactForm({this.streamController});
+
   @override
   ContactFormState createState() {
     return ContactFormState();
@@ -31,6 +37,7 @@ class ContactFormState extends State<ContactForm> {
     // Clean up the controller when the widget is disposed.
     nameController.dispose();
     phoneController.dispose();
+    widget.streamController.close();
     super.dispose();
   }
 
@@ -48,6 +55,7 @@ class ContactFormState extends State<ContactForm> {
     nameController.text = "";
     phoneController.text = "";
     image = "";
+    widget.streamController.add("");
   }
 
   Future<void> _deleteContact() async {
@@ -111,6 +119,7 @@ class ContactFormState extends State<ContactForm> {
                                       camera: firstCamera,
                                     )),
                           );
+                          widget.streamController.sink.add(image);
                           Scaffold.of(context).showSnackBar(SnackBar(
                               content: Text('Picture has been taken')));
                           print(image.toString());
