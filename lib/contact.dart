@@ -1,9 +1,9 @@
 class Contact {
   static int counter = 0;
   int id;
-  final String name;
-  final int phone;
-  final String image;
+  String name;
+  int phone;
+  String image;
 
   Contact({this.name, this.phone, this.image = ""}) {
     Contact.counter++;

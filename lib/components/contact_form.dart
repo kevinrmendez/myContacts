@@ -160,10 +160,10 @@ class ContactFormState extends State<ContactForm> {
                         _saveContact(contact);
                       }
 
-                      print(image);
+                      // print(image);
                     }
 
-                    print(await db.contacts());
+                    // print(await db.contacts());
                   },
                   child: Text(
                     action,

@@ -1,13 +1,17 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:kevin_app/activity/contactEdit.dart';
+
+import '../contact.dart';
 
 class ContactDetails extends StatelessWidget {
-  final String name;
-  final String phone;
-  final String image;
+  // final String name;
+  // final String phone;
+  // final String image;
+  final Contact contact;
 
-  ContactDetails({this.name, this.phone, this.image});
+  ContactDetails({this.contact});
 
   // This widget is the root of your application.
   @override
@@ -29,7 +33,7 @@ class ContactDetails extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text(name),
+          title: Text(contact.name),
         ),
         body: Center(
           child: Column(
@@ -50,7 +54,7 @@ class ContactDetails extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          name,
+                          contact.name,
                           style: TextStyle(fontSize: 40),
                         ),
                       ],
@@ -64,7 +68,7 @@ class ContactDetails extends StatelessWidget {
                             padding: EdgeInsets.only(right: 20),
                             child: Icon(Icons.phone, color: Colors.blue[300])),
                         Text(
-                          phone,
+                          contact.phone.toString(),
                           style: TextStyle(fontSize: 40),
                         ),
                       ],
@@ -72,22 +76,29 @@ class ContactDetails extends StatelessWidget {
                   ),
                 ],
               ),
-              image == null
+              contact.image == null
                   ? Container(
                       child: Image.asset('assets/person.png'),
                       height: 100,
                     )
                   : Container(
-                      child: Image.file(File(image)),
+                      child: Image.file(File(contact.image)),
                       height: 300,
                     )
-              // Container(
-              //     height: 400,
-              //     child: image == null
-              //         ? Image.asset('assets/person.png')
-              //         : Image.file(File(image)))
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.edit),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ContactEdit(
+                        contact: contact,
+                      )),
+            );
+          },
         ),
       ),
     );

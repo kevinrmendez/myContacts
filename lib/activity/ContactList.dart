@@ -3,6 +3,7 @@ import 'package:kevin_app/ContactDb.dart';
 import 'dart:async';
 import 'dart:io';
 
+import '../contact.dart';
 import 'contactDetails.dart';
 
 class ContactList extends StatelessWidget {
@@ -57,20 +58,18 @@ class ContactList extends StatelessWidget {
                                     subtitle: Text(
                                         'phone: ${snapshot.data[index].phone.toString()}'),
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ContactDetails(
-                                                  name:
-                                                      snapshot.data[index].name,
-                                                  phone: snapshot
-                                                      .data[index].phone
-                                                      .toString(),
-                                                  image: snapshot
-                                                      .data[index].image,
-                                                )),
-                                      );
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        // Contact contact = new Contact(
+                                        //   name: snapshot.data[index].name,
+                                        //   phone: snapshot.data[index].phone,
+                                        //   image: snapshot.data[index].image,
+                                        // );
+                                        // contact.id = snapshot.data[index].id;
+                                        return ContactDetails(
+                                          contact: snapshot.data[index],
+                                        );
+                                      }));
                                     },
                                   ),
                                 );
