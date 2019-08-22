@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:kevin_app/components/contact_form.dart';
 
-import './ContactList.dart';
-
 class ContactActivity2 extends StatefulWidget {
   @override
   ContactActivityState2 createState() => ContactActivityState2();
@@ -44,7 +42,7 @@ class ContactActivityState2 extends State<ContactActivity2> {
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 return snapshot.data == "" || snapshot.data == null
                     ? Container(
-                        height: 100, child: Image.asset('assets/person.png'))
+                        height: 80, child: Image.asset('assets/person.png'))
                     : Container(
                         height: 200, child: Image.file(File(snapshot.data)));
               },

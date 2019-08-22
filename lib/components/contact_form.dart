@@ -92,17 +92,25 @@ class ContactFormState extends State<ContactForm> {
           child: Column(
             children: <Widget>[
               TextFormField(
-                decoration: InputDecoration(hintText: 'name'),
+                decoration:
+                    InputDecoration(hintText: 'name', icon: Icon(Icons.person)),
                 controller: nameController,
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Please enter some text';
+                    return 'Please enter the name';
                   }
                   return null;
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(hintText: 'phone number'),
+                decoration: InputDecoration(
+                    hintText: 'phone number', icon: Icon(Icons.phone)),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter the phone';
+                  }
+                  return null;
+                },
                 keyboardType: TextInputType.phone,
                 controller: phoneController,
               ),
@@ -131,24 +139,26 @@ class ContactFormState extends State<ContactForm> {
                 child: RaisedButton(
                   color: Colors.blue[300],
                   onPressed: () async {
-                    print(action);
-
-                    if (action == 'delete') {
-                      await _deleteContact();
-                    } else {
-                      if (nameController.text == "") {
-                        _alertDialog('name is missing');
-                      } else if (phoneController.text == "") {
-                        _alertDialog('phone number is missing');
-                      } else {
-                        Contact contact = Contact(
-                            id: contactId,
-                            name: nameController.text,
-                            phone: int.parse(phoneController.text),
-                            image: image);
-
-                        _saveContact(contact);
-                      }
+                    // if (action == 'delete') {
+                    // } else {
+                    //   if (nameController.text == "") {
+                    //     _alertDialog('name is missing');
+                    //   } else if (phoneController.text == "") {
+                    //     _alertDialog('phone number is missing');
+                    //   } else {
+                    //     Contact contact = Contact(
+                    //         id: contactId,
+                    //         name: nameController.text,
+                    //         phone: int.parse(phoneController.text),
+                    //         image: image);
+                    //   }
+                    if (_formKey.currentState.validate()) {
+                      Contact contact = Contact(
+                          id: contactId,
+                          name: nameController.text,
+                          phone: int.parse(phoneController.text),
+                          image: image);
+                      _saveContact(contact);
 
                       // print(image);
                     }

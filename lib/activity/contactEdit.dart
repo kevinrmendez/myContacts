@@ -132,7 +132,8 @@ class ContactEditState extends State<ContactEdit> {
                                 this.name = value;
                               });
                             },
-                            decoration: InputDecoration(hintText: 'name'),
+                            decoration: InputDecoration(
+                                hintText: 'name', icon: Icon(Icons.person)),
                             controller: nameController,
                           ),
                           TextFormField(
@@ -141,8 +142,9 @@ class ContactEditState extends State<ContactEdit> {
                                 this.phone = value;
                               });
                             },
-                            decoration:
-                                InputDecoration(hintText: 'phone number'),
+                            decoration: InputDecoration(
+                                hintText: 'phone number',
+                                icon: Icon(Icons.phone)),
                             keyboardType: TextInputType.phone,
                             controller: phoneController,
                           ),
