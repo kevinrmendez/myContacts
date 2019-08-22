@@ -7,8 +7,9 @@ import 'package:kevin_app/ContactDb.dart';
 import 'package:camera/camera.dart';
 
 class ContactEdit extends StatefulWidget {
-  Contact contact;
+  final Contact contact;
   ContactEdit({@required this.contact});
+
   @override
   ContactEditState createState() {
     return ContactEditState();
@@ -25,6 +26,7 @@ class ContactEditState extends State<ContactEdit> {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final ContactDb db = ContactDb();
+  // Contact contact;
   String name;
   String phone;
   String image;
@@ -66,6 +68,7 @@ class ContactEditState extends State<ContactEdit> {
 
   @override
   Widget build(BuildContext context) {
+    // contact = ModalRoute.of(context).settings.arguments;
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       appBar: AppBar(

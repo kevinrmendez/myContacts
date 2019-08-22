@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
 
+import 'activity/ContactList.dart';
 import 'activity/contactActivity2.dart';
+import 'activity/contactDetails.dart';
+import 'activity/contactEdit.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,6 +14,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My Contacts',
+      routes: {
+        '/contactList': (context) => ContactList(),
+        '/contactDetails': (context) => ContactDetails(),
+        // '/contactEdit': (context) => ContactEdit()
+      },
       theme: ThemeData(
         // This is the theme of your application.
         //
