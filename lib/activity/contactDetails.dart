@@ -6,9 +6,6 @@ import 'package:kevin_app/activity/contactEdit.dart';
 import '../contact.dart';
 
 class ContactDetails extends StatelessWidget {
-  // final String name;
-  // final String phone;
-  // final String image;
   final Contact contact;
 
   ContactDetails({this.contact});
@@ -23,12 +20,21 @@ class ContactDetails extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Column(
               children: <Widget>[
+                contact.image == null || contact.image == ""
+                    ? Container(
+                        child: Image.asset('assets/person.png'),
+                        height: 100,
+                      )
+                    : Container(
+                        child: Image.file(File(contact.image)),
+                        height: 300,
+                      ),
                 Container(
-                  margin: EdgeInsets.only(bottom: 30, left: 30),
+                  margin: EdgeInsets.only(bottom: 30, left: 30, top: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -62,15 +68,6 @@ class ContactDetails extends StatelessWidget {
                 ),
               ],
             ),
-            contact.image == null
-                ? Container(
-                    child: Image.asset('assets/person.png'),
-                    height: 100,
-                  )
-                : Container(
-                    child: Image.file(File(contact.image)),
-                    height: 300,
-                  ),
           ],
         ),
       ),

@@ -25,6 +25,7 @@ class ContactEditState extends State<ContactEdit> {
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final ContactDb db = ContactDb();
   Contact contact;
   String name;
@@ -47,18 +48,27 @@ class ContactEditState extends State<ContactEdit> {
     print('after update id');
     print(contact);
     await db.updateContact(contact);
-    // Scaffold.of(context)
-    //     .showSnackBar(SnackBar(content: Text('Contact has been updated')));
   }
 
   Future<void> _deleteContact(Contact contact) async {
     await db.deleteContact(contact.id);
-    List<Contact> contacts = await db.contacts();
-
-    print('Contacts AFTER DELETE $contacts');
-    // Scaffold.of(context)
-    //     .showSnackBar(SnackBar(content: Text('Contact has been deleted')));
-    // Navigator.pushNamed(context, '/');
+    // List<Contact> contacts = await db.contacts();
+    // print('Contacts AFTER DELETE $contacts');
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('contact deleted'),
+            actions: <Widget>[
+              FlatButton(
+                  child: Text('close'),
+                  onPressed: () {
+                    // Navigator.of(context).pop();
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                  })
+            ],
+          );
+        });
   }
 
   Future _alertDialog(String text) {
@@ -77,98 +87,106 @@ class ContactEditState extends State<ContactEdit> {
     image = "";
   }
 
+  void _showSnackBar(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     // contact = ModalRoute.of(context).settings.arguments;
     // Build a Form widget using the _formKey created above.
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('My Contacts'),
       ),
-      body: Column(
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Form(
-              key: _formKey,
-              child: Container(
-                width: 250,
-                child: Center(
-                  child: Column(
-                    children: <Widget>[
-                      Text(this.name),
-                      Text(this.phone),
-                      TextFormField(
-                        onChanged: (value) {
-                          setState(() {
-                            this.name = value;
-                          });
-                        },
-                        decoration: InputDecoration(hintText: 'name'),
-                        controller: nameController,
-                      ),
-                      TextFormField(
-                        onChanged: (value) {
-                          setState(() {
-                            this.phone = value;
-                          });
-                        },
-                        decoration: InputDecoration(hintText: 'phone number'),
-                        keyboardType: TextInputType.phone,
-                        controller: phoneController,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: RaisedButton(
-                          color: Colors.blue[300],
-                          onPressed: () async {
-                            if (nameController.text == "") {
-                              _alertDialog('name is missing');
-                            } else if (phoneController.text == "") {
-                              _alertDialog('phone number is missing');
-                            } else {
-                              contact = widget.contact;
-                              print('before update id');
-                              print(contact.id);
-                              await _updateContact(contact);
-                              List<Contact> contacts = await db.contacts();
-                              print('CONTACT LIST AFTER UPDATE $contacts');
-                              _resetFormFields();
-                            }
-                          },
-                          child: Text(
-                            "save",
-                            style: TextStyle(color: Colors.white),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Form(
+                  key: _formKey,
+                  child: Container(
+                    width: 250,
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            this.name,
+                            style: TextStyle(fontSize: 30),
                           ),
-                        ),
-                      ),
-                      RaisedButton(
-                        child: Text('delete'),
-                        onPressed: () async {
-                          await _deleteContact(contact);
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('contact deleted'),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                        child: Text('close'),
-                                        onPressed: () {
-                                          // Navigator.of(context).pop();
-                                          Navigator.popUntil(context,
-                                              ModalRoute.withName('/'));
-                                          // Navigator.pushNamed(context, '/');
-                                        })
-                                  ],
-                                );
+                          Padding(
+                            padding: EdgeInsets.only(top: 20),
+                            child: Text(
+                              this.phone,
+                              style: TextStyle(fontSize: 30),
+                            ),
+                          ),
+                          TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                this.name = value;
                               });
-                          // Navigator.pushNamed(context, '/');
-                        },
-                      )
-                    ],
+                            },
+                            decoration: InputDecoration(hintText: 'name'),
+                            controller: nameController,
+                          ),
+                          TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                this.phone = value;
+                              });
+                            },
+                            decoration:
+                                InputDecoration(hintText: 'phone number'),
+                            keyboardType: TextInputType.phone,
+                            controller: phoneController,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: RaisedButton(
+                              color: Colors.blue[300],
+                              onPressed: () async {
+                                if (nameController.text == "") {
+                                  _alertDialog('name is missing');
+                                } else if (phoneController.text == "") {
+                                  _alertDialog('phone number is missing');
+                                } else {
+                                  contact = widget.contact;
+                                  // print('before update id');
+                                  // print(contact.id);
+                                  await _updateContact(contact);
+                                  _showSnackBar('contact has been updated');
+                                  // List<Contact> contacts = await db.contacts();
+                                  // print('CONTACT LIST AFTER UPDATE $contacts');
+                                  _resetFormFields();
+                                }
+                              },
+                              child: Text(
+                                "save",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          RaisedButton(
+                            child: Text('delete'),
+                            onPressed: () async {
+                              await _deleteContact(contact);
+
+                              // Navigator.pushNamed(context, '/');
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                  ) // Build this out in the next steps.
                   ),
-                ),
-              ) // Build this out in the next steps.
-              ),
+            ],
+          ),
         ],
       ),
     );

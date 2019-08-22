@@ -101,54 +101,31 @@ class ContactFormState extends State<ContactForm> {
                   return null;
                 },
               ),
-              action == "save"
-                  ? TextFormField(
-                      decoration: InputDecoration(hintText: 'phone number'),
-                      keyboardType: TextInputType.phone,
-                      controller: phoneController,
-                    )
-                  : Container(),
+              TextFormField(
+                decoration: InputDecoration(hintText: 'phone number'),
+                keyboardType: TextInputType.phone,
+                controller: phoneController,
+              ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: action == "save"
-                    ? RaisedButton(
-                        onPressed: () async {
-                          final cameras = await availableCameras();
-                          final firstCamera = cameras.first;
-                          image = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CameraActivity(
-                                      camera: firstCamera,
-                                    )),
-                          );
-                          widget.streamController.sink.add(image);
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                              content: Text('Picture has been taken')));
-                          print(image.toString());
-                        },
-                        child: Icon(Icons.camera_alt),
-                      )
-                    : Container(),
-              ),
-              DropdownButton(
-                value: action,
-                items: [
-                  DropdownMenuItem(
-                    value: 'save',
-                    child: Text('save'),
-                  ),
-                  DropdownMenuItem(
-                    value: 'delete',
-                    child: Text('delete'),
-                  ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    action = value;
-                  });
-                },
-              ),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: RaisedButton(
+                    onPressed: () async {
+                      final cameras = await availableCameras();
+                      final firstCamera = cameras.first;
+                      image = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CameraActivity(
+                                  camera: firstCamera,
+                                )),
+                      );
+                      widget.streamController.sink.add(image);
+                      Scaffold.of(context).showSnackBar(
+                          SnackBar(content: Text('Picture has been taken')));
+                      print(image.toString());
+                    },
+                    child: Icon(Icons.camera_alt),
+                  )),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: RaisedButton(
