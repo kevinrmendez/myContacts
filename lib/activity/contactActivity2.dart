@@ -47,12 +47,6 @@ class ContactActivityState2 extends State<ContactActivity2> {
                         height: 100, child: Image.asset('assets/person.png'))
                     : Container(
                         height: 200, child: Image.file(File(snapshot.data)));
-
-                // Container(
-                //     height: 150,
-                //     child: snapshot.data == "" || snapshot.data == null
-                //         ? Image.asset('assets/person.png')
-                //         : Image.file(File(snapshot.data)));
               },
             ),
             // Container(height: 100, child: Image.asset('assets/person.png')),

@@ -71,10 +71,6 @@ class ContactDetails extends StatelessWidget {
                     child: Image.file(File(contact.image)),
                     height: 300,
                   ),
-            RaisedButton(
-              child: Text('call'),
-              onPressed: () {},
-            )
           ],
         ),
       ),

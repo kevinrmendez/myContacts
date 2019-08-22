@@ -50,6 +50,7 @@ class ContactList extends StatelessWidget {
                                     Text('name: ${snapshot.data[index].name}'),
                                 subtitle: Text(
                                     'phone: ${snapshot.data[index].phone.toString()}'),
+                                trailing: Icon(Icons.keyboard_arrow_right),
                                 onTap: () {
                                   // Navigator.pushNamed(
                                   //     context, '/contactDetails',

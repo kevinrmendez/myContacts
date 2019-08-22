@@ -51,6 +51,16 @@ class ContactEditState extends State<ContactEdit> {
     //     .showSnackBar(SnackBar(content: Text('Contact has been updated')));
   }
 
+  Future<void> _deleteContact(Contact contact) async {
+    await db.deleteContact(contact.id);
+    List<Contact> contacts = await db.contacts();
+
+    print('Contacts AFTER DELETE $contacts');
+    // Scaffold.of(context)
+    //     .showSnackBar(SnackBar(content: Text('Contact has been deleted')));
+    // Navigator.pushNamed(context, '/');
+  }
+
   Future _alertDialog(String text) {
     return showDialog(
         context: context,
@@ -130,6 +140,30 @@ class ContactEditState extends State<ContactEdit> {
                           ),
                         ),
                       ),
+                      RaisedButton(
+                        child: Text('delete'),
+                        onPressed: () async {
+                          await _deleteContact(contact);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('contact deleted'),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                        child: Text('close'),
+                                        onPressed: () {
+                                          // Navigator.of(context).pop();
+                                          Navigator.popUntil(context,
+                                              ModalRoute.withName('/'));
+                                          // Navigator.pushNamed(context, '/');
+                                        })
+                                  ],
+                                );
+                              });
+                          // Navigator.pushNamed(context, '/');
+                        },
+                      )
                     ],
                   ),
                 ),
