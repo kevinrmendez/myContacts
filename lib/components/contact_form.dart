@@ -114,6 +114,18 @@ class ContactFormState extends State<ContactForm> {
                 keyboardType: TextInputType.phone,
                 controller: phoneController,
               ),
+              TextFormField(
+                decoration:
+                    InputDecoration(hintText: 'email', icon: Icon(Icons.email)),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter the email';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.phone,
+                controller: phoneController,
+              ),
               Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: RaisedButton(

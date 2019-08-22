@@ -48,17 +48,15 @@ class ContactEditState extends State<ContactEdit> {
     print('after update id');
     print(contact);
     await db.updateContact(contact);
+    _showMessage('contact information changed');
   }
 
-  Future<void> _deleteContact(Contact contact) async {
-    await db.deleteContact(contact.id);
-    // List<Contact> contacts = await db.contacts();
-    // print('Contacts AFTER DELETE $contacts');
+  void _showMessage(String message) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('contact deleted'),
+            title: Text(message),
             actions: <Widget>[
               FlatButton(
                   child: Text('close'),
@@ -69,6 +67,28 @@ class ContactEditState extends State<ContactEdit> {
             ],
           );
         });
+  }
+
+  Future<void> _deleteContact(Contact contact) async {
+    await db.deleteContact(contact.id);
+    // List<Contact> contacts = await db.contacts();
+    // print('Contacts AFTER DELETE $contacts');
+    _showMessage('contact deleted');
+    // showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         title: Text('contact deleted'),
+    //         actions: <Widget>[
+    //           FlatButton(
+    //               child: Text('close'),
+    //               onPressed: () {
+    //                 // Navigator.of(context).pop();
+    //                 Navigator.popUntil(context, ModalRoute.withName('/'));
+    //               })
+    //         ],
+    //       );
+    //     });
   }
 
   Future _alertDialog(String text) {
@@ -162,7 +182,7 @@ class ContactEditState extends State<ContactEdit> {
                                   // print('before update id');
                                   // print(contact.id);
                                   await _updateContact(contact);
-                                  _showSnackBar('contact has been updated');
+                                  // _showSnackBar('contact has been updated');
                                   // List<Contact> contacts = await db.contacts();
                                   // print('CONTACT LIST AFTER UPDATE $contacts');
                                   _resetFormFields();
@@ -175,7 +195,7 @@ class ContactEditState extends State<ContactEdit> {
                             ),
                           ),
                           RaisedButton(
-                            child: Text('delete'),
+                            child: Text('delete contact'),
                             onPressed: () async {
                               await _deleteContact(contact);
 
