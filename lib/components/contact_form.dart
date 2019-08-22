@@ -31,6 +31,7 @@ class ContactFormState extends State<ContactForm> {
   final ContactDb db = ContactDb();
   String action = "save";
   String image;
+  int contactId;
 
   @override
   void dispose() {
@@ -76,7 +77,9 @@ class ContactFormState extends State<ContactForm> {
     Scaffold.of(context)
         .showSnackBar(SnackBar(content: Text('Contact has been $action')));
     _resetFormFields();
+    contactId++;
     print(contact);
+    print(contactId);
   }
 
   @override
@@ -162,6 +165,7 @@ class ContactFormState extends State<ContactForm> {
                         _alertDialog('phone number is missing');
                       } else {
                         Contact contact = Contact(
+                            id: contactId,
                             name: nameController.text,
                             phone: int.parse(phoneController.text),
                             image: image);

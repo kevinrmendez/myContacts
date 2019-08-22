@@ -26,7 +26,7 @@ class ContactEditState extends State<ContactEdit> {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final ContactDb db = ContactDb();
-  // Contact contact;
+  Contact contact;
   String name;
   String phone;
   String image;
@@ -34,6 +34,7 @@ class ContactEditState extends State<ContactEdit> {
   @override
   void initState() {
     super.initState();
+    this.contact = widget.contact;
     this.name = widget.contact.name;
     this.nameController.text = this.name;
     this.phone = widget.contact.phone.toString();
@@ -114,7 +115,7 @@ class ContactEditState extends State<ContactEdit> {
                             } else if (phoneController.text == "") {
                               _alertDialog('phone number is missing');
                             } else {
-                              Contact contact = widget.contact;
+                              contact = widget.contact;
                               print('before update id');
                               print(contact.id);
                               await _updateContact(contact);

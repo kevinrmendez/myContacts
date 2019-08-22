@@ -9,14 +9,14 @@ class ContactDetails extends StatelessWidget {
   // final String name;
   // final String phone;
   // final String image;
-  // final Contact contact = ModalRoute.of(context).settings.arguments;
+  final Contact contact;
 
-  // ContactDetails();
+  ContactDetails({this.contact});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final Contact contact = ModalRoute.of(context).settings.arguments;
+    // final Contact contact = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text(contact.name),
@@ -70,7 +70,11 @@ class ContactDetails extends StatelessWidget {
                 : Container(
                     child: Image.file(File(contact.image)),
                     height: 300,
-                  )
+                  ),
+            RaisedButton(
+              child: Text('call'),
+              onPressed: () {},
+            )
           ],
         ),
       ),

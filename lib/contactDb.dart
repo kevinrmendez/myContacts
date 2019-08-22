@@ -42,6 +42,7 @@ class ContactDb {
     // Convert the List<Map<String, dynamic> into a List<Contact>.
     return List.generate(maps.length, (i) {
       return Contact(
+        id: maps[i]['id'],
         name: maps[i]['name'],
         phone: maps[i]['phone'],
         image: maps[i]['image'],

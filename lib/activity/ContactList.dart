@@ -17,7 +17,7 @@ class ContactList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('YOUR CONTACTS'),
+        title: Text('My Contacts'),
       ),
       body: Center(
         child: Column(
@@ -51,22 +51,23 @@ class ContactList extends StatelessWidget {
                                 subtitle: Text(
                                     'phone: ${snapshot.data[index].phone.toString()}'),
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, '/contactDetails',
-                                      arguments: snapshot.data[index]);
+                                  // Navigator.pushNamed(
+                                  //     context, '/contactDetails',
+                                  //     arguments: snapshot.data[index]);
 
-                                  // Navigator.push(context,
-                                  //     MaterialPageRoute(builder: (context) {
-                                  //   // Contact contact = new Contact(
-                                  //   //   name: snapshot.data[index].name,
-                                  //   //   phone: snapshot.data[index].phone,
-                                  //   //   image: snapshot.data[index].image,
-                                  //   // );
-                                  //   // contact.id = snapshot.data[index].id;
-                                  //   return ContactDetails(
-                                  //     contact: snapshot.data[index],
-                                  //   );
-                                  // }));
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    // Contact contact = new Contact(
+                                    //   name: snapshot.data[index].name,
+                                    //   phone: snapshot.data[index].phone,
+                                    //   image: snapshot.data[index].image,
+                                    // );
+                                    // contact.id = snapshot.data[index].id;
+                                    print('CONTACTS ${snapshot.data[index]}');
+                                    return ContactDetails(
+                                      contact: snapshot.data[index],
+                                    );
+                                  }));
                                 },
                               ),
                             );

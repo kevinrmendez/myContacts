@@ -1,14 +1,10 @@
 class Contact {
-  static int counter = 0;
   int id;
   String name;
   int phone;
   String image;
 
-  Contact({this.name, this.phone, this.image = ""}) {
-    Contact.counter++;
-    this.id = counter;
-  }
+  Contact({this.name, this.phone, this.image = "", this.id});
 
   Map<String, dynamic> toMap() {
     return {

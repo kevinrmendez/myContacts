@@ -42,11 +42,17 @@ class ContactActivityState2 extends State<ContactActivity2> {
               stream: _streamController.stream,
               initialData: _image,
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                return Container(
-                    height: 150,
-                    child: snapshot.data == ""
-                        ? Image.asset('assets/person.png')
-                        : Image.file(File(snapshot.data)));
+                return snapshot.data == "" || snapshot.data == null
+                    ? Container(
+                        height: 100, child: Image.asset('assets/person.png'))
+                    : Container(
+                        height: 200, child: Image.file(File(snapshot.data)));
+
+                // Container(
+                //     height: 150,
+                //     child: snapshot.data == "" || snapshot.data == null
+                //         ? Image.asset('assets/person.png')
+                //         : Image.file(File(snapshot.data)));
               },
             ),
             // Container(height: 100, child: Image.asset('assets/person.png')),
