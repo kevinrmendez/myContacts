@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kevin_app/activity/contactActivity.dart';
 
 import 'activity/ContactList.dart';
 import 'activity/contactActivity2.dart';
 import 'activity/contactDetails.dart';
-import 'activity/contactEdit.dart';
 
 void main() => runApp(MyApp());
 

@@ -25,10 +25,12 @@ class ContactEditState extends State<ContactEdit> {
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
+  final emailController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final ContactDb db = ContactDb();
   Contact contact;
   String name;
+  String email;
   String phone;
   String image;
 
@@ -37,9 +39,11 @@ class ContactEditState extends State<ContactEdit> {
     super.initState();
     this.contact = widget.contact;
     this.name = widget.contact.name;
-    this.nameController.text = this.name;
     this.phone = widget.contact.phone.toString();
+    this.email = widget.contact.email;
+    this.nameController.text = this.name;
     this.phoneController.text = this.phone;
+    this.emailController.text = this.email;
   }
 
   Future<void> _updateContact(Contact contact) async {
@@ -74,21 +78,6 @@ class ContactEditState extends State<ContactEdit> {
     // List<Contact> contacts = await db.contacts();
     // print('Contacts AFTER DELETE $contacts');
     _showMessage('contact deleted');
-    // showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return AlertDialog(
-    //         title: Text('contact deleted'),
-    //         actions: <Widget>[
-    //           FlatButton(
-    //               child: Text('close'),
-    //               onPressed: () {
-    //                 // Navigator.of(context).pop();
-    //                 Navigator.popUntil(context, ModalRoute.withName('/'));
-    //               })
-    //         ],
-    //       );
-    //     });
   }
 
   Future _alertDialog(String text) {
@@ -139,10 +128,14 @@ class ContactEditState extends State<ContactEdit> {
                             this.name,
                             style: TextStyle(fontSize: 30),
                           ),
+                          Text(
+                            this.phone,
+                            style: TextStyle(fontSize: 30),
+                          ),
                           Padding(
-                            padding: EdgeInsets.only(top: 20),
+                            padding: EdgeInsets.only(bottom: 20),
                             child: Text(
-                              this.phone,
+                              this.email,
                               style: TextStyle(fontSize: 30),
                             ),
                           ),
@@ -167,6 +160,18 @@ class ContactEditState extends State<ContactEdit> {
                                 icon: Icon(Icons.phone)),
                             keyboardType: TextInputType.phone,
                             controller: phoneController,
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                                hintText: 'email', icon: Icon(Icons.email)),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please enter the email';
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.emailAddress,
+                            controller: emailController,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16),

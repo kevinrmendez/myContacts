@@ -66,6 +66,20 @@ class ContactDetails extends StatelessWidget {
                     ],
                   ),
                 ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 30, left: 30),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Icon(Icons.email, color: Colors.blue[300])),
+                      Text(
+                        contact.email,
+                        style: TextStyle(fontSize: 40),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ],

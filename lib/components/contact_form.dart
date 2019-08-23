@@ -28,6 +28,8 @@ class ContactFormState extends State<ContactForm> {
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+
   final ContactDb db = ContactDb();
   String action = "save";
   String image;
@@ -55,6 +57,7 @@ class ContactFormState extends State<ContactForm> {
   void _resetFormFields() {
     nameController.text = "";
     phoneController.text = "";
+    emailController.text = "";
     image = "";
     widget.streamController.add("");
   }
@@ -75,11 +78,12 @@ class ContactFormState extends State<ContactForm> {
     await db.insertContact(contact);
 
     Scaffold.of(context)
-        .showSnackBar(SnackBar(content: Text('Contact has been $action')));
+        .showSnackBar(SnackBar(content: Text('Contact has been saved')));
     _resetFormFields();
     contactId++;
     print(contact);
     print(contactId);
+    print(contact.email);
   }
 
   @override
@@ -123,8 +127,8 @@ class ContactFormState extends State<ContactForm> {
                   }
                   return null;
                 },
-                keyboardType: TextInputType.phone,
-                controller: phoneController,
+                keyboardType: TextInputType.emailAddress,
+                controller: emailController,
               ),
               Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -169,6 +173,7 @@ class ContactFormState extends State<ContactForm> {
                           id: contactId,
                           name: nameController.text,
                           phone: int.parse(phoneController.text),
+                          email: emailController.text,
                           image: image);
                       _saveContact(contact);
 
