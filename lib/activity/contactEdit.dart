@@ -49,6 +49,7 @@ class ContactEditState extends State<ContactEdit> {
   Future<void> _updateContact(Contact contact) async {
     contact.name = nameController.text;
     contact.phone = int.parse(phoneController.text);
+    contact.email = emailController.text;
     print('after update id');
     print(contact);
     await db.updateContact(contact);
@@ -93,6 +94,7 @@ class ContactEditState extends State<ContactEdit> {
   void _resetFormFields() {
     nameController.text = "";
     phoneController.text = "";
+    emailController.text = "";
     image = "";
   }
 
@@ -108,7 +110,7 @@ class ContactEditState extends State<ContactEdit> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('My Contacts'),
+        title: Text('Edit Contact'),
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -162,14 +164,19 @@ class ContactEditState extends State<ContactEdit> {
                             controller: phoneController,
                           ),
                           TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                this.email = value;
+                              });
+                            },
                             decoration: InputDecoration(
                                 hintText: 'email', icon: Icon(Icons.email)),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter the email';
-                              }
-                              return null;
-                            },
+                            // validator: (value) {
+                            //   if (value.isEmpty) {
+                            //     return 'Please enter the email';
+                            //   }
+                            //   return null;
+                            // },
                             keyboardType: TextInputType.emailAddress,
                             controller: emailController,
                           ),

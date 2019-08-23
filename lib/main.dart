@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'activity/ContactList.dart';
 import 'activity/contactActivity2.dart';
-import 'activity/contactDetails.dart';
+import 'package:kevin_app/activity/contactDetails.dart';
 
 void main() => runApp(MyApp());
 

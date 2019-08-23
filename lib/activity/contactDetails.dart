@@ -16,70 +16,84 @@ class ContactDetails extends StatelessWidget {
     // final Contact contact = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: Text(contact.name),
+        title: Text('Contact Details'),
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                contact.image == null || contact.image == ""
-                    ? Container(
-                        child: Image.asset('assets/person.png'),
-                        height: 100,
-                      )
-                    : Container(
-                        child: Image.file(File(contact.image)),
-                        height: 300,
-                      ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 30, left: 30, top: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(right: 20),
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.blue[300],
-                        ),
-                      ),
-                      Text(
-                        contact.name,
-                        style: TextStyle(fontSize: 40),
-                      ),
-                    ],
-                  ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      height: contact.image == null || contact.image == ""
+                          ? 150
+                          : 300,
+                      child: contact.image == null || contact.image == ""
+                          ? Image.asset('assets/person.png')
+                          : Image.file(File(contact.image)),
+                    ),
+                  ],
                 ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 30, left: 30),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Icon(Icons.phone, color: Colors.blue[300])),
-                      Text(
-                        contact.phone.toString(),
-                        style: TextStyle(fontSize: 40),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5, left: 30, top: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(right: 20),
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.blue[300],
+                            ),
+                          ),
+                          Text(
+                            contact.name,
+                            style: TextStyle(fontSize: 30),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 30, left: 30),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Icon(Icons.email, color: Colors.blue[300])),
-                      Text(
-                        contact.email,
-                        style: TextStyle(fontSize: 40),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5, left: 30),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                              padding: EdgeInsets.only(right: 20),
+                              child:
+                                  Icon(Icons.phone, color: Colors.blue[300])),
+                          Text(
+                            contact.phone.toString(),
+                            style: TextStyle(fontSize: 30),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                    contact.email != ""
+                        ? Container(
+                            margin: EdgeInsets.only(bottom: 5, left: 30),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                    padding: EdgeInsets.only(right: 20),
+                                    child: Icon(Icons.email,
+                                        color: Colors.blue[300])),
+                                Text(
+                                  contact.email,
+                                  style: TextStyle(fontSize: 30),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container(),
+                  ],
+                )
               ],
             ),
           ],

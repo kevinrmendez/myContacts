@@ -32,7 +32,7 @@ class ContactActivityState2 extends State<ContactActivity2> {
             Container(
               margin: EdgeInsets.only(top: 20),
               child: Text(
-                'Add your contacts',
+                'Add contact',
                 style: TextStyle(fontSize: 30),
               ),
             ),

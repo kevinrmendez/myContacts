@@ -24,7 +24,8 @@ class CameraActivityState extends State<CameraActivity> {
   void initState() {
     super.initState();
 
-    _controller = CameraController(widget.camera, ResolutionPreset.medium);
+    _controller = CameraController(widget.camera, ResolutionPreset.medium,
+        enableAudio: false);
     _initializedControllerFuture = _controller.initialize();
   }
 

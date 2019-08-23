@@ -121,12 +121,12 @@ class ContactFormState extends State<ContactForm> {
               TextFormField(
                 decoration:
                     InputDecoration(hintText: 'email', icon: Icon(Icons.email)),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter the email';
-                  }
-                  return null;
-                },
+                // validator: (value) {
+                //   if (value.isEmpty) {
+                //     return 'Please enter the email';
+                //   }
+                //   return null;
+                // },
                 keyboardType: TextInputType.emailAddress,
                 controller: emailController,
               ),

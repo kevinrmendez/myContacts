@@ -17,7 +17,7 @@ class ContactList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Contacts'),
+        title: Text('Contact List'),
       ),
       body: Center(
         child: Column(
@@ -38,12 +38,12 @@ class ContactList extends StatelessWidget {
                             return Card(
                               child: ListTile(
                                 leading: CircleAvatar(
-                                  backgroundImage:
-                                      snapshot.data[index].image == "" ||
-                                              snapshot.data[index].image == null
-                                          ? AssetImage('assets/person-w.png')
-                                          : FileImage(
-                                              File(snapshot.data[index].image)),
+                                  backgroundImage: snapshot.data[index].image ==
+                                              "" ||
+                                          snapshot.data[index].image == null
+                                      ? AssetImage('assets/person-small.png')
+                                      : FileImage(
+                                          File(snapshot.data[index].image)),
                                 ),
                                 // : Container()),
                                 title:
@@ -76,27 +76,32 @@ class ContactList extends StatelessWidget {
                         ),
                       );
                     } else {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            width: 200,
-                            margin: EdgeInsets.only(top: 40),
-                            child: Text(
-                              'Your contact list is empty',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 25),
-                            ),
+                      return Expanded(
+                        child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                width: 200,
+                                // margin: EdgeInsets.only(top: 40),
+                                child: Text(
+                                  'Your contact list is empty',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 25, color: Colors.blue[300]),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 20),
+                                child: Text(
+                                  'go back to the main menu and add your contacts',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              )
+                            ],
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 40),
-                            child: Text(
-                              'go back to the main menu and add your contacts',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 17),
-                            ),
-                          )
-                        ],
+                        ),
                       );
                     }
                 }
