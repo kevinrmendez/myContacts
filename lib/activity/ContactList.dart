@@ -38,12 +38,12 @@ class ContactList extends StatelessWidget {
                             return Card(
                               child: ListTile(
                                 leading: CircleAvatar(
-                                  backgroundImage: snapshot.data[index].image ==
-                                              "" ||
-                                          snapshot.data[index].image == null
-                                      ? AssetImage('assets/person-small.png')
-                                      : FileImage(
-                                          File(snapshot.data[index].image)),
+                                  backgroundImage:
+                                      snapshot.data[index].image == "" ||
+                                              snapshot.data[index].image == null
+                                          ? AssetImage('assets/person-big.png')
+                                          : FileImage(
+                                              File(snapshot.data[index].image)),
                                 ),
                                 // : Container()),
                                 title:

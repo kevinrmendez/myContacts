@@ -150,42 +150,39 @@ class ContactFormState extends State<ContactForm> {
                     },
                     child: Icon(Icons.camera_alt),
                   )),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: RaisedButton(
-                  color: Colors.blue[300],
-                  onPressed: () async {
-                    // if (action == 'delete') {
-                    // } else {
-                    //   if (nameController.text == "") {
-                    //     _alertDialog('name is missing');
-                    //   } else if (phoneController.text == "") {
-                    //     _alertDialog('phone number is missing');
-                    //   } else {
-                    //     Contact contact = Contact(
-                    //         id: contactId,
-                    //         name: nameController.text,
-                    //         phone: int.parse(phoneController.text),
-                    //         image: image);
-                    //   }
-                    if (_formKey.currentState.validate()) {
-                      Contact contact = Contact(
-                          id: contactId,
-                          name: nameController.text,
-                          phone: int.parse(phoneController.text),
-                          email: emailController.text,
-                          image: image);
-                      _saveContact(contact);
+              RaisedButton(
+                color: Colors.blue[300],
+                onPressed: () async {
+                  // if (action == 'delete') {
+                  // } else {
+                  //   if (nameController.text == "") {
+                  //     _alertDialog('name is missing');
+                  //   } else if (phoneController.text == "") {
+                  //     _alertDialog('phone number is missing');
+                  //   } else {
+                  //     Contact contact = Contact(
+                  //         id: contactId,
+                  //         name: nameController.text,
+                  //         phone: int.parse(phoneController.text),
+                  //         image: image);
+                  //   }
+                  if (_formKey.currentState.validate()) {
+                    Contact contact = Contact(
+                        id: contactId,
+                        name: nameController.text,
+                        phone: int.parse(phoneController.text),
+                        email: emailController.text,
+                        image: image);
+                    _saveContact(contact);
 
-                      // print(image);
-                    }
+                    // print(image);
+                  }
 
-                    // print(await db.contacts());
-                  },
-                  child: Text(
-                    action,
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  // print(await db.contacts());
+                },
+                child: Text(
+                  'save',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ],

@@ -1,4 +1,4 @@
-package com.example.contact_app;
+package com.kevinrmendez.contact_app;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
