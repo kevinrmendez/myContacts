@@ -10,8 +10,10 @@ import 'package:camera/camera.dart';
 
 class ContactForm extends StatefulWidget {
   StreamController streamController;
+  String image;
+  Function(String) callback;
 
-  ContactForm({this.streamController});
+  ContactForm({this.streamController, this.image, this.callback});
 
   @override
   ContactFormState createState() {
@@ -143,6 +145,8 @@ class ContactFormState extends State<ContactForm> {
                                   camera: firstCamera,
                                 )),
                       );
+                      widget.callback(image);
+
                       widget.streamController.sink.add(image);
                       Scaffold.of(context).showSnackBar(
                           SnackBar(content: Text('Picture has been taken')));
@@ -172,8 +176,9 @@ class ContactFormState extends State<ContactForm> {
                         name: nameController.text,
                         phone: int.parse(phoneController.text),
                         email: emailController.text,
-                        image: image);
+                        image: widget.image);
                     _saveContact(contact);
+                    widget.callback("");
 
                     // print(image);
                   }
