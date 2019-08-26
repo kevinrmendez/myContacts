@@ -10,6 +10,66 @@ class ContactDetails extends StatelessWidget {
 
   ContactDetails({this.contact});
 
+  Widget _buildDetailstext(
+      {MainAxisAlignment mainAlignment = MainAxisAlignment.center,
+      CrossAxisAlignment crossAlignment = CrossAxisAlignment.start}) {
+    return Column(
+      mainAxisAlignment: mainAlignment,
+      crossAxisAlignment: crossAlignment,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(bottom: 5, left: 30, top: 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(right: 20),
+                child: Icon(
+                  Icons.person,
+                  color: Colors.blue[300],
+                ),
+              ),
+              Text(
+                contact.name,
+                style: TextStyle(fontSize: 30),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(bottom: 5, left: 30),
+          child: Row(
+            children: <Widget>[
+              Container(
+                  padding: EdgeInsets.only(right: 20),
+                  child: Icon(Icons.phone, color: Colors.blue[300])),
+              Text(
+                contact.phone.toString(),
+                style: TextStyle(fontSize: 30),
+              ),
+            ],
+          ),
+        ),
+        contact.email != ""
+            ? Container(
+                margin: EdgeInsets.only(bottom: 5, left: 30),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                        padding: EdgeInsets.only(right: 20),
+                        child: Icon(Icons.email, color: Colors.blue[300])),
+                    Text(
+                      contact.email,
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  ],
+                ),
+              )
+            : Container(),
+      ],
+    );
+  }
+
   Widget _buildVerticalLayout() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -29,61 +89,7 @@ class ContactDetails extends StatelessWidget {
                 ),
               ],
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(bottom: 5, left: 30, top: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(right: 20),
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.blue[300],
-                        ),
-                      ),
-                      Text(
-                        contact.name,
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 5, left: 30),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Icon(Icons.phone, color: Colors.blue[300])),
-                      Text(
-                        contact.phone.toString(),
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ],
-                  ),
-                ),
-                contact.email != ""
-                    ? Container(
-                        margin: EdgeInsets.only(bottom: 5, left: 30),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                                padding: EdgeInsets.only(right: 20),
-                                child:
-                                    Icon(Icons.email, color: Colors.blue[300])),
-                            Text(
-                              contact.email,
-                              style: TextStyle(fontSize: 30),
-                            ),
-                          ],
-                        ),
-                      )
-                    : Container(),
-              ],
-            )
+            _buildDetailstext(mainAlignment: MainAxisAlignment.start)
           ],
         ),
       ],
@@ -109,62 +115,9 @@ class ContactDetails extends StatelessWidget {
                 ),
               ],
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(bottom: 5, left: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(right: 20),
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.blue[300],
-                        ),
-                      ),
-                      Text(
-                        contact.name,
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 5, left: 30),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Icon(Icons.phone, color: Colors.blue[300])),
-                      Text(
-                        contact.phone.toString(),
-                        style: TextStyle(fontSize: 30),
-                      ),
-                    ],
-                  ),
-                ),
-                contact.email != ""
-                    ? Container(
-                        margin: EdgeInsets.only(bottom: 5, left: 30),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                                padding: EdgeInsets.only(right: 20),
-                                child:
-                                    Icon(Icons.email, color: Colors.blue[300])),
-                            Text(
-                              contact.email,
-                              style: TextStyle(fontSize: 30),
-                            ),
-                          ],
-                        ),
-                      )
-                    : Container(),
-              ],
-            )
+            _buildDetailstext(
+                mainAlignment: MainAxisAlignment.center,
+                crossAlignment: CrossAxisAlignment.start)
           ],
         ),
       ],

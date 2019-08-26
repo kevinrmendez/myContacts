@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:kevin_app/activity/contactEditHorizontal.dart';
-import 'package:kevin_app/activity/contactEditVertical.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactDb.dart';
 
@@ -24,18 +22,191 @@ class ContactEditState extends State<ContactEdit> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final ContactDb db = ContactDb();
-
+  final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  String name;
+  String phone;
+  String email;
   Contact contact;
+
+  callback({String name, String phone, String email}) {
+    setState(() {
+      this.name = name;
+      this.phone = phone;
+      this.email = email;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     this.contact = widget.contact;
+    this.name = widget.contact.name;
+    this.phone = widget.contact.phone.toString();
+    this.email = widget.contact.email;
+
+    this.nameController.text = this.name;
+    this.phoneController.text = this.phone;
+    this.emailController.text = this.email;
+
+    this.contact = widget.contact;
   }
 
-  // Widget _buildHorizontalLayout(){
-  //   return
-  // }
+  Future<void> _updateContact(Contact contact) async {
+    contact.name = nameController.text;
+    contact.phone = int.parse(phoneController.text);
+    contact.email = emailController.text;
+    print('after update id');
+    print(contact);
+    await db.updateContact(contact);
+    _showMessage('contact information changed');
+  }
+
+  void _showMessage(String message) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(message),
+            actions: <Widget>[
+              FlatButton(
+                  child: Text('close'),
+                  onPressed: () {
+                    // Navigator.of(context).pop();
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                  })
+            ],
+          );
+        });
+  }
+
+  Future<void> _deleteContact(Contact contact) async {
+    await db.deleteContact(contact.id);
+    // List<Contact> contacts = await db.contacts();
+    // print('Contacts AFTER DELETE $contacts');
+    _showMessage('contact deleted');
+  }
+
+  Widget _buildForm() {
+    return Column(
+      children: <Widget>[
+        Form(
+            key: _formKey,
+            child: Container(
+              width: 250,
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        this.name = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                        hintText: 'name', icon: Icon(Icons.person)),
+                    controller: nameController,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter the name';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        this.phone = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                        hintText: 'phone number', icon: Icon(Icons.phone)),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter the phone';
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.phone,
+                    controller: phoneController,
+                  ),
+                  TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        this.email = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                        hintText: 'email', icon: Icon(Icons.email)),
+                    keyboardType: TextInputType.emailAddress,
+                    controller: emailController,
+                  ),
+                  RaisedButton(
+                    color: Colors.blue[300],
+                    onPressed: () async {
+                      _updateContact(contact);
+                    },
+                    child: Text(
+                      'save',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  RaisedButton(
+                    child: Text('delete contact'),
+                    onPressed: () async {
+                      await _deleteContact(contact);
+                    },
+                  )
+                ],
+              ),
+            ) // Build this out in the next steps.
+            ),
+      ],
+    );
+  }
+
+  Widget _buildPreviewText() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          this.name,
+          style: TextStyle(fontSize: 30),
+        ),
+        Text(
+          this.phone,
+          style: TextStyle(fontSize: 30),
+        ),
+        Padding(
+          padding: EdgeInsets.only(bottom: 20),
+          child: Text(
+            this.email,
+            style: TextStyle(fontSize: 30),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildVerticalLayout() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[_buildPreviewText(), _buildForm()],
+        )
+      ],
+    );
+  }
+
+  Widget _buildHorizontalLayout() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[_buildPreviewText(), _buildForm()],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +220,8 @@ class ContactEditState extends State<ContactEdit> {
       body: OrientationBuilder(builder: (context, orientation) {
         var orientation = MediaQuery.of(context).orientation;
         return orientation == Orientation.portrait
-            ? ContactEditVertical(contact: contact)
-            : ContactEditHorizontal(
-                contact: contact,
-              );
+            ? _buildVerticalLayout()
+            : _buildHorizontalLayout();
       }),
     );
   }
