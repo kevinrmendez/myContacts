@@ -18,8 +18,10 @@ class ContactActivityState2 extends State<ContactActivity2>
   String _image = "";
   AppLifecycleState appState;
   AppLifecycleState appLifecycleState;
-  StreamController<String> _streamController =
-      StreamController<String>.broadcast();
+
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
 
   callback(value) {
     setState(() {
@@ -36,27 +38,13 @@ class ContactActivityState2 extends State<ContactActivity2>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _streamController.close();
+
     super.dispose();
   }
 
   void didChangeAppLifecycleState(AppLifecycleState appLifecycleState) {
     appState = appLifecycleState;
     print(appLifecycleState);
-  }
-
-  Widget _streamBuilder() {
-    return StreamBuilder<String>(
-      stream: _streamController.stream,
-      initialData: _image,
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-        print('STREAM DATA ${snapshot.data}');
-        print(_streamController.isClosed);
-        return snapshot.data == "" || snapshot.data == null
-            ? Container(height: 80, child: Image.asset('assets/person.png'))
-            : Container(height: 200, child: Image.file(File(snapshot.data)));
-      },
-    );
   }
 
   Widget _buildVerticalLayout() {
@@ -77,9 +65,11 @@ class ContactActivityState2 extends State<ContactActivity2>
 
           // Container(height: 100, child: Image.asset('assets/person.png')),
           ContactForm(
-            streamController: _streamController,
             image: _image,
             callback: callback,
+            nameController: nameController,
+            phoneController: phoneController,
+            emailController: emailController,
           ),
         ],
       ),
@@ -105,13 +95,18 @@ class ContactActivityState2 extends State<ContactActivity2>
                       height: 80, child: Image.asset('assets/person.png'))
                   : Container(height: 170, child: Image.file(File(_image))),
               // _streamBuilder(),
+              Container(
+                width: 200,
+              )
             ],
           ),
           // Container(height: 100, child: Image.asset('assets/person.png')),
           ContactForm(
-            streamController: _streamController,
             image: _image,
             callback: callback,
+            nameController: nameController,
+            phoneController: phoneController,
+            emailController: emailController,
           ),
         ],
       ),
@@ -133,10 +128,6 @@ class ContactActivityState2 extends State<ContactActivity2>
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.contacts),
         onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => ContactList()),
-          // );
           Navigator.pushNamed(context, '/contactList');
         },
       ),

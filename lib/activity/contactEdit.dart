@@ -24,6 +24,7 @@ class ContactEditState extends State<ContactEdit> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final ContactDb db = ContactDb();
+
   Contact contact;
 
   @override

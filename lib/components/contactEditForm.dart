@@ -8,14 +8,14 @@ import 'package:kevin_app/ContactDb.dart';
 
 import 'package:camera/camera.dart';
 
-class ContactForm extends StatefulWidget {
+class ContactEditForm extends StatefulWidget {
   String image;
   Function(String) callback;
   final nameController;
   final phoneController;
   final emailController;
 
-  ContactForm(
+  ContactEditForm(
       {this.image,
       this.callback,
       this.nameController,
@@ -23,12 +23,12 @@ class ContactForm extends StatefulWidget {
       this.phoneController});
 
   @override
-  ContactFormState createState() {
-    return ContactFormState();
+  ContactEditFormState createState() {
+    return ContactEditFormState();
   }
 }
 
-class ContactFormState extends State<ContactForm> {
+class ContactEditFormState extends State<ContactEditForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
