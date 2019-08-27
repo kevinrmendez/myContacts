@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 
@@ -61,14 +58,6 @@ class CameraActivityState extends State<CameraActivity> {
             final path = join(
                 (await getTemporaryDirectory()).path, '${DateTime.now()}.png');
             await _controller.takePicture(path);
-
-            // Navigator.push(
-            //     context,
-
-            //     MaterialPageRoute(
-            //         builder: (context) => ContactForm(
-            //               imagePath: path,
-            //             )));
             Navigator.pop(context, path);
           } catch (e) {
             print(e);

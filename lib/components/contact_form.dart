@@ -1,16 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:kevin_app/activity/cameraActivity.dart';
-
-import 'package:kevin_app/contact.dart';
-import 'package:kevin_app/activity/ContactList.dart';
-import 'package:kevin_app/ContactDb.dart';
-
 import 'package:camera/camera.dart';
 
-import 'package:kevin_app/actions.dart';
+import 'package:kevin_app/activity/cameraActivity.dart';
+import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/ContactDb.dart';
 
 class ContactForm extends StatefulWidget {
   String image;

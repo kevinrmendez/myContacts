@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:redux/redux.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-
 import 'activity/ContactList.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
-import 'package:kevin_app/activity/contactDetails.dart';
-import 'package:kevin_app/actions.dart';
 
 void main() {
   runApp(MyApp());
