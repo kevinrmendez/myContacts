@@ -1,12 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:kevin_app/activity/cameraActivity.dart';
+
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/activity/ContactList.dart';
 import 'package:kevin_app/ContactDb.dart';
 
 import 'package:camera/camera.dart';
+
+import 'package:kevin_app/actions.dart';
 
 class ContactForm extends StatefulWidget {
   String image;
@@ -129,50 +133,55 @@ class ContactFormState extends State<ContactForm> {
                 keyboardType: TextInputType.emailAddress,
                 controller: widget.emailController,
               ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: RaisedButton(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: RaisedButton(
+                        onPressed: () async {
+                          final cameras = await availableCameras();
+                          final firstCamera = cameras.first;
+                          image = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CameraActivity(
+                                      camera: firstCamera,
+                                    )),
+                          );
+                          widget.callback(image);
+
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text('Picture has been taken')));
+                          print(image.toString());
+                        },
+                        child: Icon(Icons.camera_alt),
+                      )),
+                  RaisedButton(
+                    color: Colors.blue[300],
                     onPressed: () async {
-                      final cameras = await availableCameras();
-                      final firstCamera = cameras.first;
-                      image = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CameraActivity(
-                                  camera: firstCamera,
-                                )),
-                      );
-                      widget.callback(image);
+                      if (_formKey.currentState.validate()) {
+                        Contact contact = Contact(
+                            id: contactId,
+                            name: widget.nameController.text,
+                            phone: int.parse(widget.phoneController.text),
+                            email: widget.emailController.text,
+                            image: widget.image);
+                        _saveContact(contact);
+                        widget.callback("");
 
-                      Scaffold.of(context).showSnackBar(
-                          SnackBar(content: Text('Picture has been taken')));
-                      print(image.toString());
+                        // print(image);
+                      }
+
+                      // print(await db.contacts());
                     },
-                    child: Icon(Icons.camera_alt),
-                  )),
-              RaisedButton(
-                color: Colors.blue[300],
-                onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    Contact contact = Contact(
-                        id: contactId,
-                        name: widget.nameController.text,
-                        phone: int.parse(widget.phoneController.text),
-                        email: widget.emailController.text,
-                        image: widget.image);
-                    _saveContact(contact);
-                    widget.callback("");
-
-                    // print(image);
-                  }
-
-                  // print(await db.contacts());
-                },
-                child: Text(
-                  'save',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+                    child: Text(
+                      'save',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ) // Build this out in the next steps.

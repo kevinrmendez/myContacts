@@ -21,6 +21,12 @@ class _ContactListState extends State<ContactList> {
     return await contacts;
   }
 
+  callback(value) {
+    setState(() {
+      contacts = value;
+    });
+  }
+
   @override
   void initState() {
     contacts = db.contacts();
@@ -80,8 +86,8 @@ class _ContactListState extends State<ContactList> {
                                     // contact.id = snapshot.data[index].id;
                                     print('CONTACTS ${snapshot.data[index]}');
                                     return ContactDetails(
-                                      contact: snapshot.data[index],
-                                    );
+                                        contact: snapshot.data[index],
+                                        callback: callback);
                                   }));
                                 },
                               ),

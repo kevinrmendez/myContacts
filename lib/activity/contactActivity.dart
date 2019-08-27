@@ -53,7 +53,7 @@ class ContactActivityState extends State<ContactActivity>
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 10),
               child: Text(
                 'Add contact',
                 style: TextStyle(fontSize: 30),

@@ -7,8 +7,9 @@ import '../contact.dart';
 
 class ContactDetails extends StatelessWidget {
   final Contact contact;
+  final Function callback;
 
-  ContactDetails({this.contact});
+  ContactDetails({this.contact, this.callback});
 
   Widget _buildDetailstext(
       {MainAxisAlignment mainAlignment = MainAxisAlignment.center,
@@ -148,6 +149,7 @@ class ContactDetails extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => ContactEdit(
                       contact: contact,
+                      callback: callback,
                     )),
           );
           // Navigator.pushNamed(context, '/contactEdit', arguments: contact);

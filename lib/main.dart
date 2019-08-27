@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+
 import 'activity/ContactList.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
 import 'package:kevin_app/activity/contactDetails.dart';
+import 'package:kevin_app/actions.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -12,11 +18,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My Contacts',
-      routes: {
-        '/contactList': (context) => ContactList(),
-        '/contactDetails': (context) => ContactDetails(),
-        // '/contactEdit': (context) => ContactEdit()
-      },
+      // routes: {
+      //   '/contactList': (context) => ContactList(),
+      //   '/contactDetails': (context) => ContactDetails(),
+      //   '/contactEdit': (context) => ContactEdit()
+      // },
       theme: ThemeData(
         // This is the theme of your application.
         //

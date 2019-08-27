@@ -5,7 +5,8 @@ import 'package:kevin_app/ContactDb.dart';
 
 class ContactEdit extends StatefulWidget {
   final Contact contact;
-  ContactEdit({@required this.contact});
+  final Function callback;
+  ContactEdit({@required this.contact, this.callback});
 
   @override
   ContactEditState createState() {
@@ -30,6 +31,7 @@ class ContactEditState extends State<ContactEdit> {
   String phone;
   String email;
   Contact contact;
+  Future<List<Contact>> contacts;
 
   callback({String name, String phone, String email}) {
     setState(() {
@@ -61,6 +63,8 @@ class ContactEditState extends State<ContactEdit> {
     print('after update id');
     print(contact);
     await db.updateContact(contact);
+    contacts = db.contacts();
+    widget.callback(contacts);
     _showMessage('contact information changed');
   }
 
@@ -86,6 +90,8 @@ class ContactEditState extends State<ContactEdit> {
     await db.deleteContact(contact.id);
     // List<Contact> contacts = await db.contacts();
     // print('Contacts AFTER DELETE $contacts');
+    contacts = db.contacts();
+    widget.callback(contacts);
     _showMessage('contact deleted');
   }
 
