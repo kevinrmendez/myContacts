@@ -89,8 +89,9 @@ class ContactEditState extends State<ContactEdit> {
     _showMessage('contact deleted');
   }
 
-  Widget _buildForm() {
+  Widget _buildForm(Orientation orientation) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Form(
             key: _formKey,
@@ -142,28 +143,52 @@ class ContactEditState extends State<ContactEdit> {
                     keyboardType: TextInputType.emailAddress,
                     controller: emailController,
                   ),
-                  RaisedButton(
-                    color: Colors.blue[300],
-                    onPressed: () async {
-                      _updateContact(contact);
-                    },
-                    child: Text(
-                      'save',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  RaisedButton(
-                    child: Text('delete contact'),
-                    onPressed: () async {
-                      await _deleteContact(contact);
-                    },
-                  )
+                  _buildFormButtons(orientation)
                 ],
               ),
             ) // Build this out in the next steps.
             ),
       ],
     );
+  }
+
+  Widget _buildFormButtons(Orientation orientation) {
+    List<Widget> _buttons = [
+      Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: RaisedButton(
+          color: Colors.blue[300],
+          onPressed: () async {
+            _updateContact(contact);
+          },
+          child: Text(
+            'save',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: RaisedButton(
+          child: Text('delete '),
+          onPressed: () async {
+            await _deleteContact(contact);
+          },
+        ),
+      )
+    ];
+
+    if (orientation == Orientation.portrait) {
+      return Column(
+        children: _buttons,
+      );
+    } else {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: _buttons,
+      );
+    }
   }
 
   Widget _buildPreviewText() {
@@ -189,22 +214,28 @@ class ContactEditState extends State<ContactEdit> {
     );
   }
 
-  Widget _buildVerticalLayout() {
+  Widget _buildVerticalLayout(Orientation orientation) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[_buildPreviewText(), _buildForm()],
+          children: <Widget>[
+            _buildPreviewText(),
+            _buildForm(orientation),
+          ],
         )
       ],
     );
   }
 
-  Widget _buildHorizontalLayout() {
+  Widget _buildHorizontalLayout(Orientation orientation) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[_buildPreviewText(), _buildForm()],
+      children: <Widget>[
+        _buildPreviewText(),
+        _buildForm(orientation),
+      ],
     );
   }
 
@@ -220,8 +251,8 @@ class ContactEditState extends State<ContactEdit> {
       body: OrientationBuilder(builder: (context, orientation) {
         var orientation = MediaQuery.of(context).orientation;
         return orientation == Orientation.portrait
-            ? _buildVerticalLayout()
-            : _buildHorizontalLayout();
+            ? _buildVerticalLayout(orientation)
+            : _buildHorizontalLayout(orientation);
       }),
     );
   }

@@ -6,11 +6,25 @@ import 'dart:io';
 import '../contact.dart';
 import 'contactDetails.dart';
 
-class ContactList extends StatelessWidget {
+class ContactList extends StatefulWidget {
+  @override
+  _ContactListState createState() {
+    return _ContactListState();
+  }
+}
+
+class _ContactListState extends State<ContactList> {
   final ContactDb db = ContactDb();
+  Future<List<Contact>> contacts;
 
   Future getContactList() async {
-    return await db.contacts();
+    return await contacts;
+  }
+
+  @override
+  void initState() {
+    contacts = db.contacts();
+    super.initState();
   }
 
   @override
