@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:kevin_app/appSettings.dart';
 import 'dart:async';
 import 'package:kevin_app/components/contact_form.dart';
 import 'package:flutter/services.dart';
@@ -48,6 +49,7 @@ class ContactActivityState extends State<ContactActivity>
   }
 
   Widget _buildVerticalLayout() {
+    AppSettings appState = AppSettings.of(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -59,7 +61,11 @@ class ContactActivityState extends State<ContactActivity>
                 style: TextStyle(fontSize: 30),
               )),
           _image == "" || _image == null
-              ? Container(height: 80, child: Image.asset('assets/person.png'))
+              ? Container(
+                  height: 80,
+                  child: appState.brightness == Brightness.light
+                      ? Image.asset('assets/person.png')
+                      : Image.asset('assets/person-w.png'))
               : Container(height: 200, child: Image.file(File(_image))),
           // _streamBuilder(),
 

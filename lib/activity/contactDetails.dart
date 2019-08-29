@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
 
+import '../appSettings.dart';
 import '../contact.dart';
 
 class ContactDetails extends StatelessWidget {
@@ -71,7 +72,8 @@ class ContactDetails extends StatelessWidget {
     );
   }
 
-  Widget _buildVerticalLayout() {
+  Widget _buildVerticalLayout(BuildContext context) {
+    AppSettings appState = AppSettings.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
@@ -85,7 +87,9 @@ class ContactDetails extends StatelessWidget {
                   height:
                       contact.image == null || contact.image == "" ? 150 : 300,
                   child: contact.image == null || contact.image == ""
-                      ? Image.asset('assets/person.png')
+                      ? (appState.brightness == Brightness.light
+                          ? Image.asset('assets/person.png')
+                          : Image.asset('assets/person-w.png'))
                       : Image.file(File(contact.image)),
                 ),
               ],
@@ -97,7 +101,8 @@ class ContactDetails extends StatelessWidget {
     );
   }
 
-  Widget _buildHorizontalLayout() {
+  Widget _buildHorizontalLayout(BuildContext context) {
+    AppSettings appState = AppSettings.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
@@ -111,7 +116,9 @@ class ContactDetails extends StatelessWidget {
                   height:
                       contact.image == null || contact.image == "" ? 150 : 250,
                   child: contact.image == null || contact.image == ""
-                      ? Image.asset('assets/person.png')
+                      ? (appState.brightness == Brightness.light
+                          ? Image.asset('assets/person.png')
+                          : Image.asset('assets/person-w.png'))
                       : Image.file(File(contact.image)),
                 ),
               ],
@@ -137,8 +144,8 @@ class ContactDetails extends StatelessWidget {
         child: OrientationBuilder(builder: (context, orientation) {
           var orientation = MediaQuery.of(context).orientation;
           return orientation == Orientation.portrait
-              ? _buildVerticalLayout()
-              : _buildHorizontalLayout();
+              ? _buildVerticalLayout(context)
+              : _buildHorizontalLayout(context);
         }),
       ),
       floatingActionButton: FloatingActionButton(

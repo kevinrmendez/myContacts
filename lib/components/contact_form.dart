@@ -6,6 +6,8 @@ import 'package:kevin_app/activity/cameraActivity.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactDb.dart';
 
+import '../appSettings.dart';
+
 class ContactForm extends StatefulWidget {
   String image;
   Function(String) callback;
@@ -92,6 +94,7 @@ class ContactFormState extends State<ContactForm> {
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
+    AppSettings appState = AppSettings.of(context);
     return Form(
         key: _formKey,
         child: Container(
@@ -130,27 +133,29 @@ class ContactFormState extends State<ContactForm> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: RaisedButton(
-                        onPressed: () async {
-                          final cameras = await availableCameras();
-                          final firstCamera = cameras.first;
-                          image = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CameraActivity(
-                                      camera: firstCamera,
-                                    )),
-                          );
-                          widget.callback(image);
+                  appState.camera == true
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: RaisedButton(
+                            onPressed: () async {
+                              final cameras = await availableCameras();
+                              final firstCamera = cameras.first;
+                              image = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CameraActivity(
+                                          camera: firstCamera,
+                                        )),
+                              );
+                              widget.callback(image);
 
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                              content: Text('Picture has been taken')));
-                          print(image.toString());
-                        },
-                        child: Icon(Icons.camera_alt),
-                      )),
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                                  content: Text('Picture has been taken')));
+                              print(image.toString());
+                            },
+                            child: Icon(Icons.camera_alt),
+                          ))
+                      : Container(),
                   RaisedButton(
                     color: Colors.blue[300],
                     onPressed: () async {
