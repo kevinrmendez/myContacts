@@ -6,9 +6,6 @@ import 'dart:io';
 import 'package:kevin_app/appSettings.dart';
 
 class Settings extends StatefulWidget {
-  final Function onChangeTheme;
-
-  Settings({this.onChangeTheme});
   @override
   SettingsState createState() {
     return SettingsState();

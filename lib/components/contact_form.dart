@@ -156,27 +156,31 @@ class ContactFormState extends State<ContactForm> {
                             child: Icon(Icons.camera_alt),
                           ))
                       : Container(),
-                  RaisedButton(
-                    color: Colors.blue[300],
-                    onPressed: () async {
-                      if (_formKey.currentState.validate()) {
-                        Contact contact = Contact(
-                            id: contactId,
-                            name: widget.nameController.text,
-                            phone: int.parse(widget.phoneController.text),
-                            email: widget.emailController.text,
-                            image: widget.image);
-                        _saveContact(contact);
-                        widget.callback("");
-
-                        // print(image);
-                      }
-
-                      // print(await db.contacts());
-                    },
-                    child: Text(
-                      'save',
-                      style: TextStyle(color: Colors.white),
+                  Expanded(
+                    child: Container(
+                      // width: 20,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                      child: RaisedButton(
+                        color: Colors.blue[300],
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()) {
+                            Contact contact = Contact(
+                                id: contactId,
+                                name: widget.nameController.text,
+                                phone: int.parse(widget.phoneController.text),
+                                email: widget.emailController.text,
+                                image: widget.image);
+                            _saveContact(contact);
+                            widget.callback("");
+                          }
+                          // print(await db.contacts());
+                        },
+                        child: Text(
+                          'save',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ),
                   ),
                 ],

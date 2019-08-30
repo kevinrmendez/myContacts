@@ -52,9 +52,11 @@ class MyAppState extends State<MyApp> {
 }
 
 class _Home extends StatefulWidget {
-  final Function callback;
-  List<Widget> _activities;
-  _Home({this.callback});
+  final List<Widget> _activities = [
+    ContactActivity(),
+    ContactList(),
+    Settings()
+  ];
 
   @override
   _HomeState createState() => _HomeState();
@@ -76,11 +78,6 @@ class _HomeState extends State<_Home> {
 
   @override
   Widget build(BuildContext context) {
-    widget._activities = [
-      ContactActivity(),
-      ContactList(),
-      Settings(onChangeTheme: widget.callback)
-    ];
     return MaterialApp(
       title: 'My Contacts',
       theme: ThemeData(

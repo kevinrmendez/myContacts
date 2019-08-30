@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/appSettings.dart';
+import 'package:kevin_app/components/contactImage.dart';
 import 'dart:async';
 import 'package:kevin_app/components/contact_form.dart';
 import 'package:flutter/services.dart';
@@ -48,8 +49,11 @@ class ContactActivityState extends State<ContactActivity>
     print(appLifecycleState);
   }
 
+  Widget _buildImage({double height}) {
+    return ContactImage(image: _image, height: height);
+  }
+
   Widget _buildVerticalLayout() {
-    AppSettings appState = AppSettings.of(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -60,15 +64,8 @@ class ContactActivityState extends State<ContactActivity>
                 'Add contact',
                 style: TextStyle(fontSize: 30),
               )),
-          _image == "" || _image == null
-              ? Container(
-                  height: 80,
-                  child: appState.brightness == Brightness.light
-                      ? Image.asset('assets/person.png')
-                      : Image.asset('assets/person-w.png'))
-              : Container(height: 200, child: Image.file(File(_image))),
+          _buildImage(height: 200),
           // _streamBuilder(),
-
           // Container(height: 100, child: Image.asset('assets/person.png')),
           ContactForm(
             image: _image,
@@ -96,10 +93,7 @@ class ContactActivityState extends State<ContactActivity>
                     'Add contact',
                     style: TextStyle(fontSize: 30),
                   )),
-              _image == "" || _image == null
-                  ? Container(
-                      height: 80, child: Image.asset('assets/person.png'))
-                  : Container(height: 170, child: Image.file(File(_image))),
+              _buildImage(height: 100),
               // _streamBuilder(),
               Container(
                 width: 200,
