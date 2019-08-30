@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../appSettings.dart';
 import '../contact.dart';
 
@@ -11,6 +11,24 @@ class ContactDetails extends StatelessWidget {
   final Function callback;
 
   ContactDetails({this.contact, this.callback});
+
+  Widget _buildUrlButton({String url, String title}) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: RaisedButton(
+        child: Text(title),
+        onPressed: () async {
+          // String phone = contact.phone.toString();
+          // String url = 'tel:$phone';
+          if (await canLaunch(url)) {
+            await launch(url);
+          } else {
+            throw 'Could not launch $url';
+          }
+        },
+      ),
+    );
+  }
 
   Widget _buildDetailstext(
       {MainAxisAlignment mainAlignment = MainAxisAlignment.center,
@@ -49,6 +67,20 @@ class ContactDetails extends StatelessWidget {
                 contact.phone.toString(),
                 style: TextStyle(fontSize: 30),
               ),
+              _buildUrlButton(
+                  url: "tel:${contact.phone.toString()}", title: 'call')
+              // RaisedButton(
+              //   child: Text('call'),
+              //   onPressed: () async {
+              //     String phone = contact.phone.toString();
+              //     String url = 'tel:$phone';
+              //     if (await canLaunch(url)) {
+              //       await launch(url);
+              //     } else {
+              //       throw 'Could not launch $url';
+              //     }
+              //   },
+              // )
             ],
           ),
         ),
@@ -64,6 +96,10 @@ class ContactDetails extends StatelessWidget {
                       contact.email,
                       style: TextStyle(fontSize: 30),
                     ),
+                    contact.email != null || contact.email == ""
+                        ? _buildUrlButton(
+                            url: 'mailto:${contact.email}', title: 'send email')
+                        : Container()
                   ],
                 ),
               )
