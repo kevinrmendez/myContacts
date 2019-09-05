@@ -4,6 +4,7 @@ import 'package:kevin_app/activity/Settings.dart';
 import 'activity/ContactList.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
 
+import 'apikeys.dart';
 import 'appSettings.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 
@@ -85,7 +86,7 @@ class _HomeState extends State<_Home> {
   @override
   Widget build(BuildContext context) {
     FirebaseAdMob.instance
-        .initialize(appId: "ca-app-pub-7306861253247220/6782720996")
+        .initialize(appId: apikeys["addMobBanner"])
         .then((response) {
       myBanner
         ..load()

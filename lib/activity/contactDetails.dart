@@ -5,7 +5,7 @@ import 'package:kevin_app/activity/contactEdit.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../appSettings.dart';
 import '../contact.dart';
-
+import 'package:kevin_app/apikeys.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 
 class ContactDetails extends StatelessWidget {
@@ -192,7 +192,7 @@ class ContactDetails extends StatelessWidget {
         child: Icon(Icons.edit),
         onPressed: () {
           FirebaseAdMob.instance
-              .initialize(appId: "ca-app-pub-7306861253247220/3815993914")
+              .initialize(appId: apikeys["addMobInterstellar"])
               .then((response) {
             myInterstitial
               ..load()

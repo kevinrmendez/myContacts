@@ -28,6 +28,7 @@
 .pub-cache/
 .pub/
 /build/
+/lib/apikeys.dart
 
 # Android related
 **/android/key.jks
