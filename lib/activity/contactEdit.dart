@@ -68,6 +68,15 @@ class ContactEditState extends State<ContactEdit> {
     _showMessage('contact information changed');
   }
 
+  Future<void> _deleteContact(Contact contact) async {
+    await db.deleteContact(contact.id);
+    // List<Contact> contacts = await db.contacts();
+    // print('Contacts AFTER DELETE $contacts');
+    contacts = db.contacts();
+    widget.callback(contacts);
+    _showMessage('contact deleted');
+  }
+
   void _showMessage(String message) {
     showDialog(
         context: context,
@@ -84,15 +93,6 @@ class ContactEditState extends State<ContactEdit> {
             ],
           );
         });
-  }
-
-  Future<void> _deleteContact(Contact contact) async {
-    await db.deleteContact(contact.id);
-    // List<Contact> contacts = await db.contacts();
-    // print('Contacts AFTER DELETE $contacts');
-    contacts = db.contacts();
-    widget.callback(contacts);
-    _showMessage('contact deleted');
   }
 
   Widget _buildForm(Orientation orientation) {

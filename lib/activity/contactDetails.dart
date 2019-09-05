@@ -2,14 +2,35 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
-
+import 'package:url_launcher/url_launcher.dart';
+import '../appSettings.dart';
 import '../contact.dart';
+import 'package:kevin_app/apikeys.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 class ContactDetails extends StatelessWidget {
   final Contact contact;
   final Function callback;
 
   ContactDetails({this.contact, this.callback});
+
+  Widget _buildUrlButton({String url, Icon icon}) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: RaisedButton(
+        child: icon,
+        onPressed: () async {
+          // String phone = contact.phone.toString();
+          // String url = 'tel:$phone';
+          if (await canLaunch(url)) {
+            await launch(url);
+          } else {
+            throw 'Could not launch $url';
+          }
+        },
+      ),
+    );
+  }
 
   Widget _buildDetailstext(
       {MainAxisAlignment mainAlignment = MainAxisAlignment.center,
@@ -20,8 +41,8 @@ class ContactDetails extends StatelessWidget {
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(bottom: 5, left: 30, top: 30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          child: Wrap(
+            // mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
                 padding: EdgeInsets.only(right: 20),
@@ -39,7 +60,7 @@ class ContactDetails extends StatelessWidget {
         ),
         Container(
           margin: EdgeInsets.only(bottom: 5, left: 30),
-          child: Row(
+          child: Wrap(
             children: <Widget>[
               Container(
                   padding: EdgeInsets.only(right: 20),
@@ -48,13 +69,28 @@ class ContactDetails extends StatelessWidget {
                 contact.phone.toString(),
                 style: TextStyle(fontSize: 30),
               ),
+              _buildUrlButton(
+                  url: "tel:${contact.phone.toString()}",
+                  icon: Icon(Icons.phone))
+              // RaisedButton(
+              //   child: Text('call'),
+              //   onPressed: () async {
+              //     String phone = contact.phone.toString();
+              //     String url = 'tel:$phone';
+              //     if (await canLaunch(url)) {
+              //       await launch(url);
+              //     } else {
+              //       throw 'Could not launch $url';
+              //     }
+              //   },
+              // )
             ],
           ),
         ),
         contact.email != ""
             ? Container(
                 margin: EdgeInsets.only(bottom: 5, left: 30),
-                child: Row(
+                child: Wrap(
                   children: <Widget>[
                     Container(
                         padding: EdgeInsets.only(right: 20),
@@ -63,6 +99,11 @@ class ContactDetails extends StatelessWidget {
                       contact.email,
                       style: TextStyle(fontSize: 30),
                     ),
+                    contact.email != null || contact.email == ""
+                        ? _buildUrlButton(
+                            url: 'mailto:${contact.email}',
+                            icon: Icon(Icons.email))
+                        : Container()
                   ],
                 ),
               )
@@ -71,7 +112,8 @@ class ContactDetails extends StatelessWidget {
     );
   }
 
-  Widget _buildVerticalLayout() {
+  Widget _buildVerticalLayout(BuildContext context) {
+    AppSettings appState = AppSettings.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
@@ -85,7 +127,9 @@ class ContactDetails extends StatelessWidget {
                   height:
                       contact.image == null || contact.image == "" ? 150 : 300,
                   child: contact.image == null || contact.image == ""
-                      ? Image.asset('assets/person.png')
+                      ? (appState.brightness == Brightness.light
+                          ? Image.asset('assets/person.png')
+                          : Image.asset('assets/person-w.png'))
                       : Image.file(File(contact.image)),
                 ),
               ],
@@ -97,7 +141,8 @@ class ContactDetails extends StatelessWidget {
     );
   }
 
-  Widget _buildHorizontalLayout() {
+  Widget _buildHorizontalLayout(BuildContext context) {
+    AppSettings appState = AppSettings.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
@@ -111,7 +156,9 @@ class ContactDetails extends StatelessWidget {
                   height:
                       contact.image == null || contact.image == "" ? 150 : 250,
                   child: contact.image == null || contact.image == ""
-                      ? Image.asset('assets/person.png')
+                      ? (appState.brightness == Brightness.light
+                          ? Image.asset('assets/person.png')
+                          : Image.asset('assets/person-w.png'))
                       : Image.file(File(contact.image)),
                 ),
               ],
@@ -137,13 +184,21 @@ class ContactDetails extends StatelessWidget {
         child: OrientationBuilder(builder: (context, orientation) {
           var orientation = MediaQuery.of(context).orientation;
           return orientation == Orientation.portrait
-              ? _buildVerticalLayout()
-              : _buildHorizontalLayout();
+              ? _buildVerticalLayout(context)
+              : _buildHorizontalLayout(context);
         }),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.edit),
         onPressed: () {
+          FirebaseAdMob.instance
+              .initialize(appId: apikeys["addMobInterstellar"])
+              .then((response) {
+            myInterstitial
+              ..load()
+              ..show();
+          });
+
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -158,3 +213,24 @@ class ContactDetails extends StatelessWidget {
     );
   }
 }
+
+// MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+//   keywords: <String>['flutterio', 'beautiful apps'],
+//   contentUrl: 'https://flutter.io',
+//   birthday: DateTime.now(),
+//   childDirected: false,
+//   designedForFamilies: false,
+//   gender:
+//       MobileAdGender.male, // or MobileAdGender.female, MobileAdGender.unknown
+//   testDevices: <String>[], // Android emulators are considered test devices
+// );
+InterstitialAd myInterstitial = InterstitialAd(
+  // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+  // https://developers.google.com/admob/android/test-ads
+  // https://developers.google.com/admob/ios/test-ads
+  adUnitId: InterstitialAd.testAdUnitId,
+  // targetingInfo: targetingInfo,
+  listener: (MobileAdEvent event) {
+    print("InterstitialAd event is $event");
+  },
+);

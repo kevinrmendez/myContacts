@@ -43,6 +43,9 @@ class _ContactListState extends State<ContactList> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Container(
+              height: 30,
+            ),
             FutureBuilder(
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 // print(snapshot.data);
@@ -51,7 +54,7 @@ class _ContactListState extends State<ContactList> {
                     return CircularProgressIndicator();
                   default:
                     if (snapshot.data.length > 0) {
-                      return Flexible(
+                      return Expanded(
                         child: ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, int index) {

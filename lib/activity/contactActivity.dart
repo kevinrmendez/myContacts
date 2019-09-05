@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:kevin_app/appSettings.dart';
+import 'package:kevin_app/components/contactImage.dart';
 import 'dart:async';
 import 'package:kevin_app/components/contact_form.dart';
 import 'package:flutter/services.dart';
@@ -47,6 +49,10 @@ class ContactActivityState extends State<ContactActivity>
     print(appLifecycleState);
   }
 
+  Widget _buildImage({double height}) {
+    return ContactImage(image: _image, height: height);
+  }
+
   Widget _buildVerticalLayout() {
     return Center(
       child: Column(
@@ -58,11 +64,8 @@ class ContactActivityState extends State<ContactActivity>
                 'Add contact',
                 style: TextStyle(fontSize: 30),
               )),
-          _image == "" || _image == null
-              ? Container(height: 80, child: Image.asset('assets/person.png'))
-              : Container(height: 200, child: Image.file(File(_image))),
+          _buildImage(height: 200),
           // _streamBuilder(),
-
           // Container(height: 100, child: Image.asset('assets/person.png')),
           ContactForm(
             image: _image,
@@ -78,35 +81,39 @@ class ContactActivityState extends State<ContactActivity>
 
   Widget _buildHorizontalLayout() {
     return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Column(
         children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(top: 20, bottom: 30),
-                  child: Text(
-                    'Add contact',
-                    style: TextStyle(fontSize: 30),
-                  )),
-              _image == "" || _image == null
-                  ? Container(
-                      height: 80, child: Image.asset('assets/person.png'))
-                  : Container(height: 170, child: Image.file(File(_image))),
-              // _streamBuilder(),
-              Container(
-                width: 200,
-              )
-            ],
+          Container(
+            height: 16,
           ),
-          // Container(height: 100, child: Image.asset('assets/person.png')),
-          ContactForm(
-            image: _image,
-            callback: callback,
-            nameController: nameController,
-            phoneController: phoneController,
-            emailController: emailController,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(top: 20, bottom: 30),
+                      child: Text(
+                        'Add contact',
+                        style: TextStyle(fontSize: 30),
+                      )),
+                  _buildImage(height: 100),
+                  // _streamBuilder(),
+                  Container(
+                    width: 200,
+                  )
+                ],
+              ),
+              // Container(height: 100, child: Image.asset('assets/person.png')),
+              ContactForm(
+                image: _image,
+                callback: callback,
+                nameController: nameController,
+                phoneController: phoneController,
+                emailController: emailController,
+              ),
+            ],
           ),
         ],
       ),
