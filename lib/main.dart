@@ -5,6 +5,7 @@ import 'activity/ContactList.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
 
 import 'appSettings.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 void main() {
   runApp(MyApp());
@@ -68,6 +69,11 @@ class _HomeState extends State<_Home> {
   void initState() {
     super.initState();
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
   // This widget is the root of your application.
 
   void onTabTapped(int index) {
@@ -78,6 +84,17 @@ class _HomeState extends State<_Home> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAdMob.instance
+        .initialize(appId: "ca-app-pub-7306861253247220/6782720996")
+        .then((response) {
+      myBanner
+        ..load()
+        ..show(
+          anchorOffset: 65.0,
+          anchorType: AnchorType.top,
+        );
+    });
+
     return MaterialApp(
       title: 'My Contacts',
       theme: ThemeData(
@@ -100,3 +117,37 @@ class _HomeState extends State<_Home> {
     );
   }
 }
+
+// MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+//   keywords: <String>['flutterio', 'beautiful apps'],
+//   contentUrl: 'https://flutter.io',
+//   birthday: DateTime.now(),
+//   childDirected: false,
+//   designedForFamilies: false,
+//   gender:
+//       MobileAdGender.male, // or MobileAdGender.female, MobileAdGender.unknown
+//   testDevices: <String>[], // Android emulators are considered test devices
+// );
+
+BannerAd myBanner = BannerAd(
+  // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+  // https://developers.google.com/admob/android/test-ads
+  // https://developers.google.com/admob/ios/test-ads
+  adUnitId: BannerAd.testAdUnitId,
+  size: AdSize.smartBanner,
+  // targetingInfo: targetingInfo,
+  listener: (MobileAdEvent event) {
+    print("BannerAd event is $event");
+  },
+);
+
+InterstitialAd myInterstitial = InterstitialAd(
+  // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+  // https://developers.google.com/admob/android/test-ads
+  // https://developers.google.com/admob/ios/test-ads
+  adUnitId: InterstitialAd.testAdUnitId,
+  // targetingInfo: targetingInfo,
+  listener: (MobileAdEvent event) {
+    print("InterstitialAd event is $event");
+  },
+);

@@ -6,17 +6,19 @@ import 'package:url_launcher/url_launcher.dart';
 import '../appSettings.dart';
 import '../contact.dart';
 
+import 'package:firebase_admob/firebase_admob.dart';
+
 class ContactDetails extends StatelessWidget {
   final Contact contact;
   final Function callback;
 
   ContactDetails({this.contact, this.callback});
 
-  Widget _buildUrlButton({String url, String title}) {
+  Widget _buildUrlButton({String url, Icon icon}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: RaisedButton(
-        child: Text(title),
+        child: icon,
         onPressed: () async {
           // String phone = contact.phone.toString();
           // String url = 'tel:$phone';
@@ -39,8 +41,8 @@ class ContactDetails extends StatelessWidget {
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(bottom: 5, left: 30, top: 30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          child: Wrap(
+            // mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
                 padding: EdgeInsets.only(right: 20),
@@ -58,7 +60,7 @@ class ContactDetails extends StatelessWidget {
         ),
         Container(
           margin: EdgeInsets.only(bottom: 5, left: 30),
-          child: Row(
+          child: Wrap(
             children: <Widget>[
               Container(
                   padding: EdgeInsets.only(right: 20),
@@ -68,7 +70,8 @@ class ContactDetails extends StatelessWidget {
                 style: TextStyle(fontSize: 30),
               ),
               _buildUrlButton(
-                  url: "tel:${contact.phone.toString()}", title: 'call')
+                  url: "tel:${contact.phone.toString()}",
+                  icon: Icon(Icons.phone))
               // RaisedButton(
               //   child: Text('call'),
               //   onPressed: () async {
@@ -87,7 +90,7 @@ class ContactDetails extends StatelessWidget {
         contact.email != ""
             ? Container(
                 margin: EdgeInsets.only(bottom: 5, left: 30),
-                child: Row(
+                child: Wrap(
                   children: <Widget>[
                     Container(
                         padding: EdgeInsets.only(right: 20),
@@ -98,7 +101,8 @@ class ContactDetails extends StatelessWidget {
                     ),
                     contact.email != null || contact.email == ""
                         ? _buildUrlButton(
-                            url: 'mailto:${contact.email}', title: 'send email')
+                            url: 'mailto:${contact.email}',
+                            icon: Icon(Icons.email))
                         : Container()
                   ],
                 ),
@@ -187,6 +191,14 @@ class ContactDetails extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.edit),
         onPressed: () {
+          FirebaseAdMob.instance
+              .initialize(appId: "ca-app-pub-7306861253247220/3815993914")
+              .then((response) {
+            myInterstitial
+              ..load()
+              ..show();
+          });
+
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -201,3 +213,24 @@ class ContactDetails extends StatelessWidget {
     );
   }
 }
+
+// MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+//   keywords: <String>['flutterio', 'beautiful apps'],
+//   contentUrl: 'https://flutter.io',
+//   birthday: DateTime.now(),
+//   childDirected: false,
+//   designedForFamilies: false,
+//   gender:
+//       MobileAdGender.male, // or MobileAdGender.female, MobileAdGender.unknown
+//   testDevices: <String>[], // Android emulators are considered test devices
+// );
+InterstitialAd myInterstitial = InterstitialAd(
+  // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+  // https://developers.google.com/admob/android/test-ads
+  // https://developers.google.com/admob/ios/test-ads
+  adUnitId: InterstitialAd.testAdUnitId,
+  // targetingInfo: targetingInfo,
+  listener: (MobileAdEvent event) {
+    print("InterstitialAd event is $event");
+  },
+);

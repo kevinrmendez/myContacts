@@ -32,6 +32,8 @@ dev_dependencies:
   camera:
   path_provider:
   url_launcher:
+  firebase_admob:
+  firebase_core:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

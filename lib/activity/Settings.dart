@@ -32,6 +32,9 @@ class SettingsState extends State<Settings> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          Container(
+            height: 30,
+          ),
           Flexible(
             child: ListView(
               children: <Widget>[

@@ -81,32 +81,39 @@ class ContactActivityState extends State<ContactActivity>
 
   Widget _buildHorizontalLayout() {
     return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Column(
         children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(top: 20, bottom: 30),
-                  child: Text(
-                    'Add contact',
-                    style: TextStyle(fontSize: 30),
-                  )),
-              _buildImage(height: 100),
-              // _streamBuilder(),
-              Container(
-                width: 200,
-              )
-            ],
+          Container(
+            height: 16,
           ),
-          // Container(height: 100, child: Image.asset('assets/person.png')),
-          ContactForm(
-            image: _image,
-            callback: callback,
-            nameController: nameController,
-            phoneController: phoneController,
-            emailController: emailController,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(top: 20, bottom: 30),
+                      child: Text(
+                        'Add contact',
+                        style: TextStyle(fontSize: 30),
+                      )),
+                  _buildImage(height: 100),
+                  // _streamBuilder(),
+                  Container(
+                    width: 200,
+                  )
+                ],
+              ),
+              // Container(height: 100, child: Image.asset('assets/person.png')),
+              ContactForm(
+                image: _image,
+                callback: callback,
+                nameController: nameController,
+                phoneController: phoneController,
+                emailController: emailController,
+              ),
+            ],
           ),
         ],
       ),
