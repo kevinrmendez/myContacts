@@ -35,13 +35,12 @@ class ContactDetails extends StatelessWidget {
 
   Widget _buildUrlButton({String url, Icon icon}) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      width: 100,
+      padding: EdgeInsets.symmetric(horizontal: 10),
       child: RaisedButton(
         color: Colors.blue,
         child: icon,
         onPressed: () async {
-          // String phone = contact.phone.toString();
-          // String url = 'tel:$phone';
           if (await canLaunch(url)) {
             await launch(url);
           } else {
@@ -53,40 +52,55 @@ class ContactDetails extends StatelessWidget {
   }
 
   Widget _buildShareButton() {
-    return RaisedButton(
-      color: Colors.blue,
-      child: Icon(
-        Icons.share,
-        color: Colors.white,
+    return Container(
+      width: 100,
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: RaisedButton(
+        color: Colors.blue,
+        child: Icon(
+          Icons.share,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Share.share(
+              "Contact Details: name: ${contact.name}, phone: ${contact.phone}, email: ${contact.phone},instagram: ${contact.instagram} ");
+        },
       ),
-      onPressed: () {
-        Share.share(
-            "Contact Details: name: ${contact.name}, phone: ${contact.phone}, email: ${contact.phone} ");
-      },
     );
   }
 
   Widget _buildButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        _buildShareButton(),
-        _buildUrlButton(
-            url: "tel:${contact.phone.toString()}",
-            icon: Icon(
-              Icons.phone,
-              color: Colors.white,
-            )),
-        contact.email != null || contact.email == ""
-            ? _buildUrlButton(
-                url: 'mailto:${contact.email}',
-                icon: Icon(
-                  Icons.email,
-                  color: Colors.white,
-                ))
-            : Container()
-      ],
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Wrap(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          _buildShareButton(),
+          _buildUrlButton(
+              url: "tel:${contact.phone.toString()}",
+              icon: Icon(
+                Icons.phone,
+                color: Colors.white,
+              )),
+          contact.email != ""
+              ? _buildUrlButton(
+                  url: 'mailto:${contact.email}',
+                  icon: Icon(
+                    Icons.email,
+                    color: Colors.white,
+                  ))
+              : Container(),
+          contact.instagram != ""
+              ? _buildUrlButton(
+                  url: 'https://www.instagram.com/${contact.instagram}',
+                  icon: Icon(
+                    Icons.casino,
+                    color: Colors.white,
+                  ))
+              : Container()
+        ],
+      ),
     );
   }
 
@@ -121,6 +135,22 @@ class ContactDetails extends StatelessWidget {
                         child: Icon(Icons.email, color: Colors.blue[300])),
                     Text(
                       contact.email,
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  ],
+                ),
+              )
+            : Container(),
+        contact.instagram != ""
+            ? Container(
+                margin: EdgeInsets.only(bottom: 5, left: 30),
+                child: Wrap(
+                  children: <Widget>[
+                    Container(
+                        padding: EdgeInsets.only(right: 20),
+                        child: Icon(Icons.casino, color: Colors.blue[300])),
+                    Text(
+                      contact.instagram,
                       style: TextStyle(fontSize: 30),
                     ),
                   ],

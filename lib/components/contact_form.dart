@@ -14,12 +14,14 @@ class ContactForm extends StatefulWidget {
   final nameController;
   final phoneController;
   final emailController;
+  final instagramController;
 
   ContactForm(
       {this.image,
       this.callback,
       this.nameController,
       this.emailController,
+      this.instagramController,
       this.phoneController});
 
   @override
@@ -42,6 +44,7 @@ class ContactFormState extends State<ContactForm> {
   String name;
   String phone;
   String email;
+  String instagram;
   int contactId;
 
   @override
@@ -76,6 +79,7 @@ class ContactFormState extends State<ContactForm> {
     widget.nameController.text = "";
     widget.phoneController.text = "";
     widget.emailController.text = "";
+    widget.instagramController.text = "";
     image = "";
   }
 
@@ -89,6 +93,7 @@ class ContactFormState extends State<ContactForm> {
     print(contact);
     print(contactId);
     print(contact.email);
+    print(contact.instagram);
   }
 
   @override
@@ -132,9 +137,9 @@ class ContactFormState extends State<ContactForm> {
               ),
               TextFormField(
                 decoration: InputDecoration(
-                    hintText: 'instagram', icon: Icon(Icons.camera_enhance)),
-                keyboardType: TextInputType.emailAddress,
-                controller: widget.emailController,
+                    hintText: 'instagram', icon: Icon(Icons.casino)),
+                keyboardType: TextInputType.text,
+                controller: widget.instagramController,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -170,12 +175,15 @@ class ContactFormState extends State<ContactForm> {
                       child: RaisedButton(
                         color: Colors.blue,
                         onPressed: () async {
+                          // print('SAVIIIING');
+                          // print(widget.nameController);
                           if (_formKey.currentState.validate()) {
                             Contact contact = Contact(
                                 id: contactId,
                                 name: widget.nameController.text,
                                 phone: int.parse(widget.phoneController.text),
                                 email: widget.emailController.text,
+                                instagram: widget.instagramController.text,
                                 image: widget.image);
                             _saveContact(contact);
                             widget.callback("");

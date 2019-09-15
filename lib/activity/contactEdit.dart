@@ -27,17 +27,21 @@ class ContactEditState extends State<ContactEdit> {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
+  final instagramController = TextEditingController();
+
   String name;
   String phone;
   String email;
+  String instagram;
   Contact contact;
   Future<List<Contact>> contacts;
 
-  callback({String name, String phone, String email}) {
+  callback({String name, String phone, String email, String instagram}) {
     setState(() {
       this.name = name;
       this.phone = phone;
       this.email = email;
+      this.instagram = instagram;
     });
   }
 
@@ -48,10 +52,12 @@ class ContactEditState extends State<ContactEdit> {
     this.name = widget.contact.name;
     this.phone = widget.contact.phone.toString();
     this.email = widget.contact.email;
+    this.instagram = widget.contact.instagram;
 
     this.nameController.text = this.name;
     this.phoneController.text = this.phone;
     this.emailController.text = this.email;
+    this.instagramController.text = this.instagram;
 
     this.contact = widget.contact;
   }
@@ -60,6 +66,8 @@ class ContactEditState extends State<ContactEdit> {
     contact.name = nameController.text;
     contact.phone = int.parse(phoneController.text);
     contact.email = emailController.text;
+    contact.instagram = instagramController.text;
+
     print('after update id');
     print(contact);
     await db.updateContact(contact);
@@ -149,6 +157,18 @@ class ContactEditState extends State<ContactEdit> {
                     keyboardType: TextInputType.emailAddress,
                     controller: emailController,
                   ),
+                  TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        print(value);
+                        this.instagram = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                        hintText: 'instagram', icon: Icon(Icons.casino)),
+                    keyboardType: TextInputType.text,
+                    controller: instagramController,
+                  ),
                   _buildFormButtons(orientation)
                 ],
               ),
@@ -163,7 +183,7 @@ class ContactEditState extends State<ContactEdit> {
       Padding(
         padding: const EdgeInsets.only(top: 10),
         child: RaisedButton(
-          color: Colors.blue[300],
+          color: Colors.blue,
           onPressed: () async {
             _updateContact(contact);
           },
@@ -214,6 +234,10 @@ class ContactEditState extends State<ContactEdit> {
         Padding(
           padding: EdgeInsets.only(bottom: 20),
           child: _buildText(this.email, orientation),
+        ),
+        Padding(
+          padding: EdgeInsets.only(bottom: 20),
+          child: _buildText(this.instagram, orientation),
         ),
         // Text(
         //   this.phone,

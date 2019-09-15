@@ -5,6 +5,8 @@ import 'dart:io';
 
 import 'package:kevin_app/appSettings.dart';
 
+import 'aboutActivity .dart';
+
 final ContactDb _db = ContactDb();
 
 class Settings extends StatefulWidget {
@@ -44,10 +46,7 @@ class SettingsState extends State<Settings> {
                     child: Text('ok'),
                     onPressed: () async {
                       await _db.deleteAllContacts();
-                      Navigator.popUntil(context, ModalRoute.withName('/'));
-                      Scaffold.of(context).showSnackBar(SnackBar(
-                          content:
-                              Text('All your contacts have been deleted')));
+                      Navigator.pop(context);
                     })
               ],
             );
@@ -74,6 +73,7 @@ class SettingsState extends State<Settings> {
 
     _deleteContacts() async {
       _warningMessage('Are you sure you want to delete all your contacts');
+
       // _completeMessage('All your contacts have been deleted');
     }
 
@@ -88,6 +88,19 @@ class SettingsState extends State<Settings> {
           Flexible(
             child: ListView(
               children: <Widget>[
+                ListTile(
+                  title: Text('About'),
+                  trailing: IconButton(
+                    icon: Icon(Icons.info),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AboutActivity()),
+                      );
+                    },
+                  ),
+                ),
                 SwitchListTile(
                   value: appState.darkMode,
                   title: Text('dark mode'),
@@ -122,11 +135,11 @@ class SettingsState extends State<Settings> {
                 ),
                 ListTile(
                   title: Text('delete contacts'),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: _deleteContacts,
-                  ),
-                )
+                  onTap: () {
+                    _deleteContacts();
+                  },
+                  trailing: Icon(Icons.delete),
+                ),
               ],
             ),
           ),

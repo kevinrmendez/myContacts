@@ -4,8 +4,15 @@ class Contact {
   int phone;
   String image;
   String email;
+  String instagram;
 
-  Contact({this.name, this.phone, this.image = "", this.id, this.email = ""});
+  Contact(
+      {this.name,
+      this.phone,
+      this.image = "",
+      this.id,
+      this.email = "",
+      this.instagram = ""});
 
   Map<String, dynamic> toMap() {
     return {
@@ -14,6 +21,7 @@ class Contact {
       'phone': phone,
       'email': email,
       'image': image,
+      'instagram': instagram
     };
   }
 
@@ -21,6 +29,6 @@ class Contact {
   // each dog when using the print statement.
   @override
   String toString() {
-    return 'Contact{id: $id, name: $name, phone: $phone,email: $email, image: $image}';
+    return 'Contact{id: $id, name: $name, phone: $phone,email: $email, instagram: $instagram,image: $image}';
   }
 }
