@@ -35,6 +35,9 @@ dev_dependencies:
   admob_flutter:
   firebase_core:
   share:
+  contacts_service:
+  permission_handler:
+  easy_permission_validator:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

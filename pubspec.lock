@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.14.11"
+  contacts_service:
+    dependency: "direct dev"
+    description:
+      name: contacts_service
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.3"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -50,6 +57,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
+  easy_permission_validator:
+    dependency: "direct dev"
+    description:
+      name: easy_permission_validator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   firebase_core:
     dependency: "direct dev"
     description:
@@ -102,6 +116,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0+1"
+  permission_handler:
+    dependency: "direct dev"
+    description:
+      name: permission_handler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.2"
   quiver:
     dependency: transitive
     description:

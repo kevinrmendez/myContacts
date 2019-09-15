@@ -3,11 +3,17 @@ import 'package:kevin_app/ContactDb.dart';
 import 'dart:async';
 import 'dart:io';
 
+import 'package:permission_handler/permission_handler.dart';
+
+import 'package:contacts_service/contacts_service.dart';
+
 import 'package:kevin_app/appSettings.dart';
 
 import 'aboutActivity .dart';
 
 final ContactDb _db = ContactDb();
+
+PermissionStatus _permissionStatus;
 
 class Settings extends StatefulWidget {
   @override
@@ -19,6 +25,7 @@ class Settings extends StatefulWidget {
 class SettingsState extends State<Settings> {
   bool changeTheme;
   bool activateCamera;
+
   @override
   void initState() {
     changeTheme = false;
@@ -53,28 +60,30 @@ class SettingsState extends State<Settings> {
           });
     }
 
-    // void _completeMessage(String message) {
-    //   showDialog(
-    //       context: context,
-    //       builder: (BuildContext context) {
-    //         return AlertDialog(
-    //           title: Text(message),
-    //           actions: <Widget>[
-    //             FlatButton(
-    //                 child: Text('close'),
-    //                 onPressed: () {
-    //                   // Navigator.of(context).pop();
-    //                   Navigator.popUntil(context, ModalRoute.withName('/'));
-    //                 })
-    //           ],
-    //         );
-    //       });
-    // }
-
     _deleteContacts() async {
       _warningMessage('Are you sure you want to delete all your contacts');
+    }
 
-      // _completeMessage('All your contacts have been deleted');
+    _importContacts() async {
+      Iterable<Contact> contacts = await ContactsService.getContacts();
+      return contacts;
+    }
+
+    Future<PermissionStatus> _checkPermission() async {
+      PermissionStatus permission = await PermissionHandler()
+          .checkPermissionStatus(PermissionGroup.contacts);
+      return permission;
+    }
+
+    _requestPermission() async {
+      // await PermissionHandler()
+      //     .shouldShowRequestPermissionRationale(PermissionGroup.contacts);
+      // await PermissionHandler().openAppSettings();
+      _permissionStatus = await _checkPermission();
+      if (_permissionStatus != PermissionStatus.granted) {
+        return await PermissionHandler()
+            .requestPermissions([PermissionGroup.contacts]);
+      }
     }
 
     AppSettings appState = AppSettings.of(context);
@@ -137,6 +146,33 @@ class SettingsState extends State<Settings> {
                   title: Text('delete contacts'),
                   onTap: () {
                     _deleteContacts();
+                  },
+                  trailing: Icon(Icons.delete),
+                ),
+                ListTile(
+                  title: Text('import contacts'),
+                  onTap: () async {
+                    // if (_permissionStatus == null) {
+                    //   _permissionStatus = await _checkPermission();
+                    // } else {
+                    //   if (_permissionStatus == PermissionStatus.granted) {
+                    //     _importContacts();
+                    //   } else {
+                    //     _requestPermission();
+                    //   }
+                    // }
+                    // _requestPermission().then((value) {
+                    //   _importContacts().then((contacts) {
+                    //     // print(contacts);
+                    //     contacts.map((contact) {
+                    //       if (contact == null) {
+                    //         print('NULL');
+                    //       } else {
+                    //         print(contact.toString());
+                    //       }
+                    //     });
+                    //   });
+                    // });
                   },
                   trailing: Icon(Icons.delete),
                 ),
