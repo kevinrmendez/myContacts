@@ -15,7 +15,7 @@ class ContactImage extends StatelessWidget {
     AppSettings appState = AppSettings.of(context);
     return image == "" || image == null
         ? Container(
-            height: 80,
+            height: 100,
             child: appState.brightness == Brightness.light
                 ? Image.asset('assets/person.png')
                 : Image.asset('assets/person-w.png'))

@@ -3,8 +3,29 @@ import 'package:kevin_app/ContactDb.dart';
 import 'dart:async';
 import 'dart:io';
 
+import '../apikeys.dart';
 import '../contact.dart';
 import 'contactDetails.dart';
+
+import 'package:admob_flutter/admob_flutter.dart';
+
+int _counter = 0;
+AdmobInterstitial interstitialAd = AdmobInterstitial(
+  adUnitId: getInterstitialAdUnitId(),
+);
+
+getInterstitialAdUnitId() {
+  return apikeys["contactListAdd"];
+  // return apikeys["addInterstellarTest"];
+}
+
+void _showAd() {
+  if (_counter % 4 == 0) {
+    interstitialAd.load();
+    interstitialAd.show();
+  }
+  _counter++;
+}
 
 class ContactList extends StatefulWidget {
   @override
@@ -43,9 +64,6 @@ class _ContactListState extends State<ContactList> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              height: 30,
-            ),
             FutureBuilder(
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 // print(snapshot.data);
@@ -78,6 +96,7 @@ class _ContactListState extends State<ContactList> {
                                   // Navigator.pushNamed(
                                   //     context, '/contactDetails',
                                   //     arguments: snapshot.data[index]);
+                                  _showAd();
 
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {

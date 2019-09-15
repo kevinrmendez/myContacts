@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/appSettings.dart';
 import 'package:kevin_app/components/contactImage.dart';
@@ -88,12 +85,12 @@ class ContactActivityState extends State<ContactActivity>
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                      margin: EdgeInsets.only(top: 20, bottom: 30),
+                      margin: EdgeInsets.only(top: 10, bottom: 10),
                       child: Text(
                         'Add contact',
                         style: TextStyle(fontSize: 30),
@@ -105,7 +102,6 @@ class ContactActivityState extends State<ContactActivity>
                   )
                 ],
               ),
-              // Container(height: 100, child: Image.asset('assets/person.png')),
               ContactForm(
                 image: _image,
                 callback: callback,

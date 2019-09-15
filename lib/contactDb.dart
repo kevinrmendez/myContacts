@@ -83,4 +83,13 @@ class ContactDb {
       whereArgs: [id],
     );
   }
+
+  Future<void> deleteAllContacts() async {
+    // Get a reference to the database.
+    final db = await getDb();
+
+    await db.delete(
+      'contacts',
+    );
+  }
 }

@@ -197,26 +197,49 @@ class ContactEditState extends State<ContactEdit> {
     }
   }
 
-  Widget _buildPreviewText() {
+  Widget _buildPreviewText(Orientation orientation) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          this.name,
-          style: TextStyle(fontSize: 30),
-        ),
-        Text(
-          this.phone,
-          style: TextStyle(fontSize: 30),
-        ),
+        // Container(
+        //   width: MediaQuery.of(context).size.width * 0.8,
+        //   child: Text(
+        //     this.name,
+        //     textAlign: TextAlign.center,
+        //     style: TextStyle(fontSize: 30),
+        //   ),
+        // ),
+        _buildText(this.name, orientation),
+        _buildText(this.phone, orientation),
         Padding(
           padding: EdgeInsets.only(bottom: 20),
-          child: Text(
-            this.email,
-            style: TextStyle(fontSize: 30),
-          ),
+          child: _buildText(this.email, orientation),
         ),
+        // Text(
+        //   this.phone,
+        //   style: TextStyle(fontSize: 30),
+        // ),
+        // Padding(
+        //   padding: EdgeInsets.only(bottom: 20),
+        //   child: Text(
+        //     this.email,
+        //     style: TextStyle(fontSize: 30),
+        //   ),
+        // ),
       ],
+    );
+  }
+
+  Widget _buildText(String text, Orientation orientation) {
+    return Container(
+      width: orientation == Orientation.portrait
+          ? MediaQuery.of(context).size.width * 0.8
+          : MediaQuery.of(context).size.width * 0.5,
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 30),
+      ),
     );
   }
 
@@ -227,7 +250,7 @@ class ContactEditState extends State<ContactEdit> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _buildPreviewText(),
+            _buildPreviewText(orientation),
             _buildForm(orientation),
           ],
         )
@@ -239,7 +262,7 @@ class ContactEditState extends State<ContactEdit> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
-        _buildPreviewText(),
+        _buildPreviewText(orientation),
         _buildForm(orientation),
       ],
     );

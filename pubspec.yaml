@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.4+4
+version: 1.0.6+6
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -32,8 +32,9 @@ dev_dependencies:
   camera:
   path_provider:
   url_launcher:
-  firebase_admob:
+  admob_flutter:
   firebase_core:
+  share:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

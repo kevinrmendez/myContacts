@@ -130,6 +130,12 @@ class ContactFormState extends State<ContactForm> {
                 keyboardType: TextInputType.emailAddress,
                 controller: widget.emailController,
               ),
+              TextFormField(
+                decoration: InputDecoration(
+                    hintText: 'instagram', icon: Icon(Icons.camera_enhance)),
+                keyboardType: TextInputType.emailAddress,
+                controller: widget.emailController,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -162,7 +168,7 @@ class ContactFormState extends State<ContactForm> {
                       padding:
                           EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                       child: RaisedButton(
-                        color: Colors.blue[300],
+                        color: Colors.blue,
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             Contact contact = Contact(
