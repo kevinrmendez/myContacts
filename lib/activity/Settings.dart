@@ -149,33 +149,33 @@ class SettingsState extends State<Settings> {
                   },
                   trailing: Icon(Icons.delete),
                 ),
-                ListTile(
-                  title: Text('import contacts'),
-                  onTap: () async {
-                    // if (_permissionStatus == null) {
-                    //   _permissionStatus = await _checkPermission();
-                    // } else {
-                    //   if (_permissionStatus == PermissionStatus.granted) {
-                    //     _importContacts();
-                    //   } else {
-                    //     _requestPermission();
-                    //   }
-                    // }
-                    // _requestPermission().then((value) {
-                    //   _importContacts().then((contacts) {
-                    //     // print(contacts);
-                    //     contacts.map((contact) {
-                    //       if (contact == null) {
-                    //         print('NULL');
-                    //       } else {
-                    //         print(contact.toString());
-                    //       }
-                    //     });
-                    //   });
-                    // });
-                  },
-                  trailing: Icon(Icons.delete),
-                ),
+                // ListTile(
+                //   title: Text('import contacts'),
+                //   onTap: () async {
+                // if (_permissionStatus == null) {
+                //   _permissionStatus = await _checkPermission();
+                // } else {
+                //   if (_permissionStatus == PermissionStatus.granted) {
+                //     _importContacts();
+                //   } else {
+                //     _requestPermission();
+                //   }
+                // }
+                // _requestPermission().then((value) {
+                //   _importContacts().then((contacts) {
+                //     // print(contacts);
+                //     contacts.map((contact) {
+                //       if (contact == null) {
+                //         print('NULL');
+                //       } else {
+                //         print(contact.toString());
+                //       }
+                //     });
+                //   });
+                // });
+                //   },
+                //   trailing: Icon(Icons.delete),
+                // ),
               ],
             ),
           ),
