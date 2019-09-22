@@ -15,12 +15,14 @@ class ContactForm extends StatefulWidget {
   final phoneController;
   final emailController;
   final instagramController;
+  final orientation;
 
   ContactForm(
       {this.image,
       this.callback,
       this.nameController,
       this.emailController,
+      this.orientation,
       this.instagramController,
       this.phoneController});
 
@@ -143,11 +145,17 @@ class ContactFormState extends State<ContactForm> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: widget.orientation == Orientation.portrait
+                    ? CrossAxisAlignment.center
+                    : CrossAxisAlignment.start,
                 children: <Widget>[
                   appState.camera == true
                       ? Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          padding: widget.orientation == Orientation.portrait
+                              ? EdgeInsets.symmetric(vertical: 16)
+                              : EdgeInsets.symmetric(vertical: 1),
                           child: RaisedButton(
+                            color: Theme.of(context).primaryColor,
                             onPressed: () async {
                               final cameras = await availableCameras();
                               final firstCamera = cameras.first;
@@ -164,16 +172,18 @@ class ContactFormState extends State<ContactForm> {
                                   content: Text('Picture has been taken')));
                               print(image.toString());
                             },
-                            child: Icon(Icons.camera_alt),
+                            child: Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                            ),
                           ))
                       : Container(),
                   Expanded(
                     child: Container(
                       // width: 20,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 30),
                       child: RaisedButton(
-                        color: Colors.blue,
+                        color: Theme.of(context).primaryColor,
                         onPressed: () async {
                           // print('SAVIIIING');
                           // print(widget.nameController);

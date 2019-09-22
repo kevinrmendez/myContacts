@@ -51,7 +51,7 @@ class ContactActivityState extends State<ContactActivity>
     return ContactImage(image: _image, height: height);
   }
 
-  Widget _buildVerticalLayout() {
+  Widget _buildVerticalLayout(Orientation orientation) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -68,6 +68,7 @@ class ContactActivityState extends State<ContactActivity>
           ContactForm(
             image: _image,
             callback: callback,
+            orientation: orientation,
             nameController: nameController,
             phoneController: phoneController,
             emailController: emailController,
@@ -78,13 +79,10 @@ class ContactActivityState extends State<ContactActivity>
     );
   }
 
-  Widget _buildHorizontalLayout() {
+  Widget _buildHorizontalLayout(Orientation orientation) {
     return Center(
       child: Column(
         children: <Widget>[
-          Container(
-            height: 16,
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,6 +104,7 @@ class ContactActivityState extends State<ContactActivity>
               ),
               ContactForm(
                 image: _image,
+                orientation: orientation,
                 callback: callback,
                 nameController: nameController,
                 phoneController: phoneController,
@@ -127,8 +126,8 @@ class ContactActivityState extends State<ContactActivity>
       body: OrientationBuilder(builder: (context, orientation) {
         var orientation = MediaQuery.of(context).orientation;
         return orientation == Orientation.portrait
-            ? _buildVerticalLayout()
-            : _buildHorizontalLayout();
+            ? _buildVerticalLayout(orientation)
+            : _buildHorizontalLayout(orientation);
       }),
     );
   }

@@ -85,12 +85,22 @@ class ContactDb {
     );
   }
 
-  Future<void> deleteAllContacts() async {
+  Future<bool> deleteAllContacts() async {
     // Get a reference to the database.
     final db = await getDb();
+    bool isDataDeleted;
 
-    await db.delete(
+    await db
+        .delete(
       'contacts',
-    );
+    )
+        .then((rowsAffected) {
+      if (rowsAffected == 0) {
+        isDataDeleted = false;
+      } else {
+        isDataDeleted = true;
+      }
+    });
+    return isDataDeleted;
   }
 }

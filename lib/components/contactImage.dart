@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../appSettings.dart';
+import '../myThemes.dart';
 
 class ContactImage extends StatelessWidget {
   final double height;
@@ -13,12 +14,13 @@ class ContactImage extends StatelessWidget {
   @override
   Widget build(context) {
     AppSettings appState = AppSettings.of(context);
+    print('MYTHEMEKEYS ${appState.themeKey}');
     return image == "" || image == null
         ? Container(
             height: 100,
-            child: appState.brightness == Brightness.light
-                ? Image.asset('assets/person.png')
-                : Image.asset('assets/person-w.png'))
+            child: appState.themeKey == MyThemeKeys.DARK
+                ? Image.asset('assets/person-w.png')
+                : Image.asset('assets/person.png'))
         : Container(height: height, child: Image.file(File(image)));
   }
 }

@@ -183,7 +183,7 @@ class ContactEditState extends State<ContactEdit> {
       Padding(
         padding: const EdgeInsets.only(top: 10),
         child: RaisedButton(
-          color: Colors.blue,
+          color: Theme.of(context).primaryColor,
           onPressed: () async {
             _updateContact(contact);
           },
@@ -196,7 +196,11 @@ class ContactEditState extends State<ContactEdit> {
       Padding(
         padding: const EdgeInsets.only(top: 10),
         child: RaisedButton(
-          child: Text('delete '),
+          color: Theme.of(context).primaryColor,
+          child: Text(
+            'delete ',
+            style: TextStyle(color: Colors.white),
+          ),
           onPressed: () async {
             await _deleteContact(contact);
           },

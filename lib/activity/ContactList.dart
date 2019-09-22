@@ -79,10 +79,12 @@ class _ContactListState extends State<ContactList> {
                             return Card(
                               child: ListTile(
                                 leading: CircleAvatar(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
                                   backgroundImage:
                                       snapshot.data[index].image == "" ||
                                               snapshot.data[index].image == null
-                                          ? AssetImage('assets/person-big.png')
+                                          ? AssetImage('assets/person-w.png')
                                           : FileImage(
                                               File(snapshot.data[index].image)),
                                 ),
@@ -130,7 +132,8 @@ class _ContactListState extends State<ContactList> {
                                   'Your contact list is empty',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 25, color: Colors.blue[300]),
+                                      fontSize: 25,
+                                      color: Theme.of(context).accentColor),
                                 ),
                               ),
                               Container(

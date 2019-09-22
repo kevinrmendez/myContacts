@@ -15,24 +15,24 @@ class AboutActivity extends StatelessWidget {
     );
   }
 
-  _title(String text) {
-    return Column(
-      children: <Widget>[
-        Text(
-          text,
-          style: TextStyle(fontSize: 30),
-        ),
-        Icon(
-          Icons.info,
-          color: Colors.blue,
-          size: 100,
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    _title(String text) {
+      return Column(
+        children: <Widget>[
+          Text(
+            text,
+            style: TextStyle(fontSize: 30),
+          ),
+          Icon(
+            Icons.info,
+            color: Theme.of(context).primaryColor,
+            size: 100,
+          ),
+        ],
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(title: Text('About')),
       body: Center(
@@ -48,7 +48,7 @@ class AboutActivity extends StatelessWidget {
                 'In order to keep this app free to use, it contains some ads'),
             _text("If you enjoy using the app, don't forget to rate the app"),
             RaisedButton(
-              color: Colors.blue,
+              color: Theme.of(context).primaryColor,
               child: Text(
                 'Rate App',
                 style: TextStyle(color: Colors.white),
