@@ -122,12 +122,12 @@ class ContactFormState extends State<ContactForm> {
               TextFormField(
                 decoration: InputDecoration(
                     hintText: 'phone number', icon: Icon(Icons.phone)),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter the phone';
-                  }
-                  return null;
-                },
+                // validator: (value) {
+                //   if (value.isEmpty) {
+                //     return 'Please enter the phone';
+                //   }
+                //   return null;
+                // },
                 keyboardType: TextInputType.phone,
                 controller: widget.phoneController,
               ),
@@ -191,7 +191,7 @@ class ContactFormState extends State<ContactForm> {
                             Contact contact = Contact(
                                 id: contactId,
                                 name: widget.nameController.text,
-                                phone: int.parse(widget.phoneController.text),
+                                phone: widget.phoneController.text,
                                 email: widget.emailController.text,
                                 instagram: widget.instagramController.text,
                                 image: widget.image);

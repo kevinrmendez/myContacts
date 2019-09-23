@@ -89,10 +89,12 @@ class _ContactListState extends State<ContactList> {
                                               File(snapshot.data[index].image)),
                                 ),
                                 // : Container()),
-                                title:
-                                    Text('name: ${snapshot.data[index].name}'),
-                                subtitle: Text(
-                                    'phone: ${snapshot.data[index].phone.toString()}'),
+                                title: Text(
+                                  '${snapshot.data[index].name}',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                // subtitle: Text(
+                                //     'phone: ${snapshot.data[index].phone.toString()}'),
                                 trailing: Icon(Icons.keyboard_arrow_right),
                                 onTap: () {
                                   // Navigator.pushNamed(

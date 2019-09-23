@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
 import 'package:kevin_app/components/contactImage.dart';
+import 'package:kevin_app/myThemes.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../appSettings.dart';
 import '../contact.dart';
@@ -81,12 +82,14 @@ class ContactDetails extends StatelessWidget {
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             _buildShareButton(),
-            _buildUrlButton(
-                url: "tel:${contact.phone.toString()}",
-                icon: Icon(
-                  Icons.phone,
-                  color: Colors.white,
-                )),
+            contact.phone != ""
+                ? _buildUrlButton(
+                    url: "tel:${contact.phone.toString()}",
+                    icon: Icon(
+                      Icons.phone,
+                      color: Colors.white,
+                    ))
+                : const SizedBox(),
             contact.email != ""
                 ? _buildUrlButton(
                     url: 'mailto:${contact.email}',
@@ -94,7 +97,7 @@ class ContactDetails extends StatelessWidget {
                       Icons.email,
                       color: Colors.white,
                     ))
-                : Container(),
+                : const SizedBox(),
             contact.instagram != ""
                 ? _buildUrlButton(
                     url: 'https://www.instagram.com/${contact.instagram}',
@@ -102,7 +105,7 @@ class ContactDetails extends StatelessWidget {
                       Icons.casino,
                       color: Colors.white,
                     ))
-                : Container()
+                : const SizedBox()
           ],
         ),
       );
@@ -117,18 +120,20 @@ class ContactDetails extends StatelessWidget {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(bottom: 5, left: 30),
-            child: Wrap(
-              children: <Widget>[
-                Container(
-                    padding: EdgeInsets.only(right: 20),
-                    child: Icon(Icons.phone,
-                        color: Theme.of(context).accentColor)),
-                Text(
-                  contact.phone.toString(),
-                  style: TextStyle(fontSize: 30),
-                ),
-              ],
-            ),
+            child: contact.phone != ""
+                ? Wrap(
+                    children: <Widget>[
+                      Container(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Icon(Icons.phone,
+                              color: Theme.of(context).accentColor)),
+                      Text(
+                        contact.phone.toString(),
+                        style: TextStyle(fontSize: 30),
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
           ),
           contact.email != ""
               ? Container(
@@ -180,7 +185,7 @@ class ContactDetails extends StatelessWidget {
           style: TextStyle(
               fontSize: 40,
               fontWeight: FontWeight.bold,
-              color: appState.darkMode
+              color: appState.themeKey == MyThemeKeys.DARK
                   ? Colors.white
                   : Theme.of(context).primaryColor),
         ),
@@ -190,17 +195,17 @@ class ContactDetails extends StatelessWidget {
     Widget _buildVerticalLayout(BuildContext context, orientation) {
       AppSettings appState = AppSettings.of(context);
       return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Column(
             children: <Widget>[
+              _buildContactName(context),
               Container(
                 child: ContactImage(
                   image: contact.image,
-                  height: 300,
+                  height: 250,
                 ),
               ),
-              _buildContactName(context),
             ],
           ),
           _buildDetailstext(mainAlignment: MainAxisAlignment.start),

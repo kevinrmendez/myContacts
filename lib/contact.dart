@@ -1,7 +1,7 @@
 class Contact {
   int id;
   String name;
-  int phone;
+  String phone;
   String image;
   String email;
   String instagram;

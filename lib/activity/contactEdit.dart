@@ -64,7 +64,7 @@ class ContactEditState extends State<ContactEdit> {
 
   Future<void> _updateContact(Contact contact) async {
     contact.name = nameController.text;
-    contact.phone = int.parse(phoneController.text);
+    contact.phone = phoneController.text;
     contact.email = emailController.text;
     contact.instagram = instagramController.text;
 
@@ -225,35 +225,16 @@ class ContactEditState extends State<ContactEdit> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        // Container(
-        //   width: MediaQuery.of(context).size.width * 0.8,
-        //   child: Text(
-        //     this.name,
-        //     textAlign: TextAlign.center,
-        //     style: TextStyle(fontSize: 30),
-        //   ),
-        // ),
         _buildText(this.name, orientation),
         _buildText(this.phone, orientation),
         Padding(
-          padding: EdgeInsets.only(bottom: 20),
+          padding: EdgeInsets.only(bottom: 0),
           child: _buildText(this.email, orientation),
         ),
         Padding(
           padding: EdgeInsets.only(bottom: 20),
           child: _buildText(this.instagram, orientation),
         ),
-        // Text(
-        //   this.phone,
-        //   style: TextStyle(fontSize: 30),
-        // ),
-        // Padding(
-        //   padding: EdgeInsets.only(bottom: 20),
-        //   child: Text(
-        //     this.email,
-        //     style: TextStyle(fontSize: 30),
-        //   ),
-        // ),
       ],
     );
   }

@@ -13,7 +13,7 @@ class ContactDb {
       join(await getDatabasesPath(), 'contact_database.db'),
       onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE contacts(id INTEGER PRIMARY KEY, name TEXT, phone INTEGER, email TEXT,instagram TEXT, image TEXT)",
+          "CREATE TABLE contacts(id INTEGER PRIMARY KEY, name TEXT, phone TEXT, email TEXT,instagram TEXT, image TEXT)",
         );
       },
       // Set the version. This executes the onCreate function and provides a
@@ -37,7 +37,8 @@ class ContactDb {
     // Get a reference to the database.
     final Database db = await getDb();
 
-    final List<Map<String, dynamic>> maps = await db.query('contacts');
+    final List<Map<String, dynamic>> maps =
+        await db.query('contacts', orderBy: 'name');
 
     // Convert the List<Map<String, dynamic> into a List<Contact>.
     return List.generate(maps.length, (i) {

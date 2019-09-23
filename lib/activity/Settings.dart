@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/components/expandableThemeSettings.dart';
+import 'package:kevin_app/contact.dart';
 
 import 'package:kevin_app/myThemes.dart';
 import 'dart:async';
@@ -10,15 +11,15 @@ import 'package:prefs/prefs.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 
-import 'package:contacts_service/contacts_service.dart';
+import 'package:contacts_service/contacts_service.dart' as a;
+import 'package:kevin_app/ContactDb.dart';
 
 import 'package:kevin_app/appSettings.dart';
 
 import 'aboutActivity .dart';
 
 final ContactDb _db = ContactDb();
-final snackBar =
-    SnackBar(content: Text('All your contacts have been deleted!'));
+final snackBar = (text) => SnackBar(content: Text(text));
 
 SharedPreferences prefs;
 
@@ -35,6 +36,7 @@ class SettingsState extends State<Settings> {
   bool changeTheme;
   bool activateCamera;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final ContactDb db = ContactDb();
   // ThemeData _theme;
   // MyThemeKeys themekey;
   // bool isExpanded;
@@ -89,11 +91,6 @@ class SettingsState extends State<Settings> {
       _warningMessage('Are you sure you want to delete all your contacts');
     }
 
-    _importContacts() async {
-      Iterable<Contact> contacts = await ContactsService.getContacts();
-      return contacts;
-    }
-
     Future<PermissionStatus> _checkPermission() async {
       PermissionStatus permission = await PermissionHandler()
           .checkPermissionStatus(PermissionGroup.contacts);
@@ -109,6 +106,49 @@ class SettingsState extends State<Settings> {
         return await PermissionHandler()
             .requestPermissions([PermissionGroup.contacts]);
       }
+    }
+
+    _importContactsFromService() async {
+      Iterable<a.Contact> contacts = await a.ContactsService.getContacts();
+      contacts.map((value) {});
+
+      return contacts;
+    }
+
+    _importContacts() {
+      print('CONTACTS');
+      _requestPermission().then((value) {
+        _importContactsFromService().then((contacts) {
+          List contactList = contacts.toList();
+          contactList.forEach((contact) {
+            List phones = contact.phones.toList();
+            List emails = contact.emails.toList();
+            String email = emails.length > 0 ? emails[0].value : "";
+            String phone = phones.length > 0 ? phones[0].value : "";
+            String name = contact.displayName;
+
+            Contact newContact =
+                Contact(name: name, email: email, phone: phone);
+
+            db.insertContact(newContact);
+
+            print(email);
+            print(contact.displayName);
+            print(phone);
+            // print(phone);
+          });
+          // contactList.map((contact) {
+          //   if (contact == null) {
+          //     print('NULL');
+          //   } else {
+          //     print(contact.toString());
+          //   }
+          // });
+        }).then((onValue) {
+          _scaffoldKey.currentState.showSnackBar(snackBar(
+              'All your contacts from your phone have been imported!'));
+        });
+      });
     }
 
     AppSettings appState = AppSettings.of(context);
@@ -193,8 +233,9 @@ class SettingsState extends State<Settings> {
                                       bool isDataDeleted =
                                           await _db.deleteAllContacts();
                                       if (isDataDeleted) {
-                                        _scaffoldKey.currentState
-                                            .showSnackBar(snackBar);
+                                        _scaffoldKey.currentState.showSnackBar(
+                                            snackBar(
+                                                'All your contacts have been deleted!'));
                                       }
 
                                       Navigator.pop(context);
@@ -205,35 +246,14 @@ class SettingsState extends State<Settings> {
                     },
                     trailing: Icon(Icons.delete),
                   ),
-                  ExpandableThemeSettings()
-
-                  // ListTile(
-                  //   title: Text('import contacts'),
-                  //   onTap: () async {
-                  // if (_permissionStatus == null) {
-                  //   _permissionStatus = await _checkPermission();
-                  // } else {
-                  //   if (_permissionStatus == PermissionStatus.granted) {
-                  //     _importContacts();
-                  //   } else {
-                  //     _requestPermission();
-                  //   }
-                  // }
-                  // _requestPermission().then((value) {
-                  //   _importContacts().then((contacts) {
-                  //     // print(contacts);
-                  //     contacts.map((contact) {
-                  //       if (contact == null) {
-                  //         print('NULL');
-                  //       } else {
-                  //         print(contact.toString());
-                  //       }
-                  //     });
-                  //   });
-                  // });
-                  //   },
-                  //   trailing: Icon(Icons.delete),
-                  // ),
+                  ListTile(
+                    title: Text('import contacts'),
+                    onTap: () async {
+                      _importContacts();
+                    },
+                    trailing: Icon(Icons.import_contacts),
+                  ),
+                  ExpandableThemeSettings(),
                 ],
               ),
             ),
