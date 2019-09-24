@@ -8,7 +8,12 @@ import 'apikeys.dart';
 import 'appSettings.dart';
 import 'myThemes.dart';
 
-void main() {
+import 'package:shared_preferences/shared_preferences.dart';
+
+SharedPreferences prefs;
+void main() async {
+  prefs = await SharedPreferences.getInstance();
+
   Admob.initialize(getAppId());
   runApp(MyApp());
 }
@@ -28,18 +33,16 @@ class MyAppState extends State<MyApp> {
   bool darkModeActive;
   MyThemeKeys themekey;
   ThemeData theme;
-  // This widget is the root of your application.
+  int themekeyIndex;
 
   @override
   void initState() {
-    themekey = MyThemeKeys.BLUE;
+    themekeyIndex = (prefs.getInt('themeKey') ?? 0);
+    themekey = MyThemeKeys.values[themekeyIndex];
     brightness = Brightness.light;
     darkModeActive = false;
     cameraActive = true;
-    theme = ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: Colors.blue,
-        brightness: Brightness.light);
+    theme = MyThemes.getThemeFromKey(themekey);
     super.initState();
   }
 
@@ -51,8 +54,8 @@ class MyAppState extends State<MyApp> {
       } else if (camera != null) {
         this.cameraActive = camera;
       } else {
-        this.theme = theme;
         this.themekey = themeKey;
+        this.theme = MyThemes.getThemeFromKey(themekey);
       }
     });
   }
@@ -92,7 +95,6 @@ class _HomeState extends State<_Home> {
   void dispose() {
     super.dispose();
   }
-  // This widget is the root of your application.
 
   void onTabTapped(int index) {
     setState(() {
@@ -108,6 +110,7 @@ class _HomeState extends State<_Home> {
       //   brightness: AppSettings.of(context).brightness,
       //   primarySwatch: Colors.blue,
       // ),
+      debugShowCheckedModeBanner: false,
       theme: AppSettings.of(context).theme,
       home: Scaffold(
           body: widget._activities[_currentIndex],

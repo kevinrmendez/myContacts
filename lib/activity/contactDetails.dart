@@ -195,12 +195,13 @@ class ContactDetails extends StatelessWidget {
     Widget _buildVerticalLayout(BuildContext context, orientation) {
       AppSettings appState = AppSettings.of(context);
       return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Column(
             children: <Widget>[
               _buildContactName(context),
               Container(
+                padding: EdgeInsets.symmetric(vertical: 40),
                 child: ContactImage(
                   image: contact.image,
                   height: 250,

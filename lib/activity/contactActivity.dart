@@ -54,15 +54,17 @@ class ContactActivityState extends State<ContactActivity>
   Widget _buildVerticalLayout(Orientation orientation) {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          // Container(
+          //     margin: EdgeInsets.only(top: 10),
+          //     child: Text(
+          //       'Add contact',
+          //       style: TextStyle(fontSize: 30),
+          //     )),
           Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Text(
-                'Add contact',
-                style: TextStyle(fontSize: 30),
-              )),
-          _buildImage(height: 200),
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: _buildImage(height: 250)),
           // _streamBuilder(),
           // Container(height: 100, child: Image.asset('assets/person.png')),
           ContactForm(
@@ -85,17 +87,17 @@ class ContactActivityState extends State<ContactActivity>
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  Container(
-                      margin: EdgeInsets.only(top: 10, bottom: 10),
-                      child: Text(
-                        'Add contact',
-                        style: TextStyle(fontSize: 30),
-                      )),
-                  _buildImage(height: 100),
+                  // Container(
+                  //     margin: EdgeInsets.only(top: 10, bottom: 10),
+                  //     child: Text(
+                  //       'Add contact',
+                  //       style: TextStyle(fontSize: 30),
+                  //     )),
+                  _buildImage(height: 200),
                   // _streamBuilder(),
                   Container(
                     width: 200,

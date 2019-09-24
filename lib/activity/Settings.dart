@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/components/expandableThemeSettings.dart';
 import 'package:kevin_app/contact.dart';
-
+import 'package:kevin_app/main.dart';
 import 'package:kevin_app/myThemes.dart';
 import 'dart:async';
 import 'dart:io';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:prefs/prefs.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 
@@ -21,8 +19,6 @@ import 'aboutActivity .dart';
 final ContactDb _db = ContactDb();
 final snackBar = (text) => SnackBar(content: Text(text));
 
-SharedPreferences prefs;
-
 PermissionStatus _permissionStatus;
 
 class Settings extends StatefulWidget {
@@ -35,6 +31,7 @@ class Settings extends StatefulWidget {
 class SettingsState extends State<Settings> {
   bool changeTheme;
   bool activateCamera;
+  bool importedContacts;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final ContactDb db = ContactDb();
   // ThemeData _theme;
@@ -51,6 +48,7 @@ class SettingsState extends State<Settings> {
   void initState() {
     changeTheme = false;
     activateCamera = true;
+    importedContacts = (prefs.getBool('importedContacts') ?? false);
     // isExpanded = false;
     super.initState();
     // Prefs.init();
@@ -147,6 +145,10 @@ class SettingsState extends State<Settings> {
         }).then((onValue) {
           _scaffoldKey.currentState.showSnackBar(snackBar(
               'All your contacts from your phone have been imported!'));
+          setState(() {
+            importedContacts = true;
+            prefs.setBool('importedContacts', importedContacts);
+          });
         });
       });
     }
@@ -236,6 +238,11 @@ class SettingsState extends State<Settings> {
                                         _scaffoldKey.currentState.showSnackBar(
                                             snackBar(
                                                 'All your contacts have been deleted!'));
+                                        setState(() {
+                                          importedContacts = false;
+                                          prefs.setBool('importedContacts',
+                                              importedContacts);
+                                        });
                                       }
 
                                       Navigator.pop(context);
@@ -246,13 +253,15 @@ class SettingsState extends State<Settings> {
                     },
                     trailing: Icon(Icons.delete),
                   ),
-                  ListTile(
-                    title: Text('import contacts'),
-                    onTap: () async {
-                      _importContacts();
-                    },
-                    trailing: Icon(Icons.import_contacts),
-                  ),
+                  importedContacts == false
+                      ? ListTile(
+                          title: Text('import contacts'),
+                          onTap: () async {
+                            _importContacts();
+                          },
+                          trailing: Icon(Icons.import_contacts),
+                        )
+                      : const SizedBox(),
                   ExpandableThemeSettings(),
                 ],
               ),

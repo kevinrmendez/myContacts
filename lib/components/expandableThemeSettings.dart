@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prefs/prefs.dart';
+import 'package:kevin_app/main.dart';
 
 import '../appSettings.dart';
 import '../myThemes.dart';
@@ -13,11 +13,15 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
   // This widget is the root of your application.
   bool changeTheme;
   List<Item> items = [Item(headerValue: 'Theme')];
-  ThemeData _theme;
+  // ThemeData _theme;
+  int thmekeyIndex;
   MyThemeKeys themekey;
 
   @override
   void initState() {
+    print(prefs.getInt('themeKey'));
+    thmekeyIndex = (prefs.getInt('themeKey') ?? 0);
+    themekey = MyThemeKeys.values[thmekeyIndex];
     super.initState();
   }
 
@@ -28,29 +32,26 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
       setState(() {
         themekey = value;
       });
-      _theme = MyThemes.getThemeFromKey(themekey);
-      appState.callback(theme: _theme, themeKey: themekey);
-      print('hola');
+      appState.callback(themeKey: themekey);
 
-      print(appState.themeKey);
-      print(themekey.toString());
+      // print(appState.themeKey);
+      // print(themekey.toString());
       switch (value) {
         case MyThemeKeys.BLUE:
-          await Prefs.setInt('themekey', 0);
+          await prefs.setInt('themeKey', 0);
           break;
         case MyThemeKeys.RED:
-          await Prefs.setInt('themekey', 1);
+          await prefs.setInt('themeKey', 1);
           break;
         case MyThemeKeys.GREEN:
-          await Prefs.setInt('themekey', 2);
+          await prefs.setInt('themeKey', 2);
           break;
         case MyThemeKeys.RED:
-          await Prefs.setInt('themekey', 3);
+          await prefs.setInt('themeKey', 3);
           break;
         case MyThemeKeys.RED:
-          await Prefs.setInt('themekey', 4);
+          await prefs.setInt('themeKey', 4);
           break;
-
         default:
       }
     }

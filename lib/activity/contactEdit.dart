@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kevin_app/appSettings.dart';
 
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactDb.dart';
+
+import '../myThemes.dart';
 
 class ContactEdit extends StatefulWidget {
   final Contact contact;
@@ -225,7 +228,8 @@ class ContactEditState extends State<ContactEdit> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        _buildText(this.name, orientation),
+        // _buildText(this.name, orientation),
+        _buildBoldText(this.name, orientation),
         _buildText(this.phone, orientation),
         Padding(
           padding: EdgeInsets.only(bottom: 0),
@@ -248,6 +252,26 @@ class ContactEditState extends State<ContactEdit> {
         text,
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 30),
+      ),
+    );
+  }
+
+  Widget _buildBoldText(String text, Orientation orientation) {
+    AppSettings appState = AppSettings.of(context);
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 20),
+      width: orientation == Orientation.portrait
+          ? MediaQuery.of(context).size.width * 0.8
+          : MediaQuery.of(context).size.width * 0.5,
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+            color: appState.themeKey == MyThemeKeys.DARK
+                ? Colors.white
+                : Theme.of(context).primaryColor),
       ),
     );
   }

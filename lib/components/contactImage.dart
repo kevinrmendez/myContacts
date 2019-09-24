@@ -17,7 +17,7 @@ class ContactImage extends StatelessWidget {
     print('MYTHEMEKEYS ${appState.themeKey}');
     return image == "" || image == null
         ? Container(
-            height: 100,
+            height: 150,
             child: appState.themeKey == MyThemeKeys.DARK
                 ? Image.asset('assets/person-w.png')
                 : Image.asset('assets/person.png'))
