@@ -29,9 +29,9 @@ class Settings extends StatefulWidget {
 }
 
 class SettingsState extends State<Settings> {
-  bool changeTheme;
   bool activateCamera;
   bool importedContacts;
+  bool importedContactsProgress;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final ContactDb db = ContactDb();
   // ThemeData _theme;
@@ -46,9 +46,9 @@ class SettingsState extends State<Settings> {
 
   @override
   void initState() {
-    changeTheme = false;
     activateCamera = true;
     importedContacts = (prefs.getBool('importedContacts') ?? false);
+    importedContactsProgress = false;
     // isExpanded = false;
     super.initState();
     // Prefs.init();
@@ -95,7 +95,7 @@ class SettingsState extends State<Settings> {
       return permission;
     }
 
-    _requestPermission() async {
+    Future<Map<PermissionGroup, PermissionStatus>> _requestPermission() async {
       // await PermissionHandler()
       //     .shouldShowRequestPermissionRationale(PermissionGroup.contacts);
       // await PermissionHandler().openAppSettings();
@@ -115,8 +115,19 @@ class SettingsState extends State<Settings> {
 
     _importContacts() {
       print('CONTACTS');
-      _requestPermission().then((value) {
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(title: Text('importing contacts'));
+          });
+
+      _requestPermission().then((permission) {
         _importContactsFromService().then((contacts) {
+          setState(() {
+            importedContactsProgress = true;
+          });
+
           List contactList = contacts.toList();
           contactList.forEach((contact) {
             List phones = contact.phones.toList();
@@ -135,20 +146,18 @@ class SettingsState extends State<Settings> {
             print(phone);
             // print(phone);
           });
-          // contactList.map((contact) {
-          //   if (contact == null) {
-          //     print('NULL');
-          //   } else {
-          //     print(contact.toString());
-          //   }
-          // });
         }).then((onValue) {
-          _scaffoldKey.currentState.showSnackBar(snackBar(
-              'All your contacts from your phone have been imported!'));
           setState(() {
             importedContacts = true;
             prefs.setBool('importedContacts', importedContacts);
+            importedContactsProgress = false;
           });
+          _scaffoldKey.currentState.showSnackBar(snackBar(
+              'All your contacts from your phone have been imported!'));
+          Navigator.pop(context);
+        }).catchError((e) {
+          print('ERROR');
+          print(e);
         });
       });
     }
@@ -180,28 +189,6 @@ class SettingsState extends State<Settings> {
                       },
                     ),
                   ),
-                  // SwitchListTile(
-                  //   value: appState.darkMode,
-                  //   title: Text('dark mode'),
-                  //   onChanged: (value) {
-                  //     setState(() {
-                  //       changeTheme = value;
-                  //       if (value == false) {
-                  //         // widget.onChangeTheme(Brightness.light);
-
-                  //         AppSettings.of(context).callback(
-                  //             brightness: Brightness.light, darkMode: value);
-                  //       } else {
-                  //         AppSettings.of(context).callback(
-                  //             brightness: Brightness.dark, darkMode: value);
-
-                  //         // widget.onChangeTheme(Brightness.dark);
-                  //       }
-                  //     });
-
-                  //     print(value);
-                  //   },
-                  // ),
                   SwitchListTile(
                     value: appState.camera,
                     title: Text('camera'),

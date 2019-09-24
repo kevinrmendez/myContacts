@@ -30,7 +30,6 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   Brightness brightness;
   bool cameraActive;
-  bool darkModeActive;
   MyThemeKeys themekey;
   ThemeData theme;
   int themekeyIndex;
@@ -40,18 +39,14 @@ class MyAppState extends State<MyApp> {
     themekeyIndex = (prefs.getInt('themeKey') ?? 0);
     themekey = MyThemeKeys.values[themekeyIndex];
     brightness = Brightness.light;
-    darkModeActive = false;
     cameraActive = true;
     theme = MyThemes.getThemeFromKey(themekey);
     super.initState();
   }
 
-  callback({brightness, darkMode, camera, theme, themeKey}) {
+  callback({camera, theme, themeKey}) {
     setState(() {
-      if (brightness != null) {
-        this.brightness = brightness;
-        this.darkModeActive = darkMode;
-      } else if (camera != null) {
+      if (camera != null) {
         this.cameraActive = camera;
       } else {
         this.themekey = themeKey;
@@ -63,11 +58,9 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return AppSettings(
-        brightness: brightness,
         callback: callback,
         theme: theme,
         camera: cameraActive,
-        darkMode: darkModeActive,
         themeKey: themekey,
         child: _Home());
   }
@@ -106,10 +99,6 @@ class _HomeState extends State<_Home> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My Contacts',
-      // theme: ThemeData(
-      //   brightness: AppSettings.of(context).brightness,
-      //   primarySwatch: Colors.blue,
-      // ),
       debugShowCheckedModeBanner: false,
       theme: AppSettings.of(context).theme,
       home: Scaffold(
