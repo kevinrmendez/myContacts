@@ -98,7 +98,7 @@ class _HomeState extends State<_Home> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My Contacts',
+      title: 'MyContacts',
       debugShowCheckedModeBanner: false,
       theme: AppSettings.of(context).theme,
       home: Scaffold(

@@ -251,7 +251,7 @@ class ContactEditState extends State<ContactEdit> {
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 30),
+        style: TextStyle(fontSize: 22),
       ),
     );
   }

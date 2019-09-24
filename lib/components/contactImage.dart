@@ -21,10 +21,10 @@ class ContactImage extends StatelessWidget {
       children: <Widget>[
         SizedBox(
             height: orientation == Orientation.portrait
-                ? MediaQuery.of(context).size.width * 0.6
+                ? MediaQuery.of(context).size.width * 0.4
                 : 200,
             width: orientation == Orientation.portrait
-                ? MediaQuery.of(context).size.width * 0.6
+                ? MediaQuery.of(context).size.width * 0.4
                 : 200,
             child: Container(
                 // constraints: BoxConstraints(

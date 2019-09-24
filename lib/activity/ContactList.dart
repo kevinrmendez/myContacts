@@ -58,7 +58,7 @@ class _ContactListState extends State<ContactList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contact List'),
+        title: Text('MyContacts List'),
       ),
       body: Center(
         child: Column(
@@ -135,14 +135,19 @@ class _ContactListState extends State<ContactList> {
                                   'Your contact list is empty',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                       fontSize: 25,
                                       color: Theme.of(context).accentColor),
                                 ),
                               ),
                               Container(
+                                constraints: BoxConstraints(
+                                    maxWidth:
+                                        MediaQuery.of(context).size.width *
+                                            0.7),
                                 margin: EdgeInsets.only(top: 20),
                                 child: Text(
-                                  'go back to the main menu and add your contacts',
+                                  'go to the home screen  and add your contacts',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(fontSize: 17),
                                 ),

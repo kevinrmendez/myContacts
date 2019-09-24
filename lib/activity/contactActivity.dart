@@ -124,7 +124,7 @@ class ContactActivityState extends State<ContactActivity>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Contacts'),
+        title: Text('MyContacts'),
       ),
       body: OrientationBuilder(builder: (context, orientation) {
         var orientation = MediaQuery.of(context).orientation;

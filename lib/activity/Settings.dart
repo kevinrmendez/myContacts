@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/components/expandableThemeSettings.dart';
@@ -6,6 +8,7 @@ import 'package:kevin_app/main.dart';
 import 'package:kevin_app/myThemes.dart';
 import 'dart:async';
 import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 
@@ -14,6 +17,8 @@ import 'package:kevin_app/ContactDb.dart';
 
 import 'package:kevin_app/appSettings.dart';
 import 'package:csv/csv.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
+
 import 'aboutActivity .dart';
 
 final ContactDb _db = ContactDb();
@@ -89,20 +94,21 @@ class SettingsState extends State<Settings> {
       _warningMessage('Are you sure you want to delete all your contacts');
     }
 
-    Future<PermissionStatus> _checkPermission() async {
-      PermissionStatus permission = await PermissionHandler()
-          .checkPermissionStatus(PermissionGroup.contacts);
+    Future<PermissionStatus> _checkPermission(
+        PermissionGroup permissionGroup) async {
+      PermissionStatus permission =
+          await PermissionHandler().checkPermissionStatus(permissionGroup);
       return permission;
     }
 
-    Future<Map<PermissionGroup, PermissionStatus>> _requestPermission() async {
+    Future<Map<PermissionGroup, PermissionStatus>> _requestPermission(
+        PermissionGroup permissionGroup) async {
       // await PermissionHandler()
       //     .shouldShowRequestPermissionRationale(PermissionGroup.contacts);
       // await PermissionHandler().openAppSettings();
-      _permissionStatus = await _checkPermission();
+      _permissionStatus = await _checkPermission(permissionGroup);
       if (_permissionStatus != PermissionStatus.granted) {
-        return await PermissionHandler()
-            .requestPermissions([PermissionGroup.contacts]);
+        return await PermissionHandler().requestPermissions([permissionGroup]);
       }
     }
 
@@ -138,7 +144,7 @@ class SettingsState extends State<Settings> {
             );
           });
 
-      _requestPermission().then((permission) {
+      _requestPermission(PermissionGroup.contacts).then((permission) {
         _importContactsFromService().then((contacts) {
           setState(() {
             importedContactsProgress = true;
@@ -178,6 +184,49 @@ class SettingsState extends State<Settings> {
       });
     }
 
+    void _exportContacts() async {
+      List<dynamic> contacts = await db.contacts();
+      List<List<dynamic>> rows = List<List<dynamic>>();
+      for (int i = 0; i < contacts.length; i++) {
+        List<dynamic> row = List();
+        row.add(contacts[i].name);
+        row.add(contacts[i].phone);
+        row.add(contacts[i].email);
+        row.add(contacts[i].instagram);
+        rows.add(row);
+      }
+      // Map permission = await _requestPermission(PermissionGroup.storage);
+      PermissionStatus status = await _checkPermission(PermissionGroup.storage);
+      if (status == PermissionStatus.granted) {
+        print('CONTACTS EXPORTED');
+        Directory dir = await getExternalStorageDirectory();
+        // var dir = await getApplicationDocumentsDirectory();
+
+        String path = dir.absolute.path;
+        print(path);
+        // Directory contactsDir = await Directory(path).create();
+        // print(contactsDir);
+        File file = File('${path}/contacts.csv');
+        print(file);
+        String csv = const ListToCsvConverter().convert(rows);
+
+        file.writeAsString(csv);
+
+        final Email email = Email(
+          body:
+              'In this email you will find  MyContacts attached as a csv file. Thank you for using MyContacts!',
+          subject: 'MyContacts nformation',
+          // recipients: ['example@example.com'],
+          attachmentPath: '${file.path}',
+        );
+        await FlutterEmailSender.send(email);
+        _scaffoldKey.currentState
+            .showSnackBar(snackBar('Your contacts have been exported'));
+      } else {
+        _requestPermission(PermissionGroup.storage);
+      }
+    }
+
     AppSettings appState = AppSettings.of(context);
 
     return Scaffold(
@@ -207,7 +256,7 @@ class SettingsState extends State<Settings> {
                   ),
                   SwitchListTile(
                     value: appState.camera,
-                    title: Text('camera'),
+                    title: Text('Camera'),
                     onChanged: (value) {
                       setState(() {
                         activateCamera = value;
@@ -216,14 +265,14 @@ class SettingsState extends State<Settings> {
                     },
                   ),
                   ListTile(
-                    title: Text('delete contacts'),
+                    title: Text('Delete contacts'),
                     onTap: () {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text(
-                                  'Are you sure you want to delete all your contacts'),
+                                  'Are you sure you want to delete all your contacts?'),
                               actions: <Widget>[
                                 FlatButton(
                                     child: Text('close'),
@@ -258,13 +307,21 @@ class SettingsState extends State<Settings> {
                   ),
                   importedContacts == false
                       ? ListTile(
-                          title: Text('import contacts'),
+                          title: Text('Import contacts'),
                           onTap: () async {
                             _importContacts();
                           },
                           trailing: Icon(Icons.import_contacts),
                         )
                       : const SizedBox(),
+                  ListTile(
+                    title: Text('Export Contacts'),
+                    trailing: Icon(Icons.import_export),
+                    onTap: () {
+                      print('EXPORTING CONTACTS');
+                      _exportContacts();
+                    },
+                  ),
                   ExpandableThemeSettings(),
                 ],
               ),

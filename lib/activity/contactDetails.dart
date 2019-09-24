@@ -129,7 +129,7 @@ class ContactDetails extends StatelessWidget {
                               color: Theme.of(context).accentColor)),
                       Text(
                         contact.phone.toString(),
-                        style: TextStyle(fontSize: 30),
+                        style: TextStyle(fontSize: 20),
                       ),
                     ],
                   )
@@ -146,7 +146,7 @@ class ContactDetails extends StatelessWidget {
                               color: Theme.of(context).accentColor)),
                       Text(
                         contact.email,
-                        style: TextStyle(fontSize: 30),
+                        style: TextStyle(fontSize: 20),
                       ),
                     ],
                   ),
@@ -163,7 +163,7 @@ class ContactDetails extends StatelessWidget {
                               color: Theme.of(context).accentColor)),
                       Text(
                         contact.instagram,
-                        style: TextStyle(fontSize: 30),
+                        style: TextStyle(fontSize: 20),
                       ),
                     ],
                   ),
@@ -227,13 +227,13 @@ class ContactDetails extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    _buildContactName(context),
                     Container(
                       child: ContactImage(
-                        height: 180,
+                        height: 160,
                         image: contact.image,
                       ),
                     ),
-                    _buildContactName(context)
                   ],
                 ),
               ),
