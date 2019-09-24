@@ -41,7 +41,7 @@ class AboutActivity extends StatelessWidget {
           children: <Widget>[
             _title('About MyContacts'),
             _text(
-                'MyContacts is a free app that will help you to manage your contatcs. '),
+                'MyContacts is a free app that will help you to manage your contacts. '),
             _text(
                 'All the data that is store in the app is saved on the device memory'),
             _text(

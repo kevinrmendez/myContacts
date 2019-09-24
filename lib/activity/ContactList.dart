@@ -84,7 +84,8 @@ class _ContactListState extends State<ContactList> {
                                   backgroundImage:
                                       snapshot.data[index].image == "" ||
                                               snapshot.data[index].image == null
-                                          ? AssetImage('assets/person-w.png')
+                                          ? AssetImage(
+                                              'assets/person-icon-w-s3p.png')
                                           : FileImage(
                                               File(snapshot.data[index].image)),
                                 ),

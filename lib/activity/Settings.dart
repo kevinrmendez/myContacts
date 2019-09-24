@@ -13,7 +13,7 @@ import 'package:contacts_service/contacts_service.dart' as a;
 import 'package:kevin_app/ContactDb.dart';
 
 import 'package:kevin_app/appSettings.dart';
-
+import 'package:csv/csv.dart';
 import 'aboutActivity .dart';
 
 final ContactDb _db = ContactDb();
@@ -119,7 +119,23 @@ class SettingsState extends State<Settings> {
           barrierDismissible: false,
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(title: Text('importing contacts'));
+            return AlertDialog(
+              title: Text(
+                'importing contacts...',
+              ),
+              content: Container(
+                constraints: BoxConstraints(maxHeight: 30, maxWidth: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: CircularProgressIndicator()),
+                  ],
+                ),
+              ),
+            );
           });
 
       _requestPermission().then((permission) {

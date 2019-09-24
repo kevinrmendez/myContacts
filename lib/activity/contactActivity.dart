@@ -111,6 +111,7 @@ class ContactActivityState extends State<ContactActivity>
                 nameController: nameController,
                 phoneController: phoneController,
                 emailController: emailController,
+                instagramController: instagramController,
               ),
             ],
           ),

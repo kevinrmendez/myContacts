@@ -53,9 +53,9 @@ class ContactFormState extends State<ContactForm> {
   void initState() {
     super.initState();
 
-    // this.name = this.nameController.text;
-    // this.phone = this.phoneController.text;
-    // this.email = this.emailController.text;
+    // this.name = widget.nameController.text;
+    // this.phone = widget.phoneController.text;
+    // this.email = widget.emailController.text;
   }
 
   @override
@@ -188,9 +188,12 @@ class ContactFormState extends State<ContactForm> {
                           // print('SAVIIIING');
                           // print(widget.nameController);
                           if (_formKey.currentState.validate()) {
+                            String name = widget.nameController.text;
+                            String formattedName =
+                                '${name[0].toUpperCase()}${name.substring(1)}';
                             Contact contact = Contact(
                                 id: contactId,
-                                name: widget.nameController.text,
+                                name: formattedName,
                                 phone: widget.phoneController.text,
                                 email: widget.emailController.text,
                                 instagram: widget.instagramController.text,
