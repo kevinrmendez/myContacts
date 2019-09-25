@@ -9,6 +9,7 @@ import 'package:kevin_app/myThemes.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:pdf/widgets.dart' as p;
 
 import 'package:permission_handler/permission_handler.dart';
 
@@ -17,6 +18,7 @@ import 'package:kevin_app/ContactDb.dart';
 
 import 'package:kevin_app/appSettings.dart';
 import 'package:csv/csv.dart';
+import 'package:pdf/pdf.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 import 'aboutActivity .dart';
@@ -184,7 +186,7 @@ class SettingsState extends State<Settings> {
       });
     }
 
-    void _exportContacts() async {
+    void _createContactCsv() async {
       List<dynamic> contacts = await db.contacts();
       List<List<dynamic>> rows = List<List<dynamic>>();
       for (int i = 0; i < contacts.length; i++) {
@@ -195,35 +197,111 @@ class SettingsState extends State<Settings> {
         row.add(contacts[i].instagram);
         rows.add(row);
       }
+      print('CONTACTS EXPORTED');
+      Directory dir = await getExternalStorageDirectory();
+      // var dir = await getApplicationDocumentsDirectory();
+
+      String path = dir.absolute.path;
+      print(path);
+      // Directory contactsDir = await Directory(path).create();
+      // print(contactsDir);
+      File file = File('${path}/contacts.csv');
+      print(file);
+      String csv = const ListToCsvConverter().convert(rows);
+
+      file.writeAsString(csv);
+
+      final Email email = Email(
+        body:
+            'In this email you will find  MyContacts attached as a csv file. Thank you for using MyContacts!',
+        subject: 'MyContacts nformation',
+        // recipients: ['example@example.com'],
+        attachmentPath: '${file.path}',
+      );
+      await FlutterEmailSender.send(email);
+      _scaffoldKey.currentState
+          .showSnackBar(snackBar('Your contacts have been exported'));
+    }
+
+    void _exportContacts() async {
       // Map permission = await _requestPermission(PermissionGroup.storage);
       PermissionStatus status = await _checkPermission(PermissionGroup.storage);
       if (status == PermissionStatus.granted) {
-        print('CONTACTS EXPORTED');
-        Directory dir = await getExternalStorageDirectory();
-        // var dir = await getApplicationDocumentsDirectory();
-
-        String path = dir.absolute.path;
-        print(path);
-        // Directory contactsDir = await Directory(path).create();
-        // print(contactsDir);
-        File file = File('${path}/contacts.csv');
-        print(file);
-        String csv = const ListToCsvConverter().convert(rows);
-
-        file.writeAsString(csv);
-
-        final Email email = Email(
-          body:
-              'In this email you will find  MyContacts attached as a csv file. Thank you for using MyContacts!',
-          subject: 'MyContacts nformation',
-          // recipients: ['example@example.com'],
-          attachmentPath: '${file.path}',
-        );
-        await FlutterEmailSender.send(email);
-        _scaffoldKey.currentState
-            .showSnackBar(snackBar('Your contacts have been exported'));
+        _createContactCsv();
       } else {
-        _requestPermission(PermissionGroup.storage);
+        Map<PermissionGroup, PermissionStatus> permission =
+            await _requestPermission(PermissionGroup.storage);
+        print(permission["permissionStatus"]);
+        if (permission["permissionStatus"] == PermissionStatus.granted) {
+          _createContactCsv();
+        } else {
+          return null;
+        }
+      }
+    }
+
+    Future<List<dynamic>> _generateTable() async {
+      List<dynamic> contacts = await db.contacts();
+      List<p.Widget> rows = List();
+      // List<p.Widget> row = List();
+
+      p.Text _text(text) {
+        return p.Text('$text ||', style: p.TextStyle(fontSize: 12));
+      }
+
+      for (int i = 0; i < contacts.length; i++) {
+        var text = p.Row(
+          children: [
+            p.Text('${i + 1})', style: p.TextStyle(fontSize: 12)),
+            _text('${contacts[i].name}'),
+            _text('${contacts[i].phone}'),
+            _text('${contacts[i].email}'),
+          ],
+        );
+
+        rows.add(text);
+      }
+      return rows;
+    }
+
+    void _createPdf() async {
+      Directory dir = await getExternalStorageDirectory();
+      String path = dir.absolute.path;
+      File file = File('${path}/example.pdf');
+      final p.Document pdfDocument = p.Document();
+      var data = await _generateTable();
+
+      pdfDocument.addPage(p.MultiPage(header: (p.Context context) {
+        return p.Header(
+            level: 1,
+            child: p.Text('MyContacts', style: p.TextStyle(fontSize: 20)));
+      }, build: (p.Context context) {
+        return data;
+      }));
+      file.writeAsBytesSync(pdfDocument.save());
+
+      final Email email = Email(
+        body: 'MyContacts pdf!',
+        subject: 'MyContacts information in pdf',
+        // recipients: ['example@example.com'],
+        attachmentPath: '${file.path}',
+      );
+      await FlutterEmailSender.send(email);
+    }
+
+    void _exportContactsPdf() async {
+      PermissionStatus status = await _checkPermission(PermissionGroup.storage);
+      if (status == PermissionStatus.granted) {
+        _createPdf();
+      } else {
+        Map<PermissionGroup, PermissionStatus> permission =
+            await _requestPermission(PermissionGroup.storage);
+        print(permission["permissionStatus"]);
+        if (permission["permissionStatus"] == PermissionStatus.granted) {
+          _createPdf();
+        } else {
+          return null;
+        }
       }
     }
 
@@ -315,11 +393,19 @@ class SettingsState extends State<Settings> {
                         )
                       : const SizedBox(),
                   ListTile(
-                    title: Text('Export Contacts'),
+                    title: Text('Export Contacts as csv'),
                     trailing: Icon(Icons.import_export),
                     onTap: () {
                       print('EXPORTING CONTACTS');
                       _exportContacts();
+                    },
+                  ),
+                  ListTile(
+                    title: Text('Export Contacts as pdf'),
+                    trailing: Icon(Icons.import_export),
+                    onTap: () {
+                      print('EXPORTING CONTACTS');
+                      _exportContactsPdf();
                     },
                   ),
                   ExpandableThemeSettings(),
