@@ -155,7 +155,7 @@ class ContactFormState extends State<ContactForm> {
                               ? EdgeInsets.symmetric(vertical: 16)
                               : EdgeInsets.symmetric(vertical: 1),
                           child: RaisedButton(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).accentColor,
                             onPressed: () async {
                               final cameras = await availableCameras();
                               final firstCamera = cameras.first;
@@ -183,7 +183,7 @@ class ContactFormState extends State<ContactForm> {
                       // width: 20,
                       padding: EdgeInsets.symmetric(horizontal: 30),
                       child: RaisedButton(
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).accentColor,
                         onPressed: () async {
                           // print('SAVIIIING');
                           // print(widget.nameController);

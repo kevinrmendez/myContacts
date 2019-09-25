@@ -17,22 +17,26 @@ class ContactImage extends StatelessWidget {
     AppSettings appState = AppSettings.of(context);
     print('MYTHEMEKEYS ${appState.themeKey}');
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: orientation == Orientation.portrait
+          ? MainAxisAlignment.center
+          : MainAxisAlignment.start,
       children: <Widget>[
         SizedBox(
             height: orientation == Orientation.portrait
-                ? MediaQuery.of(context).size.width * 0.4
-                : 200,
+                ? MediaQuery.of(context).size.width * 0.3
+                : 120,
             width: orientation == Orientation.portrait
-                ? MediaQuery.of(context).size.width * 0.4
-                : 200,
+                ? MediaQuery.of(context).size.width * 0.3
+                : 120,
+            // height: MediaQuery.of(context).size.width * 0.4,
+            // width: MediaQuery.of(context).size.width * 0.4,
             child: Container(
                 // constraints: BoxConstraints(
                 //     maxWidth: 250,
                 //     maxHeight: 250,
                 //     minWidth: 200,
                 //     minHeight: 200),
-                height: height,
+                // height: height,
                 decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
                     shape: BoxShape.circle,

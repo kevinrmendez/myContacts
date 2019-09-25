@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum MyThemeKeys { BLUE, RED, GREEN, DARK, PINK }
+enum MyThemeKeys { BLUE, RED, GREEN, DARK, PINK, YELLOW, NAVY }
 
 class MyThemes {
   static final ThemeData blueTheme = ThemeData(
@@ -13,6 +13,17 @@ class MyThemes {
   static final ThemeData redTheme = ThemeData(
     primaryColor: Colors.red,
     accentColor: Colors.red[200],
+    brightness: Brightness.light,
+  );
+
+  static final ThemeData yellowTheme = ThemeData(
+    primaryColor: Colors.yellow,
+    accentColor: Colors.yellow[200],
+    brightness: Brightness.light,
+  );
+  static final ThemeData navyTheme = ThemeData(
+    primaryColor: Color.fromRGBO(0, 0, 139, 1),
+    accentColor: Color.fromRGBO(255, 228, 53, 1),
     brightness: Brightness.light,
   );
 
@@ -41,10 +52,14 @@ class MyThemes {
         return redTheme;
       case MyThemeKeys.GREEN:
         return greenTheme;
-      case MyThemeKeys.DARK:
-        return darkTheme;
+      case MyThemeKeys.YELLOW:
+        return yellowTheme;
       case MyThemeKeys.PINK:
         return pinkTheme;
+      case MyThemeKeys.NAVY:
+        return navyTheme;
+      case MyThemeKeys.DARK:
+        return darkTheme;
       default:
         return blueTheme;
     }

@@ -47,8 +47,12 @@ class ContactActivityState extends State<ContactActivity>
     print(appLifecycleState);
   }
 
-  Widget _buildImage({double height}) {
-    return ContactImage(image: _image, height: height);
+  Widget _buildImage({double height, Orientation orientation}) {
+    return ContactImage(
+      image: _image,
+      height: height,
+      orientation: orientation,
+    );
   }
 
   Widget _buildVerticalLayout(Orientation orientation) {
@@ -64,7 +68,7 @@ class ContactActivityState extends State<ContactActivity>
           //     )),
           Container(
               padding: EdgeInsets.symmetric(vertical: 20),
-              child: _buildImage(height: 250)),
+              child: _buildImage(height: 250, orientation: orientation)),
           // _streamBuilder(),
           // Container(height: 100, child: Image.asset('assets/person.png')),
           ContactForm(
@@ -84,12 +88,14 @@ class ContactActivityState extends State<ContactActivity>
   Widget _buildHorizontalLayout(Orientation orientation) {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   // Container(
                   //     margin: EdgeInsets.only(top: 10, bottom: 10),
@@ -97,11 +103,11 @@ class ContactActivityState extends State<ContactActivity>
                   //       'Add contact',
                   //       style: TextStyle(fontSize: 30),
                   //     )),
-                  _buildImage(height: 200),
+                  _buildImage(height: 200, orientation: orientation),
                   // _streamBuilder(),
-                  Container(
-                    width: 200,
-                  )
+                  // Container(
+                  //   width: 200,
+                  // )
                 ],
               ),
               ContactForm(

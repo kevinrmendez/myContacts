@@ -41,6 +41,7 @@ class SettingsState extends State<Settings> {
   bool importedContactsProgress;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final ContactDb db = ContactDb();
+
   // ThemeData _theme;
   // MyThemeKeys themekey;
   // bool isExpanded;
@@ -402,7 +403,7 @@ class SettingsState extends State<Settings> {
                   ),
                   ListTile(
                     title: Text('Export Contacts as pdf'),
-                    trailing: Icon(Icons.import_export),
+                    trailing: Icon(Icons.picture_as_pdf),
                     onTap: () {
                       print('EXPORTING CONTACTS');
                       _exportContactsPdf();
