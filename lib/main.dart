@@ -33,6 +33,7 @@ class MyAppState extends State<MyApp> {
   MyThemeKeys themekey;
   ThemeData theme;
   int themekeyIndex;
+  int contactsListLength;
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class MyAppState extends State<MyApp> {
     themekey = MyThemeKeys.values[themekeyIndex];
     brightness = Brightness.light;
     cameraActive = true;
+    contactsListLength = 0;
     theme = MyThemes.getThemeFromKey(themekey);
     super.initState();
   }

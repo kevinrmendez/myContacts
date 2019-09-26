@@ -37,6 +37,7 @@ class ContactList extends StatefulWidget {
 class _ContactListState extends State<ContactList> {
   final ContactDb db = ContactDb();
   Future<List<Contact>> contacts;
+  int contactListLength;
   _ContactListState() {
     _filter.addListener(() {
       if (_filter.text.isEmpty) {
@@ -63,14 +64,16 @@ class _ContactListState extends State<ContactList> {
     return await contacts;
   }
 
-  void _getContacts() async {
+  Future<List<Contact>> _getContacts() async {
     List<Contact> tempList = new List();
     tempList = await db.contacts();
 
     setState(() {
       names = tempList;
       filteredNames = names;
+      contactListLength = names.length;
     });
+    return tempList;
   }
 
   void _searchPressed() {
@@ -134,31 +137,98 @@ class _ContactListState extends State<ContactList> {
       }
       filteredNames = tempList;
     }
+    if (filteredNames.length > 0 || names.length > 0) {
+      return ListView.builder(
+          itemCount: names == null ? 0 : filteredNames.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Card(
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundImage:
+                      names[index].image == "" || names[index].image == null
+                          ? AssetImage('assets/person-icon-w-s3p.png')
+                          : FileImage(File(filteredNames[index].image)),
+                ),
+                // : Container()),
+                title: Text(
+                  '${filteredNames[index].name}',
+                  style: TextStyle(fontSize: 20),
+                ),
+                trailing: Icon(Icons.keyboard_arrow_right),
+                onTap: () {
+                  // Navigator.pushNamed(
+                  //     context, '/contactDetails',
+                  //     arguments: snapshot.data[index]);
+                  _showAd();
+
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    print('CONTACTS ${filteredNames[index]}');
+                    return ContactDetails(
+                        contact: filteredNames[index], callback: callback);
+                  }));
+                },
+              ),
+            );
+          });
+    } else {
+      return Center(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: 200,
+                      // margin: EdgeInsets.only(top: 40),
+                      child: Text(
+                        'Your contact list is empty',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                            color: Theme.of(context).accentColor),
+                      ),
+                    ),
+                    Container(
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.7),
+                      margin: EdgeInsets.only(top: 20),
+                      child: Text(
+                        'go to the home screen  and add your contacts',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
     return ListView.builder(
       itemCount: names == null ? 0 : filteredNames.length,
       itemBuilder: (BuildContext context, int index) {
-        // return  ListTile(
-        //   title: Text(filteredNames[index].name),
-        //   onTap: () => print(filteredNames[index].name),
-        // );
-        // print(filteredNames.length);
-        if (filteredNames.length > 0) {
+        if (filteredNames.length > 0 || names.length > 0) {
           return Card(
             child: ListTile(
               leading: CircleAvatar(
                 backgroundColor: Theme.of(context).primaryColor,
-                backgroundImage: filteredNames[index].image == "" ||
-                        filteredNames[index].image == null
-                    ? AssetImage('assets/person-icon-w-s3p.png')
-                    : FileImage(File(filteredNames[index].image)),
+                backgroundImage:
+                    names[index].image == "" || names[index].image == null
+                        ? AssetImage('assets/person-icon-w-s3p.png')
+                        : FileImage(File(filteredNames[index].image)),
               ),
               // : Container()),
               title: Text(
                 '${filteredNames[index].name}',
                 style: TextStyle(fontSize: 20),
               ),
-              // subtitle: Text(
-              //     'phone: ${snapshot.data[index].phone.toString()}'),
               trailing: Icon(Icons.keyboard_arrow_right),
               onTap: () {
                 // Navigator.pushNamed(
@@ -167,12 +237,6 @@ class _ContactListState extends State<ContactList> {
                 _showAd();
 
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  // Contact contact = new Contact(
-                  //   name: snapshot.data[index].name,
-                  //   phone: snapshot.data[index].phone,
-                  //   image: snapshot.data[index].image,
-                  // );
-                  // contact.id = snapshot.data[index].id;
                   print('CONTACTS ${filteredNames[index]}');
                   return ContactDetails(
                       contact: filteredNames[index], callback: callback);
@@ -217,9 +281,12 @@ class _ContactListState extends State<ContactList> {
     );
   }
 
-  callback(value) {
+  callback({contacts, contactListLength, names, filteredNames}) {
     setState(() {
-      contacts = value;
+      this.contacts = contacts;
+      this.names = names;
+      this.filteredNames = filteredNames;
+      // this.contactListLength = contactListLength;
     });
   }
 

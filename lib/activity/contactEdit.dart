@@ -80,11 +80,18 @@ class ContactEditState extends State<ContactEdit> {
   }
 
   Future<void> _deleteContact(Contact contact) async {
+    List<Contact> contactList;
+    AppSettings appState = AppSettings.of(context);
     await db.deleteContact(contact.id);
     // List<Contact> contacts = await db.contacts();
     // print('Contacts AFTER DELETE $contacts');
     contacts = db.contacts();
-    widget.callback(contacts);
+    contactList = await contacts;
+
+    int contactsLength = contactList.length;
+
+    widget.callback(
+        contacts: contacts, names: contactList, filteredNames: contactList);
     _showMessage('contact deleted');
   }
 
