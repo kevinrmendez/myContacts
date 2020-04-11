@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:kevin_app/activity/Settings.dart';
 
 import 'activity/ContactList.dart';
@@ -19,7 +21,7 @@ void main() async {
 }
 
 String getAppId() {
-  return apikeys["ca-app-pub-7306861253247220~8235596983"];
+  return apikeys["appId"];
 }
 
 class MyApp extends StatefulWidget {
@@ -33,7 +35,6 @@ class MyAppState extends State<MyApp> {
   MyThemeKeys themekey;
   ThemeData theme;
   int themekeyIndex;
-  int contactsListLength;
 
   @override
   void initState() {
@@ -41,7 +42,6 @@ class MyAppState extends State<MyApp> {
     themekey = MyThemeKeys.values[themekeyIndex];
     brightness = Brightness.light;
     cameraActive = true;
-    contactsListLength = 0;
     theme = MyThemes.getThemeFromKey(themekey);
     super.initState();
   }
@@ -97,25 +97,66 @@ class _HomeState extends State<_Home> {
     });
   }
 
+  Future<bool> _onWillPop() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text(
+              'Do you want to close the app?',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: new Text(
+                'Please share us your feedback before leaving the app, we would love hearing from you'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Yes'),
+              ),
+              FlatButton(
+                onPressed: () async {
+                  // Navigator.of(context).pop(false);
+                  String url =
+                      "https://play.google.com/store/apps/details?id=com.kevinrmendez.contact_app";
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                },
+                child: new Text('review app'),
+              ),
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MyContacts',
       debugShowCheckedModeBanner: false,
       theme: AppSettings.of(context).theme,
-      home: Scaffold(
-          body: widget._activities[_currentIndex],
-          bottomNavigationBar: BottomNavigationBar(
-              currentIndex: _currentIndex,
-              onTap: onTabTapped,
-              items: [
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.home), title: Text('home')),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.contacts), title: Text('contactList')),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.settings), title: Text('settings')),
-              ])),
+      home: WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+            body: widget._activities[_currentIndex],
+            bottomNavigationBar: BottomNavigationBar(
+                currentIndex: _currentIndex,
+                onTap: onTabTapped,
+                items: [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.home), title: Text('home')),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.contacts), title: Text('contactList')),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.settings), title: Text('settings')),
+                ])),
+      ),
     );
   }
 }

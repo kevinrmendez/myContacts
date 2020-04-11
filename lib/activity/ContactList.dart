@@ -37,6 +37,7 @@ class ContactList extends StatefulWidget {
 class _ContactListState extends State<ContactList> {
   final ContactDb db = ContactDb();
   Future<List<Contact>> contacts;
+
   int contactListLength;
   _ContactListState() {
     _filter.addListener(() {
@@ -54,6 +55,7 @@ class _ContactListState extends State<ContactList> {
   }
   final TextEditingController _filter = new TextEditingController();
   String _searchText = "";
+
   List<Contact> names = new List(); // names we get from API
   List<Contact> filteredNames = new List();
   // names filtered by search text
@@ -281,7 +283,7 @@ class _ContactListState extends State<ContactList> {
     );
   }
 
-  callback({contacts, contactListLength, names, filteredNames}) {
+  callback({contacts, names, filteredNames}) {
     setState(() {
       this.contacts = contacts;
       this.names = names;

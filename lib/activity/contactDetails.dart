@@ -78,6 +78,7 @@ class ContactDetails extends StatelessWidget {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Wrap(
+          alignment: WrapAlignment.center,
           // mainAxisAlignment: MainAxisAlignment.center,
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -177,13 +178,13 @@ class ContactDetails extends StatelessWidget {
     Widget _buildContactName(context) {
       AppSettings appState = AppSettings.of(context);
       return Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         // width: MediaQuery.of(context).size.width * 0.8,
         child: Text(
           contact.name,
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontSize: 40,
+              fontSize: 35,
               fontWeight: FontWeight.bold,
               color: appState.themeKey == MyThemeKeys.DARK
                   ? Colors.white
@@ -193,24 +194,27 @@ class ContactDetails extends StatelessWidget {
     }
 
     Widget _buildVerticalLayout(BuildContext context, orientation) {
-      AppSettings appState = AppSettings.of(context);
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              _buildContactName(context),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 40),
-                child: ContactImage(
-                  image: contact.image,
-                  height: 250,
+      // AppSettings appState = AppSettings.of(context);
+      return Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _buildContactName(context),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 40),
+                  child: ContactImage(
+                    image: contact.image,
+                    height: 250,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          _buildDetailstext(mainAlignment: MainAxisAlignment.start),
-        ],
+              ],
+            ),
+            _buildDetailstext(mainAlignment: MainAxisAlignment.start),
+          ],
+        ),
       );
     }
 

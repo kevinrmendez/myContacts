@@ -75,8 +75,8 @@ class ContactEditState extends State<ContactEdit> {
     print(contact);
     await db.updateContact(contact);
     contacts = db.contacts();
-    widget.callback(contacts);
     _showMessage('contact information changed');
+    widget.callback(contacts);
   }
 
   Future<void> _deleteContact(Contact contact) async {

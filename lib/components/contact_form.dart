@@ -181,7 +181,11 @@ class ContactFormState extends State<ContactForm> {
                   Expanded(
                     child: Container(
                       // width: 20,
-                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      padding: widget.orientation == Orientation.portrait
+                          ? EdgeInsets.symmetric(horizontal: 30, vertical: 16)
+                          : EdgeInsets.symmetric(
+                              horizontal: 30,
+                            ),
                       child: RaisedButton(
                         color: Theme.of(context).accentColor,
                         onPressed: () async {

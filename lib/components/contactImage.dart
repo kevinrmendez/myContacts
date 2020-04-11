@@ -23,10 +23,10 @@ class ContactImage extends StatelessWidget {
       children: <Widget>[
         SizedBox(
             height: orientation == Orientation.portrait
-                ? MediaQuery.of(context).size.width * 0.3
+                ? MediaQuery.of(context).size.width * 0.4
                 : 120,
             width: orientation == Orientation.portrait
-                ? MediaQuery.of(context).size.width * 0.3
+                ? MediaQuery.of(context).size.width * 0.4
                 : 120,
             // height: MediaQuery.of(context).size.width * 0.4,
             // width: MediaQuery.of(context).size.width * 0.4,
@@ -36,7 +36,7 @@ class ContactImage extends StatelessWidget {
                 //     maxHeight: 250,
                 //     minWidth: 200,
                 //     minHeight: 200),
-                // height: height,
+                height: height,
                 decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
                     shape: BoxShape.circle,
