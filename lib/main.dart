@@ -35,7 +35,6 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   Brightness brightness;
-  bool cameraActive;
   MyThemeKeys themekey;
   ThemeData theme;
   int themekeyIndex;
@@ -45,30 +44,21 @@ class MyAppState extends State<MyApp> {
     themekeyIndex = (prefs.getInt('themeKey') ?? 0);
     themekey = MyThemeKeys.values[themekeyIndex];
     brightness = Brightness.light;
-    cameraActive = true;
     theme = MyThemes.getThemeFromKey(themekey);
     super.initState();
   }
 
-  callback({camera, theme, themeKey}) {
+  callback({theme, themeKey}) {
     setState(() {
-      if (camera != null) {
-        this.cameraActive = camera;
-      } else {
-        this.themekey = themeKey;
-        this.theme = MyThemes.getThemeFromKey(themekey);
-      }
+      this.themekey = themeKey;
+      this.theme = MyThemes.getThemeFromKey(themekey);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return AppSettings(
-        callback: callback,
-        theme: theme,
-        camera: cameraActive,
-        themeKey: themekey,
-        child: _Home());
+        callback: callback, theme: theme, themeKey: themekey, child: _Home());
   }
 }
 

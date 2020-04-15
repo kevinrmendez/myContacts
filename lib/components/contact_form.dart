@@ -149,86 +149,76 @@ class ContactFormState extends State<ContactForm> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    appState.camera == true
-                        ? Padding(
-                            padding: EdgeInsets.symmetric(vertical: 0),
-                            child: RaisedButton(
-                              color: Theme.of(context).accentColor,
-                              onPressed: () async {
-                                final cameras = await availableCameras();
-                                final firstCamera = cameras.first;
-                                var permissionStatus = await widget
-                                    ._permissionHandler
-                                    .checkPermissionStatus(
-                                        PermissionGroup.camera);
-
-                                switch (permissionStatus) {
-                                  case PermissionStatus.granted:
-                                    {
-                                      image = await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CameraActivity(
-                                                  camera: firstCamera,
-                                                )),
-                                      );
-                                      widget.callback(image);
-                                      Scaffold.of(context).showSnackBar(
-                                          SnackBar(
-                                              content: Text(
-                                                  'Picture has been taken')));
-                                      print(image.toString());
-                                    }
-                                    break;
-                                  case PermissionStatus.denied:
-                                    {
-                                      // AppSettings.of(context)
-                                      //     .callback(camera: false);
-                                      await widget._requestCameraPermission();
-                                    }
-                                    break;
-                                  default:
-                                }
-                              },
-                              child: Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
-                              ),
-                            ))
-                        : Container(),
-                    SizedBox(
-                      width: appState.camera == true ? 30 : 0,
-                    ),
-                    Expanded(
-                      child: Container(
-                        // width: 20,
-                        // padding:
-                        //     EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                    Padding(
+                        padding: EdgeInsets.symmetric(vertical: 0),
                         child: RaisedButton(
                           color: Theme.of(context).accentColor,
                           onPressed: () async {
-                            // print('SAVIIIING');
-                            // print(widget.nameController);
-                            if (_formKey.currentState.validate()) {
-                              String name = widget.nameController.text;
-                              String formattedName =
-                                  '${name[0].toUpperCase()}${name.substring(1)}';
-                              Contact contact = Contact(
-                                  id: contactId,
-                                  name: formattedName,
-                                  phone: widget.phoneController.text,
-                                  email: widget.emailController.text,
-                                  image: widget.image);
-                              _saveContact(contact);
-                              widget.callback("");
+                            var permissionStatus = await widget
+                                ._permissionHandler
+                                .checkPermissionStatus(PermissionGroup.camera);
+                            final cameras = await availableCameras();
+                            final firstCamera = cameras.first;
+
+                            switch (permissionStatus) {
+                              case PermissionStatus.granted:
+                                {
+                                  image = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CameraActivity(
+                                              camera: firstCamera,
+                                            )),
+                                  );
+                                  widget.callback(image);
+                                  Scaffold.of(context).showSnackBar(SnackBar(
+                                      content: Text('Picture has been taken')));
+                                  print(image.toString());
+                                }
+                                break;
+                              case PermissionStatus.denied:
+                                {
+                                  await widget._requestCameraPermission();
+                                }
+                                break;
+                              default:
                             }
-                            // print(await db.contacts());
                           },
-                          child: Text(
-                            'save',
-                            style: TextStyle(color: Colors.white),
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
                           ),
+                        )),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Container(
+                      // width: 20,
+                      // padding:
+                      //     EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                      child: RaisedButton(
+                        color: Theme.of(context).accentColor,
+                        onPressed: () async {
+                          // print('SAVIIIING');
+                          // print(widget.nameController);
+                          if (_formKey.currentState.validate()) {
+                            String name = widget.nameController.text;
+                            String formattedName =
+                                '${name[0].toUpperCase()}${name.substring(1)}';
+                            Contact contact = Contact(
+                                id: contactId,
+                                name: formattedName,
+                                phone: widget.phoneController.text,
+                                email: widget.emailController.text,
+                                image: widget.image);
+                            _saveContact(contact);
+                            widget.callback("");
+                          }
+                          // print(await db.contacts());
+                        },
+                        child: Text(
+                          'save',
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),

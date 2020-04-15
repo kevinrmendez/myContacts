@@ -31,7 +31,6 @@ class Settings extends StatefulWidget {
 }
 
 class SettingsState extends State<Settings> {
-  bool activateCamera;
   bool importedContacts;
   bool importedContactsProgress;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -49,7 +48,6 @@ class SettingsState extends State<Settings> {
 
   @override
   void initState() {
-    activateCamera = true;
     importedContacts = (prefs.getBool('importedContacts') ?? false);
     importedContactsProgress = false;
     // isExpanded = false;
@@ -209,16 +207,6 @@ class SettingsState extends State<Settings> {
                         );
                       },
                     ),
-                  ),
-                  SwitchListTile(
-                    value: appState.camera,
-                    title: Text('Camera'),
-                    onChanged: (value) {
-                      setState(() {
-                        activateCamera = value;
-                        AppSettings.of(context).callback(camera: value);
-                      });
-                    },
                   ),
                   ListTile(
                     title: Text('Delete contacts'),
