@@ -63,7 +63,7 @@ class ContactActivityState extends State<ContactActivity>
           children: <Widget>[
             AdmobUtils.admobBanner(),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
+              padding: EdgeInsets.symmetric(vertical: 30),
               child: ContactImage(
                 image: _image,
               ),
