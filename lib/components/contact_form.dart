@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:kevin_app/activity/cameraActivity.dart';
 import 'package:kevin_app/contact.dart';
@@ -9,6 +10,7 @@ import 'package:kevin_app/ContactDb.dart';
 import '../appSettings.dart';
 
 class ContactForm extends StatefulWidget {
+  final PermissionHandler _permissionHandler = PermissionHandler();
   String image;
   Function(String) callback;
   final nameController;
@@ -21,6 +23,17 @@ class ContactForm extends StatefulWidget {
       this.nameController,
       this.emailController,
       this.phoneController});
+
+  Future<bool> _requestCameraPermission() async {
+    var result =
+        await _permissionHandler.requestPermissions([PermissionGroup.camera]);
+
+    if (result[PermissionGroup.contacts] == PermissionStatus.granted) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   ContactFormState createState() {
@@ -144,18 +157,39 @@ class ContactFormState extends State<ContactForm> {
                               onPressed: () async {
                                 final cameras = await availableCameras();
                                 final firstCamera = cameras.first;
-                                image = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CameraActivity(
-                                            camera: firstCamera,
-                                          )),
-                                );
-                                widget.callback(image);
+                                var permissionStatus = await widget
+                                    ._permissionHandler
+                                    .checkPermissionStatus(
+                                        PermissionGroup.camera);
 
-                                Scaffold.of(context).showSnackBar(SnackBar(
-                                    content: Text('Picture has been taken')));
-                                print(image.toString());
+                                switch (permissionStatus) {
+                                  case PermissionStatus.granted:
+                                    {
+                                      image = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CameraActivity(
+                                                  camera: firstCamera,
+                                                )),
+                                      );
+                                      widget.callback(image);
+                                      Scaffold.of(context).showSnackBar(
+                                          SnackBar(
+                                              content: Text(
+                                                  'Picture has been taken')));
+                                      print(image.toString());
+                                    }
+                                    break;
+                                  case PermissionStatus.denied:
+                                    {
+                                      // AppSettings.of(context)
+                                      //     .callback(camera: false);
+                                      await widget._requestCameraPermission();
+                                    }
+                                    break;
+                                  default:
+                                }
                               },
                               child: Icon(
                                 Icons.camera_alt,
