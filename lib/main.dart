@@ -75,6 +75,7 @@ class _Home extends StatefulWidget {
   final List<Widget> _activities = [
     ContactActivity(),
     ContactList(),
+    ContactList(),
     Settings()
   ];
 
@@ -152,13 +153,32 @@ class _HomeState extends State<_Home> {
         child: Scaffold(
             body: widget._activities[_currentIndex],
             bottomNavigationBar: BottomNavigationBar(
+                type: BottomNavigationBarType.shifting,
+                selectedItemColor: Theme.of(context).primaryColor,
+                unselectedItemColor: Colors.grey,
+                selectedLabelStyle: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+                unselectedLabelStyle: TextStyle(
+                  color: Colors.grey,
+                ),
+                showUnselectedLabels: true,
                 currentIndex: _currentIndex,
                 onTap: onTabTapped,
                 items: [
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.home), title: Text('home')),
+                      icon: Icon(
+                        Icons.home,
+                        // color: Theme.of(context).primaryColor,
+                      ),
+                      title: Text(
+                        'home',
+                        // style: TextStyle(color: Colors.grey),
+                      )),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.contacts), title: Text('contactList')),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.favorite), title: Text('favorite')),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.settings), title: Text('settings')),
                 ])),
