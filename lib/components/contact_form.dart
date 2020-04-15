@@ -142,7 +142,7 @@ class ContactFormState extends State<ContactForm> {
                 controller: widget.instagramController,
               ),
               Container(
-                padding: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -175,7 +175,7 @@ class ContactFormState extends State<ContactForm> {
                             ))
                         : Container(),
                     SizedBox(
-                      width: 50,
+                      width: appState.camera == true ? 30 : 0,
                     ),
                     Expanded(
                       child: Container(

@@ -4,6 +4,7 @@ import 'package:kevin_app/components/contactImage.dart';
 
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactDb.dart';
+import 'package:kevin_app/utils/admobUtils.dart';
 
 import '../myThemes.dart';
 
@@ -295,14 +296,17 @@ class ContactEditState extends State<ContactEdit> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              _buildPreviewText(),
+              AdmobUtils.admobBanner(),
+              // _buildPreviewText(),
               Container(
-                // padding: EdgeInsets.symmetric(vertical: 40),
-                child: ContactImage(
-                  image: contact.image,
-                  height: 70,
+                padding: EdgeInsets.only(top: 30),
+                child: Container(
+                  // padding: EdgeInsets.symmetric(vertical: 40),
+                  child: ContactImage(
+                    image: contact.image,
+                  ),
                 ),
               ),
               _buildForm(),

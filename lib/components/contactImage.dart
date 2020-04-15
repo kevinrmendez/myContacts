@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import '../appSettings.dart';
 
 class ContactImage extends StatelessWidget {
-  final double height;
   final String image;
   final BuildContext context;
-  const ContactImage({this.height, this.context, this.image});
+  const ContactImage({this.context, this.image});
 
   @override
   Widget build(context) {
@@ -21,7 +20,6 @@ class ContactImage extends StatelessWidget {
             height: MediaQuery.of(context).size.width * 0.4,
             width: MediaQuery.of(context).size.width * 0.4,
             child: Container(
-                height: height,
                 decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
                     shape: BoxShape.circle,

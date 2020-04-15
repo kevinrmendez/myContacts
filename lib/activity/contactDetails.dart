@@ -200,41 +200,30 @@ class ContactDetails extends StatelessWidget {
         title: Text('Contact Details'),
       ),
       body: Center(
-          child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            AdmobUtils.admobBanner(),
-            Container(
-              height: MediaQuery.of(context).size.height * .7,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  _buildContactName(context),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 40),
-                    child: ContactImage(
-                      image: contact.image,
-                      height: 250,
-                    ),
-                  ),
-                  Padding(
-                    child: _buildDetailstext(
-                        mainAlignment: MainAxisAlignment.start),
-                    padding: EdgeInsets.only(bottom: 50),
-                  )
-                ],
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+              padding: EdgeInsets.only(bottom: 40),
+              child: AdmobUtils.admobBanner()),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              _buildContactName(context),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 40),
+                child: ContactImage(
+                  image: contact.image,
+                ),
               ),
-            ),
-            // Positioned(
-            //     bottom: 50,
-            //     child: Padding(
-            //       child:
-            //           _buildDetailstext(mainAlignment: MainAxisAlignment.start),
-            //       padding: EdgeInsets.only(bottom: 50),
-            //     )),
-          ],
-        ),
+              Padding(
+                child:
+                    _buildDetailstext(mainAlignment: MainAxisAlignment.start),
+                padding: EdgeInsets.only(bottom: 50),
+              )
+            ],
+          ),
+        ],
       )),
       floatingActionButton: FloatingActionButton(
         child: Icon(
