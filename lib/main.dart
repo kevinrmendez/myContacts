@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -139,6 +140,9 @@ class _HomeState extends State<_Home> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return MaterialApp(
       title: 'MyContacts',
       debugShowCheckedModeBanner: false,

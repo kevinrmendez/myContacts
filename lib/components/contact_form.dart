@@ -15,14 +15,12 @@ class ContactForm extends StatefulWidget {
   final phoneController;
   final emailController;
   final instagramController;
-  final orientation;
 
   ContactForm(
       {this.image,
       this.callback,
       this.nameController,
       this.emailController,
-      this.orientation,
       this.instagramController,
       this.phoneController});
 
@@ -145,15 +143,11 @@ class ContactFormState extends State<ContactForm> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: widget.orientation == Orientation.portrait
-                    ? CrossAxisAlignment.center
-                    : CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   appState.camera == true
                       ? Padding(
-                          padding: widget.orientation == Orientation.portrait
-                              ? EdgeInsets.symmetric(vertical: 16)
-                              : EdgeInsets.symmetric(vertical: 1),
+                          padding: EdgeInsets.symmetric(vertical: 16),
                           child: RaisedButton(
                             color: Theme.of(context).accentColor,
                             onPressed: () async {
@@ -181,11 +175,8 @@ class ContactFormState extends State<ContactForm> {
                   Expanded(
                     child: Container(
                       // width: 20,
-                      padding: widget.orientation == Orientation.portrait
-                          ? EdgeInsets.symmetric(horizontal: 30, vertical: 16)
-                          : EdgeInsets.symmetric(
-                              horizontal: 30,
-                            ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 16),
                       child: RaisedButton(
                         color: Theme.of(context).accentColor,
                         onPressed: () async {

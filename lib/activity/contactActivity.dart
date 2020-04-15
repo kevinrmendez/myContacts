@@ -48,85 +48,81 @@ class ContactActivityState extends State<ContactActivity>
     print(appLifecycleState);
   }
 
-  Widget _buildImage({double height, Orientation orientation}) {
-    return ContactImage(
-      image: _image,
-      height: height,
-      orientation: orientation,
-    );
-  }
+  // Widget _buildVerticalLayout(Orientation orientation) {
+  //   return Center(
+  //     child: Column(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: <Widget>[
+  //         // Container(
+  //         //     margin: EdgeInsets.only(top: 10),
+  //         //     child: Text(
+  //         //       'Add contact',
+  //         //       style: TextStyle(fontSize: 30),
+  //         //     )),
+  //         Container(
+  //             padding: EdgeInsets.symmetric(vertical: 20),
+  //             child: ContactImage(
+  //               image: _image,
+  //               height: 250,
+  //             )),
+  //         // _streamBuilder(),
+  //         // Container(height: 100, child: Image.asset('assets/person.png')),
+  //         ContactForm(
+  //           image: _image,
+  //           callback: callback,
+  //           nameController: nameController,
+  //           phoneController: phoneController,
+  //           emailController: emailController,
+  //           instagramController: instagramController,
+  //         ),
+  //         AdmobUtils.admobBanner()
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  Widget _buildVerticalLayout(Orientation orientation) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          // Container(
-          //     margin: EdgeInsets.only(top: 10),
-          //     child: Text(
-          //       'Add contact',
-          //       style: TextStyle(fontSize: 30),
-          //     )),
-          Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: _buildImage(height: 250, orientation: orientation)),
-          // _streamBuilder(),
-          // Container(height: 100, child: Image.asset('assets/person.png')),
-          ContactForm(
-            image: _image,
-            callback: callback,
-            orientation: orientation,
-            nameController: nameController,
-            phoneController: phoneController,
-            emailController: emailController,
-            instagramController: instagramController,
-          ),
-          AdmobUtils.admobBanner()
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHorizontalLayout(Orientation orientation) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  // Container(
-                  //     margin: EdgeInsets.only(top: 10, bottom: 10),
-                  //     child: Text(
-                  //       'Add contact',
-                  //       style: TextStyle(fontSize: 30),
-                  //     )),
-                  _buildImage(height: 200, orientation: orientation),
-                  // _streamBuilder(),
-                  // Container(
-                  //   width: 200,
-                  // )
-                ],
-              ),
-              ContactForm(
-                image: _image,
-                orientation: orientation,
-                callback: callback,
-                nameController: nameController,
-                phoneController: phoneController,
-                emailController: emailController,
-                instagramController: instagramController,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildHorizontalLayout(Orientation orientation) {
+  //   return Center(
+  //     child: Column(
+  //       mainAxisAlignment: MainAxisAlignment.start,
+  //       children: <Widget>[
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //           crossAxisAlignment: CrossAxisAlignment.center,
+  //           children: <Widget>[
+  //             Column(
+  //               mainAxisAlignment: MainAxisAlignment.start,
+  //               children: <Widget>[
+  //                 // Container(
+  //                 //     margin: EdgeInsets.only(top: 10, bottom: 10),
+  //                 //     child: Text(
+  //                 //       'Add contact',
+  //                 //       style: TextStyle(fontSize: 30),
+  //                 //     )),
+  //                 ContactImage(
+  //                   image: _image,
+  //                   height: 200,
+  //                 ),
+  //                 // _streamBuilder(),
+  //                 // Container(
+  //                 //   width: 200,
+  //                 // )
+  //               ],
+  //             ),
+  //             ContactForm(
+  //               image: _image,
+  //               callback: callback,
+  //               nameController: nameController,
+  //               phoneController: phoneController,
+  //               emailController: emailController,
+  //               instagramController: instagramController,
+  //             ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -134,12 +130,37 @@ class ContactActivityState extends State<ContactActivity>
       appBar: AppBar(
         title: Text('MyContacts'),
       ),
-      body: OrientationBuilder(builder: (context, orientation) {
-        var orientation = MediaQuery.of(context).orientation;
-        return orientation == Orientation.portrait
-            ? _buildVerticalLayout(orientation)
-            : _buildHorizontalLayout(orientation);
-      }),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            // Container(
+            //     margin: EdgeInsets.only(top: 10),
+            //     child: Text(
+            //       'Add contact',
+            //       style: TextStyle(fontSize: 30),
+            //     )),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: ContactImage(
+                image: _image,
+                height: 250,
+              ),
+            ),
+            // _streamBuilder(),
+            // Container(height: 100, child: Image.asset('assets/person.png')),
+            ContactForm(
+              image: _image,
+              callback: callback,
+              nameController: nameController,
+              phoneController: phoneController,
+              emailController: emailController,
+              instagramController: instagramController,
+            ),
+            AdmobUtils.admobBanner()
+          ],
+        ),
+      ),
     );
   }
 }

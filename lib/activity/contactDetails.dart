@@ -194,9 +194,13 @@ class ContactDetails extends StatelessWidget {
       );
     }
 
-    Widget _buildVerticalLayout(BuildContext context, orientation) {
-      // AppSettings appState = AppSettings.of(context);
-      return Container(
+    // final Contact contact = ModalRoute.of(context).settings.arguments;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Contact Details'),
+      ),
+      body: Center(
+          child: Container(
         child: Stack(
           children: <Widget>[
             Positioned(child: AdmobUtils.admobBanner()),
@@ -230,57 +234,7 @@ class ContactDetails extends StatelessWidget {
             //     )),
           ],
         ),
-      );
-    }
-
-    Widget _buildHorizontalLayout(BuildContext context, orientation) {
-      AppSettings appState = AppSettings.of(context);
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width * 0.5,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    _buildContactName(context),
-                    Container(
-                      child: ContactImage(
-                        height: 160,
-                        image: contact.image,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.5,
-                child: _buildDetailstext(
-                    mainAlignment: MainAxisAlignment.center,
-                    crossAlignment: CrossAxisAlignment.start),
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-
-    // final Contact contact = ModalRoute.of(context).settings.arguments;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Contact Details'),
-      ),
-      body: Center(
-        child: OrientationBuilder(builder: (context, orientation) {
-          var orientation = MediaQuery.of(context).orientation;
-          return orientation == Orientation.portrait
-              ? _buildVerticalLayout(context, orientation)
-              : _buildHorizontalLayout(context, orientation);
-        }),
-      ),
+      )),
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.edit,

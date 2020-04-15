@@ -3,33 +3,23 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../appSettings.dart';
-import '../myThemes.dart';
 
 class ContactImage extends StatelessWidget {
   final double height;
   final String image;
-  final Orientation orientation;
   final BuildContext context;
-  const ContactImage({this.height, this.context, this.image, this.orientation});
+  const ContactImage({this.height, this.context, this.image});
 
   @override
   Widget build(context) {
     AppSettings appState = AppSettings.of(context);
     print('MYTHEMEKEYS ${appState.themeKey}');
     return Column(
-      mainAxisAlignment: orientation == Orientation.portrait
-          ? MainAxisAlignment.center
-          : MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         SizedBox(
-            height: orientation == Orientation.portrait
-                ? MediaQuery.of(context).size.width * 0.4
-                : 120,
-            width: orientation == Orientation.portrait
-                ? MediaQuery.of(context).size.width * 0.4
-                : 120,
-            // height: MediaQuery.of(context).size.width * 0.4,
-            // width: MediaQuery.of(context).size.width * 0.4,
+            height: MediaQuery.of(context).size.width * 0.4,
+            width: MediaQuery.of(context).size.width * 0.4,
             child: Container(
                 // constraints: BoxConstraints(
                 //     maxWidth: 250,
