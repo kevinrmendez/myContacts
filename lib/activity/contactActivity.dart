@@ -4,6 +4,7 @@ import 'package:kevin_app/components/contactImage.dart';
 import 'dart:async';
 import 'package:kevin_app/components/contact_form.dart';
 import 'package:flutter/services.dart';
+import 'package:kevin_app/utils/admobUtils.dart';
 
 import 'cameraActivity.dart';
 
@@ -80,6 +81,7 @@ class ContactActivityState extends State<ContactActivity>
             emailController: emailController,
             instagramController: instagramController,
           ),
+          AdmobUtils.admobBanner()
         ],
       ),
     );

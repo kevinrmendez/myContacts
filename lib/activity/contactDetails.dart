@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/myThemes.dart';
+import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../appSettings.dart';
 import '../contact.dart';
@@ -196,23 +197,37 @@ class ContactDetails extends StatelessWidget {
     Widget _buildVerticalLayout(BuildContext context, orientation) {
       // AppSettings appState = AppSettings.of(context);
       return Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _buildContactName(context),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 40),
-                  child: ContactImage(
-                    image: contact.image,
-                    height: 250,
+            Positioned(child: AdmobUtils.admobBanner()),
+            Container(
+              height: MediaQuery.of(context).size.height * .7,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  _buildContactName(context),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 40),
+                    child: ContactImage(
+                      image: contact.image,
+                      height: 250,
+                    ),
                   ),
-                ),
-              ],
+                  Padding(
+                    child: _buildDetailstext(
+                        mainAlignment: MainAxisAlignment.start),
+                    padding: EdgeInsets.only(bottom: 50),
+                  )
+                ],
+              ),
             ),
-            _buildDetailstext(mainAlignment: MainAxisAlignment.start),
+            // Positioned(
+            //     bottom: 50,
+            //     child: Padding(
+            //       child:
+            //           _buildDetailstext(mainAlignment: MainAxisAlignment.start),
+            //       padding: EdgeInsets.only(bottom: 50),
+            //     )),
           ],
         ),
       );
