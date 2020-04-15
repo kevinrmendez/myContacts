@@ -28,7 +28,7 @@ void _showAd() {
   _counter++;
 }
 
-class ContactList extends StatefulWidget {
+class FavoriteContactList extends StatefulWidget {
   FavoriteContactList() {
     interstitialAd.load();
   }
@@ -39,7 +39,7 @@ class ContactList extends StatefulWidget {
   }
 }
 
-class _FavoriteContactListState extends State<ContactList> {
+class _FavoriteContactListState extends State<FavoriteContactList> {
   final ContactDb db = ContactDb();
   Future<List<Contact>> contacts;
 
@@ -65,7 +65,7 @@ class _FavoriteContactListState extends State<ContactList> {
   List<Contact> filteredNames = new List();
   // names filtered by search text
   Icon _searchIcon = new Icon(Icons.search);
-  Widget _appBarTitle = new Text('Search Contact');
+  Widget _appBarTitle = new Text('Search Favorite Contact');
 
   Future getContactList() async {
     return await contacts;
@@ -75,8 +75,11 @@ class _FavoriteContactListState extends State<ContactList> {
     List<Contact> tempList = new List();
     tempList = await db.contacts();
 
+    var filteredList =
+        tempList.where((contact) => contact.favorite == 1).toList();
+
     setState(() {
-      names = tempList;
+      names = filteredList;
       filteredNames = names;
       contactListLength = names.length;
     });
@@ -111,7 +114,7 @@ class _FavoriteContactListState extends State<ContactList> {
           Icons.search,
           color: Colors.white,
         );
-        this._appBarTitle = new Text('Search Contact');
+        this._appBarTitle = new Text('Search Favorite Contact');
         filteredNames = names;
         _filter.clear();
       }
@@ -204,7 +207,7 @@ class _FavoriteContactListState extends State<ContactList> {
                         width: 200,
                         // margin: EdgeInsets.only(top: 40),
                         child: Text(
-                          'Your contact list is empty',
+                          'Your favorite contact list is empty',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -217,7 +220,7 @@ class _FavoriteContactListState extends State<ContactList> {
                             maxWidth: MediaQuery.of(context).size.width * 0.7),
                         margin: EdgeInsets.only(top: 20),
                         child: Text(
-                          'go to the home screen  and add your contacts',
+                          'Add your favorite contacts from the contact edit screen',
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 17),
                         ),

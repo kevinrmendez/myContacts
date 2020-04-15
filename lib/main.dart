@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kevin_app/activity/FavoriteContactList.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:kevin_app/activity/Settings.dart';
 
-import 'activity/ContactList.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
 import 'package:admob_flutter/admob_flutter.dart';
+import 'activity/ContactList.dart';
 import 'apikeys.dart';
 import 'appSettings.dart';
 import 'myThemes.dart';
@@ -75,7 +76,7 @@ class _Home extends StatefulWidget {
   final List<Widget> _activities = [
     ContactActivity(),
     ContactList(),
-    ContactList(),
+    FavoriteContactList(),
     Settings()
   ];
 
@@ -178,7 +179,7 @@ class _HomeState extends State<_Home> {
                   BottomNavigationBarItem(
                       icon: Icon(Icons.contacts), title: Text('contactList')),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.favorite), title: Text('favorite')),
+                      icon: Icon(Icons.star), title: Text('favorite')),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.settings), title: Text('settings')),
                 ])),

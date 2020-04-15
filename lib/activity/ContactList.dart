@@ -110,7 +110,7 @@ class _ContactListState extends State<ContactList> {
           Icons.search,
           color: Colors.white,
         );
-        this._appBarTitle = new Text('Search Contact');
+        this._appBarTitle = new Text('Search Favorite Contact');
         filteredNames = names;
         _filter.clear();
       }
