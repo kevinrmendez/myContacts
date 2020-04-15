@@ -213,11 +213,21 @@ class ContactDetails extends StatelessWidget {
             children: <Widget>[
               _buildContactName(context),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 40),
+                // color: Colors.red,
+                padding: EdgeInsets.fromLTRB(0, 30, 0, 10),
                 child: ContactImage(
                   image: contact.image,
                 ),
               ),
+              contact.favorite == 0
+                  ? SizedBox()
+                  : Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Icon(
+                        Icons.star,
+                        size: 30,
+                      ),
+                    ),
               Padding(
                 child:
                     _buildDetailstext(mainAlignment: MainAxisAlignment.start),

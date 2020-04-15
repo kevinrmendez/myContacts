@@ -13,7 +13,7 @@ class ContactDb {
       join(await getDatabasesPath(), 'contact_database.db'),
       onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE contacts(id INTEGER PRIMARY KEY, name TEXT, phone TEXT, email TEXT,instagram TEXT, image TEXT)",
+          "CREATE TABLE contacts(id INTEGER PRIMARY KEY, name TEXT, phone TEXT, email TEXT,instagram TEXT, image TEXT, favorite INTEGER DEFAULT 0)",
         );
       },
       // Set the version. This executes the onCreate function and provides a
@@ -43,13 +43,13 @@ class ContactDb {
     // Convert the List<Map<String, dynamic> into a List<Contact>.
     return List.generate(maps.length, (i) {
       return Contact(
-        id: maps[i]['id'],
-        name: maps[i]['name'],
-        phone: maps[i]['phone'],
-        email: maps[i]['email'],
-        instagram: maps[i]['instagram'],
-        image: maps[i]['image'],
-      );
+          id: maps[i]['id'],
+          name: maps[i]['name'],
+          phone: maps[i]['phone'],
+          email: maps[i]['email'],
+          instagram: maps[i]['instagram'],
+          image: maps[i]['image'],
+          favorite: maps[i]['favorite']);
     });
   }
 

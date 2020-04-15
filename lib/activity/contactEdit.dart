@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scidart/numdart.dart';
 import 'package:kevin_app/appSettings.dart';
 import 'package:kevin_app/components/contactImage.dart';
 
@@ -39,14 +40,21 @@ class ContactEditState extends State<ContactEdit> {
   String email;
   String instagram;
   Contact contact;
+  int favorite;
   Future<List<Contact>> contacts;
 
-  callback({String name, String phone, String email, String instagram}) {
+  callback(
+      {String name,
+      String phone,
+      String email,
+      String instagram,
+      int favorite}) {
     setState(() {
       this.name = name;
       this.phone = phone;
       this.email = email;
       this.instagram = instagram;
+      this.favorite = favorite;
     });
   }
 
@@ -58,6 +66,7 @@ class ContactEditState extends State<ContactEdit> {
     this.phone = widget.contact.phone.toString();
     this.email = widget.contact.email;
     this.instagram = widget.contact.instagram;
+    this.favorite = widget.contact.favorite;
 
     this.nameController.text = this.name;
     this.phoneController.text = this.phone;
@@ -72,6 +81,7 @@ class ContactEditState extends State<ContactEdit> {
     contact.phone = phoneController.text;
     contact.email = emailController.text;
     contact.instagram = instagramController.text;
+    contact.favorite = this.favorite;
 
     print('after update id');
     print(contact);
@@ -180,6 +190,28 @@ class ContactEditState extends State<ContactEdit> {
                         hintText: 'instagram', icon: Icon(Icons.casino)),
                     keyboardType: TextInputType.text,
                     controller: instagramController,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.star,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        'Favorite Contact',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      Switch(
+                        onChanged: (bool value) {
+                          this.favorite = boolToInt(value);
+                        },
+                        value: intToBool(this.favorite),
+                        // value: false,
+                      ),
+                    ],
                   ),
                   _buildFormButtons()
                 ],
