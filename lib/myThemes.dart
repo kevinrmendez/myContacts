@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 
-enum MyThemeKeys { BLUE, RED, GREEN, DARK, PINK, YELLOW, NAVY }
+enum MyThemeKeys {
+  BLUE,
+  RED,
+  GREEN,
+  DARK,
+  PINK,
+  ORANGE,
+  YELLOW,
+  PURPLE,
+  BLACK,
+  NAVY,
+  TEAL
+}
 
 class MyThemes {
   static final ThemeData blueTheme = ThemeData(
@@ -26,6 +38,11 @@ class MyThemes {
     accentColor: Color.fromRGBO(255, 228, 53, 1),
     brightness: Brightness.light,
   );
+  static final ThemeData blackTheme = ThemeData(
+    primaryColor: Color.fromRGBO(0, 0, 0, 1),
+    accentColor: Color.fromRGBO(0, 0, 0, 1),
+    brightness: Brightness.light,
+  );
 
   static final ThemeData darkTheme = ThemeData(
     primaryColor: Colors.cyan,
@@ -43,6 +60,21 @@ class MyThemes {
     accentColor: Colors.pink[200],
     brightness: Brightness.light,
   );
+  static final ThemeData orangeTheme = ThemeData(
+    primaryColor: Colors.orange,
+    accentColor: Colors.orange[200],
+    brightness: Brightness.light,
+  );
+  static final ThemeData purpleTheme = ThemeData(
+    primaryColor: Colors.purple,
+    accentColor: Colors.purple[200],
+    brightness: Brightness.light,
+  );
+  static final ThemeData tealTheme = ThemeData(
+    primaryColor: Colors.teal,
+    accentColor: Colors.teal[200],
+    brightness: Brightness.light,
+  );
 
   static ThemeData getThemeFromKey(MyThemeKeys themeKey) {
     switch (themeKey) {
@@ -56,8 +88,16 @@ class MyThemes {
         return yellowTheme;
       case MyThemeKeys.PINK:
         return pinkTheme;
+      case MyThemeKeys.ORANGE:
+        return orangeTheme;
+      case MyThemeKeys.PURPLE:
+        return purpleTheme;
       case MyThemeKeys.NAVY:
         return navyTheme;
+      case MyThemeKeys.BLACK:
+        return blackTheme;
+      case MyThemeKeys.TEAL:
+        return tealTheme;
       case MyThemeKeys.DARK:
         return darkTheme;
       default:

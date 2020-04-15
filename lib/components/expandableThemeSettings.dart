@@ -82,9 +82,9 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Red'),
+                  title: const Text('Black'),
                   leading: Radio(
-                    value: MyThemeKeys.RED,
+                    value: MyThemeKeys.BLACK,
                     groupValue: themekey,
                     onChanged: (value) {
                       _changeTheme(value);
@@ -102,6 +102,26 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
+                  title: const Text('Navy'),
+                  leading: Radio(
+                    value: MyThemeKeys.NAVY,
+                    groupValue: themekey,
+                    onChanged: (value) {
+                      _changeTheme(value);
+                    },
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Orange'),
+                  leading: Radio(
+                    value: MyThemeKeys.ORANGE,
+                    groupValue: themekey,
+                    onChanged: (value) {
+                      _changeTheme(value);
+                    },
+                  ),
+                ),
+                ListTile(
                   title: const Text('Pink'),
                   leading: Radio(
                     value: MyThemeKeys.PINK,
@@ -112,9 +132,9 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Yellow'),
+                  title: const Text('Purple'),
                   leading: Radio(
-                    value: MyThemeKeys.YELLOW,
+                    value: MyThemeKeys.PURPLE,
                     groupValue: themekey,
                     onChanged: (value) {
                       _changeTheme(value);
@@ -122,9 +142,29 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Navy'),
+                  title: const Text('Red'),
                   leading: Radio(
-                    value: MyThemeKeys.NAVY,
+                    value: MyThemeKeys.RED,
+                    groupValue: themekey,
+                    onChanged: (value) {
+                      _changeTheme(value);
+                    },
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Teal'),
+                  leading: Radio(
+                    value: MyThemeKeys.TEAL,
+                    groupValue: themekey,
+                    onChanged: (value) {
+                      _changeTheme(value);
+                    },
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Yellow'),
+                  leading: Radio(
+                    value: MyThemeKeys.YELLOW,
                     groupValue: themekey,
                     onChanged: (value) {
                       _changeTheme(value);

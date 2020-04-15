@@ -184,14 +184,14 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
             body: Card(
               child: Column(children: [
                 ListTile(
-                  title: const Text('Export Contacts as csv'),
+                  title: const Text('Export contacts as csv'),
                   leading: Icon(Icons.import_export),
                   onTap: () {
                     _exportContacts();
                   },
                 ),
                 ListTile(
-                  title: const Text('Export Contacts as pdf'),
+                  title: const Text('Export contacts as pdf'),
                   leading: Icon(Icons.picture_as_pdf),
                   onTap: () {
                     _exportContactsPdf();
