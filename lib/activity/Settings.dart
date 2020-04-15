@@ -156,15 +156,16 @@ class SettingsState extends State<Settings> {
             String phone = phones.length > 0 ? phones[0].value : "";
             String name = contact.displayName;
 
-            Contact newContact =
-                Contact(name: name, email: email, phone: phone);
+            if (contact != null) {
+              Contact newContact =
+                  Contact(name: name, email: email, phone: phone);
 
-            db.insertContact(newContact);
+              db.insertContact(newContact);
 
-            print(email);
-            print(contact.displayName);
-            print(phone);
-            // print(phone);
+              print(email);
+              print(contact.displayName);
+              print(phone);
+            }
           });
         }).then((onValue) {
           setState(() {

@@ -201,9 +201,10 @@ class ContactDetails extends StatelessWidget {
       ),
       body: Center(
           child: Container(
-        child: Stack(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Positioned(child: AdmobUtils.admobBanner()),
+            AdmobUtils.admobBanner(),
             Container(
               height: MediaQuery.of(context).size.height * .7,
               child: Column(

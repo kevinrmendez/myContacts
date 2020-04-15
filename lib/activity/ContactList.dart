@@ -143,35 +143,40 @@ class _ContactListState extends State<ContactList> {
       return ListView.builder(
           itemCount: names == null ? 0 : filteredNames.length,
           itemBuilder: (BuildContext context, int index) {
-            return Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  backgroundImage:
-                      names[index].image == "" || names[index].image == null
-                          ? AssetImage('assets/person-icon-w-s3p.png')
-                          : FileImage(File(filteredNames[index].image)),
-                ),
-                // : Container()),
-                title: Text(
-                  '${filteredNames[index].name}',
-                  style: TextStyle(fontSize: 20),
-                ),
-                trailing: Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  // Navigator.pushNamed(
-                  //     context, '/contactDetails',
-                  //     arguments: snapshot.data[index]);
-                  _showAd();
+            if (filteredNames[index].name != null ||
+                filteredNames[index].name == "") {
+              return Card(
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundImage:
+                        names[index].image == "" || names[index].image == null
+                            ? AssetImage('assets/person-icon-w-s3p.png')
+                            : FileImage(File(filteredNames[index].image)),
+                  ),
+                  title: Text(
+                    '${filteredNames[index].name}',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                  onTap: () {
+                    // Navigator.pushNamed(
+                    //     context, '/contactDetails',
+                    //     arguments: snapshot.data[index]);
+                    _showAd();
 
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    print('CONTACTS ${filteredNames[index]}');
-                    return ContactDetails(
-                        contact: filteredNames[index], callback: callback);
-                  }));
-                },
-              ),
-            );
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      print('CONTACTS ${filteredNames[index]}');
+                      return ContactDetails(
+                          contact: filteredNames[index], callback: callback);
+                    }));
+                  },
+                ),
+              );
+            } else {
+              return SizedBox();
+            }
           });
     } else {
       return Center(
@@ -307,119 +312,5 @@ class _ContactListState extends State<ContactList> {
         child: _buildList(),
       ),
     );
-
-    // @override
-    // Widget build(BuildContext context) {
-    //   return Scaffold(
-    //     appBar: AppBar(
-    //       title: Text('MyContacts List'),
-    //     ),
-
-    //     body: Center(
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: <Widget>[
-    //           FutureBuilder(
-    //             builder: (BuildContext context, AsyncSnapshot snapshot) {
-    //               // print(snapshot.data);
-    //               switch (snapshot.connectionState) {
-    //                 case ConnectionState.waiting:
-    //                   return CircularProgressIndicator();
-    //                 default:
-    //                   if (snapshot.data.length > 0) {
-    //                     return Expanded(
-    //                       child: ListView.builder(
-    //                         itemCount: snapshot.data.length,
-    //                         itemBuilder: (context, int index) {
-    //                           return Card(
-    //                             child: ListTile(
-    //                               leading: CircleAvatar(
-    //                                 backgroundColor:
-    //                                     Theme.of(context).primaryColor,
-    //                                 backgroundImage:
-    //                                     snapshot.data[index].image == "" ||
-    //                                             snapshot.data[index].image == null
-    //                                         ? AssetImage(
-    //                                             'assets/person-icon-w-s3p.png')
-    //                                         : FileImage(
-    //                                             File(snapshot.data[index].image)),
-    //                               ),
-    //                               // : Container()),
-    //                               title: Text(
-    //                                 '${snapshot.data[index].name}',
-    //                                 style: TextStyle(fontSize: 20),
-    //                               ),
-    //                               // subtitle: Text(
-    //                               //     'phone: ${snapshot.data[index].phone.toString()}'),
-    //                               trailing: Icon(Icons.keyboard_arrow_right),
-    //                               onTap: () {
-    //                                 // Navigator.pushNamed(
-    //                                 //     context, '/contactDetails',
-    //                                 //     arguments: snapshot.data[index]);
-    //                                 _showAd();
-
-    //                                 Navigator.push(context,
-    //                                     MaterialPageRoute(builder: (context) {
-    //                                   // Contact contact = new Contact(
-    //                                   //   name: snapshot.data[index].name,
-    //                                   //   phone: snapshot.data[index].phone,
-    //                                   //   image: snapshot.data[index].image,
-    //                                   // );
-    //                                   // contact.id = snapshot.data[index].id;
-    //                                   print('CONTACTS ${snapshot.data[index]}');
-    //                                   return ContactDetails(
-    //                                       contact: snapshot.data[index],
-    //                                       callback: callback);
-    //                                 }));
-    //                               },
-    //                             ),
-    //                           );
-    //                         },
-    //                       ),
-    //                     );
-    //                   } else {
-    //                     return Expanded(
-    //                       child: Container(
-    //                         child: Column(
-    //                           mainAxisAlignment: MainAxisAlignment.center,
-    //                           children: <Widget>[
-    //                             Container(
-    //                               width: 200,
-    //                               // margin: EdgeInsets.only(top: 40),
-    //                               child: Text(
-    //                                 'Your contact list is empty',
-    //                                 textAlign: TextAlign.center,
-    //                                 style: TextStyle(
-    //                                     fontWeight: FontWeight.bold,
-    //                                     fontSize: 25,
-    //                                     color: Theme.of(context).accentColor),
-    //                               ),
-    //                             ),
-    //                             Container(
-    //                               constraints: BoxConstraints(
-    //                                   maxWidth:
-    //                                       MediaQuery.of(context).size.width *
-    //                                           0.7),
-    //                               margin: EdgeInsets.only(top: 20),
-    //                               child: Text(
-    //                                 'go to the home screen  and add your contacts',
-    //                                 textAlign: TextAlign.center,
-    //                                 style: TextStyle(fontSize: 17),
-    //                               ),
-    //                             )
-    //                           ],
-    //                         ),
-    //                       ),
-    //                     );
-    //                   }
-    //               }
-    //             },
-    //             future: getContactList(),
-    //           ),
-    //           // ListView(children: db.contacts() as List<Widget>)
-    //         ],
-    //       ),
-    //     ),
-    //   );
   }
 }

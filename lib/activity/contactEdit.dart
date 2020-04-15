@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/appSettings.dart';
+import 'package:kevin_app/components/contactImage.dart';
 
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactDb.dart';
@@ -113,7 +114,7 @@ class ContactEditState extends State<ContactEdit> {
         });
   }
 
-  Widget _buildForm(Orientation orientation) {
+  Widget _buildForm() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -179,7 +180,7 @@ class ContactEditState extends State<ContactEdit> {
                     keyboardType: TextInputType.text,
                     controller: instagramController,
                   ),
-                  _buildFormButtons(orientation)
+                  _buildFormButtons()
                 ],
               ),
             ) // Build this out in the next steps.
@@ -188,7 +189,7 @@ class ContactEditState extends State<ContactEdit> {
     );
   }
 
-  Widget _buildFormButtons(Orientation orientation) {
+  Widget _buildFormButtons() {
     List<Widget> _buttons = [
       Padding(
         padding: const EdgeInsets.only(top: 10),
@@ -217,44 +218,30 @@ class ContactEditState extends State<ContactEdit> {
         ),
       )
     ];
-
-    if (orientation == Orientation.portrait) {
-      return Column(
-        children: _buttons,
-      );
-    } else {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: _buttons,
-      );
-    }
+    return Column(
+      children: _buttons,
+    );
   }
 
-  Widget _buildPreviewText(Orientation orientation) {
+  Widget _buildPreviewText() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         // _buildText(this.name, orientation),
-        _buildBoldText(this.name, orientation),
-        _buildText(this.phone, orientation),
+        _buildBoldText(this.name),
+        _buildText(this.phone),
         Padding(
           padding: EdgeInsets.only(bottom: 0),
-          child: _buildText(this.email, orientation),
+          child: _buildText(this.email),
         ),
-        Padding(
-          padding: EdgeInsets.only(bottom: 20),
-          child: _buildText(this.instagram, orientation),
-        ),
+        _buildText(this.instagram),
       ],
     );
   }
 
-  Widget _buildText(String text, Orientation orientation) {
+  Widget _buildText(String text) {
     return Container(
-      width: orientation == Orientation.portrait
-          ? MediaQuery.of(context).size.width * 0.8
-          : MediaQuery.of(context).size.width * 0.5,
+      width: MediaQuery.of(context).size.width * 0.8,
       child: Text(
         text,
         textAlign: TextAlign.center,
@@ -263,13 +250,11 @@ class ContactEditState extends State<ContactEdit> {
     );
   }
 
-  Widget _buildBoldText(String text, Orientation orientation) {
+  Widget _buildBoldText(String text) {
     AppSettings appState = AppSettings.of(context);
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20),
-      width: orientation == Orientation.portrait
-          ? MediaQuery.of(context).size.width * 0.8
-          : MediaQuery.of(context).size.width * 0.5,
+      width: MediaQuery.of(context).size.width * 0.8,
       child: Text(
         text,
         textAlign: TextAlign.center,
@@ -283,30 +268,19 @@ class ContactEditState extends State<ContactEdit> {
     );
   }
 
-  Widget _buildVerticalLayout(Orientation orientation) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _buildPreviewText(orientation),
-            _buildForm(orientation),
-          ],
-        )
-      ],
-    );
-  }
+  // Widget _buildVerticalLayout(Orientation orientation) {
+  //   return
+  // }
 
-  Widget _buildHorizontalLayout(Orientation orientation) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        _buildPreviewText(orientation),
-        _buildForm(orientation),
-      ],
-    );
-  }
+  // Widget _buildHorizontalLayout(Orientation orientation) {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //     children: <Widget>[
+  //       _buildPreviewText(orientation),
+  //       _buildForm(orientation),
+  //     ],
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -317,12 +291,25 @@ class ContactEditState extends State<ContactEdit> {
       appBar: AppBar(
         title: Text('Edit Contact'),
       ),
-      body: OrientationBuilder(builder: (context, orientation) {
-        var orientation = MediaQuery.of(context).orientation;
-        return orientation == Orientation.portrait
-            ? _buildVerticalLayout(orientation)
-            : _buildHorizontalLayout(orientation);
-      }),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _buildPreviewText(),
+              Container(
+                // padding: EdgeInsets.symmetric(vertical: 40),
+                child: ContactImage(
+                  image: contact.image,
+                  height: 70,
+                ),
+              ),
+              _buildForm(),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

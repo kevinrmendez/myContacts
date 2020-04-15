@@ -21,11 +21,6 @@ class ContactImage extends StatelessWidget {
             height: MediaQuery.of(context).size.width * 0.4,
             width: MediaQuery.of(context).size.width * 0.4,
             child: Container(
-                // constraints: BoxConstraints(
-                //     maxWidth: 250,
-                //     maxHeight: 250,
-                //     minWidth: 200,
-                //     minHeight: 200),
                 height: height,
                 decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
