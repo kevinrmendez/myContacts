@@ -269,20 +269,6 @@ class ContactEditState extends State<ContactEdit> {
     );
   }
 
-  // Widget _buildVerticalLayout(Orientation orientation) {
-  //   return
-  // }
-
-  // Widget _buildHorizontalLayout(Orientation orientation) {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //     children: <Widget>[
-  //       _buildPreviewText(orientation),
-  //       _buildForm(orientation),
-  //     ],
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     // contact = ModalRoute.of(context).settings.arguments;

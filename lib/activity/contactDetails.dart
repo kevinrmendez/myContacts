@@ -23,10 +23,13 @@ getInterstitialAdUnitId() {
 }
 
 void _showAd() {
-  if (_counter % 4 == 0) {
-    interstitialAd.load();
+  // interstitialAd.show();
+
+  if (_counter % 3 == 0) {
+    // interstitialAd.load();
     interstitialAd.show();
   }
+  print("COUNTER: $_counter");
   _counter++;
 }
 
@@ -34,7 +37,9 @@ class ContactDetails extends StatelessWidget {
   final Contact contact;
   final Function callback;
 
-  ContactDetails({this.contact, this.callback});
+  ContactDetails({this.contact, this.callback}) {
+    interstitialAd.load();
+  }
 
   // This widget is the root of your application.
   @override
@@ -77,7 +82,7 @@ class ContactDetails extends StatelessWidget {
 
     Widget _buildButtons() {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
         child: Wrap(
           alignment: WrapAlignment.center,
           // mainAxisAlignment: MainAxisAlignment.center,

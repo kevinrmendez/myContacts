@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
+import 'package:kevin_app/utils/admobUtils.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -20,14 +21,17 @@ getInterstitialAdUnitId() {
 }
 
 void _showAd() {
-  if (_counter % 4 == 0) {
-    interstitialAd.load();
+  if (_counter % 2 == 0) {
     interstitialAd.show();
   }
+  print("COUNTER: $_counter");
   _counter++;
 }
 
 class ContactList extends StatefulWidget {
+  ContactList() {
+    interstitialAd.load();
+  }
   @override
   _ContactListState createState() {
     return _ContactListState();
@@ -145,34 +149,40 @@ class _ContactListState extends State<ContactList> {
           itemBuilder: (BuildContext context, int index) {
             if (filteredNames[index].name != null ||
                 filteredNames[index].name == "") {
-              return Card(
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    backgroundImage:
-                        names[index].image == "" || names[index].image == null
+              return Column(
+                children: <Widget>[
+                  // index % 10 == 0 ? AdmobUtils.admobBanner() : SizedBox(),
+                  Card(
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        backgroundImage: names[index].image == "" ||
+                                names[index].image == null
                             ? AssetImage('assets/person-icon-w-s3p.png')
                             : FileImage(File(filteredNames[index].image)),
-                  ),
-                  title: Text(
-                    '${filteredNames[index].name}',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                  onTap: () {
-                    // Navigator.pushNamed(
-                    //     context, '/contactDetails',
-                    //     arguments: snapshot.data[index]);
-                    _showAd();
+                      ),
+                      title: Text(
+                        '${filteredNames[index].name}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                      onTap: () {
+                        // Navigator.pushNamed(
+                        //     context, '/contactDetails',
+                        //     arguments: snapshot.data[index]);
+                        _showAd();
 
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      print('CONTACTS ${filteredNames[index]}');
-                      return ContactDetails(
-                          contact: filteredNames[index], callback: callback);
-                    }));
-                  },
-                ),
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          print('CONTACTS ${filteredNames[index]}');
+                          return ContactDetails(
+                              contact: filteredNames[index],
+                              callback: callback);
+                        }));
+                      },
+                    ),
+                  ),
+                ],
               );
             } else {
               return SizedBox();
