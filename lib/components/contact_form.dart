@@ -141,71 +141,77 @@ class ContactFormState extends State<ContactForm> {
                 keyboardType: TextInputType.text,
                 controller: widget.instagramController,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  appState.camera == true
-                      ? Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: RaisedButton(
-                            color: Theme.of(context).accentColor,
-                            onPressed: () async {
-                              final cameras = await availableCameras();
-                              final firstCamera = cameras.first;
-                              image = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CameraActivity(
-                                          camera: firstCamera,
-                                        )),
-                              );
-                              widget.callback(image);
+              Container(
+                padding: EdgeInsets.only(top: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    appState.camera == true
+                        ? Padding(
+                            padding: EdgeInsets.symmetric(vertical: 0),
+                            child: RaisedButton(
+                              color: Theme.of(context).accentColor,
+                              onPressed: () async {
+                                final cameras = await availableCameras();
+                                final firstCamera = cameras.first;
+                                image = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CameraActivity(
+                                            camera: firstCamera,
+                                          )),
+                                );
+                                widget.callback(image);
 
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                                  content: Text('Picture has been taken')));
-                              print(image.toString());
-                            },
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
-                            ),
-                          ))
-                      : Container(),
-                  Expanded(
-                    child: Container(
-                      // width: 20,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 16),
-                      child: RaisedButton(
-                        color: Theme.of(context).accentColor,
-                        onPressed: () async {
-                          // print('SAVIIIING');
-                          // print(widget.nameController);
-                          if (_formKey.currentState.validate()) {
-                            String name = widget.nameController.text;
-                            String formattedName =
-                                '${name[0].toUpperCase()}${name.substring(1)}';
-                            Contact contact = Contact(
-                                id: contactId,
-                                name: formattedName,
-                                phone: widget.phoneController.text,
-                                email: widget.emailController.text,
-                                instagram: widget.instagramController.text,
-                                image: widget.image);
-                            _saveContact(contact);
-                            widget.callback("");
-                          }
-                          // print(await db.contacts());
-                        },
-                        child: Text(
-                          'save',
-                          style: TextStyle(color: Colors.white),
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                    content: Text('Picture has been taken')));
+                                print(image.toString());
+                              },
+                              child: Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                              ),
+                            ))
+                        : Container(),
+                    SizedBox(
+                      width: 50,
+                    ),
+                    Expanded(
+                      child: Container(
+                        // width: 20,
+                        // padding:
+                        //     EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                        child: RaisedButton(
+                          color: Theme.of(context).accentColor,
+                          onPressed: () async {
+                            // print('SAVIIIING');
+                            // print(widget.nameController);
+                            if (_formKey.currentState.validate()) {
+                              String name = widget.nameController.text;
+                              String formattedName =
+                                  '${name[0].toUpperCase()}${name.substring(1)}';
+                              Contact contact = Contact(
+                                  id: contactId,
+                                  name: formattedName,
+                                  phone: widget.phoneController.text,
+                                  email: widget.emailController.text,
+                                  instagram: widget.instagramController.text,
+                                  image: widget.image);
+                              _saveContact(contact);
+                              widget.callback("");
+                            }
+                            // print(await db.contacts());
+                          },
+                          child: Text(
+                            'save',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),

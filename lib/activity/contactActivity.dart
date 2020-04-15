@@ -127,19 +127,18 @@ class ContactActivityState extends State<ContactActivity>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text('MyContacts'),
+        title: Text(
+          'MyContacts',
+        ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // Container(
-            //     margin: EdgeInsets.only(top: 10),
-            //     child: Text(
-            //       'Add contact',
-            //       style: TextStyle(fontSize: 30),
-            //     )),
+            AdmobUtils.admobBanner(),
+
             Container(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: ContactImage(
@@ -149,15 +148,17 @@ class ContactActivityState extends State<ContactActivity>
             ),
             // _streamBuilder(),
             // Container(height: 100, child: Image.asset('assets/person.png')),
-            ContactForm(
-              image: _image,
-              callback: callback,
-              nameController: nameController,
-              phoneController: phoneController,
-              emailController: emailController,
-              instagramController: instagramController,
+            Align(
+              alignment: Alignment.center,
+              child: ContactForm(
+                image: _image,
+                callback: callback,
+                nameController: nameController,
+                phoneController: phoneController,
+                emailController: emailController,
+                instagramController: instagramController,
+              ),
             ),
-            AdmobUtils.admobBanner()
           ],
         ),
       ),
