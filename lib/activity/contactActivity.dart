@@ -22,7 +22,6 @@ class ContactActivityState extends State<ContactActivity>
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
-  final instagramController = TextEditingController();
 
   callback(value) {
     setState(() {
@@ -78,7 +77,6 @@ class ContactActivityState extends State<ContactActivity>
                 nameController: nameController,
                 phoneController: phoneController,
                 emailController: emailController,
-                instagramController: instagramController,
               ),
             ),
           ],

@@ -71,7 +71,7 @@ class ContactDetails extends StatelessWidget {
           ),
           onPressed: () {
             Share.share(
-                "Contact Details: name: ${contact.name}, phone: ${contact.phone}, email: ${contact.phone},instagram: ${contact.instagram} ");
+                "Contact Details: name: ${contact.name}, phone: ${contact.phone}, email: ${contact.phone}");
           },
         ),
       );
@@ -102,14 +102,6 @@ class ContactDetails extends StatelessWidget {
                       color: Colors.white,
                     ))
                 : const SizedBox(),
-            contact.instagram != ""
-                ? _buildUrlButton(
-                    url: 'https://www.instagram.com/${contact.instagram}',
-                    icon: Icon(
-                      Icons.casino,
-                      color: Colors.white,
-                    ))
-                : const SizedBox()
           ],
         ),
       );
@@ -150,23 +142,6 @@ class ContactDetails extends StatelessWidget {
                               color: Theme.of(context).accentColor)),
                       Text(
                         contact.email,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                )
-              : Container(),
-          contact.instagram != ""
-              ? Container(
-                  margin: EdgeInsets.only(bottom: 5, left: 30),
-                  child: Wrap(
-                    children: <Widget>[
-                      Container(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Icon(Icons.casino,
-                              color: Theme.of(context).accentColor)),
-                      Text(
-                        contact.instagram,
                         style: TextStyle(fontSize: 20),
                       ),
                     ],

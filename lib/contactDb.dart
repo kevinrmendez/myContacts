@@ -13,7 +13,7 @@ class ContactDb {
       join(await getDatabasesPath(), 'contact_database.db'),
       onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE contacts(id INTEGER PRIMARY KEY, name TEXT, phone TEXT, email TEXT,instagram TEXT, image TEXT, favorite INTEGER DEFAULT 0)",
+          "CREATE TABLE contacts(id INTEGER PRIMARY KEY, name TEXT, phone TEXT, email TEXT, image TEXT, favorite INTEGER DEFAULT 0)",
         );
       },
       // Set the version. This executes the onCreate function and provides a
@@ -47,7 +47,6 @@ class ContactDb {
           name: maps[i]['name'],
           phone: maps[i]['phone'],
           email: maps[i]['email'],
-          instagram: maps[i]['instagram'],
           image: maps[i]['image'],
           favorite: maps[i]['favorite']);
     });

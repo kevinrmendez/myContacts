@@ -38,22 +38,15 @@ class ContactEditState extends State<ContactEdit> {
   String name;
   String phone;
   String email;
-  String instagram;
   Contact contact;
   int favorite;
   Future<List<Contact>> contacts;
 
-  callback(
-      {String name,
-      String phone,
-      String email,
-      String instagram,
-      int favorite}) {
+  callback({String name, String phone, String email, int favorite}) {
     setState(() {
       this.name = name;
       this.phone = phone;
       this.email = email;
-      this.instagram = instagram;
       this.favorite = favorite;
     });
   }
@@ -65,13 +58,11 @@ class ContactEditState extends State<ContactEdit> {
     this.name = widget.contact.name;
     this.phone = widget.contact.phone.toString();
     this.email = widget.contact.email;
-    this.instagram = widget.contact.instagram;
     this.favorite = widget.contact.favorite;
 
     this.nameController.text = this.name;
     this.phoneController.text = this.phone;
     this.emailController.text = this.email;
-    this.instagramController.text = this.instagram;
 
     this.contact = widget.contact;
   }
@@ -80,7 +71,6 @@ class ContactEditState extends State<ContactEdit> {
     contact.name = nameController.text;
     contact.phone = phoneController.text;
     contact.email = emailController.text;
-    contact.instagram = instagramController.text;
     contact.favorite = this.favorite;
 
     print('after update id');
@@ -179,18 +169,6 @@ class ContactEditState extends State<ContactEdit> {
                     keyboardType: TextInputType.emailAddress,
                     controller: emailController,
                   ),
-                  TextFormField(
-                    onChanged: (value) {
-                      setState(() {
-                        print(value);
-                        this.instagram = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        hintText: 'instagram', icon: Icon(Icons.casino)),
-                    keyboardType: TextInputType.text,
-                    controller: instagramController,
-                  ),
                   Row(
                     children: <Widget>[
                       Icon(
@@ -267,7 +245,6 @@ class ContactEditState extends State<ContactEdit> {
           padding: EdgeInsets.only(bottom: 0),
           child: _buildText(this.email),
         ),
-        _buildText(this.instagram),
       ],
     );
   }

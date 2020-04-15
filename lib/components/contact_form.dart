@@ -14,14 +14,12 @@ class ContactForm extends StatefulWidget {
   final nameController;
   final phoneController;
   final emailController;
-  final instagramController;
 
   ContactForm(
       {this.image,
       this.callback,
       this.nameController,
       this.emailController,
-      this.instagramController,
       this.phoneController});
 
   @override
@@ -44,7 +42,6 @@ class ContactFormState extends State<ContactForm> {
   String name;
   String phone;
   String email;
-  String instagram;
   int contactId;
 
   @override
@@ -79,7 +76,6 @@ class ContactFormState extends State<ContactForm> {
     widget.nameController.text = "";
     widget.phoneController.text = "";
     widget.emailController.text = "";
-    widget.instagramController.text = "";
     image = "";
   }
 
@@ -93,7 +89,6 @@ class ContactFormState extends State<ContactForm> {
     print(contact);
     print(contactId);
     print(contact.email);
-    print(contact.instagram);
   }
 
   @override
@@ -134,12 +129,6 @@ class ContactFormState extends State<ContactForm> {
                     InputDecoration(hintText: 'email', icon: Icon(Icons.email)),
                 keyboardType: TextInputType.emailAddress,
                 controller: widget.emailController,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                    hintText: 'instagram', icon: Icon(Icons.casino)),
-                keyboardType: TextInputType.text,
-                controller: widget.instagramController,
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -196,7 +185,6 @@ class ContactFormState extends State<ContactForm> {
                                   name: formattedName,
                                   phone: widget.phoneController.text,
                                   email: widget.emailController.text,
-                                  instagram: widget.instagramController.text,
                                   image: widget.image);
                               _saveContact(contact);
                               widget.callback("");
