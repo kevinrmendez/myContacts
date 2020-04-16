@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 enum MyThemeKeys {
   BLUE,
-  RED,
-  GREEN,
-  DARK,
-  PINK,
-  ORANGE,
-  YELLOW,
-  PURPLE,
   BLACK,
+  GREEN,
   NAVY,
-  TEAL
+  ORANGE,
+  PINK,
+  PURPLE,
+  RED,
+  TEAL,
+  YELLOW,
+  DARK
 }
 
 class MyThemes {

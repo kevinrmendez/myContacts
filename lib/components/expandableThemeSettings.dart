@@ -20,7 +20,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
   @override
   void initState() {
     print(prefs.getInt('themeKey'));
-    thmekeyIndex = (prefs.getInt('themeKey') ?? 0);
+    thmekeyIndex = (prefs.getInt('themeKey') ?? 0) + 1;
     themekey = MyThemeKeys.values[thmekeyIndex];
     super.initState();
   }
@@ -40,18 +40,34 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
         case MyThemeKeys.BLUE:
           await prefs.setInt('themeKey', 0);
           break;
-        case MyThemeKeys.RED:
+        case MyThemeKeys.BLACK:
           await prefs.setInt('themeKey', 1);
           break;
         case MyThemeKeys.GREEN:
           await prefs.setInt('themeKey', 2);
           break;
-        case MyThemeKeys.RED:
+        case MyThemeKeys.NAVY:
           await prefs.setInt('themeKey', 3);
           break;
-        case MyThemeKeys.RED:
+        case MyThemeKeys.PINK:
           await prefs.setInt('themeKey', 4);
           break;
+        case MyThemeKeys.PURPLE:
+          await prefs.setInt('themeKey', 5);
+          break;
+        case MyThemeKeys.RED:
+          await prefs.setInt('themeKey', 6);
+          break;
+        case MyThemeKeys.TEAL:
+          await prefs.setInt('themeKey', 7);
+          break;
+        case MyThemeKeys.YELLOW:
+          await prefs.setInt('themeKey', 8);
+          break;
+        case MyThemeKeys.DARK:
+          await prefs.setInt('themeKey', 9);
+          break;
+
         default:
       }
     }
