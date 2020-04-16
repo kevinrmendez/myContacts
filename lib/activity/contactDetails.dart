@@ -13,7 +13,7 @@ import 'package:kevin_app/apikeys.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:share/share.dart';
 
-int _counter = 0;
+int _counter = 1;
 AdmobInterstitial interstitialAd = AdmobInterstitial(
   adUnitId: getInterstitialAdUnitId(),
 );
