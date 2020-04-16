@@ -20,7 +20,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
   @override
   void initState() {
     print(prefs.getInt('themeKey'));
-    thmekeyIndex = (prefs.getInt('themeKey') ?? 0) + 1;
+    thmekeyIndex = (prefs.getInt('themeKey') ?? 0);
     themekey = MyThemeKeys.values[thmekeyIndex];
     super.initState();
   }
