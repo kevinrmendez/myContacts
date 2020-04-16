@@ -145,7 +145,7 @@ class _HomeState extends State<_Home> {
             body: widget._activities[_currentIndex],
             bottomNavigationBar: BottomNavigationBar(
                 type: BottomNavigationBarType.shifting,
-                selectedItemColor: Theme.of(context).primaryColor,
+                selectedItemColor: Color(0xFF6A6A6C),
                 unselectedItemColor: Colors.grey,
                 selectedLabelStyle: TextStyle(
                   color: Theme.of(context).primaryColor,
