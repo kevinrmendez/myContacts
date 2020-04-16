@@ -77,16 +77,24 @@ class SettingsState extends State<Settings> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text(message),
+              title: Text(
+                message,
+              ),
               actions: <Widget>[
                 FlatButton(
-                    child: Text('close'),
+                    child: Text(
+                      'close',
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    ),
                     onPressed: () {
                       // Navigator.of(context).pop();
                       Navigator.popUntil(context, ModalRoute.withName('/'));
                     }),
                 FlatButton(
-                    child: Text('ok'),
+                    child: Text(
+                      'ok',
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    ),
                     onPressed: () async {
                       await _db.deleteAllContacts();
 
@@ -208,14 +216,24 @@ class SettingsState extends State<Settings> {
                                   'Are you sure you want to delete all your contacts?'),
                               actions: <Widget>[
                                 FlatButton(
-                                    child: Text('close'),
+                                    child: Text(
+                                      'close',
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ),
                                     onPressed: () {
                                       // Navigator.of(context).pop();
                                       Navigator.popUntil(
                                           context, ModalRoute.withName('/'));
                                     }),
                                 FlatButton(
-                                    child: Text('ok'),
+                                    child: Text(
+                                      'ok',
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ),
                                     onPressed: () async {
                                       bool isDataDeleted =
                                           await _db.deleteAllContacts();

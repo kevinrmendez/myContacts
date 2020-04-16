@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kevin_app/components/contactImageFull.dart';
 import 'package:scidart/numdart.dart';
 import 'package:kevin_app/appSettings.dart';
 import 'package:kevin_app/components/contactImage.dart';
@@ -105,7 +106,10 @@ class ContactEditState extends State<ContactEdit> {
             title: Text(message),
             actions: <Widget>[
               FlatButton(
-                  child: Text('close'),
+                  child: Text(
+                    'close',
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ),
                   onPressed: () {
                     // Navigator.of(context).pop();
                     Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -215,6 +219,9 @@ class ContactEditState extends State<ContactEdit> {
           ),
         ),
       ),
+      SizedBox(
+        width: 20,
+      ),
       Padding(
         padding: const EdgeInsets.only(top: 10),
         child: RaisedButton(
@@ -229,7 +236,8 @@ class ContactEditState extends State<ContactEdit> {
         ),
       )
     ];
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: _buttons,
     );
   }
@@ -287,8 +295,7 @@ class ContactEditState extends State<ContactEdit> {
       appBar: AppBar(
         title: Text('Edit Contact'),
       ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: ListView(
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -296,10 +303,10 @@ class ContactEditState extends State<ContactEdit> {
               AdmobUtils.admobBanner(),
               // _buildPreviewText(),
               Container(
-                padding: EdgeInsets.only(top: 30),
+                padding: EdgeInsets.only(top: 5),
                 child: Container(
                   // padding: EdgeInsets.symmetric(vertical: 40),
-                  child: ContactImage(
+                  child: ContactImageFull(
                     image: contact.image,
                   ),
                 ),
