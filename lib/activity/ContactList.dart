@@ -10,6 +10,8 @@ import 'contactDetails.dart';
 
 import 'package:admob_flutter/admob_flutter.dart';
 
+import 'contactDetailsParallax.dart';
+
 int _counter = 0;
 AdmobInterstitial interstitialAd = AdmobInterstitial(
   adUnitId: getInterstitialAdUnitId(),
@@ -175,6 +177,10 @@ class _ContactListState extends State<ContactList> {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
                           print('CONTACTS ${filteredNames[index]}');
+                          // return ContactDetailsParallax(
+                          //   contact: filteredNames[index],
+                          //   // callback: callback
+                          // );
                           return ContactDetails(
                               contact: filteredNames[index],
                               callback: callback);

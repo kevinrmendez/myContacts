@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
 import 'package:kevin_app/components/contactImage.dart';
+import 'package:kevin_app/components/contactImageFull.dart';
 import 'package:kevin_app/myThemes.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -38,7 +39,6 @@ class ContactDetails extends StatelessWidget {
     interstitialAd.load();
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     Widget _buildUrlButton({String url, Icon icon}) {
@@ -115,7 +115,7 @@ class ContactDetails extends StatelessWidget {
         crossAxisAlignment: crossAlignment,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(bottom: 5, left: 30),
+            margin: EdgeInsets.only(bottom: 5, left: 30, top: 12),
             child: contact.phone != ""
                 ? Wrap(
                     children: <Widget>[
@@ -153,10 +153,22 @@ class ContactDetails extends StatelessWidget {
       );
     }
 
+    Widget _buildFavorite() {
+      return contact.favorite == 0
+          ? SizedBox()
+          : Container(
+              padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+              child: Icon(
+                Icons.star,
+                size: 30,
+                color: Theme.of(context).accentColor,
+              ),
+            );
+    }
+
     Widget _buildContactName(context) {
-      AppSettings appState = AppSettings.of(context);
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
         // width: MediaQuery.of(context).size.width * 0.8,
         child: Text(
           contact.name,
@@ -164,9 +176,7 @@ class ContactDetails extends StatelessWidget {
           style: TextStyle(
               fontSize: 35,
               fontWeight: FontWeight.bold,
-              color: appState.themeKey == MyThemeKeys.DARK
-                  ? Colors.white
-                  : Theme.of(context).primaryColor),
+              color: Theme.of(context).primaryColor),
         ),
       );
     }
@@ -180,34 +190,21 @@ class ContactDetails extends StatelessWidget {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Container(
-              padding: EdgeInsets.only(bottom: 40),
-              child: AdmobUtils.admobBanner()),
+          Container(child: AdmobUtils.admobBanner()),
           Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _buildContactName(context),
-              Container(
-                // color: Colors.red,
-                padding: EdgeInsets.fromLTRB(0, 30, 0, 10),
-                child: ContactImage(
-                  image: contact.image,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _buildContactName(context),
+                  _buildFavorite()
+                ],
               ),
-              contact.favorite == 0
-                  ? SizedBox()
-                  : Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Icon(
-                        Icons.star,
-                        size: 30,
-                      ),
-                    ),
-              Padding(
-                child:
-                    _buildDetailstext(mainAlignment: MainAxisAlignment.start),
-                padding: EdgeInsets.only(bottom: 50),
-              )
+              ContactImageFull(
+                image: contact.image,
+              ),
+              _buildDetailstext(mainAlignment: MainAxisAlignment.start),
             ],
           ),
         ],
