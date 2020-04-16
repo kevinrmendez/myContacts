@@ -21,9 +21,20 @@ import 'aboutActivity .dart';
 final ContactDb _db = ContactDb();
 final snackBar = (text) => SnackBar(content: Text(text));
 
-PermissionStatus _permissionStatus;
-
 class Settings extends StatefulWidget {
+  final PermissionHandler _permissionHandler = PermissionHandler();
+
+  Future<bool> _requestContactPermission() async {
+    var result =
+        await _permissionHandler.requestPermissions([PermissionGroup.contacts]);
+
+    if (result[PermissionGroup.contacts] == PermissionStatus.granted) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   SettingsState createState() {
     return SettingsState();
@@ -90,24 +101,6 @@ class SettingsState extends State<Settings> {
       _warningMessage('Are you sure you want to delete all your contacts');
     }
 
-    Future<PermissionStatus> _checkPermission(
-        PermissionGroup permissionGroup) async {
-      PermissionStatus permission =
-          await PermissionHandler().checkPermissionStatus(permissionGroup);
-      return permission;
-    }
-
-    Future<Map<PermissionGroup, PermissionStatus>> _requestPermission(
-        PermissionGroup permissionGroup) async {
-      // await PermissionHandler()
-      //     .shouldShowRequestPermissionRationale(PermissionGroup.contacts);
-      // await PermissionHandler().openAppSettings();
-      _permissionStatus = await _checkPermission(permissionGroup);
-      if (_permissionStatus != PermissionStatus.granted) {
-        return await PermissionHandler().requestPermissions([permissionGroup]);
-      }
-    }
-
     _importContactsFromService() async {
       Iterable<a.Contact> contacts = await a.ContactsService.getContacts();
       contacts.map((value) {});
@@ -140,48 +133,44 @@ class SettingsState extends State<Settings> {
             );
           });
 
-      _requestPermission(PermissionGroup.contacts).then((permission) {
-        _importContactsFromService().then((contacts) {
-          setState(() {
-            importedContactsProgress = true;
-          });
-
-          List contactList = contacts.toList();
-          contactList.forEach((contact) {
-            List phones = contact.phones.toList();
-            List emails = contact.emails.toList();
-            String email = emails.length > 0 ? emails[0].value : "";
-            String phone = phones.length > 0 ? phones[0].value : "";
-            String name = contact.displayName;
-
-            if (contact != null) {
-              Contact newContact =
-                  Contact(name: name, email: email, phone: phone);
-
-              db.insertContact(newContact);
-
-              print(email);
-              print(contact.displayName);
-              print(phone);
-            }
-          });
-        }).then((onValue) {
-          setState(() {
-            importedContacts = true;
-            prefs.setBool('importedContacts', importedContacts);
-            importedContactsProgress = false;
-          });
-          _scaffoldKey.currentState.showSnackBar(snackBar(
-              'All your contacts from your phone have been imported!'));
-          Navigator.pop(context);
-        }).catchError((e) {
-          print('ERROR');
-          print(e);
+      _importContactsFromService().then((contacts) {
+        setState(() {
+          importedContactsProgress = true;
         });
+
+        List contactList = contacts.toList();
+        contactList.forEach((contact) {
+          List phones = contact.phones.toList();
+          List emails = contact.emails.toList();
+          String email = emails.length > 0 ? emails[0].value : "";
+          String phone = phones.length > 0 ? phones[0].value : "";
+          String name = contact.displayName;
+
+          if (contact != null) {
+            Contact newContact =
+                Contact(name: name, email: email, phone: phone);
+
+            db.insertContact(newContact);
+
+            print(email);
+            print(contact.displayName);
+            print(phone);
+          }
+        });
+      }).then((onValue) {
+        setState(() {
+          importedContacts = true;
+          prefs.setBool('importedContacts', importedContacts);
+          importedContactsProgress = false;
+        });
+        _scaffoldKey.currentState.showSnackBar(
+            snackBar('All your contacts from your phone have been imported!'));
+        Navigator.pop(context);
+      }).catchError((e) {
+        print('ERROR');
+        print(e);
       });
     }
-
-    AppSettings appState = AppSettings.of(context);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -253,7 +242,16 @@ class SettingsState extends State<Settings> {
                       ? ListTile(
                           title: Text('Import contacts'),
                           onTap: () async {
-                            _importContacts();
+                            var permissionStatus = await widget
+                                ._permissionHandler
+                                .checkPermissionStatus(
+                                    PermissionGroup.contacts);
+
+                            if (permissionStatus == PermissionStatus.granted) {
+                              _importContacts();
+                            } else {
+                              widget._requestContactPermission();
+                            }
                           },
                           trailing: Icon(Icons.import_contacts),
                         )
