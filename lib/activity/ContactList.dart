@@ -167,7 +167,9 @@ class _ContactListState extends State<ContactList> {
                         '${filteredNames[index].name}',
                         style: TextStyle(fontSize: 20),
                       ),
-                      trailing: Icon(Icons.keyboard_arrow_right),
+                      trailing: Icon(filteredNames[index].favorite == 0
+                          ? Icons.keyboard_arrow_right
+                          : Icons.star),
                       onTap: () {
                         // Navigator.pushNamed(
                         //     context, '/contactDetails',
