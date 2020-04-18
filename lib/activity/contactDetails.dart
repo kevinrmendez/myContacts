@@ -24,7 +24,7 @@ getInterstitialAdUnitId() {
 }
 
 void _showAd() {
-  if (_counter % 4 == 0) {
+  if (_counter % 6 == 0) {
     interstitialAd.show();
   }
   print("COUNTER: $_counter");

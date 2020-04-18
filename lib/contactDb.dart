@@ -22,6 +22,13 @@ class ContactDb {
     );
   }
 
+  Future<void> deleteDuplicateContacts() async {
+    final Database db = await getDb();
+    return db.execute(
+      "DELETE FROM contacts WHERE ROWID NOT IN (SELECT MIN(ROWID) FROM contacts GROUP BY  name, phone, email, image, favorite)",
+    );
+  }
+
   Future<void> insertContact(Contact contact) async {
     // Get a reference to the database.
     final Database db = await getDb();

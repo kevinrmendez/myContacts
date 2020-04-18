@@ -256,6 +256,60 @@ class SettingsState extends State<Settings> {
                     },
                     trailing: Icon(Icons.delete),
                   ),
+                  ListTile(
+                    title: Text('Delete duplicate contacts'),
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(
+                                  'Are you sure you want to delete all your contacts duplicates?'),
+                              actions: <Widget>[
+                                FlatButton(
+                                    child: Text(
+                                      'close',
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ),
+                                    onPressed: () {
+                                      // Navigator.of(context).pop();
+                                      Navigator.popUntil(
+                                          context, ModalRoute.withName('/'));
+                                    }),
+                                FlatButton(
+                                    child: Text(
+                                      'ok',
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ),
+                                    onPressed: () async {
+                                      // bool isDataDeleted =
+                                      await _db.deleteDuplicateContacts();
+                                      // if (isDataDeleted) {
+                                      //   _scaffoldKey.currentState.showSnackBar(
+                                      //       snackBar(
+                                      //           'All your contacts have been deleted!'));
+                                      //   setState(() {
+                                      //     importedContacts = false;
+                                      //     prefs.setBool('importedContacts',
+                                      //         importedContacts);
+                                      //   });
+                                      // }
+                                      _scaffoldKey.currentState.showSnackBar(
+                                          snackBar(
+                                              'All your contacts duplicate have been deleted!'));
+
+                                      Navigator.pop(context);
+                                    })
+                              ],
+                            );
+                          });
+                    },
+                    trailing: Icon(Icons.content_cut),
+                  ),
                   importedContacts == false
                       ? ListTile(
                           title: Text('Import contacts'),
