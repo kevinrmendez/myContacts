@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/components/expandableExportSettings.dart';
 import 'package:kevin_app/components/expandableThemeSettings.dart';
@@ -15,6 +16,7 @@ import 'package:contacts_service/contacts_service.dart' as a;
 import 'package:kevin_app/ContactDb.dart';
 
 import 'package:kevin_app/appSettings.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'aboutActivity .dart';
 
@@ -204,6 +206,19 @@ class SettingsState extends State<Settings> {
                         );
                       },
                     ),
+                  ),
+                  ListTile(
+                    title: Text('Ad-Free'),
+                    onTap: () async {
+                      String url =
+                          "https://play.google.com/store/apps/details?id=com.kevinrmendez.bad_jokes";
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    },
+                    trailing: Icon(Icons.remove_circle),
                   ),
                   ListTile(
                     title: Text('Delete contacts'),
