@@ -261,7 +261,7 @@ class ContactEditState extends State<ContactEdit> {
   Widget _buildFormButtons() {
     List<Widget> _buttons = [
       Padding(
-        padding: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 0),
         child: RaisedButton(
           color: Theme.of(context).primaryColor,
           onPressed: () async {
@@ -277,7 +277,7 @@ class ContactEditState extends State<ContactEdit> {
         width: 20,
       ),
       Padding(
-        padding: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 5),
         child: RaisedButton(
           color: Theme.of(context).primaryColor,
           child: Text(
