@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:kevin_app/utils/colors.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:kevin_app/activity/cameraActivity.dart';
@@ -16,6 +17,12 @@ class ContactForm extends StatefulWidget {
   final nameController;
   final phoneController;
   final emailController;
+  final List<String> group = <String>[
+    "general",
+    "family",
+    "friend",
+    "coworker"
+  ];
 
   ContactForm(
       {this.image,
@@ -57,6 +64,8 @@ class ContactFormState extends State<ContactForm> {
   String email;
   int contactId;
 
+  String dropdownValue;
+
   @override
   void initState() {
     super.initState();
@@ -64,6 +73,7 @@ class ContactFormState extends State<ContactForm> {
     // this.name = widget.nameController.text;
     // this.phone = widget.phoneController.text;
     // this.email = widget.emailController.text;
+    dropdownValue = widget.group[0];
   }
 
   @override
@@ -83,6 +93,27 @@ class ContactFormState extends State<ContactForm> {
             content: Text(text),
           );
         });
+  }
+
+  Widget _dropDown() {
+    return DropdownButton(
+      value: dropdownValue,
+      icon: Icon(Icons.arrow_drop_down),
+      items: widget.group.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+            style: TextStyle(color: GREY),
+          ),
+        );
+      }).toList(),
+      onChanged: (String value) {
+        setState(() {
+          dropdownValue = value;
+        });
+      },
+    );
   }
 
   void _resetFormFields() {
@@ -142,6 +173,29 @@ class ContactFormState extends State<ContactForm> {
                     InputDecoration(hintText: 'email', icon: Icon(Icons.email)),
                 keyboardType: TextInputType.emailAddress,
                 controller: widget.emailController,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Icon(
+                    Icons.group,
+                    color: GREY,
+                    size: 25,
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Text(
+                    'group',
+                    style: TextStyle(
+                      color: GREY,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  _dropDown()
+                ],
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
