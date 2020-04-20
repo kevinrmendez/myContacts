@@ -201,6 +201,10 @@ class ContactDetails extends StatelessWidget {
                   _buildFavorite()
                 ],
               ),
+              Text(
+                contact.category,
+                style: TextStyle(fontSize: 25),
+              ),
               ContactImageFull(
                 image: contact.image,
               ),

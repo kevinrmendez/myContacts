@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/components/contactImageFull.dart';
+import 'package:kevin_app/utils/colors.dart';
 import 'package:scidart/numdart.dart';
 import 'package:kevin_app/appSettings.dart';
 import 'package:kevin_app/components/contactImage.dart';
@@ -13,6 +14,12 @@ import '../myThemes.dart';
 class ContactEdit extends StatefulWidget {
   final Contact contact;
   final Function callback;
+  final List<String> category = <String>[
+    "general",
+    "family",
+    "friend",
+    "coworker"
+  ];
   ContactEdit({@required this.contact, this.callback});
 
   @override
@@ -43,6 +50,8 @@ class ContactEditState extends State<ContactEdit> {
   int favorite;
   Future<List<Contact>> contacts;
 
+  String dropdownValue;
+
   callback({String name, String phone, String email, int favorite}) {
     setState(() {
       this.name = name;
@@ -50,6 +59,27 @@ class ContactEditState extends State<ContactEdit> {
       this.email = email;
       this.favorite = favorite;
     });
+  }
+
+  Widget _dropDown() {
+    return DropdownButton(
+      value: contact.category,
+      icon: Icon(Icons.arrow_drop_down),
+      items: widget.category.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+            style: TextStyle(color: GREY),
+          ),
+        );
+      }).toList(),
+      onChanged: (String value) {
+        setState(() {
+          dropdownValue = value;
+        });
+      },
+    );
   }
 
   @override
@@ -73,9 +103,10 @@ class ContactEditState extends State<ContactEdit> {
     contact.phone = phoneController.text;
     contact.email = emailController.text;
     contact.favorite = this.favorite;
+    contact.category = this.dropdownValue;
 
-    print('after update id');
-    print(contact);
+    // print('after update id');
+    // print(contact);
     await db.updateContact(contact);
     contacts = db.contacts();
     _showMessage('contact information changed');
@@ -172,6 +203,29 @@ class ContactEditState extends State<ContactEdit> {
                         hintText: 'email', icon: Icon(Icons.email)),
                     keyboardType: TextInputType.emailAddress,
                     controller: emailController,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(
+                        Icons.group,
+                        color: GREY,
+                        size: 25,
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        'group',
+                        style: TextStyle(
+                          color: GREY,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      _dropDown()
+                    ],
                   ),
                   Row(
                     children: <Widget>[

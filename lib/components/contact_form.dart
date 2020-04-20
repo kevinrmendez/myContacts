@@ -17,7 +17,7 @@ class ContactForm extends StatefulWidget {
   final nameController;
   final phoneController;
   final emailController;
-  final List<String> group = <String>[
+  final List<String> category = <String>[
     "general",
     "family",
     "friend",
@@ -73,7 +73,7 @@ class ContactFormState extends State<ContactForm> {
     // this.name = widget.nameController.text;
     // this.phone = widget.phoneController.text;
     // this.email = widget.emailController.text;
-    dropdownValue = widget.group[0];
+    dropdownValue = widget.category[0];
   }
 
   @override
@@ -99,7 +99,7 @@ class ContactFormState extends State<ContactForm> {
     return DropdownButton(
       value: dropdownValue,
       icon: Icon(Icons.arrow_drop_down),
-      items: widget.group.map<DropdownMenuItem<String>>((String value) {
+      items: widget.category.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(
@@ -198,7 +198,7 @@ class ContactFormState extends State<ContactForm> {
                 ],
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -264,6 +264,7 @@ class ContactFormState extends State<ContactForm> {
                                 name: formattedName,
                                 phone: widget.phoneController.text,
                                 email: widget.emailController.text,
+                                category: dropdownValue,
                                 image: widget.image);
                             _saveContact(contact);
                             widget.callback("");
