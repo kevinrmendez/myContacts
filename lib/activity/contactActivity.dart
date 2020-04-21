@@ -7,6 +7,7 @@ import 'package:kevin_app/components/contact_form.dart';
 import 'package:flutter/services.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 
+import '../app_localizations.dart';
 import 'cameraActivity.dart';
 
 class ContactActivity extends StatefulWidget {
@@ -54,7 +55,7 @@ class ContactActivityState extends State<ContactActivity>
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text(
-          'MyContacts',
+          AppLocalizations.of(context).translate("app_title"),
         ),
       ),
       body: Center(

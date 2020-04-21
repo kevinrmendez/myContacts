@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:kevin_app/utils/colors.dart';
+import 'package:kevin_app/utils/utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:kevin_app/activity/cameraActivity.dart';
@@ -9,6 +10,7 @@ import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactDb.dart';
 
 import '../appSettings.dart';
+import '../app_localizations.dart';
 
 class ContactForm extends StatefulWidget {
   final PermissionHandler _permissionHandler = PermissionHandler();
@@ -146,19 +148,22 @@ class ContactFormState extends State<ContactForm> {
           child: Column(
             children: <Widget>[
               TextFormField(
-                decoration:
-                    InputDecoration(hintText: 'name', icon: Icon(Icons.person)),
+                decoration: InputDecoration(
+                    hintText: translatedText("hintText_name", context),
+                    icon: Icon(Icons.person)),
                 controller: widget.nameController,
                 validator: (value) {
                   if (value.isEmpty) {
-                    return 'Please enter the name';
+                    return translatedText(
+                        "hintText_name_verification", context);
                   }
                   return null;
                 },
               ),
               TextFormField(
                 decoration: InputDecoration(
-                    hintText: 'phone number', icon: Icon(Icons.phone)),
+                    hintText: translatedText("hintText_phone", context),
+                    icon: Icon(Icons.phone)),
                 // validator: (value) {
                 //   if (value.isEmpty) {
                 //     return 'Please enter the phone';
@@ -169,8 +174,9 @@ class ContactFormState extends State<ContactForm> {
                 controller: widget.phoneController,
               ),
               TextFormField(
-                decoration:
-                    InputDecoration(hintText: 'email', icon: Icon(Icons.email)),
+                decoration: InputDecoration(
+                    hintText: translatedText("hintText_email", context),
+                    icon: Icon(Icons.email)),
                 keyboardType: TextInputType.emailAddress,
                 controller: widget.emailController,
               ),
@@ -186,7 +192,7 @@ class ContactFormState extends State<ContactForm> {
                     width: 30,
                   ),
                   Text(
-                    'group',
+                    translatedText("hintText_group", context),
                     style: TextStyle(
                       color: GREY,
                     ),
@@ -226,7 +232,8 @@ class ContactFormState extends State<ContactForm> {
                                   );
                                   widget.callback(image);
                                   Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text('Picture has been taken')));
+                                      content: Text(translatedText(
+                                          "message_picture_taken", context))));
                                   print(image.toString());
                                 }
                                 break;
@@ -272,7 +279,7 @@ class ContactFormState extends State<ContactForm> {
                           // print(await db.contacts());
                         },
                         child: Text(
-                          'save',
+                          translatedText("text_save", context),
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

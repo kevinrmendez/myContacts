@@ -1,0 +1,20 @@
+{
+  "app_title": "MyContacts",
+  "app_title_contactList": "Search Contact",
+  "app_title_favorite": "Search Favorite Contact",
+  "menu_home": "home",
+  "menu_contactList": "contactList",
+  "menu_favorite": "favorite",
+  "menu_settings": "settings",
+  "hintText_name": "name",
+  "hintText_name_verification": "Please enter the name",
+  "hintText_phone": "phone number",
+  "hintText_email": "email",
+  "hintText_group": "group",
+  "message_picture_taken": "Picture has been taken",
+  "text_save": "save",
+  "text_empty_list": "Your contact list is empty",
+  "text_empty_list_favorite": "'Your favorite contact list is empty'",
+  "text_empty_list_description": "go to the home screen  and add your contacts",
+  "text_empty_list_favorite_description": "Add your favorite contacts from the contact edit screen"
+}

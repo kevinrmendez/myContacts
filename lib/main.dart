@@ -14,6 +14,8 @@ import 'appSettings.dart';
 import 'myThemes.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 SharedPreferences prefs;
 void main() async {
@@ -45,6 +47,7 @@ class MyAppState extends State<MyApp> {
     themekey = MyThemeKeys.values[themekeyIndex];
     brightness = Brightness.light;
     theme = MyThemes.getThemeFromKey(themekey);
+    print("THEME: $theme");
     super.initState();
   }
 
@@ -58,7 +61,91 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return AppSettings(
-        callback: callback, theme: theme, themeKey: themekey, child: _Home());
+        callback: callback,
+        theme: theme,
+        themeKey: themekey,
+        child: AppWrapper()
+
+        // _Home()
+
+        );
+  }
+}
+
+class AppWrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Future<bool> _onWillPop() {
+      return showDialog(
+            context: context,
+            builder: (context) => new AlertDialog(
+              title: new Text(
+                'Do you want to close the app?',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              content: new Text(
+                  'Please share us your feedback before leaving the app, we would love hearing from you'),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: new Text('Yes'),
+                ),
+                FlatButton(
+                  onPressed: () async {
+                    // Navigator.of(context).pop(false);
+                    String url =
+                        "https://play.google.com/store/apps/details?id=com.kevinrmendez.contact_app";
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    } else {
+                      throw 'Could not launch $url';
+                    }
+                  },
+                  child: new Text('review app'),
+                ),
+                FlatButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: new Text('No'),
+                ),
+              ],
+            ),
+          ) ??
+          false;
+    }
+
+    return MaterialApp(
+      supportedLocales: [
+        const Locale('en', 'US'),
+        const Locale('es', 'MX'),
+      ],
+      localizationsDelegates: [
+        // A class which loads the translations from JSON files
+        AppLocalizations.delegate,
+        // Built-in localization of basic text for Material widgets
+        GlobalMaterialLocalizations.delegate,
+        // Built-in localization for text direction LTR/RTL
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        // Check if the current device locale is supported
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+        // If the locale of the device is not supported, use the first one
+        // from the list (English, in this case).
+        return supportedLocales.first;
+      },
+      title: "MyContacts",
+      debugShowCheckedModeBanner: false,
+      theme: AppSettings.of(context).theme,
+      home: WillPopScope(
+        onWillPop: _onWillPop,
+        child: _Home(),
+      ),
+    );
   }
 }
 
@@ -92,42 +179,8 @@ class _HomeState extends State<_Home> {
     });
   }
 
-  Future<bool> _onWillPop() {
-    return showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text(
-              'Do you want to close the app?',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            content: new Text(
-                'Please share us your feedback before leaving the app, we would love hearing from you'),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: new Text('Yes'),
-              ),
-              FlatButton(
-                onPressed: () async {
-                  // Navigator.of(context).pop(false);
-                  String url =
-                      "https://play.google.com/store/apps/details?id=com.kevinrmendez.contact_app";
-                  if (await canLaunch(url)) {
-                    await launch(url);
-                  } else {
-                    throw 'Could not launch $url';
-                  }
-                },
-                child: new Text('review app'),
-              ),
-              FlatButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
+  Widget _bottomMenuTitle(String text) {
+    return Text(AppLocalizations.of(context).translate(text));
   }
 
   @override
@@ -135,45 +188,37 @@ class _HomeState extends State<_Home> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return MaterialApp(
-      title: 'MyContacts',
-      debugShowCheckedModeBanner: false,
-      theme: AppSettings.of(context).theme,
-      home: WillPopScope(
-        onWillPop: _onWillPop,
-        child: Scaffold(
-            body: widget._activities[_currentIndex],
-            bottomNavigationBar: BottomNavigationBar(
-                type: BottomNavigationBarType.shifting,
-                selectedItemColor: Color(0xFF6A6A6C),
-                unselectedItemColor: Colors.grey,
-                selectedLabelStyle: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                ),
-                unselectedLabelStyle: TextStyle(
-                  color: Colors.grey,
-                ),
-                showUnselectedLabels: true,
-                currentIndex: _currentIndex,
-                onTap: onTabTapped,
-                items: [
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.home,
-                        // color: Theme.of(context).primaryColor,
-                      ),
-                      title: Text(
-                        'home',
-                        // style: TextStyle(color: Colors.grey),
-                      )),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.contacts), title: Text('contactList')),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.star), title: Text('favorite')),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.settings), title: Text('settings')),
-                ])),
-      ),
-    );
+    return Scaffold(
+        body: widget._activities[_currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.shifting,
+            selectedItemColor: Color(0xFF6A6A6C),
+            unselectedItemColor: Colors.grey,
+            selectedLabelStyle: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+            unselectedLabelStyle: TextStyle(
+              color: Colors.grey,
+            ),
+            showUnselectedLabels: true,
+            currentIndex: _currentIndex,
+            onTap: onTabTapped,
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                    // color: Theme.of(context).primaryColor,
+                  ),
+                  title: _bottomMenuTitle("menu_home")),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.contacts),
+                  title: _bottomMenuTitle("menu_contactList")),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.star),
+                  title: _bottomMenuTitle("menu_favorite")),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  title: _bottomMenuTitle("menu_settings")),
+            ]));
   }
 }

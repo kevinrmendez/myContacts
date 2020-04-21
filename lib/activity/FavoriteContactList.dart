@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
+import 'package:kevin_app/utils/utils.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -65,7 +66,6 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
   List<Contact> filteredNames = new List();
   // names filtered by search text
   Icon _searchIcon = new Icon(Icons.search);
-  Widget _appBarTitle = new Text('Search Favorite Contact');
 
   Future getContactList() async {
     return await contacts;
@@ -84,54 +84,6 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
       contactListLength = names.length;
     });
     return tempList;
-  }
-
-  void _searchPressed() {
-    setState(() {
-      if (this._searchIcon.icon == Icons.search) {
-        this._searchIcon = new Icon(Icons.close);
-        this._appBarTitle = new TextField(
-          style: TextStyle(color: Colors.white, fontSize: 17),
-          controller: _filter,
-          decoration: new InputDecoration(
-            prefixIcon: new Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
-            hintText: 'Search...',
-            hintStyle: TextStyle(color: Theme.of(context).accentColor),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).accentColor),
-            ),
-            focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white)),
-            // border: UnderlineInputBorder(
-            //     borderSide: BorderSide(color: Colors.white))
-          ),
-        );
-      } else {
-        this._searchIcon = new Icon(
-          Icons.search,
-          color: Colors.white,
-        );
-        this._appBarTitle = new Text('Search Favorite Contact');
-        filteredNames = names;
-        _filter.clear();
-      }
-    });
-  }
-
-  Widget _buildBar(BuildContext context) {
-    return new AppBar(
-      centerTitle: true,
-      title: _appBarTitle,
-      leading: Container(
-        child: new IconButton(
-          icon: _searchIcon,
-          onPressed: _searchPressed,
-        ),
-      ),
-    );
   }
 
   Widget _buildList() {
@@ -207,7 +159,7 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
                         width: 200,
                         // margin: EdgeInsets.only(top: 40),
                         child: Text(
-                          'Your favorite contact list is empty',
+                          translatedText("text_empty_list_favorite", context),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -220,7 +172,8 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
                             maxWidth: MediaQuery.of(context).size.width * 0.7),
                         margin: EdgeInsets.only(top: 20),
                         child: Text(
-                          'Add your favorite contacts from the contact edit screen',
+                          translatedText(
+                              "text_empty_list_favorite_description", context),
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 17),
                         ),
@@ -256,6 +209,58 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
 
   @override
   Widget build(BuildContext context) {
+    Widget _appBarTitle =
+        new Text(translatedText("app_title_favorite", context));
+
+    Widget _buildBar(BuildContext context) {
+      void _searchPressed() {
+        setState(() {
+          if (this._searchIcon.icon == Icons.search) {
+            this._searchIcon = new Icon(Icons.close);
+            _appBarTitle = new TextField(
+              style: TextStyle(color: Colors.white, fontSize: 17),
+              controller: _filter,
+              decoration: new InputDecoration(
+                prefixIcon: new Icon(
+                  Icons.search,
+                  color: Colors.white,
+                ),
+                hintText: 'Search...',
+                hintStyle: TextStyle(color: Theme.of(context).accentColor),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Theme.of(context).accentColor),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white)),
+                // border: UnderlineInputBorder(
+                //     borderSide: BorderSide(color: Colors.white))
+              ),
+            );
+          } else {
+            this._searchIcon = new Icon(
+              Icons.search,
+              color: Colors.white,
+            );
+            _appBarTitle =
+                new Text(translatedText("app_title_favorite", context));
+            filteredNames = names;
+            _filter.clear();
+          }
+        });
+      }
+
+      return new AppBar(
+        centerTitle: true,
+        title: _appBarTitle,
+        leading: Container(
+          child: new IconButton(
+            icon: _searchIcon,
+            onPressed: _searchPressed,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: _buildBar(context),
       body: Container(

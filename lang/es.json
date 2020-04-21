@@ -1,0 +1,20 @@
+{
+  "app_title": "Mis Contactos",
+  "app_title_contactList": "Buscar contacto ",
+  "app_title_favorite": "Buscar contacto favorito",
+  "menu_home": "inicio",
+  "menu_contactList": "contactos",
+  "menu_favorite": "favoritos",
+  "menu_settings": "configuracion",
+  "hintText_name": "nombre",
+  "hintText_name_verification": "Por favor, introduzca el nombre",
+  "hintText_phone": "número de teléfono",
+  "hintText_email": "correo electrónico",
+  "hintText_group": "grupo",
+  "message_picture_taken": "Se ha tomado la foto",
+  "text_save": "guardar",
+  "text_empty_list": "Tu lista de contactos está vacía",
+  "text_empty_list_favorite": "Tu lista de contactos favoritos está vacía",
+  "text_empty_list_description": "Ve a la pantalla de inicio y añade tus contactos",
+  "text_empty_list_favorite_description": "Añade tus contactos favoritos desde la pantalla de edición de contactos"
+}
