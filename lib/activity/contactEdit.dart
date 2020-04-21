@@ -4,6 +4,7 @@ import 'package:kevin_app/utils/colors.dart';
 import 'package:scidart/numdart.dart';
 import 'package:kevin_app/appSettings.dart';
 import 'package:kevin_app/components/contactImage.dart';
+import 'package:kevin_app/utils/utils.dart';
 
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactDb.dart';
@@ -167,7 +168,8 @@ class ContactEditState extends State<ContactEdit> {
                       });
                     },
                     decoration: InputDecoration(
-                        hintText: 'name', icon: Icon(Icons.person)),
+                        hintText: translatedText("hintText_name", context),
+                        icon: Icon(Icons.person)),
                     controller: nameController,
                     validator: (value) {
                       if (value.isEmpty) {
@@ -183,7 +185,8 @@ class ContactEditState extends State<ContactEdit> {
                       });
                     },
                     decoration: InputDecoration(
-                        hintText: 'phone number', icon: Icon(Icons.phone)),
+                        hintText: translatedText("hintText_phone", context),
+                        icon: Icon(Icons.phone)),
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'Please enter the phone';
@@ -200,7 +203,8 @@ class ContactEditState extends State<ContactEdit> {
                       });
                     },
                     decoration: InputDecoration(
-                        hintText: 'email', icon: Icon(Icons.email)),
+                        hintText: translatedText("hintText_email", context),
+                        icon: Icon(Icons.email)),
                     keyboardType: TextInputType.emailAddress,
                     controller: emailController,
                   ),
@@ -237,7 +241,7 @@ class ContactEditState extends State<ContactEdit> {
                         width: 20,
                       ),
                       Text(
-                        'Favorite Contact',
+                        translatedText("hintText_favorite", context),
                         style: TextStyle(color: Colors.grey),
                       ),
                       Switch(
@@ -268,7 +272,7 @@ class ContactEditState extends State<ContactEdit> {
             _updateContact(contact);
           },
           child: Text(
-            'save',
+            translatedText("button_save", context),
             style: TextStyle(color: Colors.white),
           ),
         ),
@@ -281,7 +285,7 @@ class ContactEditState extends State<ContactEdit> {
         child: RaisedButton(
           color: Theme.of(context).primaryColor,
           child: Text(
-            'delete ',
+            translatedText("button_delete", context),
             style: TextStyle(color: Colors.white),
           ),
           onPressed: () async {
@@ -347,7 +351,7 @@ class ContactEditState extends State<ContactEdit> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Edit Contact'),
+        title: Text(translatedText("app_title_contactEdit", context)),
       ),
       body: ListView(
         children: <Widget>[

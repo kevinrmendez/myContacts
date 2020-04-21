@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/main.dart';
+import 'package:kevin_app/utils/utils.dart';
 
 import '../appSettings.dart';
 import '../myThemes.dart';
 
 class ExpandableThemeSettings extends StatefulWidget {
+  final BuildContext context;
+  ExpandableThemeSettings(this.context);
   @override
   ExpandableThemeSettingsState createState() => ExpandableThemeSettingsState();
 }
@@ -12,16 +15,19 @@ class ExpandableThemeSettings extends StatefulWidget {
 class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
   // This widget is the root of your application.
   bool changeTheme;
-  List<Item> items = [Item(headerValue: 'Theme')];
   // ThemeData _theme;
   int thmekeyIndex;
   MyThemeKeys themekey;
+  List<Item> items;
 
   @override
   void initState() {
     print(prefs.getInt('themeKey'));
     thmekeyIndex = (prefs.getInt('themeKey') ?? 0);
     themekey = MyThemeKeys.values[thmekeyIndex];
+    items = [
+      Item(headerValue: translatedText("settings_theme", widget.context))
+    ];
     super.initState();
   }
 
@@ -88,7 +94,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
             body: Card(
               child: Column(children: [
                 ListTile(
-                  title: const Text('Blue'),
+                  title: Text(translatedText("color_blue", context)),
                   leading: Radio(
                     value: MyThemeKeys.BLUE,
                     groupValue: themekey,
@@ -98,7 +104,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Black'),
+                  title: Text(translatedText("color_black", context)),
                   leading: Radio(
                     value: MyThemeKeys.BLACK,
                     groupValue: themekey,
@@ -108,7 +114,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Green'),
+                  title: Text(translatedText("color_green", context)),
                   leading: Radio(
                     value: MyThemeKeys.GREEN,
                     groupValue: themekey,
@@ -118,7 +124,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Navy'),
+                  title: Text(translatedText("color_navy", context)),
                   leading: Radio(
                     value: MyThemeKeys.NAVY,
                     groupValue: themekey,
@@ -128,7 +134,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Orange'),
+                  title: Text(translatedText("color_orange", context)),
                   leading: Radio(
                     value: MyThemeKeys.ORANGE,
                     groupValue: themekey,
@@ -138,7 +144,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Pink'),
+                  title: Text(translatedText("color_pink", context)),
                   leading: Radio(
                     value: MyThemeKeys.PINK,
                     groupValue: themekey,
@@ -148,7 +154,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Purple'),
+                  title: Text(translatedText("color_purple", context)),
                   leading: Radio(
                     value: MyThemeKeys.PURPLE,
                     groupValue: themekey,
@@ -158,7 +164,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Red'),
+                  title: Text(translatedText("color_red", context)),
                   leading: Radio(
                     value: MyThemeKeys.RED,
                     groupValue: themekey,
@@ -168,7 +174,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Teal'),
+                  title: Text(translatedText("color_teal", context)),
                   leading: Radio(
                     value: MyThemeKeys.TEAL,
                     groupValue: themekey,
@@ -178,7 +184,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Yellow'),
+                  title: Text(translatedText("color_yellow", context)),
                   leading: Radio(
                     value: MyThemeKeys.YELLOW,
                     groupValue: themekey,
@@ -188,7 +194,7 @@ class ExpandableThemeSettingsState extends State<ExpandableThemeSettings> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Dark'),
+                  title: Text(translatedText("color_dark", context)),
                   leading: Radio(
                     value: MyThemeKeys.DARK,
                     groupValue: themekey,

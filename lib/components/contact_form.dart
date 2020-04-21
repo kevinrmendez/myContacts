@@ -128,8 +128,8 @@ class ContactFormState extends State<ContactForm> {
   Future<void> _saveContact(Contact contact) async {
     await db.insertContact(contact);
 
-    Scaffold.of(context)
-        .showSnackBar(SnackBar(content: Text('Contact has been saved')));
+    Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(translatedText("snackbar_contact_save", context))));
     _resetFormFields();
     contactId++;
     print(contact);
@@ -279,7 +279,7 @@ class ContactFormState extends State<ContactForm> {
                           // print(await db.contacts());
                         },
                         child: Text(
-                          translatedText("text_save", context),
+                          translatedText("button_save", context),
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

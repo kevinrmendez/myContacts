@@ -6,6 +6,7 @@ import 'package:kevin_app/components/expandableExportSettings.dart';
 import 'package:kevin_app/components/expandableThemeSettings.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/main.dart';
+import 'package:kevin_app/utils/utils.dart';
 
 import 'dart:async';
 
@@ -125,7 +126,7 @@ class SettingsState extends State<Settings> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(
-                'importing contacts...',
+                translatedText("actions_import_contacts", context),
               ),
               content: Container(
                 constraints: BoxConstraints(maxHeight: 30, maxWidth: 30),
@@ -154,26 +155,29 @@ class SettingsState extends State<Settings> {
           String email = emails.length > 0 ? emails[0].value : "";
           String phone = phones.length > 0 ? phones[0].value : "";
           String name = contact.displayName;
+          String category = "general";
 
           if (contact != null) {
-            Contact newContact =
-                Contact(name: name, email: email, phone: phone);
+            Contact newContact = Contact(
+                name: name, email: email, phone: phone, category: category);
 
             db.insertContact(newContact);
 
             print(email);
             print(contact.displayName);
             print(phone);
+            print(category);
           }
         });
       }).then((onValue) {
+        print(onValue);
         setState(() {
           importedContacts = true;
           prefs.setBool('importedContacts', importedContacts);
           importedContactsProgress = false;
         });
         _scaffoldKey.currentState.showSnackBar(
-            snackBar('All your contacts from your phone have been imported!'));
+            snackBar(translatedText("snackbar_contact_import", context)));
         Navigator.pop(context);
       }).catchError((e) {
         print('ERROR');
@@ -184,7 +188,7 @@ class SettingsState extends State<Settings> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Text(translatedText("app_title_settings", context)),
       ),
       body: Builder(
         builder: (context) => Column(
@@ -194,7 +198,7 @@ class SettingsState extends State<Settings> {
               child: ListView(
                 children: <Widget>[
                   ListTile(
-                    title: Text('About'),
+                    title: Text(translatedText("settings_about", context)),
                     trailing: IconButton(
                       icon: Icon(Icons.info),
                       onPressed: () {
@@ -207,7 +211,7 @@ class SettingsState extends State<Settings> {
                     ),
                   ),
                   ListTile(
-                    title: Text('Ad-Free'),
+                    title: Text(translatedText("settings_adfree", context)),
                     onTap: () async {
                       String url =
                           "https://play.google.com/store/apps/details?id=com.mycontacts";
@@ -220,7 +224,7 @@ class SettingsState extends State<Settings> {
                     trailing: Icon(Icons.remove_circle),
                   ),
                   ListTile(
-                    title: Text('Rate app'),
+                    title: Text(translatedText("settings_rate_app", context)),
                     onTap: () async {
                       String url =
                           "https://play.google.com/store/apps/details?id=com.kevinrmendez.contact_app";
@@ -234,7 +238,8 @@ class SettingsState extends State<Settings> {
                   ),
                   importedContacts == false
                       ? ListTile(
-                          title: Text('Import contacts'),
+                          title: Text(translatedText(
+                              "settings_import_contacts", context)),
                           onTap: () async {
                             var permissionStatus = await widget
                                 ._permissionHandler
@@ -251,18 +256,19 @@ class SettingsState extends State<Settings> {
                         )
                       : const SizedBox(),
                   ListTile(
-                    title: Text('Delete contacts'),
+                    title: Text(
+                        translatedText("settings_delete_contacts", context)),
                     onTap: () {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text(
-                                  'Are you sure you want to delete all your contacts?'),
+                              title: Text(translatedText(
+                                  "message_dialog_delete_contacts", context)),
                               actions: <Widget>[
                                 FlatButton(
                                     child: Text(
-                                      'close',
+                                      translatedText("button_close", context),
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor),
@@ -274,7 +280,7 @@ class SettingsState extends State<Settings> {
                                     }),
                                 FlatButton(
                                     child: Text(
-                                      'ok',
+                                      translatedText("button_ok", context),
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor),
@@ -284,8 +290,9 @@ class SettingsState extends State<Settings> {
                                           await _db.deleteAllContacts();
                                       if (isDataDeleted) {
                                         _scaffoldKey.currentState.showSnackBar(
-                                            snackBar(
-                                                'All your contacts have been deleted!'));
+                                            snackBar(translatedText(
+                                                "snackbar_contact_delete",
+                                                context)));
                                         setState(() {
                                           importedContacts = false;
                                           prefs.setBool('importedContacts',
@@ -302,18 +309,20 @@ class SettingsState extends State<Settings> {
                     trailing: Icon(Icons.delete),
                   ),
                   ListTile(
-                    title: Text('Delete duplicate contacts'),
+                    title: Text(translatedText(
+                        "settings_delete_contacts_duplicate", context)),
                     onTap: () {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text(
-                                  'Are you sure you want to delete all your contacts duplicates?'),
+                              title: Text(translatedText(
+                                  "message_dialog_delete_duplicate_contacts",
+                                  context)),
                               actions: <Widget>[
                                 FlatButton(
                                     child: Text(
-                                      'close',
+                                      translatedText("button_close", context),
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor),
@@ -325,7 +334,7 @@ class SettingsState extends State<Settings> {
                                     }),
                                 FlatButton(
                                     child: Text(
-                                      'ok',
+                                      translatedText("button_ok", context),
                                       style: TextStyle(
                                           color:
                                               Theme.of(context).primaryColor),
@@ -344,8 +353,9 @@ class SettingsState extends State<Settings> {
                                       //   });
                                       // }
                                       _scaffoldKey.currentState.showSnackBar(
-                                          snackBar(
-                                              'All your contacts duplicate have been deleted!'));
+                                          snackBar(translatedText(
+                                              "snackbar_contact_delete_duplicate",
+                                              context)));
 
                                       Navigator.pop(context);
                                     })
@@ -355,8 +365,8 @@ class SettingsState extends State<Settings> {
                     },
                     trailing: Icon(Icons.content_cut),
                   ),
-                  ExpandableExportSettings(),
-                  ExpandableThemeSettings(),
+                  ExpandableExportSettings(context),
+                  ExpandableThemeSettings(context),
                 ],
               ),
             ),

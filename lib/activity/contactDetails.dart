@@ -201,7 +201,7 @@ class ContactDetails extends StatelessWidget {
                   _buildFavorite()
                 ],
               ),
-              contact.category == "general"
+              contact.category == "general" || contact.category == null
                   ? SizedBox()
                   : Container(
                       padding: EdgeInsets.only(bottom: 10),

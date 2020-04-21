@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kevin_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutActivity extends StatelessWidget {
@@ -48,33 +49,20 @@ class AboutActivity extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _title('About MyContacts'),
-              _text(
-                  'MyContacts is a free app that will help you to manage your contacts.',
-                  context),
-              _text(
-                  'All the data that is store in the app is saved on the device memory',
-                  context),
-              _text(
-                  'You can import your contacts from your phone manually from the settings',
-                  context),
-              _text(
-                  'If you delete contacts from the app, they will not be deleted from your phone',
-                  context),
-              _text(
-                  'The user is responsible of proper use of the app and proper handling and storage of their contacts data',
-                  context),
-              _text(
-                  'In order to keep this app free to use, it contains some ads',
-                  context),
-              _text("If you enjoy using the app, don't forget to rate the app",
-                  context),
+              _title(translatedText("about_title", context)),
+              _text(translatedText("about1", context), context),
+              _text(translatedText("about2", context), context),
+              _text(translatedText("about3", context), context),
+              _text(translatedText("about4", context), context),
+              _text(translatedText("about5", context), context),
+              _text(translatedText("about6", context), context),
+              _text(translatedText("about7", context), context),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 20),
                 child: RaisedButton(
                   color: Theme.of(context).primaryColor,
                   child: Text(
-                    'Rate App',
+                    translatedText("button_rate", context),
                     style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
                   onPressed: () async {

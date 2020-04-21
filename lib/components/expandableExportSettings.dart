@@ -4,6 +4,7 @@ import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:kevin_app/ContactDb.dart';
+import 'package:kevin_app/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pdf/widgets.dart' as p;
@@ -13,6 +14,9 @@ final _scaffoldKey = GlobalKey<ScaffoldState>();
 final snackBar = (text) => SnackBar(content: Text(text));
 
 class ExpandableExportSettings extends StatefulWidget {
+  final BuildContext context;
+  ExpandableExportSettings(this.context);
+
   @override
   ExpandableExportSettingsState createState() =>
       ExpandableExportSettingsState();
@@ -20,13 +24,17 @@ class ExpandableExportSettings extends StatefulWidget {
 
 class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
   // This widget is the root of your application.
-  List<Item> items = [Item(headerValue: 'Export Contacts')];
-
+  List<Item> items;
   PermissionStatus _permissionStatus;
 
   @override
   void initState() {
     super.initState();
+    items = [
+      Item(
+          headerValue:
+              translatedText("settings_export_contacts", widget.context))
+    ];
   }
 
   @override
@@ -64,8 +72,8 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
         attachmentPath: '${file.path}',
       );
       await FlutterEmailSender.send(email);
-      _scaffoldKey.currentState
-          .showSnackBar(snackBar('Your contacts have been exported'));
+      _scaffoldKey.currentState.showSnackBar(
+          snackBar(translatedText("snackbar_contact_exported", context)));
     }
 
     Future<PermissionStatus> _checkPermission(
@@ -184,14 +192,16 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
             body: Card(
               child: Column(children: [
                 ListTile(
-                  title: const Text('Export contacts as csv'),
+                  title: Text(
+                      translatedText("settings_export_contacts_csv", context)),
                   leading: Icon(Icons.import_export),
                   onTap: () {
                     _exportContacts();
                   },
                 ),
                 ListTile(
-                  title: const Text('Export contacts as pdf'),
+                  title: Text(
+                      translatedText("settings_export_contacts_pdf", context)),
                   leading: Icon(Icons.picture_as_pdf),
                   onTap: () {
                     _exportContactsPdf();
