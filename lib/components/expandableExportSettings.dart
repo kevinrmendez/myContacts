@@ -47,7 +47,7 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
         row.add(contacts[i].name);
         row.add(contacts[i].phone);
         row.add(contacts[i].email);
-        row.add(contacts[i].instagram);
+        row.add(contacts[i].category);
         rows.add(row);
       }
       print('CONTACTS EXPORTED');
@@ -65,9 +65,8 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
       file.writeAsString(csv);
 
       final Email email = Email(
-        body:
-            'In this email you will find  MyContacts attached as a csv file. Thank you for using MyContacts!',
-        subject: 'MyContacts nformation',
+        body: translatedText("text", context),
+        subject: translatedText("email_csv_subject", context),
         // recipients: ['example@example.com'],
         attachmentPath: '${file.path}',
       );
@@ -152,8 +151,8 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
       file.writeAsBytesSync(pdfDocument.save());
 
       final Email email = Email(
-        body: 'MyContacts pdf!',
-        subject: 'MyContacts information in pdf',
+        body: translatedText("email_pdf_body", context),
+        subject: translatedText("email_pdf_subject", context),
         // recipients: ['example@example.com'],
         attachmentPath: '${file.path}',
       );

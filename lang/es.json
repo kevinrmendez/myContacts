@@ -61,5 +61,9 @@
   "about4": "Si eliminas contactos de la aplicación, no se eliminarán de tu teléfono",
   "about5": "El usuario es responsable del uso adecuado de la aplicación y del manejo y almacenamiento adecuado de sus datos de contactos",
   "about6": "Con el fin de mantener esta aplicación gratuita de uso, contiene algunos anuncios",
-  "about7": "Si te gusta usar la aplicación, no te olvides de calificar la aplicación"
+  "about7": "Si te gusta usar la aplicación, no te olvides de calificar la aplicación",
+  "email_pdf_body": "Mis Contactos pdf!",
+  "email_pdf_subject": "Mis contactos en  pdf",
+  "email_csv_body": "En este correo electrónico encontrará sus contactos adjuntos como un archivo csv. Gracias por usar Mis Contactos!",
+  "email_csv_subject": "Mis Contactos información"
 }
