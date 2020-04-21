@@ -201,13 +201,15 @@ class ContactDetails extends StatelessWidget {
                   _buildFavorite()
                 ],
               ),
-              Container(
-                padding: EdgeInsets.only(bottom: 10),
-                child: Text(
-                  contact.category,
-                  style: TextStyle(fontSize: 25),
-                ),
-              ),
+              contact.category == "general"
+                  ? SizedBox()
+                  : Container(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        contact.category,
+                        style: TextStyle(fontSize: 25),
+                      ),
+                    ),
               ContactImageFull(
                 image: contact.image,
               ),

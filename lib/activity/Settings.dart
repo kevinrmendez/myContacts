@@ -210,7 +210,7 @@ class SettingsState extends State<Settings> {
                     title: Text('Ad-Free'),
                     onTap: () async {
                       String url =
-                          "https://play.google.com/store/apps/details?id=com.kevinrmendez.bad_jokes";
+                          "https://play.google.com/store/apps/details?id=com.mycontacts";
                       if (await canLaunch(url)) {
                         await launch(url);
                       } else {
@@ -219,6 +219,37 @@ class SettingsState extends State<Settings> {
                     },
                     trailing: Icon(Icons.remove_circle),
                   ),
+                  ListTile(
+                    title: Text('Rate app'),
+                    onTap: () async {
+                      String url =
+                          "https://play.google.com/store/apps/details?id=com.kevinrmendez.contact_app";
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    },
+                    trailing: Icon(Icons.feedback),
+                  ),
+                  importedContacts == false
+                      ? ListTile(
+                          title: Text('Import contacts'),
+                          onTap: () async {
+                            var permissionStatus = await widget
+                                ._permissionHandler
+                                .checkPermissionStatus(
+                                    PermissionGroup.contacts);
+
+                            if (permissionStatus == PermissionStatus.granted) {
+                              _importContacts();
+                            } else {
+                              widget._requestContactPermission();
+                            }
+                          },
+                          trailing: Icon(Icons.import_contacts),
+                        )
+                      : const SizedBox(),
                   ListTile(
                     title: Text('Delete contacts'),
                     onTap: () {
@@ -324,24 +355,6 @@ class SettingsState extends State<Settings> {
                     },
                     trailing: Icon(Icons.content_cut),
                   ),
-                  importedContacts == false
-                      ? ListTile(
-                          title: Text('Import contacts'),
-                          onTap: () async {
-                            var permissionStatus = await widget
-                                ._permissionHandler
-                                .checkPermissionStatus(
-                                    PermissionGroup.contacts);
-
-                            if (permissionStatus == PermissionStatus.granted) {
-                              _importContacts();
-                            } else {
-                              widget._requestContactPermission();
-                            }
-                          },
-                          trailing: Icon(Icons.import_contacts),
-                        )
-                      : const SizedBox(),
                   ExpandableExportSettings(),
                   ExpandableThemeSettings(),
                 ],
