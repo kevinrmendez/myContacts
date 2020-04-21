@@ -13,25 +13,21 @@ import '../appSettings.dart';
 import '../app_localizations.dart';
 
 class ContactForm extends StatefulWidget {
+  final BuildContext context;
   final PermissionHandler _permissionHandler = PermissionHandler();
   String image;
   Function(String) callback;
   final nameController;
   final phoneController;
   final emailController;
-  final List<String> category = <String>[
-    "general",
-    "family",
-    "friend",
-    "coworker"
-  ];
 
   ContactForm(
       {this.image,
       this.callback,
       this.nameController,
       this.emailController,
-      this.phoneController});
+      this.phoneController,
+      this.context});
 
   Future<bool> _requestCameraPermission() async {
     var result =
@@ -51,6 +47,8 @@ class ContactForm extends StatefulWidget {
 }
 
 class ContactFormState extends State<ContactForm> {
+  List<String> category;
+
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -71,11 +69,17 @@ class ContactFormState extends State<ContactForm> {
   @override
   void initState() {
     super.initState();
+    category = <String>[
+      translatedText("group_default", widget.context),
+      translatedText("group_family", widget.context),
+      translatedText("group_friend", widget.context),
+      translatedText("group_coworker", widget.context),
+    ];
 
     // this.name = widget.nameController.text;
     // this.phone = widget.phoneController.text;
     // this.email = widget.emailController.text;
-    dropdownValue = widget.category[0];
+    dropdownValue = category[0];
   }
 
   @override
@@ -101,7 +105,7 @@ class ContactFormState extends State<ContactForm> {
     return DropdownButton(
       value: dropdownValue,
       icon: Icon(Icons.arrow_drop_down),
-      items: widget.category.map<DropdownMenuItem<String>>((String value) {
+      items: category.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(

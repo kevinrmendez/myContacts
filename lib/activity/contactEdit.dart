@@ -13,6 +13,7 @@ import 'package:kevin_app/utils/admobUtils.dart';
 import '../myThemes.dart';
 
 class ContactEdit extends StatefulWidget {
+  final BuildContext context;
   final Contact contact;
   final Function callback;
   final List<String> category = <String>[
@@ -21,7 +22,7 @@ class ContactEdit extends StatefulWidget {
     "friend",
     "coworker"
   ];
-  ContactEdit({@required this.contact, this.callback});
+  ContactEdit({@required this.contact, this.callback, this.context});
 
   @override
   ContactEditState createState() {
@@ -35,6 +36,7 @@ class ContactEditState extends State<ContactEdit> {
   //
   // Note: This is a `GlobalKey<FormState>`,
   // not a GlobalKey<MyCustomFormState>.
+  List<String> category;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final ContactDb db = ContactDb();
@@ -64,9 +66,9 @@ class ContactEditState extends State<ContactEdit> {
 
   Widget _dropDown() {
     return DropdownButton(
-      value: contact.category,
+      value: dropdownValue,
       icon: Icon(Icons.arrow_drop_down),
-      items: widget.category.map<DropdownMenuItem<String>>((String value) {
+      items: category.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(
@@ -97,6 +99,14 @@ class ContactEditState extends State<ContactEdit> {
     this.emailController.text = this.email;
 
     this.contact = widget.contact;
+
+    category = <String>[
+      translatedText("group_default", widget.context),
+      translatedText("group_family", widget.context),
+      translatedText("group_friend", widget.context),
+      translatedText("group_coworker", widget.context),
+    ];
+    dropdownValue = contact.category;
   }
 
   Future<void> _updateContact(Contact contact) async {
@@ -110,7 +120,7 @@ class ContactEditState extends State<ContactEdit> {
     // print(contact);
     await db.updateContact(contact);
     contacts = db.contacts();
-    _showMessage('contact information changed');
+    _showMessage(translatedText("message_dialog_change_contact", context));
     widget.callback(contacts);
   }
 
@@ -139,7 +149,7 @@ class ContactEditState extends State<ContactEdit> {
             actions: <Widget>[
               FlatButton(
                   child: Text(
-                    'close',
+                    translatedText("button_close", context),
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                   onPressed: () {
@@ -173,7 +183,8 @@ class ContactEditState extends State<ContactEdit> {
                     controller: nameController,
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Please enter the name';
+                        return translatedText(
+                            "hintText_name_verification", context);
                       }
                       return null;
                     },
@@ -189,7 +200,8 @@ class ContactEditState extends State<ContactEdit> {
                         icon: Icon(Icons.phone)),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Please enter the phone';
+                        return translatedText(
+                            "hintText_phone_verification", context);
                       }
                       return null;
                     },
@@ -220,7 +232,7 @@ class ContactEditState extends State<ContactEdit> {
                         width: 30,
                       ),
                       Text(
-                        'group',
+                        translatedText("hintText_group", context),
                         style: TextStyle(
                           color: GREY,
                         ),

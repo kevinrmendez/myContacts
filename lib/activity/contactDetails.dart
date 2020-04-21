@@ -6,6 +6,7 @@ import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/components/contactImageFull.dart';
 import 'package:kevin_app/myThemes.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
+import 'package:kevin_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../appSettings.dart';
 import '../contact.dart';
@@ -201,7 +202,8 @@ class ContactDetails extends StatelessWidget {
                   _buildFavorite()
                 ],
               ),
-              contact.category == "general" || contact.category == null
+              contact.category == translatedText("group_default", context) ||
+                      contact.category == null
                   ? SizedBox()
                   : Container(
                       padding: EdgeInsets.only(bottom: 10),
@@ -231,6 +233,7 @@ class ContactDetails extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => ContactEdit(
                       contact: contact,
+                      context: context,
                       callback: callback,
                     )),
           );

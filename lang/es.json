@@ -11,11 +11,13 @@
   "menu_settings": "configuracion",
   "hintText_name": "nombre",
   "hintText_name_verification": "Por favor, introduzca el nombre",
+  "hintText_phone_verification": "Por favor, introduzca el teléfono",
   "hintText_phone": "número de teléfono",
   "hintText_email": "correo electrónico",
   "hintText_group": "grupo",
   "hintText_favorite": "contacto favorito",
   "message_picture_taken": "Se ha tomado la foto",
+  "message_dialog_change_contact": "información de contacto cambiada",
   "message_dialog_delete_contacts": "¿Está seguro de que desea eliminar todos sus contactos?",
   "message_dialog_delete_duplicate_contacts": "¿Está seguro de que desea eliminar todos sus duplicados de contactos?",
   "button_close": "cerrar",
@@ -28,6 +30,7 @@
   "snackbar_contact_delete_duplicate": "Todos tus contactos duplicados han sido eliminados!",
   "snackbar_contact_import": "Todos sus contactos desde su teléfono han sido importados!",
   "snackbar_contact_exported": "Tus contactos han sido exportados",
+  "snackbar_contact_save": "Tu contacto ha sido guardado",
   "text_save": "guardar",
   "text_empty_list": "Tu lista de contactos está vacía",
   "text_empty_list_favorite": "Tu lista de contactos favoritos está vacía",
@@ -65,5 +68,9 @@
   "email_pdf_body": "Mis Contactos pdf!",
   "email_pdf_subject": "Mis contactos en  pdf",
   "email_csv_body": "En este correo electrónico encontrará sus contactos adjuntos como un archivo csv. Gracias por usar Mis Contactos!",
-  "email_csv_subject": "Mis Contactos información"
+  "email_csv_subject": "Mis Contactos información",
+  "group_default": "general",
+  "group_family": "familia",
+  "group_friend": "amigo",
+  "group_coworker": "colega"
 }
