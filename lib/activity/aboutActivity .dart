@@ -43,7 +43,7 @@ class AboutActivity extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('About')),
+      appBar: AppBar(title: Text(translatedText("app_title_about", context))),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
