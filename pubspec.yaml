@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.1.7+17
+version: 1.1.8+18
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -62,6 +62,7 @@ flutter:
     - assets/person-icon-w-s3p.png
     - lang/en.json
     - lang/es.json
+    - lang/hi.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

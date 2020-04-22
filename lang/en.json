@@ -4,10 +4,10 @@
   "app_title_contactEdit": "Edit Contact",
   "app_title_favorite": "Favorite Contacts",
   "app_title_settings": "Settings",
-  "app_title_about": "Sobre la aplicación",
-  "app_title_groups": "Grups",
+  "app_title_about": "About",
+  "app_title_groups": "Groups",
   "menu_home": "home",
-  "menu_contactList": "contactList",
+  "menu_contactList": "contact list",
   "menu_favorite": "favorite",
   "menu_settings": "settings",
   "menu_groups": "groups",
@@ -73,6 +73,6 @@
   "email_csv_subject": "MyContacts information",
   "group_default": "general",
   "group_family": "family",
-  "group_friend": "friend",
-  "group_coworker": "coworker"
+  "group_friend": "friends",
+  "group_coworker": "coworkers"
 }

@@ -74,6 +74,6 @@
   "email_csv_subject": "Mis Contactos información",
   "group_default": "general",
   "group_family": "familia",
-  "group_friend": "amigo",
-  "group_coworker": "colega"
+  "group_friend": "amigos",
+  "group_coworker": "colegas"
 }

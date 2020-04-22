@@ -3,6 +3,7 @@ import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/ContactListGroup.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/utils/utils.dart';
+import 'package:strings/strings.dart';
 import 'dart:async';
 
 import '../contact.dart';
@@ -80,7 +81,7 @@ class _GroupActivityState extends State<GroupActivity> {
                     child: ListTile(
                       // leading:
                       title: Text(
-                        '${category[index]}',
+                        '${capitalize(category[index])}',
                         style: TextStyle(fontSize: 20),
                       ),
                       trailing: Icon(Icons.keyboard_arrow_right),
