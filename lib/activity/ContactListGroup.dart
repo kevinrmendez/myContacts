@@ -30,23 +30,23 @@ void _showAd() {
   _counter++;
 }
 
-class ContactList extends StatefulWidget {
-  final BuildContext context;
-  ContactList({this.context}) {
+class ContactListGroup extends StatefulWidget {
+  final String category;
+  ContactListGroup({this.category}) {
     interstitialAd.load();
   }
   @override
-  _ContactListState createState() {
-    return _ContactListState();
+  _ContactListGroupState createState() {
+    return _ContactListGroupState();
   }
 }
 
-class _ContactListState extends State<ContactList> {
+class _ContactListGroupState extends State<ContactListGroup> {
   final ContactDb db = ContactDb();
   Future<List<Contact>> contacts;
 
   int contactListLength;
-  _ContactListState() {
+  _ContactListGroupState() {
     _filter.addListener(() {
       if (_filter.text.isEmpty) {
         setState(() {
@@ -60,15 +60,15 @@ class _ContactListState extends State<ContactList> {
       }
     });
   }
+
   final TextEditingController _filter = new TextEditingController();
   String _searchText = "";
 
   List<Contact> names = new List(); // names we get from API
   List<Contact> filteredNames = new List();
+
   // names filtered by search text
   Icon _searchIcon = new Icon(Icons.search);
-  // Widget _appBarTitle =
-  //     Text(translatedText("app_title_contactList", context));
   Widget _appBarTitle;
   Future getContactList() async {
     return await contacts;
@@ -87,7 +87,7 @@ class _ContactListState extends State<ContactList> {
   }
 
   Widget _buildList() {
-    if ((_searchText.isNotEmpty)) {
+    if (!(_searchText.isEmpty)) {
       List<Contact> tempList = new List();
       for (int i = 0; i < filteredNames.length; i++) {
         print("FILTERED NAMES $filteredNames[i]");
@@ -107,7 +107,8 @@ class _ContactListState extends State<ContactList> {
           itemCount: names == null ? 0 : filteredNames.length,
           itemBuilder: (BuildContext context, int index) {
             if (filteredNames[index].name != null ||
-                filteredNames[index].name == "") {
+                filteredNames[index].name == "" &&
+                    filteredNames[index].category == widget.category) {
               return Column(
                 children: <Widget>[
                   // index % 10 == 0 ? AdmobUtils.admobBanner() : SizedBox(),
@@ -218,7 +219,6 @@ class _ContactListState extends State<ContactList> {
 
   @override
   Widget build(BuildContext context) {
-    // _appBarTitle = Text(translatedText("app_title_contactList", context));
     void _searchPressed() {
       setState(() {
         if (this._searchIcon.icon == Icons.search) {
@@ -247,8 +247,8 @@ class _ContactListState extends State<ContactList> {
             Icons.search,
             color: Colors.white,
           );
-          // _appBarTitle =
-          //     new Text(translatedText("app_title_contactList", context));
+          _appBarTitle =
+              new Text(translatedText("app_title_contactList", context));
           filteredNames = names;
           _filter.clear();
         }
@@ -256,7 +256,7 @@ class _ContactListState extends State<ContactList> {
     }
 
     Widget _buildBar(BuildContext context) {
-      return AppBar(
+      return new AppBar(
         centerTitle: true,
         title: _appBarTitle,
         leading: Container(

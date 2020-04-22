@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/appSettings.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/components/contactImageFull.dart';
@@ -6,6 +7,8 @@ import 'dart:async';
 import 'package:kevin_app/components/contact_form.dart';
 import 'package:flutter/services.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
+import 'package:kevin_app/utils/utils.dart';
+import 'package:kevin_app/utils/widgetUitls.dart';
 
 import '../app_localizations.dart';
 import 'cameraActivity.dart';
@@ -49,15 +52,71 @@ class ContactActivityState extends State<ContactActivity>
     print(appLifecycleState);
   }
 
+  void _menuSelected(choice) {
+    switch (choice) {
+      case 'settings':
+        {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Settings()),
+          );
+        }
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context).translate("app_title"),
-        ),
+        title: Text(translatedText("app_title", context)),
+        actions: <Widget>[
+          PopupMenuButton(
+            icon: Icon(
+              Icons.more_horiz,
+              size: 30,
+            ),
+            onSelected: _menuSelected,
+            color: Colors.white,
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  value: 'settings',
+                  child: Container(
+                      child:
+                          Text(translatedText("app_title_settings", context))),
+                ),
+              ];
+            },
+          ),
+        ],
       ),
+      // AppBar(
+      //   title: Text(
+      //     AppLocalizations.of(context).translate("app_title"),
+      //   ),
+      //   actions: <Widget>[
+      //     PopupMenuButton(
+      //       icon: Icon(
+      //         Icons.more_horiz,
+      //         size: 30,
+      //       ),
+      //       onSelected: _menuSelected,
+      //       color: Colors.white,
+      //       itemBuilder: (BuildContext context) {
+      //         return [
+      //           PopupMenuItem(
+      //             value: 'settings',
+      //             child: Container(
+      //                 child:
+      //                     Text(translatedText("app_title_settings", context))),
+      //           ),
+      //         ];
+      //       },
+      //     ),
+      //   ],
+      // ),
       body: Center(
         child: ListView(
           // mainAxisAlignment: MainAxisAlignment.center,

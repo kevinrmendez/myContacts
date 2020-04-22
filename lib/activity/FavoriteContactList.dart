@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
+import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'dart:async';
@@ -207,6 +208,19 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
     super.initState();
   }
 
+  void _menuSelected(choice) {
+    switch (choice) {
+      case 'settings':
+        {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Settings()),
+          );
+        }
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget _appBarTitle =
@@ -252,6 +266,26 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
       return new AppBar(
         centerTitle: true,
         title: _appBarTitle,
+        actions: <Widget>[
+          PopupMenuButton(
+            icon: Icon(
+              Icons.more_horiz,
+              size: 30,
+            ),
+            onSelected: _menuSelected,
+            color: Colors.white,
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  value: 'settings',
+                  child: Container(
+                      child:
+                          Text(translatedText("app_title_settings", context))),
+                ),
+              ];
+            },
+          ),
+        ],
         leading: Container(
           child: new IconButton(
             icon: _searchIcon,

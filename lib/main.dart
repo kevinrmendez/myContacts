@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kevin_app/activity/FavoriteContactList.dart';
+import 'package:kevin_app/activity/GroupActivity.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -113,7 +114,9 @@ class AppWrapper extends StatelessWidget {
           false;
     }
 
+    final navigatorKey = GlobalKey<NavigatorState>();
     return MaterialApp(
+      navigatorKey: navigatorKey,
       supportedLocales: [
         const Locale('en', 'US'),
         const Locale('es', 'MX'),
@@ -154,7 +157,8 @@ class _Home extends StatefulWidget {
     ContactActivity(),
     ContactList(),
     FavoriteContactList(),
-    Settings()
+    GroupActivity()
+    // Settings()
   ];
 
   @override
@@ -217,8 +221,11 @@ class _HomeState extends State<_Home> {
                   icon: Icon(Icons.star),
                   title: _bottomMenuTitle("menu_favorite")),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  title: _bottomMenuTitle("menu_settings")),
+                  icon: Icon(Icons.group),
+                  title: _bottomMenuTitle("menu_groups")),
+              // BottomNavigationBarItem(
+              //     icon: Icon(Icons.settings),
+              //     title: _bottomMenuTitle("menu_settings")),
             ]));
   }
 }
