@@ -12,28 +12,9 @@ import 'contactDetails.dart';
 
 import 'package:admob_flutter/admob_flutter.dart';
 
-int _counter = 0;
-AdmobInterstitial interstitialAd = AdmobInterstitial(
-  adUnitId: getInterstitialAdUnitId(),
-);
-
-getInterstitialAdUnitId() {
-  return apikeys["detailsContact"];
-}
-
-void _showAd() {
-  if (_counter % 6 == 0) {
-    interstitialAd.show();
-  }
-  print("COUNTER: $_counter");
-  _counter++;
-}
-
 class ContactList extends StatefulWidget {
   final BuildContext context;
-  ContactList({this.context}) {
-    interstitialAd.load();
-  }
+  ContactList({this.context}) {}
   @override
   _ContactListState createState() {
     return _ContactListState();
@@ -126,7 +107,6 @@ class _ContactListState extends State<ContactList> {
                         // Navigator.pushNamed(
                         //     context, '/contactDetails',
                         //     arguments: snapshot.data[index]);
-                        _showAd();
 
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {

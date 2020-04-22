@@ -14,31 +14,11 @@ import 'package:kevin_app/apikeys.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:share/share.dart';
 
-int _counter = 1;
-AdmobInterstitial interstitialAd = AdmobInterstitial(
-  adUnitId: getInterstitialAdUnitId(),
-);
-
-getInterstitialAdUnitId() {
-  return apikeys["addMobInterstellar"];
-  // return apikeys["addInterstellarTest"];
-}
-
-void _showAd() {
-  if (_counter % 6 == 0) {
-    interstitialAd.show();
-  }
-  print("COUNTER: $_counter");
-  _counter++;
-}
-
 class ContactDetails extends StatelessWidget {
   final Contact contact;
   final Function callback;
 
-  ContactDetails({this.contact, this.callback}) {
-    interstitialAd.load();
-  }
+  ContactDetails({this.contact, this.callback}) {}
 
   @override
   Widget build(BuildContext context) {
@@ -226,8 +206,6 @@ class ContactDetails extends StatelessWidget {
           color: Colors.white,
         ),
         onPressed: () {
-          _showAd();
-
           Navigator.push(
             context,
             MaterialPageRoute(
