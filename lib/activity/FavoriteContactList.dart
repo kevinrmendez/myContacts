@@ -6,35 +6,14 @@ import 'package:kevin_app/utils/utils.dart';
 import 'dart:async';
 import 'dart:io';
 
-import '../apikeys.dart';
 import '../contact.dart';
 import 'contactDetails.dart';
 
 import 'package:admob_flutter/admob_flutter.dart';
 
-int _counter = 0;
-AdmobInterstitial interstitialAd = AdmobInterstitial(
-  adUnitId: getInterstitialAdUnitId(),
-);
-
-getInterstitialAdUnitId() {
-  return apikeys["contactListAdd"];
-  // return apikeys["addInterstellarTest"];
-}
-
-void _showAd() {
-  if (_counter % 2 == 0) {
-    interstitialAd.show();
-  }
-  print("COUNTER: $_counter");
-  _counter++;
-}
-
 class FavoriteContactList extends StatefulWidget {
   final BuildContext context;
-  FavoriteContactList({this.context}) {
-    interstitialAd.load();
-  }
+  FavoriteContactList({this.context}) {}
   @override
   _FavoriteContactListState createState() {
     return _FavoriteContactListState();
@@ -131,7 +110,6 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
                         // Navigator.pushNamed(
                         //     context, '/contactDetails',
                         //     arguments: snapshot.data[index]);
-                        _showAd();
 
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {

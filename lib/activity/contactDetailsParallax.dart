@@ -8,33 +8,13 @@ import '../apikeys.dart';
 import '../contact.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-int _counter = 0;
-AdmobInterstitial interstitialAd = AdmobInterstitial(
-  adUnitId: getInterstitialAdUnitId(),
-);
-
-getInterstitialAdUnitId() {
-  return apikeys["addMobInterstellar"];
-  // return apikeys["addInterstellarTest"];
-}
-
-void _showAd() {
-  if (_counter % 6 == 0) {
-    interstitialAd.show();
-  }
-  print("COUNTER: $_counter");
-  _counter++;
-}
-
 class ContactDetailsParallax extends StatelessWidget {
   final Contact contact;
   final Function callback;
 
   ScrollController _controller = ScrollController();
 
-  ContactDetailsParallax({this.contact, this.callback}) {
-    interstitialAd.load();
-  }
+  ContactDetailsParallax({this.contact, this.callback}) {}
 
   Widget _buildUrlButton({String url, Icon icon, BuildContext context}) {
     return Container(
