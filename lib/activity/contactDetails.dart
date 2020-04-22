@@ -165,7 +165,7 @@ class ContactDetails extends StatelessWidget {
     // final Contact contact = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contact Details'),
+        title: Text(translatedText("app_title_contactDetails", context)),
       ),
       body: Center(
           child: Column(

@@ -1,6 +1,7 @@
 {
   "app_title": "MyContacts",
   "app_title_contactList": "Contact List",
+  "app_title_contactDetails": "Contact Details",
   "app_title_contactEdit": "Edit Contact",
   "app_title_favorite": "Favorite Contacts",
   "app_title_settings": "Settings",
