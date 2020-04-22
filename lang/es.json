@@ -1,8 +1,8 @@
 {
   "app_title": "Mis Contactos",
-  "app_title_contactList": "Buscar contacto ",
+  "app_title_contactList": "Lista de contactos ",
   "app_title_contactEdit": "Editar contacto",
-  "app_title_favorite": "Buscar contacto favorito",
+  "app_title_favorite": "Contactos favoritos",
   "app_title_settings": "Ajustes",
   "app_title_about": "Sobre la aplicacion",
   "app_title_groups": "Grupos",
@@ -18,6 +18,7 @@
   "hintText_email": "correo electrónico",
   "hintText_group": "grupo",
   "hintText_favorite": "contacto favorito",
+  "hintText_search": "buscar ...",
   "message_picture_taken": "Se ha tomado la foto",
   "message_dialog_change_contact": "información de contacto cambiada",
   "message_dialog_delete_contacts": "¿Está seguro de que desea eliminar todos sus contactos?",

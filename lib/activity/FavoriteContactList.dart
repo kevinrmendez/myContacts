@@ -31,10 +31,10 @@ void _showAd() {
 }
 
 class FavoriteContactList extends StatefulWidget {
-  FavoriteContactList() {
+  final BuildContext context;
+  FavoriteContactList({this.context}) {
     interstitialAd.load();
   }
-
   @override
   _FavoriteContactListState createState() {
     return _FavoriteContactListState();
@@ -46,7 +46,7 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
   Future<List<Contact>> contacts;
 
   int contactListLength;
-  _FavoriteContactListState() {
+  _ContactListState() {
     _filter.addListener(() {
       if (_filter.text.isEmpty) {
         setState(() {
@@ -60,13 +60,12 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
       }
     });
   }
+
   final TextEditingController _filter = new TextEditingController();
   String _searchText = "";
 
-  List<Contact> names = new List(); // names we get from API
-  List<Contact> filteredNames = new List();
-  // names filtered by search text
-  Icon _searchIcon = new Icon(Icons.search);
+  List<Contact> names = List(); // names we get from API
+  List<Contact> filteredNames = List();
 
   Future getContactList() async {
     return await contacts;
@@ -88,14 +87,17 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
   }
 
   Widget _buildList() {
-    if (!(_searchText.isEmpty)) {
+    if ((_searchText.isNotEmpty)) {
       List<Contact> tempList = new List();
       for (int i = 0; i < filteredNames.length; i++) {
-        if (filteredNames[i]
-            .name
-            .toLowerCase()
-            .contains(_searchText.toLowerCase())) {
-          tempList.add(filteredNames[i]);
+        print("FILTERED NAMES $filteredNames[i]");
+        if (filteredNames[i].name != null) {
+          if (filteredNames[i]
+              .name
+              .toLowerCase()
+              .contains(_searchText.toLowerCase())) {
+            tempList.add(filteredNames[i]);
+          }
         }
       }
       filteredNames = tempList;
@@ -122,7 +124,9 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
                         '${filteredNames[index].name}',
                         style: TextStyle(fontSize: 20),
                       ),
-                      trailing: Icon(Icons.keyboard_arrow_right),
+                      trailing: Icon(filteredNames[index].favorite == 0
+                          ? Icons.keyboard_arrow_right
+                          : Icons.star),
                       onTap: () {
                         // Navigator.pushNamed(
                         //     context, '/contactDetails',
@@ -132,6 +136,10 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
                           print('CONTACTS ${filteredNames[index]}');
+                          // return ContactDetailsParallax(
+                          //   contact: filteredNames[index],
+                          //   // callback: callback
+                          // );
                           return ContactDetails(
                               contact: filteredNames[index],
                               callback: callback);
@@ -201,13 +209,6 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
     });
   }
 
-  @override
-  void initState() {
-    contacts = db.contacts();
-    _getContacts();
-    super.initState();
-  }
-
   void _menuSelected(choice) {
     switch (choice) {
       case 'settings':
@@ -222,50 +223,19 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
   }
 
   @override
+  void initState() {
+    contacts = db.contacts();
+    _getContacts();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Widget _appBarTitle =
-        new Text(translatedText("app_title_favorite", context));
-
-    Widget _buildBar(BuildContext context) {
-      void _searchPressed() {
-        setState(() {
-          if (this._searchIcon.icon == Icons.search) {
-            this._searchIcon = new Icon(Icons.close);
-            _appBarTitle = new TextField(
-              style: TextStyle(color: Colors.white, fontSize: 17),
-              controller: _filter,
-              decoration: new InputDecoration(
-                prefixIcon: new Icon(
-                  Icons.search,
-                  color: Colors.white,
-                ),
-                hintText: 'Search...',
-                hintStyle: TextStyle(color: Theme.of(context).accentColor),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Theme.of(context).accentColor),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white)),
-                // border: UnderlineInputBorder(
-                //     borderSide: BorderSide(color: Colors.white))
-              ),
-            );
-          } else {
-            this._searchIcon = new Icon(
-              Icons.search,
-              color: Colors.white,
-            );
-            _appBarTitle =
-                new Text(translatedText("app_title_favorite", context));
-            filteredNames = names;
-            _filter.clear();
-          }
-        });
-      }
-
-      return new AppBar(
-        centerTitle: true,
-        title: _appBarTitle,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          translatedText("app_title_favorite", context),
+        ),
         actions: <Widget>[
           PopupMenuButton(
             icon: Icon(
@@ -286,19 +256,34 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
             },
           ),
         ],
-        leading: Container(
-          child: new IconButton(
-            icon: _searchIcon,
-            onPressed: _searchPressed,
+      ),
+      body: Column(
+        children: <Widget>[
+          Card(
+            child: TextField(
+              style:
+                  TextStyle(color: Theme.of(context).accentColor, fontSize: 17),
+              controller: _filter,
+              decoration: new InputDecoration(
+                prefixIcon: new Icon(
+                  Icons.search,
+                  color: Theme.of(context).primaryColor,
+                ),
+                hintText: translatedText("hintText_search", context),
+                hintStyle: TextStyle(color: Theme.of(context).accentColor),
+                // enabledBorder: UnderlineInputBorder(
+                //   borderSide: BorderSide(color: Theme.of(context).accentColor),
+                // ),
+                // focusedBorder: UnderlineInputBorder(
+                //     borderSide:
+                //         BorderSide(color: Theme.of(context).accentColor)),
+              ),
+            ),
           ),
-        ),
-      );
-    }
-
-    return Scaffold(
-      appBar: _buildBar(context),
-      body: Container(
-        child: _buildList(),
+          Expanded(
+            child: _buildList(),
+          ),
+        ],
       ),
     );
   }

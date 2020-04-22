@@ -7,11 +7,10 @@ import 'dart:io';
 
 import '../apikeys.dart';
 import '../contact.dart';
+import 'Settings.dart';
 import 'contactDetails.dart';
 
 import 'package:admob_flutter/admob_flutter.dart';
-
-import 'contactDetailsParallax.dart';
 
 int _counter = 0;
 AdmobInterstitial interstitialAd = AdmobInterstitial(
@@ -63,13 +62,9 @@ class _ContactListState extends State<ContactList> {
   final TextEditingController _filter = new TextEditingController();
   String _searchText = "";
 
-  List<Contact> names = new List(); // names we get from API
-  List<Contact> filteredNames = new List();
-  // names filtered by search text
-  Icon _searchIcon = new Icon(Icons.search);
-  // Widget _appBarTitle =
-  //     Text(translatedText("app_title_contactList", context));
-  Widget _appBarTitle;
+  List<Contact> names = List(); // names we get from API
+  List<Contact> filteredNames = List();
+
   Future getContactList() async {
     return await contacts;
   }
@@ -209,6 +204,19 @@ class _ContactListState extends State<ContactList> {
     });
   }
 
+  void _menuSelected(choice) {
+    switch (choice) {
+      case 'settings':
+        {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Settings()),
+          );
+        }
+        break;
+    }
+  }
+
   @override
   void initState() {
     contacts = db.contacts();
@@ -218,60 +226,59 @@ class _ContactListState extends State<ContactList> {
 
   @override
   Widget build(BuildContext context) {
-    // _appBarTitle = Text(translatedText("app_title_contactList", context));
-    void _searchPressed() {
-      setState(() {
-        if (this._searchIcon.icon == Icons.search) {
-          this._searchIcon = new Icon(Icons.close);
-          _appBarTitle = new TextField(
-            style: TextStyle(color: Colors.white, fontSize: 17),
-            controller: _filter,
-            decoration: new InputDecoration(
-              prefixIcon: new Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-              hintText: 'Search...',
-              hintStyle: TextStyle(color: Theme.of(context).accentColor),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).accentColor),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white)),
-              // border: UnderlineInputBorder(
-              //     borderSide: BorderSide(color: Colors.white))
-            ),
-          );
-        } else {
-          this._searchIcon = new Icon(
-            Icons.search,
-            color: Colors.white,
-          );
-          // _appBarTitle =
-          //     new Text(translatedText("app_title_contactList", context));
-          filteredNames = names;
-          _filter.clear();
-        }
-      });
-    }
-
-    Widget _buildBar(BuildContext context) {
-      return AppBar(
-        centerTitle: true,
-        title: _appBarTitle,
-        leading: Container(
-          child: new IconButton(
-            icon: _searchIcon,
-            onPressed: _searchPressed,
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
-      appBar: _buildBar(context),
-      body: Container(
-        child: _buildList(),
+      appBar: AppBar(
+        title: Text(
+          translatedText("app_title_contactList", context),
+        ),
+        actions: <Widget>[
+          PopupMenuButton(
+            icon: Icon(
+              Icons.more_horiz,
+              size: 30,
+            ),
+            onSelected: _menuSelected,
+            color: Colors.white,
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  value: 'settings',
+                  child: Container(
+                      child:
+                          Text(translatedText("app_title_settings", context))),
+                ),
+              ];
+            },
+          ),
+        ],
+      ),
+      body: Column(
+        children: <Widget>[
+          Card(
+            child: TextField(
+              style:
+                  TextStyle(color: Theme.of(context).accentColor, fontSize: 17),
+              controller: _filter,
+              decoration: new InputDecoration(
+                prefixIcon: new Icon(
+                  Icons.search,
+                  color: Theme.of(context).primaryColor,
+                ),
+                hintText: translatedText("hintText_search", context),
+                hintStyle: TextStyle(color: Theme.of(context).accentColor),
+                // enabledBorder: UnderlineInputBorder(
+                //   borderSide: BorderSide(color: Theme.of(context).accentColor),
+                // ),
+                // focusedBorder: UnderlineInputBorder(
+                //     borderSide:
+                //         BorderSide(color: Theme.of(context).accentColor)),
+              ),
+            ),
+          ),
+          Expanded(
+            child: _buildList(),
+          ),
+        ],
       ),
     );
   }

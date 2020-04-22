@@ -85,6 +85,7 @@ class _GroupActivityState extends State<GroupActivity> {
                       ),
                       trailing: Icon(Icons.keyboard_arrow_right),
                       onTap: () {
+                        print("GROUP: ${category[index]}");
                         Navigator.push(
                           context,
                           MaterialPageRoute(

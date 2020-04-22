@@ -32,7 +32,8 @@ void _showAd() {
 
 class ContactListGroup extends StatefulWidget {
   final String category;
-  ContactListGroup({this.category}) {
+  final BuildContext context;
+  ContactListGroup({this.context, this.category}) {
     interstitialAd.load();
   }
   @override
@@ -60,16 +61,12 @@ class _ContactListGroupState extends State<ContactListGroup> {
       }
     });
   }
-
   final TextEditingController _filter = new TextEditingController();
   String _searchText = "";
 
-  List<Contact> names = new List(); // names we get from API
-  List<Contact> filteredNames = new List();
+  List<Contact> names = List(); // names we get from API
+  List<Contact> filteredNames = List();
 
-  // names filtered by search text
-  Icon _searchIcon = new Icon(Icons.search);
-  Widget _appBarTitle;
   Future getContactList() async {
     return await contacts;
   }
@@ -78,8 +75,12 @@ class _ContactListGroupState extends State<ContactListGroup> {
     List<Contact> tempList = new List();
     tempList = await db.contacts();
 
+    var filteredList = tempList
+        .where((contact) => contact.category == widget.category)
+        .toList();
+
     setState(() {
-      names = tempList;
+      names = filteredList;
       filteredNames = names;
       contactListLength = names.length;
     });
@@ -87,7 +88,7 @@ class _ContactListGroupState extends State<ContactListGroup> {
   }
 
   Widget _buildList() {
-    if (!(_searchText.isEmpty)) {
+    if ((_searchText.isNotEmpty)) {
       List<Contact> tempList = new List();
       for (int i = 0; i < filteredNames.length; i++) {
         print("FILTERED NAMES $filteredNames[i]");
@@ -107,8 +108,7 @@ class _ContactListGroupState extends State<ContactListGroup> {
           itemCount: names == null ? 0 : filteredNames.length,
           itemBuilder: (BuildContext context, int index) {
             if (filteredNames[index].name != null ||
-                filteredNames[index].name == "" &&
-                    filteredNames[index].category == widget.category) {
+                filteredNames[index].name == "") {
               return Column(
                 children: <Widget>[
                   // index % 10 == 0 ? AdmobUtils.admobBanner() : SizedBox(),
@@ -219,59 +219,37 @@ class _ContactListGroupState extends State<ContactListGroup> {
 
   @override
   Widget build(BuildContext context) {
-    void _searchPressed() {
-      setState(() {
-        if (this._searchIcon.icon == Icons.search) {
-          this._searchIcon = new Icon(Icons.close);
-          _appBarTitle = new TextField(
-            style: TextStyle(color: Colors.white, fontSize: 17),
-            controller: _filter,
-            decoration: new InputDecoration(
-              prefixIcon: new Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-              hintText: 'Search...',
-              hintStyle: TextStyle(color: Theme.of(context).accentColor),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).accentColor),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white)),
-              // border: UnderlineInputBorder(
-              //     borderSide: BorderSide(color: Colors.white))
-            ),
-          );
-        } else {
-          this._searchIcon = new Icon(
-            Icons.search,
-            color: Colors.white,
-          );
-          _appBarTitle =
-              new Text(translatedText("app_title_contactList", context));
-          filteredNames = names;
-          _filter.clear();
-        }
-      });
-    }
-
-    Widget _buildBar(BuildContext context) {
-      return new AppBar(
-        centerTitle: true,
-        title: _appBarTitle,
-        leading: Container(
-          child: new IconButton(
-            icon: _searchIcon,
-            onPressed: _searchPressed,
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
-      appBar: _buildBar(context),
-      body: Container(
-        child: _buildList(),
+      appBar: AppBar(
+        title: Text(widget.category),
+      ),
+      body: Column(
+        children: <Widget>[
+          Card(
+            child: TextField(
+              style:
+                  TextStyle(color: Theme.of(context).accentColor, fontSize: 17),
+              controller: _filter,
+              decoration: new InputDecoration(
+                prefixIcon: new Icon(
+                  Icons.search,
+                  color: Theme.of(context).primaryColor,
+                ),
+                hintText: translatedText("hintText_search", context),
+                hintStyle: TextStyle(color: Theme.of(context).accentColor),
+                // enabledBorder: UnderlineInputBorder(
+                //   borderSide: BorderSide(color: Theme.of(context).accentColor),
+                // ),
+                // focusedBorder: UnderlineInputBorder(
+                //     borderSide:
+                //         BorderSide(color: Theme.of(context).accentColor)),
+              ),
+            ),
+          ),
+          Expanded(
+            child: _buildList(),
+          ),
+        ],
       ),
     );
   }
