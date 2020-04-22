@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
+import 'package:strings/strings.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -221,7 +222,7 @@ class _ContactListGroupState extends State<ContactListGroup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category),
+        title: Text(capitalize(widget.category)),
       ),
       body: Column(
         children: <Widget>[
