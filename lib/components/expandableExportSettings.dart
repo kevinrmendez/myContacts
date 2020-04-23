@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/utils/utils.dart';
+import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pdf/widgets.dart' as p;
@@ -213,11 +214,11 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
         file.writeAsStringSync(content, mode: FileMode.append);
       });
 
-      print(vCard.getFormattedString());
+      // print(vCard.getFormattedString());
 
       final Email email = Email(
-        body: translatedText("email_pdf_body", context),
-        subject: translatedText("email_pdf_subject", context),
+        body: translatedText("email_vcf_body", context),
+        subject: translatedText("email_vcf_subject", context),
         // recipients: ['example@example.com'],
         attachmentPath: "${file.path}",
       );
@@ -277,6 +278,9 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
                   leading: Icon(Icons.import_export),
                   onTap: () {
                     _exportContacts();
+                    WidgetUtils.showSnackbar(
+                        translatedText("snackbar_contact_exported", context),
+                        context);
                   },
                 ),
                 ListTile(
@@ -285,13 +289,20 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
                   leading: Icon(Icons.picture_as_pdf),
                   onTap: () {
                     _exportContactsPdf();
+                    WidgetUtils.showSnackbar(
+                        translatedText("snackbar_contact_exported", context),
+                        context);
                   },
                 ),
                 ListTile(
-                  title: Text("export contact vcard"),
+                  title: Text(
+                      translatedText("settings_export_contacts_vcf", context)),
                   leading: Icon(Icons.phone),
                   onTap: () {
                     _exportContactsVcard();
+                    WidgetUtils.showSnackbar(
+                        translatedText("snackbar_contact_exported", context),
+                        context);
                   },
                 ),
               ]),

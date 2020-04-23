@@ -3,6 +3,10 @@ import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/utils/utils.dart';
 
 class WidgetUtils {
+  static showSnackbar(String text, BuildContext context) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
+  }
+
   static PreferredSizeWidget appBar(
       {String title, Color iconColor, BuildContext context}) {
     void _menuSelected(choice) {
