@@ -147,13 +147,13 @@ class AppWrapper extends StatelessWidget {
       theme: AppSettings.of(context).theme,
       home: WillPopScope(
         onWillPop: _onWillPop,
-        child: _Home(),
+        child: Home(),
       ),
     );
   }
 }
 
-class _Home extends StatefulWidget {
+class Home extends StatefulWidget {
   final List<Widget> _activities = [
     ContactActivity(),
     ContactList(),
@@ -163,10 +163,10 @@ class _Home extends StatefulWidget {
   ];
 
   @override
-  _HomeState createState() => _HomeState();
+  HomeState createState() => HomeState();
 }
 
-class _HomeState extends State<_Home> {
+class HomeState extends State<Home> {
   int _currentIndex = 0;
   @override
   void initState() {

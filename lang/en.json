@@ -36,7 +36,7 @@
   "snackbar_contact_save": "Contact has been saved",
   "snackbar_contact_exported": "Your contacts have been exported",
   "text_empty_list": "Your contact list is empty",
-  "text_empty_list_favorite": "'Your favorite contact list is empty'",
+  "text_empty_list_favorite": "Your favorite contact list is empty",
   "text_empty_list_description": "go to the home screen  and add your contacts",
   "text_empty_list_favorite_description": "Add your favorite contacts from the contact edit screen",
   "settings_about": "About",

@@ -126,7 +126,11 @@ class ContactFormState extends State<ContactForm> {
     widget.nameController.text = "";
     widget.phoneController.text = "";
     widget.emailController.text = "";
+
     image = "";
+    setState(() {
+      dropdownValue = category[0];
+    });
   }
 
   Future<void> _saveContact(Contact contact) async {
