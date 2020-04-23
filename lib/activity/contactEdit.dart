@@ -7,6 +7,7 @@ import 'package:scidart/numdart.dart';
 import 'package:kevin_app/appSettings.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/utils/utils.dart';
+import 'package:share/share.dart';
 
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactDb.dart';
@@ -358,6 +359,24 @@ class ContactEditState extends State<ContactEdit> {
     );
   }
 
+  Widget _buildShareButton() {
+    return Container(
+      width: 100,
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: RaisedButton(
+        color: Theme.of(context).primaryColor,
+        child: Icon(
+          Icons.share,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Share.share(
+              "Contact Details: name: ${contact.name}, phone: ${contact.phone}, email: ${contact.phone}");
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // contact = ModalRoute.of(context).settings.arguments;
@@ -417,6 +436,7 @@ class ContactEditState extends State<ContactEdit> {
                             color: Colors.white,
                           ))
                       : const SizedBox(),
+                  _buildShareButton()
                 ],
               ),
               _buildForm(),
