@@ -8,6 +8,9 @@ import 'package:kevin_app/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pdf/widgets.dart' as p;
+// import 'dart:io' as io;
+
+import 'package:vcard/vcard.dart';
 
 final ContactDb db = ContactDb();
 final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -138,6 +141,7 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
       Directory dir = await getExternalStorageDirectory();
       String path = dir.absolute.path;
       File file = File('${path}/example.pdf');
+      print("PDF FILE: $file");
       final p.Document pdfDocument = p.Document();
       var data = await _generateTable();
 
@@ -159,6 +163,67 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
       await FlutterEmailSender.send(email);
     }
 
+    void _createVcard() async {
+      Directory dir = await getExternalStorageDirectory();
+      String path = dir.absolute.path;
+
+      File file = File('$path/contact.vcf');
+      file.writeAsStringSync("", mode: FileMode.write);
+
+      String content;
+
+      var vCard = VCard();
+      List<dynamic> contacts = await db.contacts();
+
+      contacts.forEach((contact) {
+        // var name;
+        // var firstName;
+        // var lastName;
+        // if (contact.name != null) {
+        // name = contact.name.split(" ");
+        // print("CONTACT NAME: $name");
+        // print(name.length);
+        // firstName = name[0];
+        // if (name.length > 1) {
+        //   lastName = name[1];
+        // } else {
+        //   lastName = "";
+        // }
+        // } else {
+        //   name = [];
+        //   firstName = "";
+        //   lastName = "";
+        // }
+        // print("CONTACT: ${contact}");
+        vCard.firstName = contact.name == null ? "no name" : contact.name;
+        // vCard.firstName = firstName;
+        // vCard.middleName = 'MiddleName';
+        // vCard.lastName = lastName;
+        // vCard.organization = 'ActivSpaces Labs';
+        // vCard.photo.attachFromUrl(
+        //     'https://www.activspaces.com/wp-content/uploads/2019/01/ActivSpaces-Logo_Dark.png',
+        //     'PNG');
+        vCard.workPhone = contact.phone == null ? "no phone" : contact.phone;
+        // vCard.birthday = DateTime.now();
+        // vCard.jobTitle = 'Software Developer';
+        vCard.email = contact.email == null ? "no email" : contact.email;
+        // vCard.note = 'Notes on contact';
+
+        content = vCard.getFormattedString();
+        file.writeAsStringSync(content, mode: FileMode.append);
+      });
+
+      print(vCard.getFormattedString());
+
+      final Email email = Email(
+        body: translatedText("email_pdf_body", context),
+        subject: translatedText("email_pdf_subject", context),
+        // recipients: ['example@example.com'],
+        attachmentPath: "${file.path}",
+      );
+      await FlutterEmailSender.send(email);
+    }
+
     void _exportContactsPdf() async {
       PermissionStatus status = await _checkPermission(PermissionGroup.storage);
       if (status == PermissionStatus.granted) {
@@ -169,6 +234,22 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
         print(permission["permissionStatus"]);
         if (permission["permissionStatus"] == PermissionStatus.granted) {
           _createPdf();
+        } else {
+          return null;
+        }
+      }
+    }
+
+    void _exportContactsVcard() async {
+      PermissionStatus status = await _checkPermission(PermissionGroup.storage);
+      if (status == PermissionStatus.granted) {
+        _createVcard();
+      } else {
+        Map<PermissionGroup, PermissionStatus> permission =
+            await _requestPermission(PermissionGroup.storage);
+        print(permission["permissionStatus"]);
+        if (permission["permissionStatus"] == PermissionStatus.granted) {
+          _createVcard();
         } else {
           return null;
         }
@@ -204,6 +285,13 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
                   leading: Icon(Icons.picture_as_pdf),
                   onTap: () {
                     _exportContactsPdf();
+                  },
+                ),
+                ListTile(
+                  title: Text("export contact vcard"),
+                  leading: Icon(Icons.phone),
+                  onTap: () {
+                    _exportContactsVcard();
                   },
                 ),
               ]),
