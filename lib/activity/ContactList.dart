@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
+import 'package:kevin_app/activity/contactEdit.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'dart:async';
@@ -115,9 +116,13 @@ class _ContactListState extends State<ContactList> {
                           //   contact: filteredNames[index],
                           //   // callback: callback
                           // );
-                          return ContactDetails(
+                          return ContactEdit(
+                              context: context,
                               contact: filteredNames[index],
                               callback: callback);
+                          // return ContactDetails(
+                          //     contact: filteredNames[index],
+                          //     callback: callback);
                         }));
                       },
                     ),

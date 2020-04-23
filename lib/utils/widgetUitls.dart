@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/utils/utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WidgetUtils {
   static showSnackbar(String text, BuildContext context) {
     Scaffold.of(context).showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  static Widget urlButtons(
+      {String url, Icon icon, BuildContext context, Color color}) {
+    return Container(
+      width: 100,
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: RaisedButton(
+        color: color,
+        child: icon,
+        onPressed: () async {
+          if (await canLaunch(url)) {
+            await launch(url);
+          } else {
+            throw 'Could not launch $url';
+          }
+        },
+      ),
+    );
   }
 
   static PreferredSizeWidget appBar(

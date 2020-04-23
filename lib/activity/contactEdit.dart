@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/components/contactImageFull.dart';
 import 'package:kevin_app/utils/colors.dart';
+import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:scidart/numdart.dart';
 import 'package:kevin_app/appSettings.dart';
 import 'package:kevin_app/components/contactImage.dart';
@@ -380,6 +381,32 @@ class ContactEditState extends State<ContactEdit> {
                     image: contact.image,
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  contact.phone != ""
+                      ? WidgetUtils.urlButtons(
+                          color: Theme.of(context).primaryColor,
+                          url: "tel:${contact.phone.toString()}",
+                          icon: Icon(
+                            Icons.phone,
+                            color: Colors.white,
+                          ))
+                      : const SizedBox(),
+                  contact.email != ""
+                      ? WidgetUtils.urlButtons(
+                          color: Theme.of(context).primaryColor,
+                          url: 'mailto:${contact.email}',
+                          icon: Icon(
+                            Icons.email,
+                            color: Colors.white,
+                          ))
+                      : const SizedBox(),
+                ],
               ),
               _buildForm(),
             ],
