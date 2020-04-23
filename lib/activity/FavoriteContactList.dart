@@ -215,24 +215,32 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
           translatedText("app_title_favorite", context),
         ),
         actions: <Widget>[
-          PopupMenuButton(
-            icon: Icon(
-              Icons.more_horiz,
-              size: 30,
-            ),
-            onSelected: _menuSelected,
-            color: Colors.white,
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem(
-                  value: 'settings',
-                  child: Container(
-                      child:
-                          Text(translatedText("app_title_settings", context))),
-                ),
-              ];
-            },
-          ),
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Settings()),
+                );
+              })
+          // PopupMenuButton(
+          //   icon: Icon(
+          //     Icons.settings,
+          //     size: 30,
+          //   ),
+          //   onSelected: _menuSelected,
+          //   color: Colors.white,
+          //   itemBuilder: (BuildContext context) {
+          //     return [
+          //       PopupMenuItem(
+          //         value: 'settings',
+          //         child: Container(
+          //             child:
+          //                 Text(translatedText("app_title_settings", context))),
+          //       ),
+          //     ];
+          //   },
+          // ),
         ],
       ),
       body: Column(

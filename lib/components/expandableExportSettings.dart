@@ -102,6 +102,8 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
       PermissionStatus status = await _checkPermission(PermissionGroup.storage);
       if (status == PermissionStatus.granted) {
         _createContactCsv();
+        WidgetUtils.showSnackbar(
+            translatedText("snackbar_contact_exported", context), context);
       } else {
         Map<PermissionGroup, PermissionStatus> permission =
             await _requestPermission(PermissionGroup.storage);
@@ -229,6 +231,8 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
       PermissionStatus status = await _checkPermission(PermissionGroup.storage);
       if (status == PermissionStatus.granted) {
         _createPdf();
+        WidgetUtils.showSnackbar(
+            translatedText("snackbar_contact_exported", context), context);
       } else {
         Map<PermissionGroup, PermissionStatus> permission =
             await _requestPermission(PermissionGroup.storage);
@@ -245,6 +249,8 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
       PermissionStatus status = await _checkPermission(PermissionGroup.storage);
       if (status == PermissionStatus.granted) {
         _createVcard();
+        WidgetUtils.showSnackbar(
+            translatedText("snackbar_contact_exported", context), context);
       } else {
         Map<PermissionGroup, PermissionStatus> permission =
             await _requestPermission(PermissionGroup.storage);
@@ -278,9 +284,6 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
                   leading: Icon(Icons.import_export),
                   onTap: () {
                     _exportContacts();
-                    WidgetUtils.showSnackbar(
-                        translatedText("snackbar_contact_exported", context),
-                        context);
                   },
                 ),
                 ListTile(
@@ -289,9 +292,6 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
                   leading: Icon(Icons.picture_as_pdf),
                   onTap: () {
                     _exportContactsPdf();
-                    WidgetUtils.showSnackbar(
-                        translatedText("snackbar_contact_exported", context),
-                        context);
                   },
                 ),
                 ListTile(
@@ -300,9 +300,6 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
                   leading: Icon(Icons.phone),
                   onTap: () {
                     _exportContactsVcard();
-                    WidgetUtils.showSnackbar(
-                        translatedText("snackbar_contact_exported", context),
-                        context);
                   },
                 ),
               ]),

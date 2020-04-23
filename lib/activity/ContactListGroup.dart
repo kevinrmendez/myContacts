@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
+import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:strings/strings.dart';
@@ -203,6 +204,16 @@ class _ContactListGroupState extends State<ContactListGroup> {
     return Scaffold(
       appBar: AppBar(
         title: Text(capitalize(widget.category)),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Settings()),
+                );
+              }),
+        ],
       ),
       body: Column(
         children: <Widget>[

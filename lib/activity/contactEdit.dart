@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/components/contactImageFull.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
@@ -365,6 +366,16 @@ class ContactEditState extends State<ContactEdit> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(translatedText("app_title_contactEdit", context)),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Settings()),
+                );
+              }),
+        ],
       ),
       body: ListView(
         children: <Widget>[

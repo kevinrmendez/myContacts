@@ -47,7 +47,7 @@ class WidgetUtils {
       actions: <Widget>[
         PopupMenuButton(
           icon: Icon(
-            Icons.more_horiz,
+            Icons.settings,
             size: 30,
           ),
           onSelected: _menuSelected,
