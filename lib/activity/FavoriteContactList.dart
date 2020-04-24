@@ -11,6 +11,8 @@ import 'contactDetails.dart';
 
 import 'package:admob_flutter/admob_flutter.dart';
 
+import 'contactEdit.dart';
+
 class FavoriteContactList extends StatefulWidget {
   final BuildContext context;
   FavoriteContactList({this.context}) {}
@@ -24,7 +26,7 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
   final ContactDb db = ContactDb();
   Future<List<Contact>> contacts;
 
-  int contactListLength;
+  int contactListLength = 0;
   _ContactListState() {
     _filter.addListener(() {
       if (_filter.text.isEmpty) {
@@ -118,7 +120,8 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
                           //   contact: filteredNames[index],
                           //   // callback: callback
                           // );
-                          return ContactDetails(
+                          return ContactEdit(
+                              context: context,
                               contact: filteredNames[index],
                               callback: callback);
                         }));

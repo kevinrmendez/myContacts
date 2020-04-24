@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/Settings.dart';
+import 'package:kevin_app/activity/contactEdit.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:strings/strings.dart';
@@ -123,7 +124,8 @@ class _ContactListGroupState extends State<ContactListGroup> {
                           //   contact: filteredNames[index],
                           //   // callback: callback
                           // );
-                          return ContactDetails(
+                          return ContactEdit(
+                              context: context,
                               contact: filteredNames[index],
                               callback: callback);
                         }));
@@ -151,7 +153,7 @@ class _ContactListGroupState extends State<ContactListGroup> {
                         width: 200,
                         // margin: EdgeInsets.only(top: 40),
                         child: Text(
-                          translatedText("text_empty_list", context),
+                          translatedText("text_empty_list_group", context),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -159,17 +161,6 @@ class _ContactListGroupState extends State<ContactListGroup> {
                               color: Theme.of(context).accentColor),
                         ),
                       ),
-                      Container(
-                        constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.7),
-                        margin: EdgeInsets.only(top: 20),
-                        child: Text(
-                          translatedText(
-                              "text_empty_list_description", context),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      )
                     ],
                   ),
                 ),

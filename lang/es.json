@@ -37,6 +37,7 @@
   "snackbar_contact_save": "Tu contacto ha sido guardado",
   "text_save": "guardar",
   "text_empty_list": "Tu lista de contactos está vacía",
+  "text_empty_list_group": "Tu lista de este grupo está vacía",
   "text_empty_list_favorite": "Tu lista de contactos favoritos está vacía",
   "text_empty_list_description": "Ve a la pantalla de inicio y añade tus contactos",
   "text_empty_list_favorite_description": "Añade tus contactos favoritos desde la pantalla de edición de contactos",
