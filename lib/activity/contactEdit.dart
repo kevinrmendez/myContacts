@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/components/contactImageFull.dart';
+import 'package:kevin_app/main.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:scidart/numdart.dart';
@@ -140,7 +141,7 @@ class ContactEditState extends State<ContactEdit> {
 
     widget.callback(
         contacts: contacts, names: contactList, filteredNames: contactList);
-    _showMessage('contact deleted');
+    _showMessage(translatedText("message_dialog_contact_deleted", context));
   }
 
   void _showMessage(String message) {
@@ -157,7 +158,10 @@ class ContactEditState extends State<ContactEdit> {
                   ),
                   onPressed: () {
                     // Navigator.of(context).pop();
-                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => Home()),
+                      (Route<dynamic> route) => false,
+                    );
                   })
             ],
           );

@@ -192,6 +192,7 @@ class SettingsState extends State<Settings> {
           MaterialPageRoute(builder: (context) => Home()),
           (Route<dynamic> route) => false,
         );
+        // Navigator.popUntil(context, ModalRoute.withName('/'));
       },
       child: Scaffold(
         key: _scaffoldKey,
@@ -306,11 +307,10 @@ class SettingsState extends State<Settings> {
                                         bool isDataDeleted =
                                             await _db.deleteAllContacts();
                                         if (isDataDeleted) {
-                                          _scaffoldKey.currentState
-                                              .showSnackBar(snackBar(
-                                                  translatedText(
-                                                      "snackbar_contact_delete",
-                                                      context)));
+                                          _scaffoldKey.currentState.showSnackBar(
+                                              snackBar(translatedText(
+                                                  "snackbar_contact_delete_all",
+                                                  context)));
                                           setState(() {
                                             importedContacts = false;
                                             prefs.setBool('importedContacts',
