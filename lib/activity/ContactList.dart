@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
+import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'dart:async';
 import 'dart:io';
@@ -26,7 +27,7 @@ class _ContactListState extends State<ContactList> {
   final ContactDb db = ContactDb();
   Future<List<Contact>> contacts;
 
-  int contactListLength;
+  int contactListLength = 0;
   _ContactListState() {
     _filter.addListener(() {
       if (_filter.text.isEmpty) {
@@ -244,27 +245,28 @@ class _ContactListState extends State<ContactList> {
       ),
       body: Column(
         children: <Widget>[
-          Card(
-            child: TextField(
-              style:
-                  TextStyle(color: Theme.of(context).accentColor, fontSize: 17),
-              controller: _filter,
-              decoration: new InputDecoration(
-                prefixIcon: new Icon(
-                  Icons.search,
-                  color: Theme.of(context).primaryColor,
-                ),
-                hintText: translatedText("hintText_search", context),
-                hintStyle: TextStyle(color: Theme.of(context).accentColor),
-                // enabledBorder: UnderlineInputBorder(
-                //   borderSide: BorderSide(color: Theme.of(context).accentColor),
-                // ),
-                // focusedBorder: UnderlineInputBorder(
-                //     borderSide:
-                //         BorderSide(color: Theme.of(context).accentColor)),
-              ),
-            ),
-          ),
+          contactListLength > 0
+              ? Card(
+                  child: TextField(
+                    style: TextStyle(color: GREY, fontSize: 17),
+                    controller: _filter,
+                    decoration: new InputDecoration(
+                      prefixIcon: new Icon(
+                        Icons.search,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      hintText: translatedText("hintText_search", context),
+                      hintStyle: TextStyle(color: GREY),
+                      // enabledBorder: UnderlineInputBorder(
+                      //   borderSide: BorderSide(color: Theme.of(context).accentColor),
+                      // ),
+                      // focusedBorder: UnderlineInputBorder(
+                      //     borderSide:
+                      //         BorderSide(color: Theme.of(context).accentColor)),
+                    ),
+                  ),
+                )
+              : SizedBox(),
           Expanded(
             child: _buildList(),
           ),
