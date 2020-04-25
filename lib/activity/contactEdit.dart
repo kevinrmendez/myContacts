@@ -420,16 +420,22 @@ class ContactEditState extends State<ContactEdit> {
               //     ),
               //   ),
               // ),
-              Hero(
-                child: CircleAvatar(
-                  radius: MediaQuery.of(context).size.width * .1,
-                  backgroundColor: Theme.of(context).primaryColor,
-                  backgroundImage:
-                      widget.contact.image == "" || widget.contact.image == null
-                          ? AssetImage('assets/person-icon-w-s3p.png')
-                          : FileImage(File(widget.contact.image)),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Hero(
+                  child: CircleAvatar(
+                    radius: widget.contact.image == null ||
+                            widget.contact.image == ""
+                        ? MediaQuery.of(context).size.width * .17
+                        : MediaQuery.of(context).size.width * .3,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundImage: widget.contact.image == "" ||
+                            widget.contact.image == null
+                        ? AssetImage('assets/person-icon-w-s3p.png')
+                        : FileImage(File(widget.contact.image)),
+                  ),
+                  tag: widget.contact.name + widget.index.toString(),
                 ),
-                tag: widget.contact.name + widget.index.toString(),
               ),
               SizedBox(
                 height: 10,

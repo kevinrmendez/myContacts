@@ -89,53 +89,39 @@ class _ContactListState extends State<ContactList> {
                 children: <Widget>[
                   // index % 10 == 0 ? AdmobUtils.admobBanner() : SizedBox(),
                   InkWell(
-                    child: ListTile(
-                      leading: Hero(
-                        child: CircleAvatar(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          backgroundImage: names[index].image == "" ||
-                                  names[index].image == null
-                              ? AssetImage('assets/person-icon-w-s3p.png')
-                              : FileImage(File(filteredNames[index].image)),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          transitionDuration: Duration(seconds: 1),
+                          pageBuilder: (_, __, ___) => ContactEdit(
+                              index: index,
+                              context: context,
+                              contact: filteredNames[index],
+                              callback: callback),
                         ),
-                        tag: filteredNames[index].name + index.toString(),
-                      ),
-                      title: Text(
-                        '${filteredNames[index].name}',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      trailing: Icon(filteredNames[index].favorite == 0
-                          ? Icons.keyboard_arrow_right
-                          : Icons.star),
-                      onTap: () {
-                        // Navigator.pushNamed(
-                        //     context, '/contactDetails',
-                        //     arguments: snapshot.data[index]);
-                        Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            transitionDuration: Duration(seconds: 1),
-                            pageBuilder: (_, __, ___) => ContactEdit(
-                                index: index,
-                                context: context,
-                                contact: filteredNames[index],
-                                callback: callback),
+                      );
+                    },
+                    child: Card(
+                      child: ListTile(
+                        leading: Hero(
+                          child: CircleAvatar(
+                            backgroundColor: Theme.of(context).primaryColor,
+                            backgroundImage: names[index].image == "" ||
+                                    names[index].image == null
+                                ? AssetImage('assets/person-icon-w-s3p.png')
+                                : FileImage(File(filteredNames[index].image)),
                           ),
-                        );
-
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) {
-                        //   print('CONTACTS ${filteredNames[index]}');
-                        //   // return ContactDetailsParallax(
-                        //   //   contact: filteredNames[index],
-                        //   //   // callback: callback
-                        //   // );
-                        //   return ContactEdit(
-                        //       context: context,
-                        //       contact: filteredNames[index],
-                        //       callback: callback);
-                        // }));
-                      },
+                          tag: filteredNames[index].name + index.toString(),
+                        ),
+                        title: Text(
+                          '${filteredNames[index].name}',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        trailing: Icon(filteredNames[index].favorite == 0
+                            ? Icons.keyboard_arrow_right
+                            : Icons.star),
+                      ),
                     ),
                   ),
                 ],
