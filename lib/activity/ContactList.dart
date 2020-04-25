@@ -88,14 +88,17 @@ class _ContactListState extends State<ContactList> {
               return Column(
                 children: <Widget>[
                   // index % 10 == 0 ? AdmobUtils.admobBanner() : SizedBox(),
-                  Card(
+                  InkWell(
                     child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        backgroundImage: names[index].image == "" ||
-                                names[index].image == null
-                            ? AssetImage('assets/person-icon-w-s3p.png')
-                            : FileImage(File(filteredNames[index].image)),
+                      leading: Hero(
+                        child: CircleAvatar(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          backgroundImage: names[index].image == "" ||
+                                  names[index].image == null
+                              ? AssetImage('assets/person-icon-w-s3p.png')
+                              : FileImage(File(filteredNames[index].image)),
+                        ),
+                        tag: filteredNames[index].name + index.toString(),
                       ),
                       title: Text(
                         '${filteredNames[index].name}',
@@ -108,22 +111,30 @@ class _ContactListState extends State<ContactList> {
                         // Navigator.pushNamed(
                         //     context, '/contactDetails',
                         //     arguments: snapshot.data[index]);
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            transitionDuration: Duration(seconds: 1),
+                            pageBuilder: (_, __, ___) => ContactEdit(
+                                index: index,
+                                context: context,
+                                contact: filteredNames[index],
+                                callback: callback),
+                          ),
+                        );
 
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          print('CONTACTS ${filteredNames[index]}');
-                          // return ContactDetailsParallax(
-                          //   contact: filteredNames[index],
-                          //   // callback: callback
-                          // );
-                          return ContactEdit(
-                              context: context,
-                              contact: filteredNames[index],
-                              callback: callback);
-                          // return ContactDetails(
-                          //     contact: filteredNames[index],
-                          //     callback: callback);
-                        }));
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) {
+                        //   print('CONTACTS ${filteredNames[index]}');
+                        //   // return ContactDetailsParallax(
+                        //   //   contact: filteredNames[index],
+                        //   //   // callback: callback
+                        //   // );
+                        //   return ContactEdit(
+                        //       context: context,
+                        //       contact: filteredNames[index],
+                        //       callback: callback);
+                        // }));
                       },
                     ),
                   ),

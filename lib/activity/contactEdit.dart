@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/components/contactImageFull.dart';
@@ -20,13 +22,15 @@ class ContactEdit extends StatefulWidget {
   final BuildContext context;
   final Contact contact;
   final Function callback;
+  final int index;
   final List<String> category = <String>[
     "general",
     "family",
     "friend",
     "coworker"
   ];
-  ContactEdit({@required this.contact, this.callback, this.context});
+  ContactEdit(
+      {@required this.contact, this.callback, this.context, this.index});
 
   @override
   ContactEditState createState() {
@@ -407,14 +411,25 @@ class ContactEditState extends State<ContactEdit> {
             children: <Widget>[
               AdmobUtils.admobBanner(),
               // _buildPreviewText(),
-              Container(
-                padding: EdgeInsets.only(top: 5),
-                child: Container(
-                  // padding: EdgeInsets.symmetric(vertical: 40),
-                  child: ContactImageFull(
-                    image: contact.image,
-                  ),
+              // Container(
+              //   padding: EdgeInsets.only(top: 5),
+              //   child: Container(
+              //     // padding: EdgeInsets.symmetric(vertical: 40),
+              //     child: ContactImageFull(
+              //       image: contact.image,
+              //     ),
+              //   ),
+              // ),
+              Hero(
+                child: CircleAvatar(
+                  radius: MediaQuery.of(context).size.width * .1,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundImage:
+                      widget.contact.image == "" || widget.contact.image == null
+                          ? AssetImage('assets/person-icon-w-s3p.png')
+                          : FileImage(File(widget.contact.image)),
                 ),
+                tag: widget.contact.name + widget.index.toString(),
               ),
               SizedBox(
                 height: 10,
