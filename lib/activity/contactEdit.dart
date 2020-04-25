@@ -287,35 +287,29 @@ class ContactEditState extends State<ContactEdit> {
 
   Widget _buildFormButtons() {
     List<Widget> _buttons = [
-      Padding(
-        padding: const EdgeInsets.only(top: 0),
-        child: RaisedButton(
-          color: Theme.of(context).primaryColor,
-          onPressed: () async {
-            _updateContact(contact);
-          },
-          child: Text(
-            translatedText("button_save", context),
-            style: TextStyle(color: Colors.white),
-          ),
+      RaisedButton(
+        color: Theme.of(context).primaryColor,
+        onPressed: () async {
+          _updateContact(contact);
+        },
+        child: Text(
+          translatedText("button_save", context),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       SizedBox(
         width: 20,
       ),
-      Padding(
-        padding: const EdgeInsets.only(top: 5),
-        child: RaisedButton(
-          color: Theme.of(context).primaryColor,
-          child: Text(
-            translatedText("button_delete", context),
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () async {
-            await _deleteContact(contact);
-          },
+      RaisedButton(
+        color: Theme.of(context).primaryColor,
+        child: Text(
+          translatedText("button_delete", context),
+          style: TextStyle(color: Colors.white),
         ),
-      )
+        onPressed: () async {
+          await _deleteContact(contact);
+        },
+      ),
     ];
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -324,45 +318,20 @@ class ContactEditState extends State<ContactEdit> {
   }
 
   Widget _buildPreviewText() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        // _buildText(this.name, orientation),
-        _buildBoldText(this.name),
-        _buildText(this.phone),
-        Padding(
-          padding: EdgeInsets.only(bottom: 0),
-          child: _buildText(this.email),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildText(String text) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 22),
-      ),
-    );
+    return _buildBoldText(this.name);
   }
 
   Widget _buildBoldText(String text) {
-    AppSettings appState = AppSettings.of(context);
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.only(bottom: 15),
       width: MediaQuery.of(context).size.width * 0.8,
       child: Text(
         text,
         textAlign: TextAlign.center,
         style: TextStyle(
-            fontSize: 40,
+            fontSize: 28,
             fontWeight: FontWeight.bold,
-            color: appState.themeKey == MyThemeKeys.DARK
-                ? Colors.white
-                : Theme.of(context).primaryColor),
+            color: Theme.of(context).primaryColor),
       ),
     );
   }
@@ -391,84 +360,103 @@ class ContactEditState extends State<ContactEdit> {
     // Build a Form widget using the _formKey created above.
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(translatedText("app_title_contactEdit", context)),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Settings()),
-                );
-              }),
-        ],
-      ),
-      body: ListView(
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              AdmobUtils.admobBanner(),
-              // _buildPreviewText(),
-              // Container(
-              //   padding: EdgeInsets.only(top: 5),
-              //   child: Container(
-              //     // padding: EdgeInsets.symmetric(vertical: 40),
-              //     child: ContactImageFull(
-              //       image: contact.image,
-              //     ),
-              //   ),
-              // ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Hero(
-                  child: CircleAvatar(
-                    radius: widget.contact.image == null ||
-                            widget.contact.image == ""
-                        ? MediaQuery.of(context).size.width * .17
-                        : MediaQuery.of(context).size.width * .3,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    backgroundImage: widget.contact.image == "" ||
-                            widget.contact.image == null
-                        ? AssetImage('assets/person-icon-w-s3p.png')
-                        : FileImage(File(widget.contact.image)),
+      // appBar: AppBar(
+      //   title: Text(translatedText("app_title_contactEdit", context)),
+      //   actions: <Widget>[
+      //     IconButton(
+      //         icon: Icon(Icons.settings),
+      //         onPressed: () {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(builder: (context) => Settings()),
+      //           );
+      //         }),
+      //   ],
+      // ),
+      body: Stack(children: <Widget>[
+        ListView(
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                AdmobUtils.admobBanner(),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                      vertical: widget.contact.image == null ||
+                              widget.contact.image == ""
+                          ? 15
+                          : 5),
+                  child: Column(
+                    children: <Widget>[
+                      _buildPreviewText(),
+                      Hero(
+                        child: CircleAvatar(
+                          radius: widget.contact.image == null ||
+                                  widget.contact.image == ""
+                              ? MediaQuery.of(context).size.width * .17
+                              : MediaQuery.of(context).size.width * .3,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          backgroundImage: widget.contact.image == "" ||
+                                  widget.contact.image == null
+                              ? AssetImage('assets/person-icon-w-s3p.png')
+                              : FileImage(File(widget.contact.image)),
+                        ),
+                        tag: widget.contact.name + widget.index.toString(),
+                      ),
+                    ],
                   ),
-                  tag: widget.contact.name + widget.index.toString(),
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    contact.phone != ""
+                        ? WidgetUtils.urlButtons(
+                            color: Theme.of(context).primaryColor,
+                            url: "tel:${contact.phone.toString()}",
+                            icon: Icon(
+                              Icons.phone,
+                              color: Colors.white,
+                            ))
+                        : const SizedBox(),
+                    contact.email != ""
+                        ? WidgetUtils.urlButtons(
+                            color: Theme.of(context).primaryColor,
+                            url: 'mailto:${contact.email}',
+                            icon: Icon(
+                              Icons.email,
+                              color: Colors.white,
+                            ))
+                        : const SizedBox(),
+                    _buildShareButton()
+                  ],
+                ),
+                _buildForm(),
+                SizedBox(
+                  height: 30,
+                )
+              ],
+            )
+          ],
+        ),
+        Positioned(
+            top: 85,
+            left: 10,
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                size: 30,
+                color: Theme.of(context).primaryColor,
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  contact.phone != ""
-                      ? WidgetUtils.urlButtons(
-                          color: Theme.of(context).primaryColor,
-                          url: "tel:${contact.phone.toString()}",
-                          icon: Icon(
-                            Icons.phone,
-                            color: Colors.white,
-                          ))
-                      : const SizedBox(),
-                  contact.email != ""
-                      ? WidgetUtils.urlButtons(
-                          color: Theme.of(context).primaryColor,
-                          url: 'mailto:${contact.email}',
-                          icon: Icon(
-                            Icons.email,
-                            color: Colors.white,
-                          ))
-                      : const SizedBox(),
-                  _buildShareButton()
-                ],
-              ),
-              _buildForm(),
-            ],
-          )
-        ],
-      ),
+              onPressed: () {
+                Navigator.pop(context);
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => Settings()));
+              },
+            ))
+      ]),
     );
   }
 }
