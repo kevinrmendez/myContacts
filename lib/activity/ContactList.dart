@@ -246,24 +246,22 @@ class _ContactListState extends State<ContactList> {
       body: Column(
         children: <Widget>[
           contactListLength > 0
-              ? Card(
-                  child: TextField(
-                    style: TextStyle(color: GREY, fontSize: 17),
-                    controller: _filter,
-                    decoration: new InputDecoration(
-                      prefixIcon: new Icon(
-                        Icons.search,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      hintText: translatedText("hintText_search", context),
-                      hintStyle: TextStyle(color: GREY),
-                      // enabledBorder: UnderlineInputBorder(
-                      //   borderSide: BorderSide(color: Theme.of(context).accentColor),
-                      // ),
-                      // focusedBorder: UnderlineInputBorder(
-                      //     borderSide:
-                      //         BorderSide(color: Theme.of(context).accentColor)),
+              ? TextField(
+                  style: TextStyle(color: GREY, fontSize: 17),
+                  controller: _filter,
+                  decoration: new InputDecoration(
+                    prefixIcon: new Icon(
+                      Icons.search,
+                      color: Theme.of(context).primaryColor,
                     ),
+                    hintText: translatedText("hintText_search", context),
+                    hintStyle: TextStyle(color: GREY),
+                    // enabledBorder: UnderlineInputBorder(
+                    //   borderSide: BorderSide(color: Theme.of(context).accentColor),
+                    // ),
+                    // focusedBorder: UnderlineInputBorder(
+                    //     borderSide:
+                    //         BorderSide(color: Theme.of(context).accentColor)),
                   ),
                 )
               : SizedBox(),
