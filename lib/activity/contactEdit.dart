@@ -118,7 +118,10 @@ class ContactEditState extends State<ContactEdit> {
     // print('after update id');
     // print(contact);
     await db.updateContact(contact);
+
     contacts = db.contacts();
+    contactService.update(contact.name, contact.phone, contact.email,
+        contact.favorite, contact.category, contact);
     _showMessage(translatedText("message_dialog_change_contact", context));
   }
 
