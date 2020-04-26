@@ -30,7 +30,7 @@ class ContactDb {
     );
     ContactDb contactDb = ContactDb();
     List<Contact> contacts = await contactDb.contacts();
-    contactService.updateAll(contacts);
+    contactService.updateContacts(contacts);
 
     return;
   }

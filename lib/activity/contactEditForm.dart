@@ -43,7 +43,6 @@ class ContactEditFormState extends State<ContactEditForm> {
   // not a GlobalKey<MyCustomFormState>.
   List<String> category;
 
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final ContactDb db = ContactDb();
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
@@ -117,8 +116,9 @@ class ContactEditFormState extends State<ContactEditForm> {
     await db.updateContact(contact);
 
     contacts = db.contacts();
-    contactService.update(contact.name, contact.phone, contact.email,
-        contact.favorite, contact.category, contact);
+    List contactsDb = await db.contacts();
+
+    contactService.updateContacts(contactsDb);
     _showMessage(translatedText("message_dialog_change_contact", context));
   }
 

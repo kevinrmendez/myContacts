@@ -22,22 +22,7 @@ class AppState {
     _contactList.add(List<Contact>.from(current));
   }
 
-  update(String name, String phone, String email, int favorite, String category,
-      Contact contact) {
-    Contact updatedContact = Contact(
-        name: name,
-        phone: phone,
-        email: email,
-        favorite: favorite,
-        category: category);
-    int contactIndex = _contactList.value.indexOf(contact);
-    _contactList.value.removeAt(contactIndex);
-    _contactList.value.insert(contactIndex, updatedContact);
-
-    _contactList.add(List<Contact>.from(current));
-  }
-
-  updateAll(List contacts) {
+  updateContacts(List contacts) {
     _contactList.add(List<Contact>.from(contacts));
   }
 
