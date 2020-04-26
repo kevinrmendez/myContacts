@@ -10,7 +10,7 @@ class AppState {
   BehaviorSubject _screenIndex = BehaviorSubject.seeded(0);
   Stream get streamIndex => _screenIndex.stream;
   Stream get stream => _contactList.stream;
-  List get current => _contactList.value;
+  List<Contact> get current => _contactList.value;
   int get currentIndex => _screenIndex.value;
 
   changeIndex(int index) {
@@ -19,7 +19,7 @@ class AppState {
 
   add(Contact contact) {
     _contactList.value.add(contact);
-    _contactList.add(List.from(current));
+    _contactList.add(List<Contact>.from(current));
   }
 
   update(String name, String phone, String email, int favorite, String category,
@@ -34,21 +34,21 @@ class AppState {
     _contactList.value.removeAt(contactIndex);
     _contactList.value.insert(contactIndex, updatedContact);
 
-    _contactList.add(List.from(current));
+    _contactList.add(List<Contact>.from(current));
   }
 
   updateAll(List contacts) {
-    _contactList.add(List.from(contacts));
+    _contactList.add(List<Contact>.from(contacts));
   }
 
   remove(Contact contact) {
     _contactList.value.remove(contact);
-    _contactList.add(List.from(current));
+    _contactList.add(List<Contact>.from(current));
   }
 
   removeAll() {
     _contactList.value = [];
-    _contactList.add(List.from(current));
+    _contactList.add(List<Contact>.from(current));
   }
 }
 
