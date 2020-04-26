@@ -11,11 +11,8 @@ import 'dart:io';
 
 import '../apikeys.dart';
 import '../contact.dart';
-import 'contactDetails.dart';
 
 import 'package:admob_flutter/admob_flutter.dart';
-
-import 'contactDetailsParallax.dart';
 
 class ContactListGroup extends StatefulWidget {
   final String category;
