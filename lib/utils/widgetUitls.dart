@@ -27,6 +27,42 @@ class WidgetUtils {
     );
   }
 
+  // static Widget bottomNavigation(BuildContext context){
+  //  return BottomNavigationBar(
+  //           type: BottomNavigationBarType.shifting,
+  //           selectedItemColor: Color(0xFF6A6A6C),
+  //           unselectedItemColor: Colors.grey,
+  //           selectedLabelStyle: TextStyle(
+  //             color: Theme.of(context).primaryColor,
+  //           ),
+  //           unselectedLabelStyle: TextStyle(
+  //             color: Colors.grey,
+  //           ),
+  //           showUnselectedLabels: true,
+  //           currentIndex: _currentIndex,
+  //           onTap: onTabTapped,
+  //           items: [
+  //             BottomNavigationBarItem(
+  //                 icon: Icon(
+  //                   Icons.home,
+  //                   // color: Theme.of(context).primaryColor,
+  //                 ),
+  //                 title: Text(translatedText("menu_home", context))),
+  //             BottomNavigationBarItem(
+  //                 icon: Icon(Icons.contacts),
+  //                 title:Text(translatedText("menu_contactList", context))),
+  //             BottomNavigationBarItem(
+  //                 icon: Icon(Icons.star),
+  //                 title:Text(translatedText("menu_favorite", context))),
+  //             BottomNavigationBarItem(
+  //                 icon: Icon(Icons.group),
+  //                 title:Text(translatedText("menu_groups", context))),
+  //             // BottomNavigationBarItem(
+  //             //     icon: Icon(Icons.settings),
+  //             //     title: _bottomMenuTitle("menu_settings")),
+  //           ])
+  // }
+
   static PreferredSizeWidget appBar(
       {String title, Color iconColor, BuildContext context}) {
     void _menuSelected(choice) {

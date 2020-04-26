@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:kevin_app/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -282,6 +283,7 @@ class ContactFormState extends State<ContactForm> {
                                 category: dropdownValue,
                                 image: widget.image);
                             _saveContact(contact);
+                            contactService.add(contact);
                             widget.callback("");
                           }
                           // print(await db.contacts());

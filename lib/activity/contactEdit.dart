@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/Settings.dart';
+import 'package:kevin_app/appState.dart';
 import 'package:kevin_app/components/contactImageFull.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/utils/colors.dart';
@@ -21,7 +23,6 @@ import '../myThemes.dart';
 class ContactEdit extends StatefulWidget {
   final BuildContext context;
   final Contact contact;
-  final Function callback;
   final int index;
   final List<String> category = <String>[
     "general",
@@ -29,8 +30,7 @@ class ContactEdit extends StatefulWidget {
     "friend",
     "coworker"
   ];
-  ContactEdit(
-      {@required this.contact, this.callback, this.context, this.index});
+  ContactEdit({@required this.contact, this.context, this.index});
 
   @override
   ContactEditState createState() {
@@ -62,15 +62,6 @@ class ContactEditState extends State<ContactEdit> {
   Future<List<Contact>> contacts;
 
   String dropdownValue;
-
-  callback({String name, String phone, String email, int favorite}) {
-    setState(() {
-      this.name = name;
-      this.phone = phone;
-      this.email = email;
-      this.favorite = favorite;
-    });
-  }
 
   Widget _dropDown() {
     return DropdownButton(
@@ -129,7 +120,6 @@ class ContactEditState extends State<ContactEdit> {
     await db.updateContact(contact);
     contacts = db.contacts();
     _showMessage(translatedText("message_dialog_change_contact", context));
-    widget.callback(contacts);
   }
 
   Future<void> _deleteContact(Contact contact) async {
@@ -143,8 +133,6 @@ class ContactEditState extends State<ContactEdit> {
 
     int contactsLength = contactList.length;
 
-    widget.callback(
-        contacts: contacts, names: contactList, filteredNames: contactList);
     _showMessage(translatedText("message_dialog_contact_deleted", context));
   }
 
@@ -161,9 +149,8 @@ class ContactEditState extends State<ContactEdit> {
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                   onPressed: () {
-                    // Navigator.of(context).pop();
                     Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => Home()),
+                      MaterialPageRoute(builder: (context) => ContactList2()),
                       (Route<dynamic> route) => false,
                     );
                   })
@@ -308,6 +295,7 @@ class ContactEditState extends State<ContactEdit> {
         ),
         onPressed: () async {
           await _deleteContact(contact);
+          contactService.remove(contact);
         },
       ),
     ];

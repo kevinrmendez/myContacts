@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
+import 'package:kevin_app/appState.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
@@ -14,16 +15,16 @@ import 'contactDetails.dart';
 
 import 'package:admob_flutter/admob_flutter.dart';
 
-class ContactList extends StatefulWidget {
+class ContactList2 extends StatefulWidget {
   final BuildContext context;
-  ContactList({this.context}) {}
+  ContactList2({this.context}) {}
   @override
-  _ContactListState createState() {
-    return _ContactListState();
+  _ContactList2State createState() {
+    return _ContactList2State();
   }
 }
 
-class _ContactListState extends State<ContactList> {
+class _ContactList2State extends State<ContactList2> {
   final ContactDb db = ContactDb();
   Future<List<Contact>> contacts;
 
@@ -42,6 +43,7 @@ class _ContactListState extends State<ContactList> {
       }
     });
   }
+
   final TextEditingController _filter = new TextEditingController();
   String _searchText = "";
 
@@ -201,48 +203,87 @@ class _ContactListState extends State<ContactList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          translatedText("app_title_contactList", context),
-        ),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Settings()),
-                );
-              }),
-        ],
-      ),
-      body: Column(
-        children: <Widget>[
-          contactListLength > 0
-              ? TextField(
-                  style: TextStyle(color: GREY, fontSize: 17),
-                  controller: _filter,
-                  decoration: new InputDecoration(
-                    prefixIcon: new Icon(
-                      Icons.search,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    hintText: translatedText("hintText_search", context),
-                    hintStyle: TextStyle(color: GREY),
-                    // enabledBorder: UnderlineInputBorder(
-                    //   borderSide: BorderSide(color: Theme.of(context).accentColor),
-                    // ),
-                    // focusedBorder: UnderlineInputBorder(
-                    //     borderSide:
-                    //         BorderSide(color: Theme.of(context).accentColor)),
-                  ),
-                )
-              : SizedBox(),
-          Expanded(
-            child: _buildList(),
+        appBar: AppBar(
+          title: Text(
+            translatedText("app_title_contactList", context),
           ),
-        ],
-      ),
-    );
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Settings()),
+                  );
+                }),
+          ],
+        ),
+        body: StreamBuilder(
+            stream: contactService.stream,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.data.length == 0) {
+                return Center(
+                  child: Text('no contacts'),
+                );
+              }
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Contact contact = snapshot.data[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            transitionDuration: Duration(seconds: 1),
+                            pageBuilder: (_, __, ___) => ContactEdit(
+                              index: index,
+                              context: context,
+                              contact: contact,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        child: Text(snapshot.data[index].name),
+                      ),
+                    );
+                  }
+
+                  // Column(
+                  //   children: <Widget>[
+                  //     contactListLength > 0
+                  //         ? TextField(
+                  //             style: TextStyle(color: GREY, fontSize: 17),
+                  //             controller: _filter,
+                  //             decoration: new InputDecoration(
+                  //               prefixIcon: new Icon(
+                  //                 Icons.search,
+                  //                 color: Theme.of(context).primaryColor,
+                  //               ),
+                  //               hintText: translatedText("hintText_search", context),
+                  //               hintStyle: TextStyle(color: GREY),
+                  //               // enabledBorder: UnderlineInputBorder(
+                  //               //   borderSide: BorderSide(color: Theme.of(context).accentColor),
+                  //               // ),
+                  //               // focusedBorder: UnderlineInputBorder(
+                  //               //     borderSide:
+                  //               //         BorderSide(color: Theme.of(context).accentColor)),
+                  //             ),
+                  //           )
+                  //         : SizedBox(),
+                  //     Expanded(
+                  //       child: _buildList(),
+                  //     ),
+                  //   ],
+                  // ),
+                  );
+            }));
   }
 }

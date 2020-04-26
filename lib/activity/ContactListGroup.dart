@@ -104,10 +104,10 @@ class _ContactListGroupState extends State<ContactListGroup> {
                         PageRouteBuilder(
                           transitionDuration: Duration(seconds: 1),
                           pageBuilder: (_, __, ___) => ContactEdit(
-                              index: index,
-                              context: context,
-                              contact: filteredNames[index],
-                              callback: callback),
+                            index: index,
+                            context: context,
+                            contact: filteredNames[index],
+                          ),
                         ),
                       );
                     },

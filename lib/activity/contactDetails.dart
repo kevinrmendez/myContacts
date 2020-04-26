@@ -212,7 +212,6 @@ class ContactDetails extends StatelessWidget {
                 builder: (context) => ContactEdit(
                       contact: contact,
                       context: context,
-                      callback: callback,
                     )),
           );
           // Navigator.pushNamed(context, '/contactEdit', arguments: contact);

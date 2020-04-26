@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/FavoriteContactList.dart';
 import 'package:kevin_app/activity/GroupActivity.dart';
+import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/contactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,10 +21,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+ContactDb db = ContactDb();
+List<Contact> contactsfromDb;
+
 SharedPreferences prefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   prefs = await SharedPreferences.getInstance();
+  contactsfromDb = await db.contacts();
 
   Admob.initialize(getAppId());
   runApp(MyApp());
@@ -156,7 +164,7 @@ class AppWrapper extends StatelessWidget {
 class Home extends StatefulWidget {
   final List<Widget> _activities = [
     ContactActivity(),
-    ContactList(),
+    ContactList2(),
     FavoriteContactList(),
     GroupActivity()
     // Settings()
