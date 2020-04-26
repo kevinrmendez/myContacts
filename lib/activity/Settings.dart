@@ -196,7 +196,6 @@ class SettingsState extends State<Settings> {
           MaterialPageRoute(builder: (context) => Home()),
           (Route<dynamic> route) => false,
         );
-        // Navigator.popUntil(context, ModalRoute.withName('/'));
       },
       child: Scaffold(
         key: _scaffoldKey,
@@ -296,9 +295,7 @@ class SettingsState extends State<Settings> {
                                                 Theme.of(context).primaryColor),
                                       ),
                                       onPressed: () {
-                                        // Navigator.of(context).pop();
-                                        Navigator.popUntil(
-                                            context, ModalRoute.withName('/'));
+                                        Navigator.of(context).pop();
                                       }),
                                   FlatButton(
                                       child: Text(
@@ -351,9 +348,7 @@ class SettingsState extends State<Settings> {
                                                 Theme.of(context).primaryColor),
                                       ),
                                       onPressed: () {
-                                        // Navigator.of(context).pop();
-                                        Navigator.popUntil(
-                                            context, ModalRoute.withName('/'));
+                                        Navigator.of(context).pop();
                                       }),
                                   FlatButton(
                                       child: Text(
@@ -363,18 +358,7 @@ class SettingsState extends State<Settings> {
                                                 Theme.of(context).primaryColor),
                                       ),
                                       onPressed: () async {
-                                        // bool isDataDeleted =
                                         await _db.deleteDuplicateContacts();
-                                        // if (isDataDeleted) {
-                                        //   _scaffoldKey.currentState.showSnackBar(
-                                        //       snackBar(
-                                        //           'All your contacts have been deleted!'));
-                                        //   setState(() {
-                                        //     importedContacts = false;
-                                        //     prefs.setBool('importedContacts',
-                                        //         importedContacts);
-                                        //   });
-                                        // }
                                         _scaffoldKey.currentState.showSnackBar(
                                             snackBar(translatedText(
                                                 "snackbar_contact_delete_duplicate",

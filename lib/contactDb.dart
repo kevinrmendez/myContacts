@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:kevin_app/appState.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -24,9 +25,14 @@ class ContactDb {
 
   Future<void> deleteDuplicateContacts() async {
     final Database db = await getDb();
-    return db.execute(
+    db.execute(
       "DELETE FROM contacts WHERE ROWID NOT IN (SELECT MIN(ROWID) FROM contacts GROUP BY  name, phone, email, image, category, favorite)",
     );
+    ContactDb contactDb = ContactDb();
+    List<Contact> contacts = await contactDb.contacts();
+    contactService.updateAll(contacts);
+
+    return;
   }
 
   Future<void> insertContact(Contact contact) async {

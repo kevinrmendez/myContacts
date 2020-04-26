@@ -37,6 +37,10 @@ class AppState {
     _contactList.add(List.from(current));
   }
 
+  updateAll(List contacts) {
+    _contactList.add(List.from(contacts));
+  }
+
   remove(Contact contact) {
     _contactList.value.remove(contact);
     _contactList.add(List.from(current));
