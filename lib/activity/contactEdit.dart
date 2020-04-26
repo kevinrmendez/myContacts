@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/appState.dart';
-import 'package:kevin_app/components/contactImageFull.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/appSettings.dart';
 import 'package:kevin_app/components/contactImage.dart';
-import 'package:kevin_app/components/contactImageFull.dart';
 import 'dart:async';
 import 'package:kevin_app/components/contact_form.dart';
 import 'package:flutter/services.dart';
@@ -74,7 +73,7 @@ class ContactActivityState extends State<ContactActivity>
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             AdmobUtils.admobBanner(),
-            ContactImageFull(
+            ContactImage(
               image: _image,
             ),
 

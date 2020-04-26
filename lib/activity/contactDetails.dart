@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
 import 'package:kevin_app/components/contactImage.dart';
-import 'package:kevin_app/components/contactImageFull.dart';
 import 'package:kevin_app/myThemes.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
@@ -192,7 +191,7 @@ class ContactDetails extends StatelessWidget {
                         style: TextStyle(fontSize: 25),
                       ),
                     ),
-              ContactImageFull(
+              ContactImage(
                 image: contact.image,
               ),
               _buildDetailstext(mainAlignment: MainAxisAlignment.start),
