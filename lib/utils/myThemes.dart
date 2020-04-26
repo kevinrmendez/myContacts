@@ -35,7 +35,7 @@ class MyThemes {
   );
   static final ThemeData navyTheme = ThemeData(
     primaryColor: Color.fromRGBO(0, 0, 139, 1),
-    accentColor: Color.fromRGBO(255, 228, 53, 1),
+    accentColor: Color(0xFFFFBD59),
     brightness: Brightness.light,
   );
   static final ThemeData blackTheme = ThemeData(

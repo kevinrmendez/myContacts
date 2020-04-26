@@ -44,8 +44,6 @@ class WidgetUtils {
           PageRouteBuilder(
             transitionDuration: Duration(seconds: 1),
             pageBuilder: (_, __, ___) => ContactEdit(
-              index: index,
-              context: context,
               contact: contact,
             ),
           ),
