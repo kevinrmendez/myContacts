@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:kevin_app/appState.dart';
+import 'package:kevin_app/state/appState.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

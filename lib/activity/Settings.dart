@@ -3,11 +3,11 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
-import 'package:kevin_app/appState.dart';
 import 'package:kevin_app/components/expandableExportSettings.dart';
 import 'package:kevin_app/components/expandableThemeSettings.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/main.dart';
+import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/utils.dart';
 
 import 'dart:async';
@@ -17,7 +17,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:contacts_service/contacts_service.dart' as a;
 import 'package:kevin_app/ContactDb.dart';
 
-import 'package:kevin_app/appSettings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'aboutActivity .dart';

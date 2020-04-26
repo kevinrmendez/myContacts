@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/Settings.dart';
-import 'package:kevin_app/appState.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 

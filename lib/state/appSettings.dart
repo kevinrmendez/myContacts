@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kevin_app/myThemes.dart';
+import 'package:kevin_app/utils/myThemes.dart';
 
 class AppSettings extends InheritedWidget {
   final bool camera;

@@ -8,7 +8,6 @@ import 'dart:async';
 import 'dart:io';
 
 import '../contact.dart';
-import 'contactDetails.dart';
 
 import 'package:admob_flutter/admob_flutter.dart';
 

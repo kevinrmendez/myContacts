@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/Settings.dart';
-import 'package:kevin_app/appSettings.dart';
+import 'package:kevin_app/components/contactImage.dart';
+import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'dart:async';
 import 'package:kevin_app/components/contact_form.dart';

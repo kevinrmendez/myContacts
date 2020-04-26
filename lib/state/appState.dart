@@ -1,7 +1,7 @@
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/contactDb.dart';
 import 'package:rxdart/rxdart.dart';
-import './main.dart';
+import '../main.dart';
 
 class AppState {
   BehaviorSubject _contactList =

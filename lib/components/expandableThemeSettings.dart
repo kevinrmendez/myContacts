@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/main.dart';
+import 'package:kevin_app/state/appSettings.dart';
+import 'package:kevin_app/utils/myThemes.dart';
 import 'package:kevin_app/utils/utils.dart';
-
-import '../appSettings.dart';
-import '../myThemes.dart';
 
 class ExpandableThemeSettings extends StatefulWidget {
   final BuildContext context;

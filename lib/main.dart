@@ -3,10 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/FavoriteContactList.dart';
 import 'package:kevin_app/activity/GroupActivity.dart';
-import 'package:kevin_app/appState.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/contactDb.dart';
+import 'package:kevin_app/state/appSettings.dart';
+import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
+import 'package:kevin_app/utils/myThemes.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,8 +18,6 @@ import 'package:kevin_app/activity/contactActivity.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'activity/ContactList.dart';
 import 'apikeys.dart';
-import 'appSettings.dart';
-import 'myThemes.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'app_localizations.dart';

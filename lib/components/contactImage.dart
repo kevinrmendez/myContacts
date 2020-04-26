@@ -1,8 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
-import '../appSettings.dart';
+import 'package:kevin_app/state/appSettings.dart';
 
 class ContactImage extends StatelessWidget {
   final String image;

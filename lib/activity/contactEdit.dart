@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/Settings.dart';
-import 'package:kevin_app/appState.dart';
 import 'package:kevin_app/main.dart';
+import 'package:kevin_app/state/appSettings.dart';
+import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:scidart/numdart.dart';
-import 'package:kevin_app/appSettings.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:share/share.dart';
@@ -16,8 +16,6 @@ import 'package:share/share.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
-
-import '../myThemes.dart';
 
 class ContactEdit extends StatefulWidget {
   final BuildContext context;
