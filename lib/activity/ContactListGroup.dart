@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
-import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
+import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
+import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:strings/strings.dart';
 import 'dart:async';
 import 'dart:io';
 
 import '../apikeys.dart';
 import '../contact.dart';
+import 'Settings.dart';
 
 import 'package:admob_flutter/admob_flutter.dart';
 
 class ContactListGroup extends StatefulWidget {
   final String category;
-  final BuildContext context;
-  ContactListGroup({this.context, this.category}) {}
+  ContactListGroup({this.category});
   @override
   _ContactListGroupState createState() {
     return _ContactListGroupState();
@@ -25,9 +26,6 @@ class ContactListGroup extends StatefulWidget {
 }
 
 class _ContactListGroupState extends State<ContactListGroup> {
-  final ContactDb db = ContactDb();
-  Future<List<Contact>> contacts;
-
   int contactListLength = 0;
   _ContactListGroupState() {
     _filter.addListener(() {
@@ -43,19 +41,15 @@ class _ContactListGroupState extends State<ContactListGroup> {
       }
     });
   }
+
   final TextEditingController _filter = new TextEditingController();
   String _searchText = "";
+  List<Contact> names = List<Contact>();
+  List<Contact> filteredNames = List<Contact>();
 
-  List<Contact> names = List(); // names we get from API
-  List<Contact> filteredNames = List();
-
-  Future getContactList() async {
-    return await contacts;
-  }
-
-  Future<List<Contact>> _getContacts() async {
-    List<Contact> tempList = new List();
-    tempList = await db.contacts();
+  List<Contact> _getContacts() {
+    List<Contact> tempList = List<Contact>();
+    tempList = contactService.current;
 
     var filteredList = tempList
         .where((contact) => contact.category == widget.category)
@@ -71,7 +65,7 @@ class _ContactListGroupState extends State<ContactListGroup> {
 
   Widget _buildList() {
     if ((_searchText.isNotEmpty)) {
-      List<Contact> tempList = new List();
+      List<Contact> tempList = new List<Contact>();
       for (int i = 0; i < filteredNames.length; i++) {
         print("FILTERED NAMES $filteredNames[i]");
         if (filteredNames[i].name != null) {
@@ -159,6 +153,17 @@ class _ContactListGroupState extends State<ContactListGroup> {
                               color: Theme.of(context).accentColor),
                         ),
                       ),
+                      Container(
+                        constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.7),
+                        margin: EdgeInsets.only(top: 20),
+                        child: Text(
+                          translatedText(
+                              "text_empty_list_favorite_description", context),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 17),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -172,18 +177,8 @@ class _ContactListGroupState extends State<ContactListGroup> {
     }
   }
 
-  callback({contacts, names, filteredNames}) {
-    setState(() {
-      this.contacts = contacts;
-      this.names = names;
-      this.filteredNames = filteredNames;
-      // this.contactListLength = contactListLength;
-    });
-  }
-
   @override
   void initState() {
-    contacts = db.contacts();
     _getContacts();
     super.initState();
   }
@@ -195,13 +190,12 @@ class _ContactListGroupState extends State<ContactListGroup> {
         title: Text(capitalize(widget.category)),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Settings()),
-                );
-              }),
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Settings()));
+            },
+          )
         ],
       ),
       body: Column(
