@@ -37,6 +37,7 @@
   "snackbar_contact_save": "संपर्क सहेज लिया गया है",
   "snackbar_contact_delete": "संपर्क हटा दिया गया है",
   "snackbar_contact_exported": "आपके संपर्क निर्यात कर दिए गए हैं",
+  "text_empty_name": "कोई नाम नहीं",
   "text_empty_list": "आपकी संपर्क सूची रिक्त है",
   "text_empty_list_group": "इस समूह की आपकी सूची खाली है",
   "text_empty_list_favorite": "आपकी पसंदीदा संपर्क सूची रिक्त है",

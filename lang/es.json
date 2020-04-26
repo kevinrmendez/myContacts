@@ -38,6 +38,7 @@
   "snackbar_contact_save": "Tu contacto ha sido guardado",
   "snackbar_contact_delete": "Tu contacto ha sido borrado",
   "text_save": "guardar",
+  "text_empty_name": "Sin Nombre",
   "text_empty_list": "Tu lista de contactos está vacía",
   "text_empty_list_group": "Tu lista de este grupo está vacía",
   "text_empty_list_favorite": "Tu lista de contactos favoritos está vacía",

@@ -84,42 +84,8 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
               return Column(
                 children: <Widget>[
                   // index % 10 == 0 ? AdmobUtils.admobBanner() : SizedBox(),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          transitionDuration: Duration(seconds: 1),
-                          pageBuilder: (_, __, ___) => ContactEdit(
-                            index: index,
-                            context: context,
-                            contact: filteredNames[index],
-                          ),
-                        ),
-                      );
-                    },
-                    child: Card(
-                      child: ListTile(
-                        leading: Hero(
-                          child: CircleAvatar(
-                            backgroundColor: Theme.of(context).primaryColor,
-                            backgroundImage: names[index].image == "" ||
-                                    names[index].image == null
-                                ? AssetImage('assets/person-icon-w-s3p.png')
-                                : FileImage(File(filteredNames[index].image)),
-                          ),
-                          tag: filteredNames[index].name + index.toString(),
-                        ),
-                        title: Text(
-                          '${filteredNames[index].name}',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        trailing: Icon(filteredNames[index].favorite == 0
-                            ? Icons.keyboard_arrow_right
-                            : Icons.star),
-                      ),
-                    ),
-                  ),
+                  WidgetUtils.contactListTile(
+                      index, filteredNames[index], context)
                 ],
               );
             } else {
@@ -128,45 +94,11 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
           });
     } else {
       if (contactListLength == 0) {
-        return Center(
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 200,
-                        // margin: EdgeInsets.only(top: 40),
-                        child: Text(
-                          translatedText("text_empty_list_favorite", context),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                              color: Theme.of(context).accentColor),
-                        ),
-                      ),
-                      Container(
-                        constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.7),
-                        margin: EdgeInsets.only(top: 20),
-                        child: Text(
-                          translatedText(
-                              "text_empty_list_favorite_description", context),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
+        return WidgetUtils.emptyListText(
+            title: translatedText("text_empty_list_favorite", context),
+            description:
+                translatedText("text_empty_list_favorite_description", context),
+            context: context);
       } else {
         return Center(child: CircularProgressIndicator());
       }
@@ -183,25 +115,9 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        contactListLength > 0
-            ? TextField(
-                style: TextStyle(color: GREY, fontSize: 17),
-                controller: _filter,
-                decoration: new InputDecoration(
-                  prefixIcon: new Icon(
-                    Icons.search,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  hintText: translatedText("hintText_search", context),
-                  hintStyle: TextStyle(color: GREY),
-                  // enabledBorder: UnderlineInputBorder(
-                  //   borderSide: BorderSide(color: Theme.of(context).accentColor),
-                  // ),
-                  // focusedBorder: UnderlineInputBorder(
-                  //     borderSide:
-                  //         BorderSide(color: Theme.of(context).accentColor)),
-                ),
-              )
+        contactListLength > 2
+            ? WidgetUtils.contactSearchTextField(
+                context: context, filter: _filter)
             : SizedBox(),
         Expanded(
           child: _buildList(),

@@ -156,7 +156,7 @@ class SettingsState extends State<Settings> {
           String email = emails.length > 0 ? emails[0].value : "";
           String phone = phones.length > 0 ? phones[0].value : "";
           String name = contact.displayName == null || contact.displayName == ""
-              ? "No name"
+              ? translatedText("text_empty_name", context)
               : contact.displayName;
           String category = translatedText("group_default", context);
 
