@@ -69,62 +69,6 @@ class ContactActivityState extends State<ContactActivity>
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        title: Text(translatedText("app_title", context)),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Settings()),
-                );
-              })
-          // PopupMenuButton(
-          //   icon: Icon(
-          //     Icons.settings,
-          //     size: 30,
-          //   ),
-          //   onSelected: _menuSelected,
-          //   color: Colors.white,
-          //   itemBuilder: (BuildContext context) {
-          //     return [
-          //       PopupMenuItem(
-          //         value: 'settings',
-          //         child: Container(
-          //             child:
-          //                 Text(translatedText("app_title_settings", context))),
-          //       ),
-          //     ];
-          //   },
-          // ),
-        ],
-      ),
-      // AppBar(
-      //   title: Text(
-      //     AppLocalizations.of(context).translate("app_title"),
-      //   ),
-      //   actions: <Widget>[
-      //     PopupMenuButton(
-      //       icon: Icon(
-      //         Icons.settings,
-      //         size: 30,
-      //       ),
-      //       onSelected: _menuSelected,
-      //       color: Colors.white,
-      //       itemBuilder: (BuildContext context) {
-      //         return [
-      //           PopupMenuItem(
-      //             value: 'settings',
-      //             child: Container(
-      //                 child:
-      //                     Text(translatedText("app_title_settings", context))),
-      //           ),
-      //         ];
-      //       },
-      //     ),
-      //   ],
-      // ),
       body: Center(
         child: ListView(
           // mainAxisAlignment: MainAxisAlignment.center,

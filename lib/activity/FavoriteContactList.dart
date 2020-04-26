@@ -214,39 +214,6 @@ class _FavoriteContactListState extends State<FavoriteContactList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          translatedText("app_title_favorite", context),
-        ),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Settings()),
-                );
-              })
-          // PopupMenuButton(
-          //   icon: Icon(
-          //     Icons.settings,
-          //     size: 30,
-          //   ),
-          //   onSelected: _menuSelected,
-          //   color: Colors.white,
-          //   itemBuilder: (BuildContext context) {
-          //     return [
-          //       PopupMenuItem(
-          //         value: 'settings',
-          //         child: Container(
-          //             child:
-          //                 Text(translatedText("app_title_settings", context))),
-          //       ),
-          //     ];
-          //   },
-          // ),
-        ],
-      ),
       body: Column(
         children: <Widget>[
           contactListLength > 0

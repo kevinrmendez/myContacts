@@ -47,37 +47,6 @@ class _GroupActivityState extends State<GroupActivity> {
       translatedText("group_coworker", context),
     ];
     return Scaffold(
-      appBar: AppBar(
-        title: Text(translatedText("app_title_groups", context)),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Settings()),
-                );
-              }),
-          // PopupMenuButton(
-          //   icon: Icon(
-          //     Icons.settings,
-          //     size: 30,
-          //   ),
-          //   onSelected: _menuSelected,
-          //   color: Colors.white,
-          //   itemBuilder: (BuildContext context) {
-          //     return [
-          //       PopupMenuItem(
-          //         value: 'settings',
-          //         child: Container(
-          //             child:
-          //                 Text(translatedText("app_title_settings", context))),
-          //       ),
-          //     ];
-          //   },
-          // ),
-        ],
-      ),
       body: Container(
         child: ListView.builder(
             itemCount: category.length,

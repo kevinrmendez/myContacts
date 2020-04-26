@@ -150,7 +150,7 @@ class ContactEditState extends State<ContactEdit> {
                   ),
                   onPressed: () {
                     Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => ContactList2()),
+                      MaterialPageRoute(builder: (context) => Home()),
                       (Route<dynamic> route) => false,
                     );
                   })

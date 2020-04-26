@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/FavoriteContactList.dart';
 import 'package:kevin_app/activity/GroupActivity.dart';
+import 'package:kevin_app/appState.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/contactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
+import 'package:kevin_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:kevin_app/activity/Settings.dart';
@@ -187,9 +189,10 @@ class HomeState extends State<Home> {
   }
 
   void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+    contactService.changeIndex(index);
+    // setState(() {
+    //   _currentIndex = index;
+    // });
   }
 
   Widget _bottomMenuTitle(String text) {
@@ -201,40 +204,58 @@ class HomeState extends State<Home> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return Scaffold(
-        body: widget._activities[_currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.shifting,
-            selectedItemColor: Color(0xFF6A6A6C),
-            unselectedItemColor: Colors.grey,
-            selectedLabelStyle: TextStyle(
-              color: Theme.of(context).primaryColor,
+    return StreamBuilder(
+      stream: contactService.streamIndex,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Scaffold(
+            appBar: AppBar(
+              title: Text(translatedText("app_title", context)),
+              actions: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.settings),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Settings()),
+                      );
+                    })
+              ],
             ),
-            unselectedLabelStyle: TextStyle(
-              color: Colors.grey,
-            ),
-            showUnselectedLabels: true,
-            currentIndex: _currentIndex,
-            onTap: onTabTapped,
-            items: [
-              BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                    // color: Theme.of(context).primaryColor,
-                  ),
-                  title: _bottomMenuTitle("menu_home")),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.contacts),
-                  title: _bottomMenuTitle("menu_contactList")),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.star),
-                  title: _bottomMenuTitle("menu_favorite")),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.group),
-                  title: _bottomMenuTitle("menu_groups")),
-              // BottomNavigationBarItem(
-              //     icon: Icon(Icons.settings),
-              //     title: _bottomMenuTitle("menu_settings")),
-            ]));
+            body: widget._activities[contactService.currentIndex],
+            bottomNavigationBar: BottomNavigationBar(
+                type: BottomNavigationBarType.shifting,
+                selectedItemColor: Color(0xFF6A6A6C),
+                unselectedItemColor: Colors.grey,
+                selectedLabelStyle: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+                unselectedLabelStyle: TextStyle(
+                  color: Colors.grey,
+                ),
+                showUnselectedLabels: true,
+                currentIndex: contactService.currentIndex,
+                onTap: onTabTapped,
+                items: [
+                  BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.home,
+                        // color: Theme.of(context).primaryColor,
+                      ),
+                      title: _bottomMenuTitle("menu_home")),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.contacts),
+                      title: _bottomMenuTitle("menu_contactList")),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.star),
+                      title: _bottomMenuTitle("menu_favorite")),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.group),
+                      title: _bottomMenuTitle("menu_groups")),
+                  // BottomNavigationBarItem(
+                  //     icon: Icon(Icons.settings),
+                  //     title: _bottomMenuTitle("menu_settings")),
+                ]));
+      },
+    );
   }
 }
