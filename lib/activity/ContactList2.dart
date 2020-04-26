@@ -212,16 +212,56 @@ class _ContactList2State extends State<ContactList2> {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
           if (snapshot.data.length == 0) {
             return Center(
-              child: Text('no contacts'),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            width: 200,
+                            // margin: EdgeInsets.only(top: 40),
+                            child: Text(
+                              translatedText("text_empty_list", context),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                  color: Theme.of(context).accentColor),
+                            ),
+                          ),
+                          Container(
+                            constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * 0.7),
+                            margin: EdgeInsets.only(top: 20),
+                            child: Text(
+                              translatedText(
+                                  "text_empty_list_description", context),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             );
           }
           return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 Contact contact = snapshot.data[index];
-                return GestureDetector(
+                return InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
@@ -236,7 +276,25 @@ class _ContactList2State extends State<ContactList2> {
                     );
                   },
                   child: Card(
-                    child: Text(snapshot.data[index].name),
+                    child: ListTile(
+                      leading: Hero(
+                        child: CircleAvatar(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          backgroundImage:
+                              contact.image == "" || contact.image == null
+                                  ? AssetImage('assets/person-icon-w-s3p.png')
+                                  : FileImage(File(contact.image)),
+                        ),
+                        tag: contact.name + index.toString(),
+                      ),
+                      title: Text(
+                        '${contact.name}',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      trailing: Icon(contact.favorite == 0
+                          ? Icons.keyboard_arrow_right
+                          : Icons.star),
+                    ),
                   ),
                 );
               }

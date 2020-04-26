@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
+import 'package:kevin_app/appState.dart';
 import 'package:kevin_app/components/expandableExportSettings.dart';
 import 'package:kevin_app/components/expandableThemeSettings.dart';
 import 'package:kevin_app/contact.dart';
@@ -155,7 +156,9 @@ class SettingsState extends State<Settings> {
           List emails = contact.emails.toList();
           String email = emails.length > 0 ? emails[0].value : "";
           String phone = phones.length > 0 ? phones[0].value : "";
-          String name = contact.displayName;
+          String name = contact.displayName == null || contact.displayName == ""
+              ? "No name"
+              : contact.displayName;
           String category = translatedText("group_default", context);
 
           if (contact != null) {
@@ -168,6 +171,7 @@ class SettingsState extends State<Settings> {
             print(contact.displayName);
             print(phone);
             print(category);
+            contactService.add(newContact);
           }
         });
       }).then((onValue) {
@@ -316,6 +320,7 @@ class SettingsState extends State<Settings> {
                                             prefs.setBool('importedContacts',
                                                 importedContacts);
                                           });
+                                          contactService.removeAll();
                                         }
 
                                         Navigator.pop(context);
