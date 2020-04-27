@@ -131,6 +131,7 @@ class AppWrapper extends StatelessWidget {
         const Locale('en', 'US'),
         const Locale('es', 'MX'),
         const Locale('hi', 'IN'),
+        const Locale('fr', 'FR'),
       ],
       localizationsDelegates: [
         // A class which loads the translations from JSON files
