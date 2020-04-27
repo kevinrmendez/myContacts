@@ -1,5 +1,5 @@
 {
-  "app_title": "Meus Contactos",
+  "app_title": "Os Meus Contactos",
   "app_title_contactList": "Lista de contatos",
   "app_title_contactDetails": "Detalhes do contato",
   "app_title_contactEdit": "Editar Contato",
@@ -66,7 +66,7 @@
   "color_yellow": "Amarelo",
   "color_dark": "Modo Escuro",
   "about_title": "Sobre Os Meus Contactos",
-  "about1": "Meus contatos são um aplicativo gratuito que irá ajudá-lo a gerenciar seus contatos.",
+  "about1": "Os Meus contatos são um aplicativo gratuito que irá ajudá-lo a gerenciar seus contatos.",
   "about2": "Todos os dados que são armazenados no aplicativo é salvo na memória do dispositivo",
   "about3": "Pode importar manualmente os seus contactos do seu telemóvel a partir da configuração",
   "about4": "Se você excluir contatos do aplicativo, eles não serão excluídos do seu telefone",
