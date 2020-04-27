@@ -96,6 +96,7 @@ class _ContactListState extends State<ContactList> {
                           transitionDuration: Duration(seconds: 1),
                           pageBuilder: (_, __, ___) => ContactEdit(
                             contact: filteredNames[index],
+                            index: index,
                           ),
                         ),
                       );

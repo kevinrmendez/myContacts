@@ -1,14 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:kevin_app/components/contactEditForm.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 
-import 'package:kevin_app/activity/contactEditForm.dart';
 import 'package:kevin_app/contact.dart';
 
 class ContactEdit extends StatelessWidget {
   final Contact contact;
+  final int index;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  ContactEdit({@required this.contact});
+  ContactEdit({@required this.contact, this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +23,7 @@ class ContactEdit extends StatelessWidget {
         ListView(
           children: <Widget>[
             AdmobUtils.admobBanner(),
-            ContactEditForm(
-              contact: contact,
-              context: context,
-            )
+            ContactEditForm(contact: contact, context: context, index: index)
           ],
         ),
         Positioned(

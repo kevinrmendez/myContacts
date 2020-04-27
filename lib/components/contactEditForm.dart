@@ -118,7 +118,7 @@ class ContactEditFormState extends State<ContactEditForm> {
     contacts = db.contacts();
     List contactsDb = await db.contacts();
 
-    contactService.updateContacts(contactsDb);
+    contactService.update(contact);
     _showMessage(translatedText("message_dialog_change_contact", context));
   }
 
@@ -130,7 +130,7 @@ class ContactEditFormState extends State<ContactEditForm> {
     // print('Contacts AFTER DELETE $contacts');
     contacts = db.contacts();
     contactList = await contacts;
-
+    contactService.remove(contact);
     int contactsLength = contactList.length;
 
     _showMessage(translatedText("message_dialog_contact_deleted", context));
@@ -295,7 +295,6 @@ class ContactEditFormState extends State<ContactEditForm> {
         ),
         onPressed: () async {
           await _deleteContact(contact);
-          contactService.remove(contact);
         },
       ),
     ];
@@ -353,7 +352,7 @@ class ContactEditFormState extends State<ContactEditForm> {
           padding: EdgeInsets.symmetric(
               vertical:
                   widget.contact.image == null || widget.contact.image == ""
-                      ? 15
+                      ? 20
                       : 5),
           child: Column(
             children: <Widget>[

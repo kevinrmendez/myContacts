@@ -47,6 +47,7 @@ class _ContactList2State extends State<ContactList2> {
   List<Contact> _getContacts() {
     List<Contact> tempList = List<Contact>();
     tempList = contactService.current;
+    tempList.sort((a, b) => a.name.compareTo(b.name));
 
     setState(() {
       names = tempList;

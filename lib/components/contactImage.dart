@@ -14,7 +14,8 @@ class ContactImage extends StatelessWidget {
     print('MYTHEMEKEYS ${appState.themeKey}');
 
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.symmetric(
+          vertical: image == null || image == "" ? 40 : 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

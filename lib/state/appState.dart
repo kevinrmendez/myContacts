@@ -26,6 +26,13 @@ class AppState {
     _contactList.add(List<Contact>.from(contacts));
   }
 
+  update(Contact contact) {
+    int index = _contactList.value.indexOf(contact);
+    _contactList.value.removeAt(index);
+    _contactList.value.insert(index, contact);
+    _contactList.add(List<Contact>.from(current));
+  }
+
   remove(Contact contact) {
     _contactList.value.remove(contact);
     _contactList.add(List<Contact>.from(current));

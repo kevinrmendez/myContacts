@@ -45,6 +45,7 @@ class WidgetUtils {
             transitionDuration: Duration(seconds: 1),
             pageBuilder: (_, __, ___) => ContactEdit(
               contact: contact,
+              index: index,
             ),
           ),
         );
