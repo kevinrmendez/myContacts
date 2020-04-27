@@ -213,7 +213,7 @@ class ContactFormState extends State<ContactForm> {
                 ],
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                // padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
