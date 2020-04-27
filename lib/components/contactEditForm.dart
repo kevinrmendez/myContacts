@@ -352,7 +352,7 @@ class ContactEditFormState extends State<ContactEditForm> {
         ),
         onPressed: () {
           Share.share(
-              "Contact Details: name: ${contact.name}, phone: ${contact.phone}, email: ${contact.phone}");
+              "${translatedText("app_title_contactDetails", context)}: ${translatedText("hintText_name", context)} ${contact.name}, ${translatedText("hintText_phone", context)}: ${contact.phone}, ${translatedText("hintText_email", context)}: ${contact.email}");
         },
       ),
     );
