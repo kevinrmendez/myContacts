@@ -313,7 +313,7 @@ class ContactEditFormState extends State<ContactEditForm> {
   Widget _buildBoldText(String text) {
     return Container(
       padding: EdgeInsets.only(bottom: 15),
-      width: MediaQuery.of(context).size.width * 0.7,
+      width: MediaQuery.of(context).size.width * 0.8,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -27,8 +27,8 @@ class ContactEdit extends StatelessWidget {
           ],
         ),
         Positioned(
-            top: 85,
-            left: 10,
+            top: 75,
+            left: -2,
             child: IconButton(
               icon: Icon(
                 Icons.arrow_back,
