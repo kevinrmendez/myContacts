@@ -39,7 +39,7 @@ class AppState {
   }
 
   removeAll() {
-    _contactList.value = [];
+    _contactList.value = <Contact>[];
     _contactList.add(List<Contact>.from(current));
   }
 }
