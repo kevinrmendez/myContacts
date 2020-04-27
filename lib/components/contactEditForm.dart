@@ -313,28 +313,35 @@ class ContactEditFormState extends State<ContactEditForm> {
   Widget _buildBoldText(String text) {
     return Container(
       padding: EdgeInsets.only(bottom: 15),
-      width: MediaQuery.of(context).size.width * 0.8,
+      width: MediaQuery.of(context).size.width * 0.7,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Text(
-            text,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor),
+          Flexible(
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor),
+            ),
           ),
           SizedBox(
-            width: 10,
+            width: 5,
           ),
-          this.favorite == 1
-              ? Icon(
-                  Icons.star,
-                  color: Theme.of(context).primaryColor,
-                  size: 35,
-                )
-              : SizedBox()
+          SizedBox(
+            height: 35,
+            width: 35,
+            child: this.favorite == 1
+                ? Icon(
+                    Icons.star,
+                    color: Theme.of(context).primaryColor,
+                    size: 35,
+                  )
+                : SizedBox(),
+          )
         ],
       ),
     );
