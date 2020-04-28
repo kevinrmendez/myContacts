@@ -109,27 +109,29 @@ class _StatisticsActivityState extends State<StatisticsActivity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(translatedText("app_title_about", context))),
+      appBar:
+          AppBar(title: Text(translatedText("app_title_statistics", context))),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            _boldText('MyContacts statistics'),
+            _boldText(translatedText("title_statistics", context)),
             Container(
               padding: EdgeInsets.fromLTRB(15, 10, 20, 0),
               child: Column(
                 children: <Widget>[
                   _stadisticsTile(
                       icon: Icons.person,
-                      text: 'total contacts: ',
+                      text: translatedText("statistics_total", context),
                       data: contactListLength),
                   _stadisticsTile(
                       icon: Icons.people,
-                      text: 'total duplicate contacts: ',
+                      text:
+                          translatedText("statistics_total_duplicate", context),
                       data: contactService.currentContactsDuplicates),
                   _stadisticsTile(
                       icon: Icons.star,
-                      text: 'favorite contacts: ',
+                      text: translatedText("statistics_favorites", context),
                       data: favoirteQuantity),
                 ],
               ),

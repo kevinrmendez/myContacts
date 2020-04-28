@@ -244,7 +244,8 @@ class SettingsState extends State<Settings> {
                       trailing: Icon(Icons.remove_circle),
                     ),
                     ListTile(
-                      title: Text('statistics'),
+                      title:
+                          Text(translatedText("settings_statistics", context)),
                       trailing: IconButton(
                         icon: Icon(Icons.assessment),
                         onPressed: () {

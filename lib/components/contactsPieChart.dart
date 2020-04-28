@@ -14,16 +14,6 @@ class ContactsPieChart extends StatefulWidget {
   List<ContactCategory> data = <ContactCategory>[];
   ContactsPieChart(this.context, {this.animate});
 
-  /// Creates a [PieChart] with sample data and no transition.
-  // factory ContactsPieChart.withSampleData(BuildContext context) {
-  //   return ContactsPieChart(
-  //     context,
-  //     _createSampleData(),
-  //     // Disable animations for image tests.
-  //     animate: false,
-  //   );
-  // }
-
   @override
   _ContactsPieChartState createState() => _ContactsPieChartState();
 }
@@ -36,7 +26,7 @@ class _ContactsPieChartState extends State<ContactsPieChart> {
   void initState() {
     super.initState();
     contactList = contactService.current;
-    _getPieChartData();
+    _setPieChartData();
   }
 
   _getCategoryContactsQuantity(String category) {
@@ -49,7 +39,7 @@ class _ContactsPieChartState extends State<ContactsPieChart> {
     return counter;
   }
 
-  _getPieChartData() {
+  _setPieChartData() {
     int generalQuantity = _getCategoryContactsQuantity(
         translatedText("group_default", widget.context));
     int familyQuantity = _getCategoryContactsQuantity(
@@ -58,11 +48,17 @@ class _ContactsPieChartState extends State<ContactsPieChart> {
         translatedText("group_friend", widget.context));
     int coworkerQuantity = _getCategoryContactsQuantity(
         translatedText("group_coworker", widget.context));
+
+    var labelDefault = translatedText("group_default", widget.context);
+    var labelFamily = translatedText("group_family", widget.context);
+    var labelFriend = translatedText("group_friend", widget.context);
+    var labelCoworker = translatedText("group_coworker", widget.context);
+
     data = [
-      new ContactCategory("general", 0, generalQuantity),
-      new ContactCategory("family", 1, familyQuantity),
-      new ContactCategory("friends", 2, friendQuantity),
-      new ContactCategory("coworker", 3, coworkerQuantity),
+      new ContactCategory(labelDefault, 0, generalQuantity),
+      new ContactCategory(labelFamily, 1, familyQuantity),
+      new ContactCategory(labelFriend, 2, friendQuantity),
+      new ContactCategory(labelCoworker, 3, coworkerQuantity),
     ];
   }
 
