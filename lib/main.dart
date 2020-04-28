@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/FavoriteContactList.dart';
 import 'package:kevin_app/activity/GroupActivity.dart';
+import 'package:kevin_app/activity/statisticsActivity.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/contactDb.dart';
 import 'package:kevin_app/state/appSettings.dart';
@@ -171,6 +172,7 @@ class AppWrapper extends StatelessWidget {
 
 class Home extends StatefulWidget {
   final List<Widget> _activities = [
+    // StatisticsActivity(),
     ContactActivity(),
     ContactList2(),
     FavoriteContactList(),

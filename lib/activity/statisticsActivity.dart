@@ -12,6 +12,28 @@ class StatisticsActivity extends StatefulWidget {
 }
 
 class _StatisticsActivityState extends State<StatisticsActivity> {
+  List<Contact> contactList;
+  int contactListLength = 0;
+  int favoirteQuantity = 0;
+
+  _checkFavoriteContacts() {
+    contactList.forEach((contact) {
+      if (contact.favorite == 1) {
+        favoirteQuantity++;
+      }
+    });
+  }
+
+  _getCategoryContactsQuantity(String category) {
+    int counter = 0;
+    contactList.forEach((contact) {
+      if (contact.category == category) {
+        counter++;
+      }
+    });
+    return counter;
+  }
+
   _checkContactsDuplicates() {
     List<Contact> list = contactService.current;
     Contact contact;
@@ -39,7 +61,10 @@ class _StatisticsActivityState extends State<StatisticsActivity> {
   @override
   void initState() {
     super.initState();
+    contactList = contactService.current;
+    contactListLength = contactService.current.length;
     _checkContactsDuplicates();
+    _checkFavoriteContacts();
   }
 
   @override
@@ -52,14 +77,23 @@ class _StatisticsActivityState extends State<StatisticsActivity> {
           children: <Widget>[
             Row(
               children: <Widget>[
+                Icon(Icons.person),
                 Text('total contacts:'),
-                Text(contactService.current.length.toString())
+                Text(contactListLength.toString())
               ],
             ),
             Row(
               children: <Widget>[
+                Icon(Icons.people),
                 Text('total duplicate contacts:'),
                 Text(contactService.currentContactsDuplicates.toString())
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Icon(Icons.people),
+                Text('favorite contacts:'),
+                Text(favoirteQuantity.toString())
               ],
             ),
           ],
