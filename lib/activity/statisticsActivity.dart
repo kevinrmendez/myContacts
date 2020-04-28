@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/components/contactsPieChart.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/state/appState.dart';
+import 'package:kevin_app/utils/admobUtils.dart';
+import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -68,6 +70,42 @@ class _StatisticsActivityState extends State<StatisticsActivity> {
     _checkFavoriteContacts();
   }
 
+  Widget _stadisticsTile({IconData icon, String text, int data}) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(10, 0, 20, 10),
+      child: Row(
+        children: <Widget>[
+          Icon(
+            icon,
+            size: 18,
+            color: GREY,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            text,
+            style: TextStyle(fontSize: 18),
+          ),
+          Text(
+            data.toString(),
+            style: TextStyle(fontSize: 18),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _boldText(text) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 15),
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,28 +114,38 @@ class _StatisticsActivityState extends State<StatisticsActivity> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Icon(Icons.person),
-                Text('total contacts:'),
-                Text(contactListLength.toString())
-              ],
+            _boldText('MyContacts statistics'),
+            Container(
+              padding: EdgeInsets.fromLTRB(15, 10, 20, 0),
+              child: Column(
+                children: <Widget>[
+                  _stadisticsTile(
+                      icon: Icons.person,
+                      text: 'total contacts: ',
+                      data: contactListLength),
+                  _stadisticsTile(
+                      icon: Icons.people,
+                      text: 'total duplicate contacts: ',
+                      data: contactService.currentContactsDuplicates),
+                  _stadisticsTile(
+                      icon: Icons.star,
+                      text: 'favorite contacts: ',
+                      data: favoirteQuantity),
+                ],
+              ),
             ),
-            Row(
-              children: <Widget>[
-                Icon(Icons.people),
-                Text('total duplicate contacts:'),
-                Text(contactService.currentContactsDuplicates.toString())
-              ],
+            SizedBox(
+              height: 10,
             ),
-            Row(
-              children: <Widget>[
-                Icon(Icons.people),
-                Text('favorite contacts:'),
-                Text(favoirteQuantity.toString())
-              ],
-            ),
-            Container(height: 300, child: ContactsPieChart.withSampleData())
+            _boldText('Contact Groups'),
+            Container(
+                height: 350,
+                // width: MediaQuery.of(context).size.width * .7,
+                child: ContactsPieChart(
+                  context,
+                  animate: true,
+                )),
+            AdmobUtils.admobBanner(),
           ],
         ),
       ),
