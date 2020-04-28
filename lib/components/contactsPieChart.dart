@@ -73,8 +73,11 @@ class _ContactsPieChartState extends State<ContactsPieChart> {
         data: data,
         labelAccessorFn: (ContactCategory row, _) =>
             '${row.name}: ${row.amount}',
-        colorFn: (_, __) => charts.MaterialPalette.gray.shade400,
-        fillColorFn: (_, __) => charts.MaterialPalette.gray.shade400,
+        // colorFn: (_, __) => charts.MaterialPalette.gray.shade400,
+        // fillColorFn: (_, __) => charts.MaterialPalette.gray.shade400,
+        colorFn: (_, index) => charts.MaterialPalette.gray.makeShades(4)[index],
+        fillColorFn: (_, index) =>
+            charts.MaterialPalette.gray.makeShades(4)[index],
       ),
     ];
   }
