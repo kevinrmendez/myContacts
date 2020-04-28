@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kevin_app/components/contactsPieChart.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/utils.dart';
@@ -96,6 +97,7 @@ class _StatisticsActivityState extends State<StatisticsActivity> {
                 Text(favoirteQuantity.toString())
               ],
             ),
+            Container(height: 300, child: ContactsPieChart.withSampleData())
           ],
         ),
       ),
