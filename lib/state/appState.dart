@@ -8,10 +8,17 @@ class AppState {
       BehaviorSubject.seeded([contactsfromDb] == null ? [] : contactsfromDb);
 
   BehaviorSubject _screenIndex = BehaviorSubject.seeded(0);
+
+  BehaviorSubject _contactsDuplicate = BehaviorSubject.seeded(0);
+
   Stream get streamIndex => _screenIndex.stream;
   Stream get stream => _contactList.stream;
+
+  Stream get streamContactsDuplicate => _contactsDuplicate.stream;
+
   List<Contact> get current => _contactList.value;
   int get currentIndex => _screenIndex.value;
+  int get currentContactsDuplicates => _contactsDuplicate.value;
 
   changeIndex(int index) {
     _screenIndex.add(index);
@@ -41,6 +48,10 @@ class AppState {
   removeAll() {
     _contactList.value = <Contact>[];
     _contactList.add(List<Contact>.from(current));
+  }
+
+  updateContactsDuplicate(int duplicateContactsQuantity) {
+    _contactsDuplicate.add(duplicateContactsQuantity);
   }
 }
 

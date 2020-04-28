@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
+import 'package:kevin_app/activity/statisticsActivity.dart';
 import 'package:kevin_app/components/expandableExportSettings.dart';
 import 'package:kevin_app/components/expandableThemeSettings.dart';
 import 'package:kevin_app/contact.dart';
@@ -241,6 +242,19 @@ class SettingsState extends State<Settings> {
                         }
                       },
                       trailing: Icon(Icons.remove_circle),
+                    ),
+                    ListTile(
+                      title: Text('statistics'),
+                      trailing: IconButton(
+                        icon: Icon(Icons.assessment),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => StatisticsActivity()),
+                          );
+                        },
+                      ),
                     ),
                     ListTile(
                       title: Text(translatedText("settings_rate_app", context)),
