@@ -1,6 +1,8 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
+import 'package:kevin_app/utils/myThemes.dart';
 import 'package:kevin_app/utils/utils.dart';
 
 import '../contact.dart';
@@ -64,10 +66,74 @@ class _ContactsPieChartState extends State<ContactsPieChart> {
     ];
   }
 
-  List<charts.Series<ContactCategory, int>> _createSampleData() {
+  List<charts.Series<ContactCategory, int>> _createSampleData(
+      BuildContext context) {
+    var themeKey = AppSettings.of(context).themeKey;
+    var graphColor;
+    print("THEMEKEY: $themeKey");
+    switch (themeKey) {
+      case MyThemeKeys.BLUE:
+        {
+          graphColor = charts.MaterialPalette.blue.makeShades(4);
+          break;
+        }
+      case MyThemeKeys.BLACK:
+        {
+          graphColor = charts.MaterialPalette.gray.makeShades(4);
+          break;
+        }
+      case MyThemeKeys.GREEN:
+        {
+          graphColor = charts.MaterialPalette.green.makeShades(4);
+          break;
+        }
+      case MyThemeKeys.ORANGE:
+        {
+          graphColor = charts.MaterialPalette.deepOrange.makeShades(4);
+          break;
+        }
+      case MyThemeKeys.NAVY:
+        {
+          graphColor = charts.MaterialPalette.gray.makeShades(4);
+          break;
+        }
+      case MyThemeKeys.PINK:
+        {
+          graphColor = charts.MaterialPalette.pink.makeShades(4);
+          break;
+        }
+      case MyThemeKeys.PURPLE:
+        {
+          graphColor = charts.MaterialPalette.purple.makeShades(4);
+          break;
+        }
+      case MyThemeKeys.RED:
+        {
+          graphColor = charts.MaterialPalette.red.makeShades(4);
+          break;
+        }
+      case MyThemeKeys.TEAL:
+        {
+          graphColor = charts.MaterialPalette.teal.makeShades(4);
+          break;
+        }
+      case MyThemeKeys.YELLOW:
+        {
+          graphColor = charts.MaterialPalette.yellow.makeShades(4);
+          break;
+        }
+      case MyThemeKeys.DARK:
+        {
+          graphColor = charts.MaterialPalette.cyan.makeShades(4);
+          break;
+        }
+      default:
+        break;
+    }
+
     return [
       charts.Series<ContactCategory, int>(
-        id: 'sales',
+        id: 'categories',
         domainFn: (ContactCategory sales, _) => sales.order,
         measureFn: (ContactCategory sales, _) => sales.amount,
         data: data,
@@ -75,9 +141,8 @@ class _ContactsPieChartState extends State<ContactsPieChart> {
             '${row.name}: ${row.amount}',
         // colorFn: (_, __) => charts.MaterialPalette.gray.shade400,
         // fillColorFn: (_, __) => charts.MaterialPalette.gray.shade400,
-        colorFn: (_, index) => charts.MaterialPalette.gray.makeShades(4)[index],
-        fillColorFn: (_, index) =>
-            charts.MaterialPalette.gray.makeShades(4)[index],
+        colorFn: (_, index) => graphColor[index],
+        fillColorFn: (_, index) => graphColor[index],
       ),
     ];
   }
@@ -85,7 +150,7 @@ class _ContactsPieChartState extends State<ContactsPieChart> {
   @override
   Widget build(BuildContext context) {
     return charts.PieChart(
-      _createSampleData(),
+      _createSampleData(context),
       animate: widget.animate,
       animationDuration: Duration(seconds: 3),
       defaultRenderer:
