@@ -139,7 +139,7 @@ class _StatisticsActivityState extends State<StatisticsActivity> {
             SizedBox(
               height: 10,
             ),
-            _boldText('Contact Groups'),
+            contactListLength > 0 ? _boldText('Contact Groups') : SizedBox(),
             Container(
                 height: 350,
                 // width: MediaQuery.of(context).size.width * .7,

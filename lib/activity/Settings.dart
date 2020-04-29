@@ -9,6 +9,7 @@ import 'package:kevin_app/components/expandableThemeSettings.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appState.dart';
+import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
 
 import 'dart:async';
@@ -190,6 +191,28 @@ class SettingsState extends State<Settings> {
       });
     }
 
+    Widget _settingsTile({String title, Function onTap, IconData icon}) {
+      return InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                title,
+                style: TextStyle(fontSize: 16.5),
+              ),
+              Icon(
+                icon,
+                color: GREY,
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
     return WillPopScope(
       onWillPop: () {
         Navigator.of(context).pushAndRemoveUntil(
@@ -217,21 +240,19 @@ class SettingsState extends State<Settings> {
               Flexible(
                 child: ListView(
                   children: <Widget>[
-                    ListTile(
-                      title: Text(translatedText("settings_about", context)),
-                      trailing: IconButton(
-                        icon: Icon(Icons.info),
-                        onPressed: () {
+                    _settingsTile(
+                        icon: Icons.info,
+                        title: translatedText("settings_about", context),
+                        onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => AboutActivity()),
                           );
-                        },
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(translatedText("settings_adfree", context)),
+                        }),
+                    _settingsTile(
+                      icon: Icons.remove_circle,
+                      title: translatedText("settings_adfree", context),
                       onTap: () async {
                         String url =
                             "https://play.google.com/store/apps/details?id=com.mycontacts";
@@ -241,39 +262,34 @@ class SettingsState extends State<Settings> {
                           throw 'Could not launch $url';
                         }
                       },
-                      trailing: Icon(Icons.remove_circle),
                     ),
-                    ListTile(
-                      title:
-                          Text(translatedText("settings_statistics", context)),
-                      trailing: IconButton(
-                        icon: Icon(Icons.assessment),
-                        onPressed: () {
+                    _settingsTile(
+                        icon: Icons.assessment,
+                        title: translatedText("settings_statistics", context),
+                        onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => StatisticsActivity()),
                           );
-                        },
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(translatedText("settings_rate_app", context)),
-                      onTap: () async {
-                        String url =
-                            "https://play.google.com/store/apps/details?id=com.kevinrmendez.contact_app";
-                        if (await canLaunch(url)) {
-                          await launch(url);
-                        } else {
-                          throw 'Could not launch $url';
-                        }
-                      },
-                      trailing: Icon(Icons.feedback),
-                    ),
+                        }),
+                    _settingsTile(
+                        icon: Icons.feedback,
+                        title: translatedText("settings_rate_app", context),
+                        onTap: () async {
+                          String url =
+                              "https://play.google.com/store/apps/details?id=com.kevinrmendez.contact_app";
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        }),
                     importedContacts == false
-                        ? ListTile(
-                            title: Text(translatedText(
-                                "settings_import_contacts", context)),
+                        ? _settingsTile(
+                            icon: Icons.import_contacts,
+                            title: translatedText(
+                                "settings_import_contacts", context),
                             onTap: () async {
                               var permissionStatus = await widget
                                   ._permissionHandler
@@ -286,106 +302,115 @@ class SettingsState extends State<Settings> {
                               } else {
                                 widget._requestContactPermission();
                               }
-                            },
-                            trailing: Icon(Icons.import_contacts),
-                          )
+                            })
                         : const SizedBox(),
-                    ListTile(
-                      title: Text(
-                          translatedText("settings_delete_contacts", context)),
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text(translatedText(
-                                    "message_dialog_delete_contacts", context)),
-                                actions: <Widget>[
-                                  FlatButton(
-                                      child: Text(
-                                        translatedText("button_close", context),
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      }),
-                                  FlatButton(
-                                      child: Text(
-                                        translatedText("button_ok", context),
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor),
-                                      ),
-                                      onPressed: () async {
-                                        bool isDataDeleted =
-                                            await _db.deleteAllContacts();
-                                        if (isDataDeleted) {
+                    _settingsTile(
+                        icon: Icons.delete,
+                        title:
+                            translatedText("settings_delete_contacts", context),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(translatedText(
+                                      "message_dialog_delete_contacts",
+                                      context)),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                        child: Text(
+                                          translatedText(
+                                              "button_close", context),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        }),
+                                    FlatButton(
+                                        child: Text(
+                                          translatedText("button_ok", context),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                        onPressed: () async {
+                                          bool isDataDeleted =
+                                              await _db.deleteAllContacts();
+                                          if (isDataDeleted) {
+                                            _scaffoldKey.currentState.showSnackBar(
+                                                snackBar(translatedText(
+                                                    "snackbar_contact_delete_all",
+                                                    context)));
+                                            setState(() {
+                                              importedContacts = false;
+                                              prefs.setBool('importedContacts',
+                                                  importedContacts);
+                                            });
+                                            contactService.removeAll();
+                                          }
+
+                                          Navigator.pop(context);
+                                        })
+                                  ],
+                                );
+                              });
+                        }),
+                    _settingsTile(
+                        icon: Icons.content_cut,
+                        title: translatedText(
+                            "settings_delete_contacts_duplicate", context),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(translatedText(
+                                      "message_dialog_delete_duplicate_contacts",
+                                      context)),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                        child: Text(
+                                          translatedText(
+                                              "button_close", context),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        }),
+                                    FlatButton(
+                                        child: Text(
+                                          translatedText("button_ok", context),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                        onPressed: () async {
+                                          await _db.deleteDuplicateContacts();
                                           _scaffoldKey.currentState.showSnackBar(
                                               snackBar(translatedText(
-                                                  "snackbar_contact_delete_all",
+                                                  "snackbar_contact_delete_duplicate",
                                                   context)));
-                                          setState(() {
-                                            importedContacts = false;
-                                            prefs.setBool('importedContacts',
-                                                importedContacts);
-                                          });
-                                          contactService.removeAll();
-                                        }
 
-                                        Navigator.pop(context);
-                                      })
-                                ],
-                              );
-                            });
-                      },
-                      trailing: Icon(Icons.delete),
-                    ),
-                    ListTile(
-                      title: Text(translatedText(
-                          "settings_delete_contacts_duplicate", context)),
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text(translatedText(
-                                    "message_dialog_delete_duplicate_contacts",
-                                    context)),
-                                actions: <Widget>[
-                                  FlatButton(
-                                      child: Text(
-                                        translatedText("button_close", context),
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      }),
-                                  FlatButton(
-                                      child: Text(
-                                        translatedText("button_ok", context),
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor),
-                                      ),
-                                      onPressed: () async {
-                                        await _db.deleteDuplicateContacts();
-                                        _scaffoldKey.currentState.showSnackBar(
-                                            snackBar(translatedText(
-                                                "snackbar_contact_delete_duplicate",
-                                                context)));
-
-                                        Navigator.pop(context);
-                                      })
-                                ],
-                              );
-                            });
-                      },
-                      trailing: Icon(Icons.content_cut),
-                    ),
+                                          Navigator.pop(context);
+                                        })
+                                  ],
+                                );
+                              });
+                        }),
+                    // ListTile(
+                    //     title: Text(translatedText("settings_about", context)),
+                    //     onTap: () {
+                    //       Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => AboutActivity()),
+                    //       );
+                    //     },
+                    //     trailing: Icon(Icons.info)),
                     ExpandableExportSettings(context),
                     ExpandableThemeSettings(context),
                   ],
