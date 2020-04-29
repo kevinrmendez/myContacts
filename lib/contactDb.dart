@@ -14,7 +14,7 @@ class ContactDb {
       join(await getDatabasesPath(), 'contact_database.db'),
       onCreate: (db, version) {
         return db.execute(
-          "CREATE TABLE contacts(id INTEGER PRIMARY KEY, name TEXT, phone TEXT, email TEXT, image TEXT, category TEXT , favorite INTEGER DEFAULT 0)",
+          "CREATE TABLE contacts(id INTEGER PRIMARY KEY, name TEXT, phone TEXT, email TEXT, image TEXT, category TEXT ,birthday TEXT, address TEXT,organization TEXT,website TEXT, note TEXT, favorite INTEGER DEFAULT 0)",
         );
       },
       // Set the version. This executes the onCreate function and provides a
@@ -26,7 +26,7 @@ class ContactDb {
   Future<void> deleteDuplicateContacts() async {
     final Database db = await getDb();
     db.execute(
-      "DELETE FROM contacts WHERE ROWID NOT IN (SELECT MIN(ROWID) FROM contacts GROUP BY  name, phone, email, image, category, favorite)",
+      "DELETE FROM contacts WHERE ROWID NOT IN (SELECT MIN(ROWID) FROM contacts GROUP BY  name, phone, email, image, category, birthday, address ,organization ,website, note , favorite)",
     );
     ContactDb contactDb = ContactDb();
     List<Contact> contacts = await contactDb.contacts();
@@ -62,6 +62,11 @@ class ContactDb {
           email: maps[i]['email'],
           image: maps[i]['image'],
           category: maps[i]['category'],
+          birthday: maps[i]['birthday'],
+          address: maps[i]['address'],
+          organization: maps[i]['organization'],
+          website: maps[i]['website'],
+          note: maps[i]['note'],
           favorite: maps[i]['favorite']);
     });
   }

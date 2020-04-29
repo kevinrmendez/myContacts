@@ -50,6 +50,10 @@ class ContactEditFormState extends State<ContactEditForm> {
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final birthdayController = TextEditingController();
+  final addressController = TextEditingController();
+  final organizationController = TextEditingController();
+  final websiteController = TextEditingController();
+  final noteController = TextEditingController();
   final instagramController = TextEditingController();
 
   String name;
@@ -59,6 +63,10 @@ class ContactEditFormState extends State<ContactEditForm> {
   int favorite;
   Future<List<Contact>> contacts;
   String birthday;
+  String address;
+  String organization;
+  String website;
+  String note;
 
   String dropdownValue;
 
@@ -87,18 +95,25 @@ class ContactEditFormState extends State<ContactEditForm> {
   void initState() {
     super.initState();
     this.contact = widget.contact;
+
     this.name = widget.contact.name;
     this.phone = widget.contact.phone.toString();
     this.email = widget.contact.email;
     this.favorite = widget.contact.favorite;
+    this.birthday = widget.contact.birthday;
+    this.address = widget.contact.address;
+    this.organization = widget.contact.organization;
+    this.website = widget.contact.website;
+    this.note = widget.contact.note;
 
     this.nameController.text = this.name;
     this.phoneController.text = this.phone;
     this.emailController.text = this.email;
-
     this.birthdayController.text = this.birthday;
-
-    this.contact = widget.contact;
+    this.addressController.text = this.address;
+    this.organizationController.text = this.organization;
+    this.websiteController.text = this.website;
+    this.noteController.text = this.note;
 
     category = <String>[
       translatedText("group_default", widget.context),
@@ -115,13 +130,18 @@ class ContactEditFormState extends State<ContactEditForm> {
     contact.email = emailController.text;
     contact.favorite = this.favorite;
     contact.category = this.dropdownValue;
+    contact.birthday = this.birthday;
+    contact.address = this.address;
+    contact.organization = this.organization;
+    contact.website = this.website;
+    contact.note = this.note;
 
     // print('after update id');
     // print(contact);
     await db.updateContact(contact);
 
     contacts = db.contacts();
-    List contactsDb = await db.contacts();
+    // List contactsDb = await db.contacts();
 
     contactService.update(contact);
     _showMessage(translatedText("message_dialog_change_contact", context));
@@ -286,41 +306,70 @@ class ContactEditFormState extends State<ContactEditForm> {
                   ),
                   TextFormField(
                     onTap: () async {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+
                       await _selectDate();
                     },
-                    // onChanged: (value) {
-                    //   setState(() {
-                    //     this.birthday = value;
-                    //   });
-                    // },
                     decoration: InputDecoration(
-                        hintText: 'birthday', icon: Icon(Icons.calendar_today)),
+                        hintText: translatedText("hintText_birthday", context),
+                        icon: Icon(Icons.calendar_today)),
                     // keyboardType: TextInputType.datetime,
                     controller: birthdayController,
                   ),
                   TextFormField(
                     onChanged: (value) {
                       setState(() {
-                        this.email = value;
+                        this.address = value;
                       });
                     },
                     decoration: InputDecoration(
-                        hintText: 'address', icon: Icon(Icons.location_city)),
-                    keyboardType: TextInputType.emailAddress,
-                    controller: emailController,
+                        hintText: translatedText("hintText_address", context),
+                        icon: Icon(Icons.location_city)),
+                    keyboardType: TextInputType.text,
+                    controller: addressController,
                   ),
                   TextFormField(
                     onChanged: (value) {
                       setState(() {
-                        this.email = value;
+                        this.organization = value;
                       });
                     },
                     decoration: InputDecoration(
-                        hintText: 'instagram', icon: Icon(Icons.location_city)),
-                    keyboardType: TextInputType.emailAddress,
-                    controller: emailController,
+                        hintText:
+                            translatedText("hintText_organization", context),
+                        icon: Icon(Icons.store)),
+                    keyboardType: TextInputType.text,
+                    controller: organizationController,
                   ),
-                  _buildFormButtons()
+                  TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        this.website = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                        hintText: translatedText("hintText_website", context),
+                        icon: Icon(Icons.store)),
+                    keyboardType: TextInputType.text,
+                    controller: websiteController,
+                  ),
+                  TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        this.note = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                        hintText: translatedText("hintText_note", context),
+                        icon: Icon(Icons.description)),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    controller: noteController,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _buildFormButtons(),
                 ],
               ),
             ) // Build this out in the next steps.
