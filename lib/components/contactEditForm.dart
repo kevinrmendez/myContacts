@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/main.dart';
@@ -17,6 +18,7 @@ import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:intl/intl.dart';
+import '../main.dart';
 
 class ContactEditForm extends StatefulWidget {
   final BuildContext context;
@@ -67,8 +69,10 @@ class ContactEditFormState extends State<ContactEditForm> {
   String organization;
   String website;
   String note;
+  DateTime pickedDate;
 
   String dropdownValue;
+  bool isBirthdayNotificationEnable;
 
   Widget _dropDown() {
     return DropdownButton(
@@ -122,6 +126,8 @@ class ContactEditFormState extends State<ContactEditForm> {
       translatedText("group_coworker", widget.context),
     ];
     dropdownValue = contact.category;
+
+    isBirthdayNotificationEnable = false;
   }
 
   Future<void> _updateContact(Contact contact) async {
@@ -193,7 +199,10 @@ class ContactEditFormState extends State<ContactEditForm> {
     if (picked != null) {
       var formatter = DateFormat('dd/MM/yyyy');
       var formattedDate = formatter.format(picked);
-      setState(() => birthday = formattedDate.toString());
+      setState(() {
+        pickedDate = picked;
+        birthday = formattedDate.toString();
+      });
       birthdayController.text = formattedDate.toString();
     }
   }
@@ -316,6 +325,40 @@ class ContactEditFormState extends State<ContactEditForm> {
                     // keyboardType: TextInputType.datetime,
                     controller: birthdayController,
                   ),
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.notifications_active,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        // translatedText("hintText_favorite", context),
+                        'birthday notification',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      Switch(
+                        onChanged: (bool value) async {
+                          setState(() {
+                            this.isBirthdayNotificationEnable = value;
+                          });
+                          if (isBirthdayNotificationEnable) {
+                            await _sendBirthdayNotification();
+                          }
+                        },
+                        value: isBirthdayNotificationEnable,
+                        // value: false,
+                      ),
+                    ],
+                  ),
+                  // RaisedButton(
+                  //   child: Text('show Notification'),
+                  //   onPressed: () async {
+                  //     await _sendBirthdayNotification();
+                  //   },
+                  // ),
                   TextFormField(
                     onChanged: (value) {
                       setState(() {
@@ -376,6 +419,34 @@ class ContactEditFormState extends State<ContactEditForm> {
             ),
       ],
     );
+  }
+
+  Future _sendBirthdayNotification() async {
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'notification_channel_id', 'channelName', 'channelDescription',
+        importance: Importance.Max, priority: Priority.High);
+
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+
+    var platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+        0, 'birthday', 'it is your birthday', platformChannelSpecifics,
+        payload: 'birthday');
+    var birth_day = pickedDate.day;
+    var birth_month = pickedDate.month;
+    var notificationTime =
+        DateTime(DateTime.now().year, birth_month, birth_day);
+    // var notificationDate =
+    //     DateTime.now().add(Duration(seconds: 10));
+    await flutterLocalNotificationsPlugin.schedule(
+        0,
+        "today is the birthday of ${contact.name}",
+        'Remember to say happy birthday!: $pickedDate',
+        // notificationDate,
+        notificationTime,
+        platformChannelSpecifics);
   }
 
   Widget _buildFormButtons() {

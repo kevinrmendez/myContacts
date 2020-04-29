@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/FavoriteContactList.dart';
 import 'package:kevin_app/activity/GroupActivity.dart';
@@ -26,6 +27,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 ContactDb db = ContactDb();
 List<Contact> contactsfromDb;
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 SharedPreferences prefs;
 void main() async {
@@ -53,14 +55,34 @@ class MyAppState extends State<MyApp> {
   ThemeData theme;
   int themekeyIndex;
 
+  Future _onSelectNotification(String payload) async {
+    print('ONSELECTNOTIFICATION');
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: const Text('here is your payload'),
+              content: Text("Payload: $payload"),
+            ));
+  }
+
   @override
   void initState() {
+    super.initState();
+
     themekeyIndex = (prefs.getInt('themeKey') ?? 0);
     themekey = MyThemeKeys.values[themekeyIndex];
     brightness = Brightness.light;
     theme = MyThemes.getThemeFromKey(themekey);
     print("THEME: $theme");
-    super.initState();
+
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings("ic_launcher");
+    var initializationSettingsIOS = IOSInitializationSettings();
+    var initializationSettings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: _onSelectNotification);
   }
 
   callback({theme, themeKey}) {
