@@ -423,8 +423,11 @@ class ContactEditFormState extends State<ContactEditForm> {
 
   Future _sendBirthdayNotification() async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'notification_channel_id', 'channelName', 'channelDescription',
-        importance: Importance.Max, priority: Priority.High);
+        'notification_channel_id_birthdat',
+        'channelBirthday',
+        'channel for sending notifications for birthdays remindings',
+        importance: Importance.Max,
+        priority: Priority.High);
 
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
 
