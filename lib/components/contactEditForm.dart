@@ -16,6 +16,7 @@ import 'package:share/share.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
+import 'package:intl/intl.dart';
 
 class ContactEditForm extends StatefulWidget {
   final BuildContext context;
@@ -48,6 +49,7 @@ class ContactEditFormState extends State<ContactEditForm> {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
+  final birthdayController = TextEditingController();
   final instagramController = TextEditingController();
 
   String name;
@@ -56,6 +58,7 @@ class ContactEditFormState extends State<ContactEditForm> {
   Contact contact;
   int favorite;
   Future<List<Contact>> contacts;
+  String birthday;
 
   String dropdownValue;
 
@@ -92,6 +95,8 @@ class ContactEditFormState extends State<ContactEditForm> {
     this.nameController.text = this.name;
     this.phoneController.text = this.phone;
     this.emailController.text = this.email;
+
+    this.birthdayController.text = this.birthday;
 
     this.contact = widget.contact;
 
@@ -157,6 +162,20 @@ class ContactEditFormState extends State<ContactEditForm> {
             ],
           );
         });
+  }
+
+  Future _selectDate() async {
+    DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime(1990),
+        firstDate: DateTime(1990),
+        lastDate: DateTime.now().add(Duration(days: 365)));
+    if (picked != null) {
+      var formatter = DateFormat('dd/MM/yyyy');
+      var formattedDate = formatter.format(picked);
+      setState(() => birthday = formattedDate.toString());
+      birthdayController.text = formattedDate.toString();
+    }
   }
 
   Widget _buildForm() {
@@ -264,6 +283,42 @@ class ContactEditFormState extends State<ContactEditForm> {
                         // value: false,
                       ),
                     ],
+                  ),
+                  TextFormField(
+                    onTap: () async {
+                      await _selectDate();
+                    },
+                    // onChanged: (value) {
+                    //   setState(() {
+                    //     this.birthday = value;
+                    //   });
+                    // },
+                    decoration: InputDecoration(
+                        hintText: 'birthday', icon: Icon(Icons.calendar_today)),
+                    // keyboardType: TextInputType.datetime,
+                    controller: birthdayController,
+                  ),
+                  TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        this.email = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                        hintText: 'address', icon: Icon(Icons.location_city)),
+                    keyboardType: TextInputType.emailAddress,
+                    controller: emailController,
+                  ),
+                  TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        this.email = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                        hintText: 'instagram', icon: Icon(Icons.location_city)),
+                    keyboardType: TextInputType.emailAddress,
+                    controller: emailController,
                   ),
                   _buildFormButtons()
                 ],
