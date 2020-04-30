@@ -73,6 +73,18 @@ class ContactDb {
     });
   }
 
+  Future<Contact> getContactById(int id) async {
+    // Get a reference to the database.
+    List contacts = await this.contacts();
+    Contact contact;
+    contacts.forEach((dbContact) {
+      if (contact.id == id) {
+        contact = dbContact;
+      }
+    });
+    return contact;
+  }
+
   Future<void> updateContact(Contact contact) async {
     // Get a reference to the database.
     final db = await getDb();

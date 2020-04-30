@@ -4,6 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/FavoriteContactList.dart';
 import 'package:kevin_app/activity/GroupActivity.dart';
+import 'package:kevin_app/activity/contactEdit.dart';
 import 'package:kevin_app/activity/statisticsActivity.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/contactDb.dart';
