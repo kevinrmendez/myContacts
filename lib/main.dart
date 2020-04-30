@@ -194,26 +194,10 @@ class HomeState extends State<Home> {
     var contactIdString = payload.split(" ");
     var contactId = int.parse(contactIdString[0]);
     print(contactId);
+    var dialogDescription = payload.substring(1);
     showDialog(
         context: context,
-        builder: (_) =>
-            // AlertDialog(
-            //       title: Container(
-            //           color: Theme.of(context).primaryColor,
-            //           child: Text('Birthday reminder')),
-            //       content: Text(" $payload"),
-            //       actions: <Widget>[
-            //         FlatButton(
-            //             child: Text(
-            //               translatedText("button_close", context),
-            //               style: TextStyle(color: Theme.of(context).primaryColor),
-            //             ),
-            //             onPressed: () {
-            //               Navigator.of(context).pop();
-            //             }),
-            //       ],
-            //     )
-            Dialog(
+        builder: (_) => Dialog(
               child: Container(
                 height: MediaQuery.of(context).size.height * .3,
                 child: Column(
@@ -237,7 +221,7 @@ class HomeState extends State<Home> {
                         Container(
                           width: MediaQuery.of(context).size.width * .8,
                           child: Text(
-                            " $payload",
+                            " $dialogDescription",
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 18),
                           ),

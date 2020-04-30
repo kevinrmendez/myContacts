@@ -330,48 +330,60 @@ class ContactEditFormState extends State<ContactEditForm> {
                     // keyboardType: TextInputType.datetime,
                     controller: birthdayController,
                   ),
-                  Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.notifications_active,
-                            color: Colors.grey,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            // translatedText("hintText_favorite", context),
-                            translatedText(
-                                "hintText_birthday_notification", context),
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          Switch(
-                            onChanged: (bool value) async {
-                              setState(() {
-                                this.showNotification = boolToInt(value);
-                                // this.isBirthdayNotificationEnable = value;
-                              });
-                              print(
-                                  "SHOWNOTIFICATION: ${this.showNotification}");
-                              if (showNotification == 1) {
-                                await _sendBirthdayNotification();
-                                // flutterLocalNotificationsPlugin
-                                //     .cancel(contact.id);
-                              } else {
-                                print("CONTACTID: $contact.id");
-                                flutterLocalNotificationsPlugin
-                                    .cancel(contact.id);
-                              }
-                            },
-                            value: intToBool(this.showNotification),
-                            // value: false,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  birthday.length > 0
+                      ? Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.notifications_active,
+                                  color: Colors.grey,
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Text(
+                                  // translatedText("hintText_favorite", context),
+                                  translatedText(
+                                      "hintText_birthday_notification",
+                                      context),
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                                Switch(
+                                  onChanged: (bool value) async {
+                                    setState(() {
+                                      this.showNotification = boolToInt(value);
+                                      // this.isBirthdayNotificationEnable = value;
+                                    });
+                                    print(
+                                        "SHOWNOTIFICATION: ${this.showNotification}");
+                                    if (showNotification == 1) {
+                                      await _sendBirthdayNotification(
+                                          title: translatedText(
+                                              "notification_birthday_title",
+                                              context),
+                                          description: translatedText(
+                                              "notification_birthday_description",
+                                              context),
+                                          payload: translatedText(
+                                              "notification_birthday_payload",
+                                              context));
+                                      // flutterLocalNotificationsPlugin
+                                      //     .cancel(contact.id);
+                                    } else {
+                                      print("CONTACTID: $contact.id");
+                                      flutterLocalNotificationsPlugin
+                                          .cancel(contact.id);
+                                    }
+                                  },
+                                  value: intToBool(this.showNotification),
+                                  // value: false,
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      : SizedBox(),
                   TextFormField(
                     onChanged: (value) {
                       setState(() {
@@ -434,7 +446,8 @@ class ContactEditFormState extends State<ContactEditForm> {
     );
   }
 
-  Future _sendBirthdayNotification() async {
+  Future _sendBirthdayNotification(
+      {String title, String description, String payload}) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'notification_channel_id_birthday',
         'channelBirthday',
@@ -458,13 +471,12 @@ class ContactEditFormState extends State<ContactEditForm> {
     //     DateTime.now().add(Duration(seconds: 10));
     await flutterLocalNotificationsPlugin.schedule(
         contact.id, // notification id,
-        "${translatedText("notification_birthday_title", widget.context)} ${contact.name}",
-        '${translatedText("notification_birthday_description", widget.context)} $pickedDate',
+        "$title ${contact.name}",
+        '$description $pickedDate',
         // notificationDate,
         notificationTime,
         platformChannelSpecifics,
-        payload:
-            "${contact.id} ${translatedText("notification_birthday_payload", widget.context)} ${contact.name} !");
+        payload: "${contact.id} $payload ${contact.name}!");
   }
 
   Widget _buildFormButtons() {
