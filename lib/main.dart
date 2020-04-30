@@ -191,6 +191,9 @@ class HomeState extends State<Home> {
   int _currentIndex = 0;
 
   Future onSelectNotificationBirthday(String payload) async {
+    var contactIdString = payload.split(" ");
+    var contactId = int.parse(contactIdString[0]);
+    print(contactId);
     showDialog(
         context: context,
         builder: (_) =>
@@ -249,6 +252,7 @@ class HomeState extends State<Home> {
                             style: TextStyle(fontSize: 18, color: Colors.white),
                           ),
                           onPressed: () {
+                            flutterLocalNotificationsPlugin.cancel(contactId);
                             Navigator.of(context).pop();
                           },
                         )
@@ -258,6 +262,7 @@ class HomeState extends State<Home> {
                 ),
               ),
             ));
+    flutterLocalNotificationsPlugin.cancel(contactId);
   }
 
   @override

@@ -11,6 +11,7 @@ class Contact {
   String organization;
   String website;
   String note;
+  int showNotification;
   int favorite;
 
   // Contact(
@@ -26,19 +27,21 @@ class Contact {
   //     this.note = "",
   //     this.website = "",
   //     this.favorite = 0});
-  Contact(
-      {this.name,
-      this.phone,
-      this.image = "",
-      // this.id,
-      this.email = "",
-      this.category,
-      this.birthday = "",
-      this.address = "",
-      this.organization = "",
-      this.note = "",
-      this.website = "",
-      this.favorite = 0}) {
+  Contact({
+    this.name,
+    this.phone,
+    this.image = "",
+    // this.id,
+    this.email = "",
+    this.category,
+    this.birthday = "",
+    this.address = "",
+    this.organization = "",
+    this.note = "",
+    this.website = "",
+    this.favorite = 0,
+    this.showNotification = 0,
+  }) {
     this.id = Contact.contactId;
     Contact.contactId++;
   }
@@ -56,7 +59,8 @@ class Contact {
       'organization': organization,
       'website': website,
       'note': note,
-      'favorite': favorite
+      'favorite': favorite,
+      'showNotification': showNotification,
     };
   }
 
@@ -64,6 +68,6 @@ class Contact {
   // each dog when using the print statement.
   @override
   String toString() {
-    return 'Contact{id: $id, name: $name, phone: $phone,email: $email, category: $category, birthday: $birthday, address: $address,organization: $organization, website: $website ,image: $image, favorite $favorite}';
+    return 'Contact{id: $id, name: $name, phone: $phone,email: $email, category: $category, birthday: $birthday, address: $address,organization: $organization, website: $website ,image: $image, favorite $favorite, showNotification: $showNotification}';
   }
 }

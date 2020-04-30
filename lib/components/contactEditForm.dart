@@ -63,6 +63,7 @@ class ContactEditFormState extends State<ContactEditForm> {
   String email;
   Contact contact;
   int favorite;
+  int showNotification;
   Future<List<Contact>> contacts;
   String birthday;
   String address;
@@ -71,8 +72,10 @@ class ContactEditFormState extends State<ContactEditForm> {
   String note;
   DateTime pickedDate;
 
+  int sendedNotification;
+
   String dropdownValue;
-  bool isBirthdayNotificationEnable;
+  // bool isBirthdayNotificationEnable;
 
   Widget _dropDown() {
     return DropdownButton(
@@ -104,6 +107,7 @@ class ContactEditFormState extends State<ContactEditForm> {
     this.phone = widget.contact.phone.toString();
     this.email = widget.contact.email;
     this.favorite = widget.contact.favorite;
+    this.showNotification = widget.contact.showNotification;
     this.birthday = widget.contact.birthday;
     this.address = widget.contact.address;
     this.organization = widget.contact.organization;
@@ -127,7 +131,7 @@ class ContactEditFormState extends State<ContactEditForm> {
     ];
     dropdownValue = contact.category;
 
-    isBirthdayNotificationEnable = false;
+    // isBirthdayNotificationEnable = false;
   }
 
   Future<void> _updateContact(Contact contact) async {
@@ -135,6 +139,7 @@ class ContactEditFormState extends State<ContactEditForm> {
     contact.phone = phoneController.text;
     contact.email = emailController.text;
     contact.favorite = this.favorite;
+    contact.showNotification = this.showNotification;
     contact.category = this.dropdownValue;
     contact.birthday = this.birthday;
     contact.address = this.address;
@@ -345,16 +350,22 @@ class ContactEditFormState extends State<ContactEditForm> {
                           Switch(
                             onChanged: (bool value) async {
                               setState(() {
-                                this.isBirthdayNotificationEnable = value;
+                                this.showNotification = boolToInt(value);
+                                // this.isBirthdayNotificationEnable = value;
                               });
-                              if (isBirthdayNotificationEnable) {
+                              print(
+                                  "SHOWNOTIFICATION: ${this.showNotification}");
+                              if (showNotification == 1) {
                                 await _sendBirthdayNotification();
+                                // flutterLocalNotificationsPlugin
+                                //     .cancel(contact.id);
                               } else {
+                                print("CONTACTID: $contact.id");
                                 flutterLocalNotificationsPlugin
                                     .cancel(contact.id);
                               }
                             },
-                            value: isBirthdayNotificationEnable,
+                            value: intToBool(this.showNotification),
                             // value: false,
                           ),
                         ],
@@ -453,7 +464,7 @@ class ContactEditFormState extends State<ContactEditForm> {
         notificationTime,
         platformChannelSpecifics,
         payload:
-            "${translatedText("notification_birthday_payload", widget.context)} ${contact.name} !");
+            "${contact.id} ${translatedText("notification_birthday_payload", widget.context)} ${contact.name} !");
   }
 
   Widget _buildFormButtons() {
