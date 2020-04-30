@@ -55,16 +55,6 @@ class MyAppState extends State<MyApp> {
   ThemeData theme;
   int themekeyIndex;
 
-  Future _onSelectNotification(String payload) async {
-    print('ONSELECTNOTIFICATION');
-    showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              title: const Text('here is your payload'),
-              content: Text("Payload: $payload"),
-            ));
-  }
-
   @override
   void initState() {
     super.initState();
@@ -74,15 +64,6 @@ class MyAppState extends State<MyApp> {
     brightness = Brightness.light;
     theme = MyThemes.getThemeFromKey(themekey);
     print("THEME: $theme");
-
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings("ic_launcher");
-    var initializationSettingsIOS = IOSInitializationSettings();
-    var initializationSettings = InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: _onSelectNotification);
   }
 
   callback({theme, themeKey}) {
@@ -208,9 +189,90 @@ class Home extends StatefulWidget {
 
 class HomeState extends State<Home> {
   int _currentIndex = 0;
+
+  Future onSelectNotificationBirthday(String payload) async {
+    showDialog(
+        context: context,
+        builder: (_) =>
+            // AlertDialog(
+            //       title: Container(
+            //           color: Theme.of(context).primaryColor,
+            //           child: Text('Birthday reminder')),
+            //       content: Text(" $payload"),
+            //       actions: <Widget>[
+            //         FlatButton(
+            //             child: Text(
+            //               translatedText("button_close", context),
+            //               style: TextStyle(color: Theme.of(context).primaryColor),
+            //             ),
+            //             onPressed: () {
+            //               Navigator.of(context).pop();
+            //             }),
+            //       ],
+            //     )
+            Dialog(
+              child: Container(
+                height: MediaQuery.of(context).size.height * .3,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        width: MediaQuery.of(context).size.width,
+                        color: Theme.of(context).primaryColor,
+                        child: Text(
+                          translatedText(
+                              "dialog_birthday_reminder_title", context),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 22),
+                        )),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width * .8,
+                          child: Text(
+                            " $payload",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        RaisedButton(
+                          color: Theme.of(context).accentColor,
+                          child: Text(
+                            translatedText("button_close", context),
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ));
+  }
+
   @override
   void initState() {
     super.initState();
+
+    //init local notifications
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings("ic_launcher");
+    var initializationSettingsIOS = IOSInitializationSettings();
+    var initializationSettings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotificationBirthday);
   }
 
   @override

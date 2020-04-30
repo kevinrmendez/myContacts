@@ -1,4 +1,5 @@
 class Contact {
+  static int contactId = 0;
   int id;
   String name;
   String phone;
