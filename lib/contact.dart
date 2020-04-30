@@ -13,11 +13,24 @@ class Contact {
   String note;
   int favorite;
 
+  // Contact(
+  //     {this.name,
+  //     this.phone,
+  //     this.image = "",
+  //     this.id,
+  //     this.email = "",
+  //     this.category,
+  //     this.birthday = "",
+  //     this.address = "",
+  //     this.organization = "",
+  //     this.note = "",
+  //     this.website = "",
+  //     this.favorite = 0});
   Contact(
       {this.name,
       this.phone,
       this.image = "",
-      this.id,
+      // this.id,
       this.email = "",
       this.category,
       this.birthday = "",
@@ -25,7 +38,10 @@ class Contact {
       this.organization = "",
       this.note = "",
       this.website = "",
-      this.favorite = 0});
+      this.favorite = 0}) {
+    this.id = Contact.contactId;
+    Contact.contactId++;
+  }
 
   Map<String, dynamic> toMap() {
     return {

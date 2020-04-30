@@ -276,13 +276,14 @@ class ContactFormState extends State<ContactForm> {
                             String formattedName =
                                 '${name[0].toUpperCase()}${name.substring(1)}';
                             Contact contact = Contact(
-                                id: contactId,
+                                // id: contactId,
                                 name: formattedName,
                                 phone: widget.phoneController.text,
                                 email: widget.emailController.text,
                                 category: dropdownValue,
                                 image: widget.image);
                             _saveContact(contact);
+                            print("CONTACTID: ${contact.id}");
                             contactService.add(contact);
                             widget.callback("");
                           }
