@@ -54,12 +54,13 @@ class _GroupActivityState extends State<GroupActivity> {
               return Column(
                 children: <Widget>[
                   // index % 10 == 0 ? AdmobUtils.admobBanner() : SizedBox(),
-                  Card(
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 6),
                     child: ListTile(
                       // leading:
                       title: Text(
                         '${capitalize(category[index])}',
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 22),
                       ),
                       trailing: Icon(Icons.keyboard_arrow_right),
                       onTap: () {

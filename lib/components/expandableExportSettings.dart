@@ -276,34 +276,32 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
                 title: Text(item.headerValue),
               );
             },
-            body: Card(
-              child: Column(children: [
-                ListTile(
-                  title: Text(
-                      translatedText("settings_export_contacts_csv", context)),
-                  leading: Icon(Icons.import_export),
-                  onTap: () {
-                    _exportContacts();
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                      translatedText("settings_export_contacts_pdf", context)),
-                  leading: Icon(Icons.picture_as_pdf),
-                  onTap: () {
-                    _exportContactsPdf();
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                      translatedText("settings_export_contacts_vcf", context)),
-                  leading: Icon(Icons.phone),
-                  onTap: () {
-                    _exportContactsVcard();
-                  },
-                ),
-              ]),
-            ),
+            body: Column(children: [
+              ListTile(
+                title: Text(
+                    translatedText("settings_export_contacts_csv", context)),
+                leading: Icon(Icons.import_export),
+                onTap: () {
+                  _exportContacts();
+                },
+              ),
+              ListTile(
+                title: Text(
+                    translatedText("settings_export_contacts_pdf", context)),
+                leading: Icon(Icons.picture_as_pdf),
+                onTap: () {
+                  _exportContactsPdf();
+                },
+              ),
+              ListTile(
+                title: Text(
+                    translatedText("settings_export_contacts_vcf", context)),
+                leading: Icon(Icons.phone),
+                onTap: () {
+                  _exportContactsVcard();
+                },
+              ),
+            ]),
             canTapOnHeader: true,
             isExpanded: item.isExpanded,
           );

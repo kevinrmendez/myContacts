@@ -59,12 +59,14 @@ class WidgetUtils {
       );
     }
 
-    return Card(
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 6),
       child: ListTile(
         onTap: () {
           Navigator.of(context).push(_createRoute());
         },
         leading: CircleAvatar(
+          radius: 22,
           backgroundColor: Theme.of(context).primaryColor,
           backgroundImage: contact.image == "" || contact.image == null
               ? AssetImage('assets/person-icon-w-s3p.png')
@@ -72,7 +74,7 @@ class WidgetUtils {
         ),
         title: Text(
           '${contact.name}',
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 22),
         ),
         trailing: Icon(
             contact.favorite == 0 ? Icons.keyboard_arrow_right : Icons.star),

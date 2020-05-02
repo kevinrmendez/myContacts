@@ -82,7 +82,9 @@ class ContactActivityState extends State<ContactActivity>
                 Positioned(top: 0, child: AdmobUtils.admobBanner()),
               ],
             ),
-
+            SizedBox(
+              height: 10,
+            ),
             // _streamBuilder(),
             // Container(height: 100, child: Image.asset('assets/person.png')),
             Align(

@@ -19,33 +19,37 @@ class ContactImage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           image == null || image == ""
-              // ? CircleAvatar(
-              //     radius: image == null || image == ""
-              //         ? MediaQuery.of(context).size.width * .17
-              //         : MediaQuery.of(context).size.width * .3,
-              //     backgroundColor: Theme.of(context).primaryColor,
-              //     backgroundImage: image == "" || image == null
-              //         ? AssetImage('assets/person-icon-w-s3p.png')
-              //         : FileImage(File(image)),
-              //   )
               ? Container(
+                  padding: EdgeInsets.only(top: 50),
                   height: 300,
-                  width: MediaQuery.of(context).size.width,
-                  color: Theme.of(context).primaryColor,
                   child: Center(
-                    child: Container(
-                        width: 200,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          // borderRadius: BorderRadius.only(
-                          //     bottomLeft: Radius.circular(20),
-                          //     bottomRight: Radius.circular(20)),
-                          image: DecorationImage(
-                              image: AssetImage('assets/person-icon-w-s3p.png'),
-                              fit: BoxFit.scaleDown),
-                        )),
+                    child: CircleAvatar(
+                      radius: 90,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      backgroundImage: image == "" || image == null
+                          ? AssetImage('assets/person-icon-w-s3p.png')
+                          : FileImage(File(image)),
+                    ),
                   ),
                 )
+              // ? Container(
+              //     height: 300,
+              //     width: MediaQuery.of(context).size.width,
+              //     color: Theme.of(context).primaryColor,
+              //     child: Center(
+              //       child: Container(
+              //           width: 190,
+              //           height: 190,
+              //           decoration: BoxDecoration(
+              //             // borderRadius: BorderRadius.only(
+              //             //     bottomLeft: Radius.circular(20),
+              //             //     bottomRight: Radius.circular(20)),
+              //             image: DecorationImage(
+              //                 image: AssetImage('assets/person-icon-w-s3p.png'),
+              //                 fit: BoxFit.scaleDown),
+              //           )),
+              //     ),
+              //   )
               : Container(
                   height: 300,
                   width: MediaQuery.of(context).size.width,

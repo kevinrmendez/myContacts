@@ -547,7 +547,8 @@ class ContactEditFormState extends State<ContactEditForm> {
     return Container(
       color: contact.image == null || contact.image == ""
           ? Colors.transparent
-          : Theme.of(context).primaryColor,
+          : Colors.transparent,
+      // : Theme.of(context).primaryColor,
       padding: EdgeInsets.symmetric(vertical: 4),
       width: MediaQuery.of(context).size.width,
       child: Row(
@@ -563,7 +564,8 @@ class ContactEditFormState extends State<ContactEditForm> {
                   fontWeight: FontWeight.bold,
                   color: contact.image == null || contact.image == ""
                       ? Theme.of(context).primaryColor
-                      : Colors.white),
+                      : Theme.of(context).primaryColor),
+              // : Colors.white),
             ),
           ),
           SizedBox(
@@ -577,7 +579,8 @@ class ContactEditFormState extends State<ContactEditForm> {
                     Icons.star,
                     color: contact.image == null || contact.image == ""
                         ? Theme.of(context).primaryColor
-                        : Colors.white,
+                        : Theme.of(context).primaryColor,
+                    // : Colors.white,
                     size: 35,
                   )
                 : SizedBox(),
@@ -616,8 +619,8 @@ class ContactEditFormState extends State<ContactEditForm> {
           padding: EdgeInsets.symmetric(
               vertical:
                   widget.contact.image == null || widget.contact.image == ""
-                      ? 20
-                      : 0),
+                      ? 15
+                      : 15),
           child: Column(
             children: <Widget>[
               // ContactImage(
@@ -642,9 +645,6 @@ class ContactEditFormState extends State<ContactEditForm> {
               // ),
             ],
           ),
-        ),
-        SizedBox(
-          height: 10,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
