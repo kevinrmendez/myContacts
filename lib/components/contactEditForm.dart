@@ -548,7 +548,7 @@ class ContactEditFormState extends State<ContactEditForm> {
       color: contact.image == null || contact.image == ""
           ? Colors.transparent
           : Theme.of(context).primaryColor,
-      // padding: EdgeInsets.only(bottom: 15),
+      padding: EdgeInsets.symmetric(vertical: 4),
       width: MediaQuery.of(context).size.width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
