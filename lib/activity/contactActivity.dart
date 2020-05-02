@@ -73,9 +73,14 @@ class ContactActivityState extends State<ContactActivity>
         child: ListView(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AdmobUtils.admobBanner(), SizedBox(height: 40),
-            ContactImage(
-              image: _image,
+            Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                ContactImage(
+                  image: _image,
+                ),
+                Positioned(top: 0, child: AdmobUtils.admobBanner()),
+              ],
             ),
 
             // _streamBuilder(),

@@ -545,8 +545,11 @@ class ContactEditFormState extends State<ContactEditForm> {
 
   Widget _buildBoldText(String text) {
     return Container(
-      padding: EdgeInsets.only(bottom: 15),
-      width: MediaQuery.of(context).size.width * 0.8,
+      color: contact.image == null || contact.image == ""
+          ? Colors.transparent
+          : Theme.of(context).primaryColor,
+      // padding: EdgeInsets.only(bottom: 15),
+      width: MediaQuery.of(context).size.width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -558,7 +561,9 @@ class ContactEditFormState extends State<ContactEditForm> {
               style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor),
+                  color: contact.image == null || contact.image == ""
+                      ? Theme.of(context).primaryColor
+                      : Colors.white),
             ),
           ),
           SizedBox(
@@ -570,7 +575,9 @@ class ContactEditFormState extends State<ContactEditForm> {
             child: this.favorite == 1
                 ? Icon(
                     Icons.star,
-                    color: Theme.of(context).primaryColor,
+                    color: contact.image == null || contact.image == ""
+                        ? Theme.of(context).primaryColor
+                        : Colors.white,
                     size: 35,
                   )
                 : SizedBox(),
@@ -610,24 +617,29 @@ class ContactEditFormState extends State<ContactEditForm> {
               vertical:
                   widget.contact.image == null || widget.contact.image == ""
                       ? 20
-                      : 5),
+                      : 0),
           child: Column(
             children: <Widget>[
+              // ContactImage(
+              //   context: context,
+              //   image: widget.contact.image,
+              // ),
               _buildPreviewText(),
-              Hero(
-                child: CircleAvatar(
-                  radius:
-                      widget.contact.image == null || widget.contact.image == ""
-                          ? MediaQuery.of(context).size.width * .17
-                          : MediaQuery.of(context).size.width * .3,
-                  backgroundColor: Theme.of(context).primaryColor,
-                  backgroundImage:
-                      widget.contact.image == "" || widget.contact.image == null
-                          ? AssetImage('assets/person-icon-w-s3p.png')
-                          : FileImage(File(widget.contact.image)),
-                ),
-                tag: widget.contact.name + widget.index.toString(),
-              ),
+
+              // Hero(
+              //   child: CircleAvatar(
+              //     radius:
+              //         widget.contact.image == null || widget.contact.image == ""
+              //             ? MediaQuery.of(context).size.width * .17
+              //             : MediaQuery.of(context).size.width * .3,
+              //     backgroundColor: Theme.of(context).primaryColor,
+              //     backgroundImage:
+              //         widget.contact.image == "" || widget.contact.image == null
+              //             ? AssetImage('assets/person-icon-w-s3p.png')
+              //             : FileImage(File(widget.contact.image)),
+              //   ),
+              //   tag: widget.contact.name + widget.index.toString(),
+              // ),
             ],
           ),
         ),

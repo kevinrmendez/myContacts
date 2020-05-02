@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:kevin_app/components/contactEditForm.dart';
+import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 
 import 'package:kevin_app/contact.dart';
@@ -22,7 +23,16 @@ class ContactEdit extends StatelessWidget {
       body: Stack(children: <Widget>[
         ListView(
           children: <Widget>[
-            AdmobUtils.admobBanner(),
+            Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                ContactImage(
+                  context: context,
+                  image: contact.image,
+                ),
+                Positioned(top: 0, child: AdmobUtils.admobBanner()),
+              ],
+            ),
             ContactEditForm(contact: contact, context: context, index: index)
           ],
         ),

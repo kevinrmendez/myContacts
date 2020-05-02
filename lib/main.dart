@@ -65,6 +65,76 @@ class MyAppState extends State<MyApp> {
     brightness = Brightness.light;
     theme = MyThemes.getThemeFromKey(themekey);
     print("THEME: $theme");
+
+    //init local notifications
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings("ic_launcher");
+    var initializationSettingsIOS = IOSInitializationSettings();
+    var initializationSettings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    //TODO: FIX CONTACT ID  TO STOP DUPLICATE NOTIFICATION
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotificationBirthday);
+  }
+
+  Future onSelectNotificationBirthday(String payload) async {
+    var contactIdString = payload.split(" ");
+    var contactId = int.parse(contactIdString[0]);
+    print(contactId);
+    var dialogDescription = payload.substring(1);
+    showDialog(
+        context: context,
+        builder: (_) => Dialog(
+              child: Container(
+                height: MediaQuery.of(context).size.height * .3,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        width: MediaQuery.of(context).size.width,
+                        color: Theme.of(context).primaryColor,
+                        child: Text(
+                          translatedText(
+                              "dialog_birthday_reminder_title", context),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 22),
+                        )),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width * .8,
+                          child: Text(
+                            " $dialogDescription",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        RaisedButton(
+                          color: Theme.of(context).accentColor,
+                          child: Text(
+                            translatedText("button_close", context),
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            flutterLocalNotificationsPlugin.cancel(contactId);
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ));
+    flutterLocalNotificationsPlugin.cancel(contactId);
   }
 
   callback({theme, themeKey}) {
@@ -191,78 +261,9 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   int _currentIndex = 0;
 
-  Future onSelectNotificationBirthday(String payload) async {
-    var contactIdString = payload.split(" ");
-    var contactId = int.parse(contactIdString[0]);
-    print(contactId);
-    var dialogDescription = payload.substring(1);
-    showDialog(
-        context: context,
-        builder: (_) => Dialog(
-              child: Container(
-                height: MediaQuery.of(context).size.height * .3,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                        padding: EdgeInsets.symmetric(vertical: 14),
-                        width: MediaQuery.of(context).size.width,
-                        color: Theme.of(context).primaryColor,
-                        child: Text(
-                          translatedText(
-                              "dialog_birthday_reminder_title", context),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white, fontSize: 22),
-                        )),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: MediaQuery.of(context).size.width * .8,
-                          child: Text(
-                            " $dialogDescription",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        RaisedButton(
-                          color: Theme.of(context).accentColor,
-                          child: Text(
-                            translatedText("button_close", context),
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          ),
-                          onPressed: () {
-                            flutterLocalNotificationsPlugin.cancel(contactId);
-                            Navigator.of(context).pop();
-                          },
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ));
-    flutterLocalNotificationsPlugin.cancel(contactId);
-  }
-
   @override
   void initState() {
     super.initState();
-
-    //init local notifications
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings("ic_launcher");
-    var initializationSettingsIOS = IOSInitializationSettings();
-    var initializationSettings = InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotificationBirthday);
   }
 
   @override

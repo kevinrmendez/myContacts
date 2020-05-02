@@ -14,20 +14,30 @@ class ContactImage extends StatelessWidget {
     print('MYTHEMEKEYS ${appState.themeKey}');
 
     return Container(
-      padding: EdgeInsets.symmetric(
-          vertical: image == null || image == "" ? 40 : 20),
+      padding: EdgeInsets.only(top: image == null || image == "" ? 60 : 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          CircleAvatar(
-            radius: image == null || image == ""
-                ? MediaQuery.of(context).size.width * .17
-                : MediaQuery.of(context).size.width * .3,
-            backgroundColor: Theme.of(context).primaryColor,
-            backgroundImage: image == "" || image == null
-                ? AssetImage('assets/person-icon-w-s3p.png')
-                : FileImage(File(image)),
-          ),
+          image == null || image == ""
+              ? CircleAvatar(
+                  radius: image == null || image == ""
+                      ? MediaQuery.of(context).size.width * .17
+                      : MediaQuery.of(context).size.width * .3,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundImage: image == "" || image == null
+                      ? AssetImage('assets/person-icon-w-s3p.png')
+                      : FileImage(File(image)),
+                )
+              : Container(
+                  height: 330,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    // borderRadius: BorderRadius.only(
+                    //     bottomLeft: Radius.circular(20),
+                    //     bottomRight: Radius.circular(20)),
+                    image: DecorationImage(
+                        image: FileImage(File(image)), fit: BoxFit.cover),
+                  ))
         ],
       ),
     );
