@@ -57,6 +57,27 @@ class _ContactList2State extends State<ContactList2> {
     return tempList;
   }
 
+  Route _createRoute(Contact contact, int index) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => ContactEdit(
+        contact: contact,
+        index: index,
+      ),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
   Widget _buildList() {
     if ((_searchText.isNotEmpty)) {
       List<Contact> tempList = new List<Contact>();
@@ -83,7 +104,10 @@ class _ContactList2State extends State<ContactList2> {
                 children: <Widget>[
                   // index % 10 == 0 ? AdmobUtils.admobBanner() : SizedBox(),
                   WidgetUtils.contactListTile(
-                      index, filteredNames[index], context)
+                    index,
+                    filteredNames[index],
+                    context,
+                  )
                 ],
               );
             } else {

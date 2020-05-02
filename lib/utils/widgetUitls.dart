@@ -37,37 +37,45 @@ class WidgetUtils {
 
   static Widget contactListTile(
       int index, Contact contact, BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          PageRouteBuilder(
-            transitionDuration: Duration(seconds: 1),
-            pageBuilder: (_, __, ___) => ContactEdit(
-              contact: contact,
-              index: index,
-            ),
-          ),
-        );
-      },
-      child: Card(
-        child: ListTile(
-          leading: Hero(
-            child: CircleAvatar(
-              backgroundColor: Theme.of(context).primaryColor,
-              backgroundImage: contact.image == "" || contact.image == null
-                  ? AssetImage('assets/person-icon-w-s3p.png')
-                  : FileImage(File(contact.image)),
-            ),
-            tag: contact.name + index.toString(),
-          ),
-          title: Text(
-            '${contact.name}',
-            style: TextStyle(fontSize: 20),
-          ),
-          trailing: Icon(
-              contact.favorite == 0 ? Icons.keyboard_arrow_right : Icons.star),
+    Route _createRoute() {
+      return PageRouteBuilder(
+        transitionDuration: Duration(seconds: 1),
+        pageBuilder: (context, animation, secondaryAnimation) => ContactEdit(
+          contact: contact,
+          index: index,
         ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(0.0, 1.0);
+          var end = Offset.zero;
+          var curve = Curves.easeIn;
+
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      );
+    }
+
+    return Card(
+      child: ListTile(
+        onTap: () {
+          Navigator.of(context).push(_createRoute());
+        },
+        leading: CircleAvatar(
+          backgroundColor: Theme.of(context).primaryColor,
+          backgroundImage: contact.image == "" || contact.image == null
+              ? AssetImage('assets/person-icon-w-s3p.png')
+              : FileImage(File(contact.image)),
+        ),
+        title: Text(
+          '${contact.name}',
+          style: TextStyle(fontSize: 20),
+        ),
+        trailing: Icon(
+            contact.favorite == 0 ? Icons.keyboard_arrow_right : Icons.star),
       ),
     );
   }

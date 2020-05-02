@@ -236,6 +236,10 @@ class AppWrapper extends StatelessWidget {
       title: "MyContacts",
       debugShowCheckedModeBanner: false,
       theme: AppSettings.of(context).theme,
+      // home: WillPopScope(
+      //   onWillPop: _onWillPop,
+      //   child: Home(),
+      // ),
       home: WillPopScope(
         onWillPop: _onWillPop,
         child: Home(),
