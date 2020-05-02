@@ -76,6 +76,7 @@ class ContactEditFormState extends State<ContactEditForm> {
 
   String dropdownValue;
   // bool isBirthdayNotificationEnable;
+  bool showDetails;
 
   Widget _dropDown() {
     return DropdownButton(
@@ -132,6 +133,7 @@ class ContactEditFormState extends State<ContactEditForm> {
     dropdownValue = contact.category;
 
     // isBirthdayNotificationEnable = false;
+    showDetails = false;
   }
 
   Future<void> _updateContact(Contact contact) async {
@@ -318,122 +320,148 @@ class ContactEditFormState extends State<ContactEditForm> {
                       ),
                     ],
                   ),
-                  TextFormField(
-                    onTap: () async {
-                      FocusScope.of(context).requestFocus(new FocusNode());
-
-                      await _selectDate();
+                  RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    child: Text(
+                      'show details',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        showDetails = !showDetails;
+                      });
                     },
-                    decoration: InputDecoration(
-                        hintText: translatedText("hintText_birthday", context),
-                        icon: Icon(Icons.calendar_today)),
-                    // keyboardType: TextInputType.datetime,
-                    controller: birthdayController,
                   ),
-                  birthday.length > 0
+                  showDetails
                       ? Column(
                           children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Icon(
-                                  Icons.notifications_active,
-                                  color: Colors.grey,
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Text(
-                                  // translatedText("hintText_favorite", context),
-                                  translatedText(
-                                      "hintText_birthday_notification",
-                                      context),
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                                Switch(
-                                  onChanged: (bool value) async {
-                                    setState(() {
-                                      this.showNotification = boolToInt(value);
-                                      // this.isBirthdayNotificationEnable = value;
-                                    });
-                                    print(
-                                        "SHOWNOTIFICATION: ${this.showNotification}");
-                                    if (showNotification == 1) {
-                                      await _sendBirthdayNotification(
-                                          title: translatedText(
-                                              "notification_birthday_title",
-                                              context),
-                                          description: translatedText(
-                                              "notification_birthday_description",
-                                              context),
-                                          payload: translatedText(
-                                              "notification_birthday_payload",
-                                              context));
-                                      // flutterLocalNotificationsPlugin
-                                      //     .cancel(contact.id);
-                                    } else {
-                                      print("CONTACTID: $contact.id");
-                                      flutterLocalNotificationsPlugin
-                                          .cancel(contact.id);
-                                    }
-                                  },
-                                  value: intToBool(this.showNotification),
-                                  // value: false,
-                                ),
-                              ],
+                            TextFormField(
+                              onTap: () async {
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
+
+                                await _selectDate();
+                              },
+                              decoration: InputDecoration(
+                                  hintText: translatedText(
+                                      "hintText_birthday", context),
+                                  icon: Icon(Icons.calendar_today)),
+                              // keyboardType: TextInputType.datetime,
+                              controller: birthdayController,
+                            ),
+                            birthday.length > 0
+                                ? Column(
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.notifications_active,
+                                            color: Colors.grey,
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Text(
+                                            // translatedText("hintText_favorite", context),
+                                            translatedText(
+                                                "hintText_birthday_notification",
+                                                context),
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                          Switch(
+                                            onChanged: (bool value) async {
+                                              setState(() {
+                                                this.showNotification =
+                                                    boolToInt(value);
+                                                // this.isBirthdayNotificationEnable = value;
+                                              });
+                                              print(
+                                                  "SHOWNOTIFICATION: ${this.showNotification}");
+                                              if (showNotification == 1) {
+                                                await _sendBirthdayNotification(
+                                                    title: translatedText(
+                                                        "notification_birthday_title",
+                                                        context),
+                                                    description: translatedText(
+                                                        "notification_birthday_description",
+                                                        context),
+                                                    payload: translatedText(
+                                                        "notification_birthday_payload",
+                                                        context));
+                                                // flutterLocalNotificationsPlugin
+                                                //     .cancel(contact.id);
+                                              } else {
+                                                print("CONTACTID: $contact.id");
+                                                flutterLocalNotificationsPlugin
+                                                    .cancel(contact.id);
+                                              }
+                                            },
+                                            value: intToBool(
+                                                this.showNotification),
+                                            // value: false,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                : SizedBox(),
+                            TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  this.address = value;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                  hintText: translatedText(
+                                      "hintText_address", context),
+                                  icon: Icon(Icons.location_city)),
+                              keyboardType: TextInputType.text,
+                              controller: addressController,
+                            ),
+                            TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  this.organization = value;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                  hintText: translatedText(
+                                      "hintText_organization", context),
+                                  icon: Icon(Icons.store)),
+                              keyboardType: TextInputType.text,
+                              controller: organizationController,
+                            ),
+                            TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  this.website = value;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                  hintText: translatedText(
+                                      "hintText_website", context),
+                                  icon: Icon(Icons.store)),
+                              keyboardType: TextInputType.text,
+                              controller: websiteController,
+                            ),
+                            TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  this.note = value;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                  hintText:
+                                      translatedText("hintText_note", context),
+                                  icon: Icon(Icons.description)),
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              controller: noteController,
                             ),
                           ],
                         )
                       : SizedBox(),
-                  TextFormField(
-                    onChanged: (value) {
-                      setState(() {
-                        this.address = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        hintText: translatedText("hintText_address", context),
-                        icon: Icon(Icons.location_city)),
-                    keyboardType: TextInputType.text,
-                    controller: addressController,
-                  ),
-                  TextFormField(
-                    onChanged: (value) {
-                      setState(() {
-                        this.organization = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        hintText:
-                            translatedText("hintText_organization", context),
-                        icon: Icon(Icons.store)),
-                    keyboardType: TextInputType.text,
-                    controller: organizationController,
-                  ),
-                  TextFormField(
-                    onChanged: (value) {
-                      setState(() {
-                        this.website = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        hintText: translatedText("hintText_website", context),
-                        icon: Icon(Icons.store)),
-                    keyboardType: TextInputType.text,
-                    controller: websiteController,
-                  ),
-                  TextFormField(
-                    onChanged: (value) {
-                      setState(() {
-                        this.note = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        hintText: translatedText("hintText_note", context),
-                        icon: Icon(Icons.description)),
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    controller: noteController,
-                  ),
                   SizedBox(
                     height: 20,
                   ),
