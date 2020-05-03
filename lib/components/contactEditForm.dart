@@ -653,9 +653,9 @@ class ContactEditFormState extends State<ContactEditForm> {
                     context: context,
                     image: this.image,
                   ),
+                  Positioned(bottom: 10, child: _buildCamera(context)),
                 ],
               ),
-              _buildCamera(context),
               _buildPreviewText(),
             ],
           ),
@@ -694,7 +694,7 @@ class ContactEditFormState extends State<ContactEditForm> {
 
   Widget _buildCamera(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 5),
+      padding: EdgeInsets.symmetric(vertical: 0),
       child: RaisedButton(
         color: Theme.of(context).accentColor,
         onPressed: () async {

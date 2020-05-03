@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:kevin_app/state/appSettings.dart';
+import 'package:kevin_app/utils/colors.dart';
 
 class ContactImage extends StatelessWidget {
   final String image;
@@ -20,16 +21,46 @@ class ContactImage extends StatelessWidget {
         children: <Widget>[
           image == null || image == ""
               ? Container(
-                  padding: EdgeInsets.only(top: 50),
-                  height: 300,
+                  // padding: EdgeInsets.only(top: 50),
+                  height: MediaQuery.of(context).size.height * .45,
+                  // height: 300,
                   child: Center(
-                    child: CircleAvatar(
-                      radius: 90,
-                      backgroundColor: Theme.of(context).primaryColor,
-                      backgroundImage: image == "" || image == null
-                          ? AssetImage('assets/person-icon-w-s3p.png')
-                          : FileImage(File(image)),
+                    // child: CircleAvatar(
+                    //   radius: 85,
+                    //   backgroundColor: Theme.of(context).primaryColor,
+                    //   backgroundImage: image == "" || image == null
+                    //       ? AssetImage('assets/person-icon-w-s3p.png')
+                    //       : FileImage(File(image)),
+                    // ),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * .24,
+                      width: MediaQuery.of(context).size.height * .24,
+                      // height: 0,
+                      // width: 200,
+                      // width: MediaQuery.of(context).size.width * .45,
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: GREY,
+                              offset: const Offset(3.0, 3.0),
+                              blurRadius: 5.0,
+                              spreadRadius: 2.0,
+                            ),
+                          ],
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.all(Radius.circular(200))),
+                      child: Container(
+                          decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/person-icon-w-s3p.png'),
+                            fit: BoxFit.scaleDown),
+                      )),
                     ),
+                    // backgroundColor: Theme.of(context).primaryColor,
+                    // backgroundImage: image == "" || image == null
+                    //     ? AssetImage('assets/person-icon-w-s3p.png')
+                    //     : FileImage(File(image)),
+                    // ),
                   ),
                 )
               // ? Container(
@@ -51,7 +82,8 @@ class ContactImage extends StatelessWidget {
               //     ),
               //   )
               : Container(
-                  height: 300,
+                  height: MediaQuery.of(context).size.height * .45,
+                  // height: 300,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     // borderRadius: BorderRadius.only(
