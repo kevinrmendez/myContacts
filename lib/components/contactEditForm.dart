@@ -342,7 +342,7 @@ class ContactEditFormState extends State<ContactEditForm> {
                     ],
                   ),
                   RaisedButton(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).accentColor,
                     child: Text(
                       'show details',
                       style: TextStyle(color: Colors.white),

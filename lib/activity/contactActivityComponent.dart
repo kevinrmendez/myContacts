@@ -295,7 +295,7 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
                                 // padding:
                                 //     EdgeInsets.symmetric(horizontal: 30, vertical: 16),
                                 child: RaisedButton(
-                                  color: Theme.of(context).accentColor,
+                                  color: Theme.of(context).primaryColor,
                                   onPressed: () async {
                                     // print('SAVIIIING');
                                     // print(widget.nameController);
