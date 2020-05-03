@@ -13,6 +13,7 @@ class ContactEdit extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   ContactEdit({@required this.contact, this.index});
+  ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +23,16 @@ class ContactEdit extends StatelessWidget {
       key: _scaffoldKey,
       body: Stack(children: <Widget>[
         ListView(
+          controller: scrollController,
           children: <Widget>[
             Stack(
               alignment: Alignment.center,
               children: <Widget>[
                 ContactEditForm(
-                    contact: contact, context: context, index: index),
+                    contact: contact,
+                    context: context,
+                    index: index,
+                    scrollController: scrollController),
                 Positioned(top: 0, child: AdmobUtils.admobBanner())
               ],
             )

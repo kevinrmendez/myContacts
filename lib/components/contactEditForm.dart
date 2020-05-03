@@ -25,6 +25,7 @@ import '../main.dart';
 
 class ContactEditForm extends StatefulWidget {
   final BuildContext context;
+  final ScrollController scrollController;
   final Contact contact;
   final int index;
   final List<String> category = <String>[
@@ -36,7 +37,11 @@ class ContactEditForm extends StatefulWidget {
   final PermissionHandler _permissionHandler = PermissionHandler();
   final _formKey = GlobalKey<FormState>();
 
-  ContactEditForm({@required this.contact, this.context, this.index});
+  ContactEditForm(
+      {@required this.contact,
+      this.context,
+      this.index,
+      this.scrollController});
 
   Future<bool> _requestCameraPermission() async {
     var result =
@@ -356,6 +361,16 @@ class ContactEditFormState extends State<ContactEditForm> {
                         setState(() {
                           showDetails = !showDetails;
                         });
+                        if (showDetails) {
+                          widget.scrollController.animateTo(
+                              MediaQuery.of(context).size.height,
+                              duration: Duration(seconds: 2),
+                              curve: Curves.easeOut);
+                        } else {
+                          widget.scrollController.animateTo(0.0,
+                              duration: Duration(seconds: 2),
+                              curve: Curves.easeOut);
+                        }
                       },
                     ),
                   ),
@@ -473,26 +488,29 @@ class ContactEditFormState extends State<ContactEditForm> {
                               keyboardType: TextInputType.text,
                               controller: websiteController,
                             ),
-                            TextFormField(
-                              onChanged: (value) {
-                                setState(() {
-                                  this.note = value;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                  hintText:
-                                      translatedText("hintText_note", context),
-                                  icon: Icon(Icons.description)),
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              controller: noteController,
+                            Container(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: TextFormField(
+                                onChanged: (value) {
+                                  setState(() {
+                                    this.note = value;
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                    hintText: translatedText(
+                                        "hintText_note", context),
+                                    icon: Icon(Icons.description)),
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                controller: noteController,
+                              ),
                             ),
                           ],
                         )
                       : SizedBox(),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
                   _buildFormButtons(),
                 ],
               ),
@@ -693,7 +711,7 @@ class ContactEditFormState extends State<ContactEditForm> {
         ),
         _buildForm(),
         SizedBox(
-          height: 30,
+          height: 20,
         )
       ],
     );
