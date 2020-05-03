@@ -1,14 +1,17 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/Settings.dart';
+import 'package:kevin_app/activity/cameraActivity.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:scidart/numdart.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/utils/utils.dart';
@@ -30,7 +33,20 @@ class ContactEditForm extends StatefulWidget {
     "friend",
     "coworker"
   ];
+  final PermissionHandler _permissionHandler = PermissionHandler();
+
   ContactEditForm({@required this.contact, this.context, this.index});
+
+  Future<bool> _requestCameraPermission() async {
+    var result =
+        await _permissionHandler.requestPermissions([PermissionGroup.camera]);
+
+    if (result[PermissionGroup.contacts] == PermissionStatus.granted) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   ContactEditFormState createState() {
@@ -62,6 +78,7 @@ class ContactEditFormState extends State<ContactEditForm> {
   String phone;
   String email;
   Contact contact;
+  String image;
   int favorite;
   int showNotification;
   Future<List<Contact>> contacts;
@@ -107,6 +124,7 @@ class ContactEditFormState extends State<ContactEditForm> {
     this.name = widget.contact.name;
     this.phone = widget.contact.phone.toString();
     this.email = widget.contact.email;
+    this.image = widget.contact.image;
     this.favorite = widget.contact.favorite;
     this.showNotification = widget.contact.showNotification;
     this.birthday = widget.contact.birthday;
@@ -140,6 +158,7 @@ class ContactEditFormState extends State<ContactEditForm> {
     contact.name = nameController.text;
     contact.phone = phoneController.text;
     contact.email = emailController.text;
+    contact.image = this.image;
     contact.favorite = this.favorite;
     contact.showNotification = this.showNotification;
     contact.category = this.dropdownValue;
@@ -226,6 +245,7 @@ class ContactEditFormState extends State<ContactEditForm> {
                 children: <Widget>[
                   TextFormField(
                     onChanged: (value) {
+                      this.name = value;
                       setState(() {
                         this.name = value;
                       });
@@ -623,10 +643,17 @@ class ContactEditFormState extends State<ContactEditForm> {
                       : 15),
           child: Column(
             children: <Widget>[
-              // ContactImage(
-              //   context: context,
-              //   image: widget.contact.image,
-              // ),
+              Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  ContactImage(
+                    context: context,
+                    image: this.image,
+                  ),
+                  Positioned(top: 0, child: AdmobUtils.admobBanner()),
+                ],
+              ),
+              _buildCamera(context),
               _buildPreviewText(),
 
               // Hero(
@@ -675,6 +702,46 @@ class ContactEditFormState extends State<ContactEditForm> {
           height: 30,
         )
       ],
+    );
+  }
+
+  RaisedButton _buildCamera(BuildContext context) {
+    return RaisedButton(
+      color: Theme.of(context).accentColor,
+      onPressed: () async {
+        var permissionStatus = await widget._permissionHandler
+            .checkPermissionStatus(PermissionGroup.camera);
+        final cameras = await availableCameras();
+        final firstCamera = cameras.first;
+
+        switch (permissionStatus) {
+          case PermissionStatus.granted:
+            {
+              image = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CameraActivity(
+                          camera: firstCamera,
+                        )),
+              );
+              Scaffold.of(context).showSnackBar(SnackBar(
+                  content:
+                      Text(translatedText("message_picture_taken", context))));
+              print(image.toString());
+            }
+            break;
+          case PermissionStatus.denied:
+            {
+              await widget._requestCameraPermission();
+            }
+            break;
+          default:
+        }
+      },
+      child: Icon(
+        Icons.camera_alt,
+        color: Colors.white,
+      ),
     );
   }
 }

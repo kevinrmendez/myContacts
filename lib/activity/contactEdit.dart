@@ -23,16 +23,6 @@ class ContactEdit extends StatelessWidget {
       body: Stack(children: <Widget>[
         ListView(
           children: <Widget>[
-            Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                ContactImage(
-                  context: context,
-                  image: contact.image,
-                ),
-                Positioned(top: 0, child: AdmobUtils.admobBanner()),
-              ],
-            ),
             ContactEditForm(contact: contact, context: context, index: index)
           ],
         ),
