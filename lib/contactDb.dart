@@ -25,11 +25,37 @@ class ContactDb {
 
   Future<void> deleteDuplicateContacts() async {
     final Database db = await getDb();
-    db.execute(
-      "DELETE FROM contacts WHERE ROWID NOT IN (SELECT MIN(ROWID) FROM contacts GROUP BY  name, phone, email, image, category, birthday, address ,organization ,website, note , favorite, showNotification )",
-    );
     ContactDb contactDb = ContactDb();
     List<Contact> contacts = await contactDb.contacts();
+    List<Contact> cleanList = [];
+    print(contacts.toString());
+    await db.execute(
+      "DELETE FROM contacts WHERE ROWID NOT IN (SELECT MIN(ROWID) FROM contacts GROUP BY  name, phone, email, image, category)",
+    );
+
+    // int index = 0;
+    // Contact contact;
+    // contacts.forEach((currentContact) {
+    //   if (contact == null) {
+    //     contact = currentContact;
+    //   } else {
+    //     if (contact.name == currentContact.name &&
+    //         contact.phone == currentContact.phone &&
+    //         contact.email == currentContact.email) {
+    //       cleanList.add(contact);
+    //     } else {
+    //       cleanList.add(currentContact);
+    //     }
+    //   }
+    //   // index++;
+    // });
+    // contactDb.deleteAllContacts();
+    // cleanList.forEach((contact) {
+    //   contactDb.insertContact(contact);
+    // });
+    // ContactDb contactDb = ContactDb();
+    contacts = await contactDb.contacts();
+    print(contacts.toString());
     contactService.updateContacts(contacts);
 
     return;
@@ -56,7 +82,7 @@ class ContactDb {
     // Convert the List<Map<String, dynamic> into a List<Contact>.
     return List.generate(maps.length, (i) {
       return Contact(
-        // id: maps[i]['id'],
+        id: maps[i]['id'],
         name: maps[i]['name'],
         phone: maps[i]['phone'],
         email: maps[i]['email'],

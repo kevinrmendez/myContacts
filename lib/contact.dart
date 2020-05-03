@@ -31,7 +31,7 @@ class Contact {
     this.name,
     this.phone,
     this.image = "",
-    // this.id,
+    this.id,
     this.email = "",
     this.category,
     this.birthday = "",
@@ -42,8 +42,12 @@ class Contact {
     this.favorite = 0,
     this.showNotification = 0,
   }) {
-    this.id = Contact.contactId;
-    Contact.contactId++;
+    if (id == null) {
+      this.id = Contact.contactId;
+      Contact.contactId++;
+    } else {
+      this.id = id;
+    }
   }
 
   Map<String, dynamic> toMap() {

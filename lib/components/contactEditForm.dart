@@ -364,11 +364,11 @@ class ContactEditFormState extends State<ContactEditForm> {
                         if (showDetails) {
                           widget.scrollController.animateTo(
                               MediaQuery.of(context).size.height,
-                              duration: Duration(seconds: 2),
+                              duration: Duration(seconds: 1),
                               curve: Curves.easeOut);
                         } else {
                           widget.scrollController.animateTo(0.0,
-                              duration: Duration(seconds: 2),
+                              duration: Duration(seconds: 1),
                               curve: Curves.easeOut);
                         }
                       },
@@ -595,7 +595,7 @@ class ContactEditFormState extends State<ContactEditForm> {
           ? Colors.transparent
           : Colors.transparent,
       // : Theme.of(context).primaryColor,
-      padding: EdgeInsets.symmetric(vertical: 4),
+      // padding: EdgeInsets.symmetric(vertical: 4),
       width: MediaQuery.of(context).size.width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -670,44 +670,48 @@ class ContactEditFormState extends State<ContactEditForm> {
           //             : 0
           //             ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Stack(
-                alignment: Alignment.center,
+                alignment: Alignment.topCenter,
                 children: <Widget>[
                   ContactImage(
                     context: context,
                     image: this.image,
                   ),
-                  Positioned(bottom: 10, child: _buildCamera(context)),
+                  Positioned(bottom: 5, child: _buildCamera(context)),
                 ],
               ),
               _buildPreviewText(),
             ],
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            contact.phone != ""
-                ? WidgetUtils.urlButtons(
-                    color: Theme.of(context).primaryColor,
-                    url: "tel:${contact.phone.toString()}",
-                    icon: Icon(
-                      Icons.phone,
-                      color: Colors.white,
-                    ))
-                : const SizedBox(),
-            contact.email != ""
-                ? WidgetUtils.urlButtons(
-                    color: Theme.of(context).primaryColor,
-                    url: 'mailto:${contact.email}',
-                    icon: Icon(
-                      Icons.email,
-                      color: Colors.white,
-                    ))
-                : const SizedBox(),
-            _buildShareButton()
-          ],
+        Container(
+          height: 35,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              contact.phone != ""
+                  ? WidgetUtils.urlButtons(
+                      color: Theme.of(context).primaryColor,
+                      url: "tel:${contact.phone.toString()}",
+                      icon: Icon(
+                        Icons.phone,
+                        color: Colors.white,
+                      ))
+                  : const SizedBox(),
+              contact.email != ""
+                  ? WidgetUtils.urlButtons(
+                      color: Theme.of(context).primaryColor,
+                      url: 'mailto:${contact.email}',
+                      icon: Icon(
+                        Icons.email,
+                        color: Colors.white,
+                      ))
+                  : const SizedBox(),
+              _buildShareButton()
+            ],
+          ),
         ),
         _buildForm(),
         SizedBox(

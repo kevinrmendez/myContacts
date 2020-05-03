@@ -81,6 +81,7 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
       translatedText("group_coworker", widget.context),
     ];
     dropdownValue = category[0];
+    contactId = 0;
   }
 
   @override
@@ -122,7 +123,7 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
     Scaffold.of(context).showSnackBar(SnackBar(
         content: Text(translatedText("snackbar_contact_save", context))));
     _resetFormFields();
-    contactId++;
+    // contactId++;
     print(contact);
     print(contactId);
     print(contact.email);
@@ -198,7 +199,7 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
                 image: _image,
               ),
               Positioned(top: 0, child: AdmobUtils.admobBanner()),
-              Positioned(bottom: 10, child: _buildCamera())
+              Positioned(bottom: 5, child: _buildCamera())
             ],
           ),
           Align(

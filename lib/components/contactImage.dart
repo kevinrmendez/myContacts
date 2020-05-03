@@ -22,7 +22,7 @@ class ContactImage extends StatelessWidget {
           image == null || image == ""
               ? Container(
                   // padding: EdgeInsets.only(top: 50),
-                  height: MediaQuery.of(context).size.height * .45,
+                  height: MediaQuery.of(context).size.height * .42,
                   // height: 300,
                   child: Center(
                     // child: CircleAvatar(
@@ -82,7 +82,7 @@ class ContactImage extends StatelessWidget {
               //     ),
               //   )
               : Container(
-                  height: MediaQuery.of(context).size.height * .45,
+                  height: MediaQuery.of(context).size.height * .42,
                   // height: 300,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(

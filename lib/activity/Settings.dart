@@ -390,6 +390,7 @@ class SettingsState extends State<Settings> {
                                         ),
                                         onPressed: () async {
                                           await _db.deleteDuplicateContacts();
+
                                           _scaffoldKey.currentState.showSnackBar(
                                               snackBar(translatedText(
                                                   "snackbar_contact_delete_duplicate",

@@ -100,6 +100,7 @@ class _ContactList2State extends State<ContactList2> {
           itemBuilder: (BuildContext context, int index) {
             if (filteredNames[index].name != null ||
                 filteredNames[index].name == "") {
+              print("CONTACTID:  ${filteredNames[index].id}");
               return Column(
                 children: <Widget>[
                   // index % 10 == 0 ? AdmobUtils.admobBanner() : SizedBox(),
