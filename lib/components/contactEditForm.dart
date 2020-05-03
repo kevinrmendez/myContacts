@@ -34,6 +34,7 @@ class ContactEditForm extends StatefulWidget {
     "coworker"
   ];
   final PermissionHandler _permissionHandler = PermissionHandler();
+  final _formKey = GlobalKey<FormState>();
 
   ContactEditForm({@required this.contact, this.context, this.index});
 
@@ -63,7 +64,7 @@ class ContactEditFormState extends State<ContactEditForm> {
   List<String> category;
 
   final ContactDb db = ContactDb();
-  final _formKey = GlobalKey<FormState>();
+
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
@@ -238,7 +239,7 @@ class ContactEditFormState extends State<ContactEditForm> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Form(
-            key: _formKey,
+            key: widget._formKey,
             child: Container(
               width: 280,
               child: Column(
@@ -633,14 +634,16 @@ class ContactEditFormState extends State<ContactEditForm> {
     // contact = ModalRoute.of(context).settings.arguments;
     // Build a Form widget using the _formKey created above.
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.symmetric(
-              vertical:
-                  widget.contact.image == null || widget.contact.image == ""
-                      ? 15
-                      : 15),
+          // padding: EdgeInsets.symmetric(
+          //     vertical:
+          //         widget.contact.image == null || widget.contact.image == ""
+          //             ? 0
+          //             : 0
+          //             ),
           child: Column(
             children: <Widget>[
               Stack(
@@ -650,26 +653,10 @@ class ContactEditFormState extends State<ContactEditForm> {
                     context: context,
                     image: this.image,
                   ),
-                  Positioned(top: 0, child: AdmobUtils.admobBanner()),
                 ],
               ),
               _buildCamera(context),
               _buildPreviewText(),
-
-              // Hero(
-              //   child: CircleAvatar(
-              //     radius:
-              //         widget.contact.image == null || widget.contact.image == ""
-              //             ? MediaQuery.of(context).size.width * .17
-              //             : MediaQuery.of(context).size.width * .3,
-              //     backgroundColor: Theme.of(context).primaryColor,
-              //     backgroundImage:
-              //         widget.contact.image == "" || widget.contact.image == null
-              //             ? AssetImage('assets/person-icon-w-s3p.png')
-              //             : FileImage(File(widget.contact.image)),
-              //   ),
-              //   tag: widget.contact.name + widget.index.toString(),
-              // ),
             ],
           ),
         ),
@@ -705,42 +692,45 @@ class ContactEditFormState extends State<ContactEditForm> {
     );
   }
 
-  RaisedButton _buildCamera(BuildContext context) {
-    return RaisedButton(
-      color: Theme.of(context).accentColor,
-      onPressed: () async {
-        var permissionStatus = await widget._permissionHandler
-            .checkPermissionStatus(PermissionGroup.camera);
-        final cameras = await availableCameras();
-        final firstCamera = cameras.first;
+  Widget _buildCamera(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 5),
+      child: RaisedButton(
+        color: Theme.of(context).accentColor,
+        onPressed: () async {
+          var permissionStatus = await widget._permissionHandler
+              .checkPermissionStatus(PermissionGroup.camera);
+          final cameras = await availableCameras();
+          final firstCamera = cameras.first;
 
-        switch (permissionStatus) {
-          case PermissionStatus.granted:
-            {
-              image = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CameraActivity(
-                          camera: firstCamera,
-                        )),
-              );
-              Scaffold.of(context).showSnackBar(SnackBar(
-                  content:
-                      Text(translatedText("message_picture_taken", context))));
-              print(image.toString());
-            }
-            break;
-          case PermissionStatus.denied:
-            {
-              await widget._requestCameraPermission();
-            }
-            break;
-          default:
-        }
-      },
-      child: Icon(
-        Icons.camera_alt,
-        color: Colors.white,
+          switch (permissionStatus) {
+            case PermissionStatus.granted:
+              {
+                image = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CameraActivity(
+                            camera: firstCamera,
+                          )),
+                );
+                Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        translatedText("message_picture_taken", context))));
+                print(image.toString());
+              }
+              break;
+            case PermissionStatus.denied:
+              {
+                await widget._requestCameraPermission();
+              }
+              break;
+            default:
+          }
+        },
+        child: Icon(
+          Icons.camera_alt,
+          color: Colors.white,
+        ),
       ),
     );
   }
