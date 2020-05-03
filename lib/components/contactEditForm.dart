@@ -220,8 +220,8 @@ class ContactEditFormState extends State<ContactEditForm> {
   Future _selectDate() async {
     DateTime picked = await showDatePicker(
         context: context,
-        initialDate: DateTime(1990),
-        firstDate: DateTime(1990),
+        initialDate: DateTime(1980),
+        firstDate: DateTime(1980),
         lastDate: DateTime.now().add(Duration(days: 365)));
     if (picked != null) {
       var formatter = DateFormat('dd/MM/yyyy');
@@ -317,41 +317,47 @@ class ContactEditFormState extends State<ContactEditForm> {
                       _dropDown()
                     ],
                   ),
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.star,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        translatedText("hintText_favorite", context),
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      Switch(
-                        onChanged: (bool value) {
-                          setState(() {
-                            this.favorite = boolToInt(value);
-                          });
-                        },
-                        value: intToBool(this.favorite),
-                        // value: false,
-                      ),
-                    ],
-                  ),
-                  RaisedButton(
-                    color: Theme.of(context).accentColor,
-                    child: Text(
-                      'show details',
-                      style: TextStyle(color: Colors.white),
+                  Container(
+                    height: 20,
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.star,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          translatedText("hintText_favorite", context),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        Switch(
+                          onChanged: (bool value) {
+                            setState(() {
+                              this.favorite = boolToInt(value);
+                            });
+                          },
+                          value: intToBool(this.favorite),
+                          // value: false,
+                        ),
+                      ],
                     ),
-                    onPressed: () {
-                      setState(() {
-                        showDetails = !showDetails;
-                      });
-                    },
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 4),
+                    child: RaisedButton(
+                      color: Theme.of(context).accentColor,
+                      child: Text(
+                        'show details',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          showDetails = !showDetails;
+                        });
+                      },
+                    ),
                   ),
                   showDetails
                       ? Column(
@@ -370,7 +376,8 @@ class ContactEditFormState extends State<ContactEditForm> {
                               // keyboardType: TextInputType.datetime,
                               controller: birthdayController,
                             ),
-                            birthday.length > 0
+                            birthday.length > 900000000000 //hide notification
+                                // birthday.length > 0   //ORIGINAL notification
                                 ? Column(
                                     children: <Widget>[
                                       Row(

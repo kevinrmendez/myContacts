@@ -95,19 +95,6 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
     print(appLifecycleState);
   }
 
-  void _menuSelected(choice) {
-    switch (choice) {
-      case 'settings':
-        {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Settings()),
-          );
-        }
-        break;
-    }
-  }
-
   Widget _dropDown() {
     return DropdownButton(
       value: dropdownValue,
@@ -287,13 +274,7 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              SizedBox(
-                                width: 30,
-                              ),
                               Container(
-                                // width: 20,
-                                // padding:
-                                //     EdgeInsets.symmetric(horizontal: 30, vertical: 16),
                                 child: RaisedButton(
                                   color: Theme.of(context).primaryColor,
                                   onPressed: () async {
