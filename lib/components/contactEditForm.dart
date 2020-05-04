@@ -596,13 +596,15 @@ class ContactEditFormState extends State<ContactEditForm> {
           : Colors.transparent,
       // : Theme.of(context).primaryColor,
       // padding: EdgeInsets.symmetric(vertical: 4),
-      width: MediaQuery.of(context).size.width,
+      // width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width * .75,
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width * .75,
+          Flexible(
+            // width: MediaQuery.of(context).size.width * .75,
             child: Text(
               text,
               textAlign: TextAlign.center,
