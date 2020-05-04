@@ -41,6 +41,7 @@
   "button_save": "save",
   "button_delete": "delete",
   "button_rate": "rate app",
+  "button_contact_details": "show details",
   "actions_import_contacts": "importing contacts...",
   "snackbar_contact_delete_all": "All your contacts have been deleted!",
   "snackbar_contact_delete_duplicate": "All your contacts duplicate have been deleted!",

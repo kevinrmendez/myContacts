@@ -13,6 +13,8 @@ import 'package:kevin_app/ContactDb.dart';
 
 import '../app_localizations.dart';
 
+//NOT USED
+
 class ContactForm extends StatefulWidget {
   final BuildContext context;
   final PermissionHandler _permissionHandler = PermissionHandler();

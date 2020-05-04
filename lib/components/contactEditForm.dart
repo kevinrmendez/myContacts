@@ -354,7 +354,7 @@ class ContactEditFormState extends State<ContactEditForm> {
                     child: RaisedButton(
                       color: Theme.of(context).accentColor,
                       child: Text(
-                        'show details',
+                        translatedText("button_contact_details", context),
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {
@@ -392,7 +392,7 @@ class ContactEditFormState extends State<ContactEditForm> {
                               controller: birthdayController,
                             ),
                             birthday.length > 900000000000 //hide notification
-                                // birthday.length > 0   //ORIGINAL notification
+                                // birthday.length > 0 //ORIGINAL notification
                                 ? Column(
                                     children: <Widget>[
                                       Row(

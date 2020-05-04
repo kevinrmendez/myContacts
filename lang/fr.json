@@ -41,6 +41,7 @@
   "button_save": "enregistrer",
   "button_delete": "supprimer",
   "button_rate": "taux d'application",
+  "button_contact_details": "montre plus",
   "actions_import_contacts": "l'importation de contacts...",
   "snackbar_contact_delete_all": "Tous vos contacts ont été supprimés!",
   "snackbar_contact_delete_duplicate": "Tous vos contacts en double ont été supprimés!",

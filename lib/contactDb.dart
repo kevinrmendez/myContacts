@@ -108,7 +108,7 @@ class ContactDb {
     List contacts = await this.contacts();
     Contact contact;
     contacts.forEach((dbContact) {
-      if (contact.id == id) {
+      if (dbContact.id == id) {
         contact = dbContact;
       }
     });

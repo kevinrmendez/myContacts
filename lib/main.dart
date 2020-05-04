@@ -268,7 +268,81 @@ class HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    //init local notifications
+    // flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    // var initializationSettingsAndroid =
+    //     AndroidInitializationSettings("ic_launcher");
+    // var initializationSettingsIOS = IOSInitializationSettings();
+    // var initializationSettings = InitializationSettings(
+    //     initializationSettingsAndroid, initializationSettingsIOS);
+    // //TODO: FIX CONTACT ID  TO STOP DUPLICATE NOTIFICATION
+    // flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    //     onSelectNotification: onSelectNotificationBirthday);
   }
+
+  // Future onSelectNotificationBirthday(String payload) async {
+  //   var contactIdString = payload.split(" ");
+  //   print('hola');
+  //   var contactId = int.parse(contactIdString[0]);
+  //   print(contactId);
+  //   var dialogDescription = payload.substring(1);
+  //   print("CONTACTNOASDFDS");
+
+  //   Contact contact = await db.getContactById(contactId);
+  //   print("CONTACTNOTI: $contact");
+  //   showDialog(
+  //       context: context,
+  //       builder: (_) => Dialog(
+  //             child: Container(
+  //               height: MediaQuery.of(context).size.height * .3,
+  //               child: Column(
+  //                 children: <Widget>[
+  //                   Container(
+  //                       padding: EdgeInsets.symmetric(vertical: 14),
+  //                       width: MediaQuery.of(context).size.width,
+  //                       color: Theme.of(context).primaryColor,
+  //                       child: Text(
+  //                         translatedText(
+  //                             "dialog_birthday_reminder_title", context),
+  //                         textAlign: TextAlign.center,
+  //                         style: TextStyle(color: Colors.white, fontSize: 22),
+  //                       )),
+  //                   SizedBox(
+  //                     height: 30,
+  //                   ),
+  //                   Column(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     children: <Widget>[
+  //                       Container(
+  //                         width: MediaQuery.of(context).size.width * .8,
+  //                         child: Text(
+  //                           " $dialogDescription",
+  //                           textAlign: TextAlign.center,
+  //                           style: TextStyle(fontSize: 18),
+  //                         ),
+  //                       ),
+  //                       SizedBox(
+  //                         height: 20,
+  //                       ),
+  //                       RaisedButton(
+  //                         color: Theme.of(context).accentColor,
+  //                         child: Text(
+  //                           translatedText("button_close", context),
+  //                           style: TextStyle(fontSize: 18, color: Colors.white),
+  //                         ),
+  //                         onPressed: () {
+  //                           flutterLocalNotificationsPlugin.cancel(contactId);
+  //                           Navigator.of(context).pop();
+  //                         },
+  //                       )
+  //                     ],
+  //                   )
+  //                 ],
+  //               ),
+  //             ),
+  //           ));
+  //   flutterLocalNotificationsPlugin.cancel(contactId);
+  // }
 
   @override
   void dispose() {

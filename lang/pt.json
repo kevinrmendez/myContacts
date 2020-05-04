@@ -41,6 +41,7 @@
   "button_save": "guardar",
   "button_delete": "apagar",
   "button_rate": "aplicação de taxas",
+  "button_contact_details": "mostre mais",
   "actions_import_contacts": "importar os contactos...",
   "snackbar_contact_delete_all": "Todos os teus contactos foram apagados!",
   "snackbar_contact_delete_duplicate": "Todos os seus contactos duplicados foram apagados!",
