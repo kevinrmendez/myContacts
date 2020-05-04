@@ -30,25 +30,29 @@ class ContactDb {
     List<Contact> cleanList = [];
     print(contacts.toString());
     await db.execute(
-      "DELETE FROM contacts WHERE ROWID NOT IN (SELECT MIN(ROWID) FROM contacts GROUP BY  name, phone, email, image, category)",
+      "DELETE FROM contacts WHERE ROWID NOT IN (SELECT MIN(ROWID) FROM contacts GROUP BY  name, phone, email)",
     );
-
+    // await db.execute(
+    //   "DELETE FROM contacts WHERE ROWID NOT IN (SELECT MIN(ROWID) FROM contacts GROUP BY  name, phone, email, image, category, birthday, address ,organization ,website, note , favorite, showNotification )",
+    // );
     // int index = 0;
     // Contact contact;
     // contacts.forEach((currentContact) {
-    //   if (contact == null) {
+    //   if (index == 0) {
     //     contact = currentContact;
     //   } else {
     //     if (contact.name == currentContact.name &&
-    //         contact.phone == currentContact.phone &&
-    //         contact.email == currentContact.email) {
+    //         contact.phone == currentContact.phone) {
     //       cleanList.add(contact);
     //     } else {
     //       cleanList.add(currentContact);
+    //       contact = currentContact;
     //     }
     //   }
-    //   // index++;
+    //   index++;
     // });
+    // print("cleanlist");
+    // print(cleanList);
     // contactDb.deleteAllContacts();
     // cleanList.forEach((contact) {
     //   contactDb.insertContact(contact);
