@@ -146,6 +146,28 @@ class WidgetUtils {
     );
   }
 
+  static Widget settingsTile({String title, Function onTap, IconData icon}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              title,
+              style: TextStyle(fontSize: 16.5),
+            ),
+            Icon(
+              icon,
+              color: GREY,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   static PreferredSizeWidget appBar(
       {String title, Color iconColor, BuildContext context}) {
     void _menuSelected(choice) {

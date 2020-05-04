@@ -6,11 +6,13 @@ import 'package:kevin_app/activity/contactActivity.dart';
 import 'package:kevin_app/activity/statisticsActivity.dart';
 import 'package:kevin_app/components/expandableExportSettings.dart';
 import 'package:kevin_app/components/expandableThemeSettings.dart';
+import 'package:kevin_app/components/exportSettings.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
+import 'package:kevin_app/utils/widgetUitls.dart';
 
 import 'dart:async';
 
@@ -51,6 +53,7 @@ class SettingsState extends State<Settings> {
   bool importedContactsProgress;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final ContactDb db = ContactDb();
+  PermissionStatus _permissionStatus;
 
   // ThemeData _theme;
   // MyThemeKeys themekey;
@@ -191,26 +194,22 @@ class SettingsState extends State<Settings> {
       });
     }
 
-    Widget _settingsTile({String title, Function onTap, IconData icon}) {
-      return InkWell(
-        onTap: onTap,
-        child: Container(
-          padding: EdgeInsets.fromLTRB(15, 15, 15, 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                title,
-                style: TextStyle(fontSize: 16.5),
-              ),
-              Icon(
-                icon,
-                color: GREY,
-              )
-            ],
-          ),
-        ),
-      );
+    Future<PermissionStatus> _checkPermission(
+        PermissionGroup permissionGroup) async {
+      PermissionStatus permission =
+          await PermissionHandler().checkPermissionStatus(permissionGroup);
+      return permission;
+    }
+
+    Future<Map<PermissionGroup, PermissionStatus>> _requestPermission(
+        PermissionGroup permissionGroup) async {
+      // await PermissionHandler()
+      //     .shouldShowRequestPermissionRationale(PermissionGroup.contacts);
+      // await PermissionHandler().openAppSettings();
+      _permissionStatus = await _checkPermission(permissionGroup);
+      if (_permissionStatus != PermissionStatus.granted) {
+        return await PermissionHandler().requestPermissions([permissionGroup]);
+      }
     }
 
     return WillPopScope(
@@ -240,7 +239,7 @@ class SettingsState extends State<Settings> {
               Flexible(
                 child: ListView(
                   children: <Widget>[
-                    _settingsTile(
+                    WidgetUtils.settingsTile(
                         icon: Icons.info,
                         title: translatedText("settings_about", context),
                         onTap: () {
@@ -250,7 +249,7 @@ class SettingsState extends State<Settings> {
                                 builder: (context) => AboutActivity()),
                           );
                         }),
-                    _settingsTile(
+                    WidgetUtils.settingsTile(
                       icon: Icons.remove_circle,
                       title: translatedText("settings_adfree", context),
                       onTap: () async {
@@ -263,7 +262,7 @@ class SettingsState extends State<Settings> {
                         }
                       },
                     ),
-                    _settingsTile(
+                    WidgetUtils.settingsTile(
                         icon: Icons.assessment,
                         title: translatedText("settings_statistics", context),
                         onTap: () {
@@ -273,7 +272,7 @@ class SettingsState extends State<Settings> {
                                 builder: (context) => StatisticsActivity()),
                           );
                         }),
-                    _settingsTile(
+                    WidgetUtils.settingsTile(
                         icon: Icons.feedback,
                         title: translatedText("settings_rate_app", context),
                         onTap: () async {
@@ -286,7 +285,7 @@ class SettingsState extends State<Settings> {
                           }
                         }),
                     importedContacts == false
-                        ? _settingsTile(
+                        ? WidgetUtils.settingsTile(
                             icon: Icons.import_contacts,
                             title: translatedText(
                                 "settings_import_contacts", context),
@@ -304,7 +303,7 @@ class SettingsState extends State<Settings> {
                               }
                             })
                         : const SizedBox(),
-                    _settingsTile(
+                    WidgetUtils.settingsTile(
                         icon: Icons.delete,
                         title:
                             translatedText("settings_delete_contacts", context),
@@ -357,7 +356,7 @@ class SettingsState extends State<Settings> {
                                 );
                               });
                         }),
-                    _settingsTile(
+                    WidgetUtils.settingsTile(
                         icon: Icons.content_cut,
                         title: translatedText(
                             "settings_delete_contacts_duplicate", context),
@@ -402,17 +401,8 @@ class SettingsState extends State<Settings> {
                                 );
                               });
                         }),
-                    // ListTile(
-                    //     title: Text(translatedText("settings_about", context)),
-                    //     onTap: () {
-                    //       Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: (context) => AboutActivity()),
-                    //       );
-                    //     },
-                    //     trailing: Icon(Icons.info)),
-                    ExpandableExportSettings(context),
+                    ExportSettings(),
+                    // ExpandableExportSettings(context),
                     ExpandableThemeSettings(context),
                   ],
                 ),

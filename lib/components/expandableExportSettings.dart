@@ -72,7 +72,7 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
         body: translatedText("text", context),
         subject: translatedText("email_csv_subject", context),
         // recipients: ['example@example.com'],
-        attachmentPath: '${file.path}',
+        attachmentPaths: ['${file.path}'],
       );
       await FlutterEmailSender.send(email);
       _scaffoldKey.currentState.showSnackBar(
@@ -161,7 +161,7 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
         body: translatedText("email_pdf_body", context),
         subject: translatedText("email_pdf_subject", context),
         // recipients: ['example@example.com'],
-        attachmentPath: '${file.path}',
+        attachmentPaths: ['${file.path}'],
       );
       await FlutterEmailSender.send(email);
     }
@@ -222,7 +222,7 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
         body: translatedText("email_vcf_body", context),
         subject: translatedText("email_vcf_subject", context),
         // recipients: ['example@example.com'],
-        attachmentPath: "${file.path}",
+        attachmentPaths: ["${file.path}"],
       );
       await FlutterEmailSender.send(email);
     }

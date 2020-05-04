@@ -33,7 +33,7 @@ dependencies:
   csv:
   pdf:
   vcard: ^0.1.1
-  flutter_email_sender:
+  flutter_email_sender: ^3.0.1
   flutter_localizations:
     sdk: flutter
   strings:
