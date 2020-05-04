@@ -43,6 +43,8 @@
   "button_rate": "taux d'application",
   "button_contact_details": "montre plus",
   "actions_import_contacts": "l'importation de contacts...",
+  "dialog_title_importing": "importation de contacts",
+  "dialog_description_importing": "importation de contacts ... veuillez patienter",
   "snackbar_contact_delete_all": "Tous vos contacts ont été supprimés!",
   "snackbar_contact_delete_duplicate": "Tous vos contacts en double ont été supprimés!",
   "snackbar_contact_import": "Tous vos contacts de votre téléphone ont été importés!",

@@ -43,6 +43,8 @@
   "button_rate": "rate app",
   "button_contact_details": "show details",
   "actions_import_contacts": "importing contacts...",
+  "dialog_title_importing": "importing contacts",
+  "dialog_description_importing": "importing contacts...please wait",
   "snackbar_contact_delete_all": "All your contacts have been deleted!",
   "snackbar_contact_delete_duplicate": "All your contacts duplicate have been deleted!",
   "snackbar_contact_import": "All your contacts from your phone have been imported!",

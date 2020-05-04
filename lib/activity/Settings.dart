@@ -130,20 +130,25 @@ class SettingsState extends State<Settings> {
           barrierDismissible: false,
           context: context,
           builder: (_) => WidgetUtils.dialog(
-              title: 'importing contacts',
+              title: translatedText("dialog_title_importing", context),
               context: context,
               height: MediaQuery.of(context).size.height * .35,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Text(
-                    translatedText(
-                      "actions_import_contacts",
-                      context,
-                    ),
-                    style: TextStyle(
-                      fontSize: 20,
-                      // fontWeight: FontWeight.bold
+                  Container(
+                    width: MediaQuery.of(context).size.width * .8,
+                    child: Text(
+                      translatedText(
+                        "dialog_description_importing",
+                        context,
+                      ),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+
+                        // fontWeight: FontWeight.bold
+                      ),
                     ),
                   ),
                   SizedBox(

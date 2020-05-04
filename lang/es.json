@@ -43,6 +43,8 @@
   "button_rate": "calificar aplicación",
   "button_contact_details": "mostrar más",
   "actions_import_contacts": "importando contactos...",
+  "dialog_title_importing": "importando contactos",
+  "dialog_description_importing": "importando contactos ... por favor espere",
   "snackbar_contact_delete_all": "¡Todos tus contactos han sido borrados!!",
   "snackbar_contact_delete_duplicate": "Todos tus contactos duplicados han sido eliminados!",
   "snackbar_contact_import": "Todos sus contactos desde su teléfono han sido importados!",
