@@ -318,105 +318,117 @@ class SettingsState extends State<Settings> {
                               }
                             })
                         : const SizedBox(),
-                    WidgetUtils.settingsTile(
-                        icon: Icons.delete,
-                        title:
-                            translatedText("settings_delete_contacts", context),
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text(translatedText(
-                                      "message_dialog_delete_contacts",
-                                      context)),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                        child: Text(
-                                          translatedText(
-                                              "button_close", context),
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        }),
-                                    FlatButton(
-                                        child: Text(
-                                          translatedText("button_ok", context),
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        ),
-                                        onPressed: () async {
-                                          bool isDataDeleted =
-                                              await _db.deleteAllContacts();
-                                          if (isDataDeleted) {
-                                            _scaffoldKey.currentState.showSnackBar(
-                                                snackBar(translatedText(
-                                                    "snackbar_contact_delete_all",
-                                                    context)));
-                                            setState(() {
-                                              importedContacts = false;
-                                              prefs.setBool('importedContacts',
-                                                  importedContacts);
-                                            });
-                                            contactService.removeAll();
-                                          }
+                    contactService.current.length > 0
+                        ? WidgetUtils.settingsTile(
+                            icon: Icons.delete,
+                            title: translatedText(
+                                "settings_delete_contacts", context),
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(translatedText(
+                                          "message_dialog_delete_contacts",
+                                          context)),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                            child: Text(
+                                              translatedText(
+                                                  "button_close", context),
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            }),
+                                        FlatButton(
+                                            child: Text(
+                                              translatedText(
+                                                  "button_ok", context),
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor),
+                                            ),
+                                            onPressed: () async {
+                                              bool isDataDeleted =
+                                                  await _db.deleteAllContacts();
+                                              if (isDataDeleted) {
+                                                _scaffoldKey.currentState
+                                                    .showSnackBar(snackBar(
+                                                        translatedText(
+                                                            "snackbar_contact_delete_all",
+                                                            context)));
+                                                setState(() {
+                                                  importedContacts = false;
+                                                  prefs.setBool(
+                                                      'importedContacts',
+                                                      importedContacts);
+                                                });
+                                                contactService.removeAll();
+                                              }
 
-                                          Navigator.pop(context);
-                                        })
-                                  ],
-                                );
-                              });
-                        }),
-                    WidgetUtils.settingsTile(
-                        icon: Icons.content_cut,
-                        title: translatedText(
-                            "settings_delete_contacts_duplicate", context),
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text(translatedText(
-                                      "message_dialog_delete_duplicate_contacts",
-                                      context)),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                        child: Text(
-                                          translatedText(
-                                              "button_close", context),
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        }),
-                                    FlatButton(
-                                        child: Text(
-                                          translatedText("button_ok", context),
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        ),
-                                        onPressed: () async {
-                                          await _db.deleteDuplicateContacts();
+                                              Navigator.pop(context);
+                                            })
+                                      ],
+                                    );
+                                  });
+                            })
+                        : SizedBox(),
+                    contactService.current.length > 0
+                        ? WidgetUtils.settingsTile(
+                            icon: Icons.content_cut,
+                            title: translatedText(
+                                "settings_delete_contacts_duplicate", context),
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(translatedText(
+                                          "message_dialog_delete_duplicate_contacts",
+                                          context)),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                            child: Text(
+                                              translatedText(
+                                                  "button_close", context),
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            }),
+                                        FlatButton(
+                                            child: Text(
+                                              translatedText(
+                                                  "button_ok", context),
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor),
+                                            ),
+                                            onPressed: () async {
+                                              await _db
+                                                  .deleteDuplicateContacts();
 
-                                          _scaffoldKey.currentState.showSnackBar(
-                                              snackBar(translatedText(
-                                                  "snackbar_contact_delete_duplicate",
-                                                  context)));
+                                              _scaffoldKey.currentState
+                                                  .showSnackBar(snackBar(
+                                                      translatedText(
+                                                          "snackbar_contact_delete_duplicate",
+                                                          context)));
 
-                                          Navigator.pop(context);
-                                        })
-                                  ],
-                                );
-                              });
-                        }),
-                    ExportSettings(),
+                                              Navigator.pop(context);
+                                            })
+                                      ],
+                                    );
+                                  });
+                            })
+                        : SizedBox(),
+                    contactService.current.length > 0
+                        ? ExportSettings()
+                        : SizedBox(),
                     // ExpandableExportSettings(context),
                     ExpandableThemeSettings(context),
                   ],
