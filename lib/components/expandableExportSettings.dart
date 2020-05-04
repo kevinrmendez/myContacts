@@ -17,6 +17,7 @@ final ContactDb db = ContactDb();
 final _scaffoldKey = GlobalKey<ScaffoldState>();
 final snackBar = (text) => SnackBar(content: Text(text));
 
+//NOT USED
 class ExpandableExportSettings extends StatefulWidget {
   final BuildContext context;
   ExpandableExportSettings(this.context);

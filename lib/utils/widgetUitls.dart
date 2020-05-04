@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
 import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -162,6 +163,41 @@ class WidgetUtils {
               icon,
               color: GREY,
             )
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Dialog dialog(
+      {Widget child,
+      BuildContext context,
+      String title,
+      double height,
+      bool showAd = true}) {
+    return Dialog(
+      child: Container(
+        height: height,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+                padding: EdgeInsets.symmetric(vertical: 14),
+                width: MediaQuery.of(context).size.width,
+                color: Theme.of(context).primaryColor,
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontSize: 22),
+                )),
+            SizedBox(
+              height: 10,
+            ),
+            child,
+            SizedBox(
+              height: 10,
+            ),
+            showAd ? AdmobUtils.admobBanner() : SizedBox()
           ],
         ),
       ),

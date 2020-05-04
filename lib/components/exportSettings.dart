@@ -74,21 +74,39 @@ class _ExportSettingsState extends State<ExportSettings> {
 class ExportDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: Container(
-        height: MediaQuery.of(context).size.height * .6,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            ExportDialogContent(),
-            SizedBox(
-              height: 10,
-            ),
-            AdmobUtils.admobBanner()
-          ],
-        ),
-      ),
+    return WidgetUtils.dialog(
+      title: translatedText("settings_export_contacts", context),
+      context: context,
+      height: MediaQuery.of(context).size.height * .6,
+      child: ExportDialogContent(),
     );
+    // return Dialog(
+    //   child: Container(
+    //     height: MediaQuery.of(context).size.height * .6,
+    //     child: Column(
+    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //       children: <Widget>[
+    //         Container(
+    //             padding: EdgeInsets.symmetric(vertical: 14),
+    //             width: MediaQuery.of(context).size.width,
+    //             color: Theme.of(context).primaryColor,
+    //             child: Text(
+    //               translatedText("settings_export_contacts", context),
+    //               textAlign: TextAlign.center,
+    //               style: TextStyle(color: Colors.white, fontSize: 22),
+    //             )),
+    //         SizedBox(
+    //           height: 10,
+    //         ),
+    //         ExportDialogContent(),
+    //         SizedBox(
+    //           height: 10,
+    //         ),
+    //         AdmobUtils.admobBanner()
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }
 
@@ -274,18 +292,6 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
     return Container(
       child: Column(
         children: <Widget>[
-          Container(
-              padding: EdgeInsets.symmetric(vertical: 14),
-              width: MediaQuery.of(context).size.width,
-              color: Theme.of(context).primaryColor,
-              child: Text(
-                translatedText("settings_export_contacts", context),
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 22),
-              )),
-          SizedBox(
-            height: 10,
-          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

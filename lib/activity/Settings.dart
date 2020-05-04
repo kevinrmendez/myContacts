@@ -129,25 +129,40 @@ class SettingsState extends State<Settings> {
       showDialog(
           barrierDismissible: false,
           context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(
-                translatedText("actions_import_contacts", context),
-              ),
-              content: Container(
-                constraints: BoxConstraints(maxHeight: 30, maxWidth: 30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: CircularProgressIndicator()),
-                  ],
-                ),
-              ),
-            );
-          });
+          builder: (_) => WidgetUtils.dialog(
+              title: 'importing contacts',
+              context: context,
+              height: MediaQuery.of(context).size.height * .35,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Text(
+                    translatedText(
+                      "actions_import_contacts",
+                      context,
+                    ),
+                    style: TextStyle(
+                      fontSize: 20,
+                      // fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    constraints: BoxConstraints(maxHeight: 30, maxWidth: 30),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                            width: 30,
+                            height: 30,
+                            child: CircularProgressIndicator()),
+                      ],
+                    ),
+                  ),
+                ],
+              )));
 
       _importContactsFromService().then((contacts) {
         setState(() {
