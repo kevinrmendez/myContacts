@@ -484,7 +484,7 @@ class ContactEditFormState extends State<ContactEditForm> {
                               decoration: InputDecoration(
                                   hintText: translatedText(
                                       "hintText_website", context),
-                                  icon: Icon(Icons.store)),
+                                  icon: Icon(Icons.web)),
                               keyboardType: TextInputType.text,
                               controller: websiteController,
                             ),
@@ -601,7 +601,8 @@ class ContactEditFormState extends State<ContactEditForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Flexible(
+          Container(
+            width: MediaQuery.of(context).size.width * .75,
             child: Text(
               text,
               textAlign: TextAlign.center,
@@ -614,9 +615,11 @@ class ContactEditFormState extends State<ContactEditForm> {
               // : Colors.white),
             ),
           ),
-          SizedBox(
-            width: 5,
-          ),
+          this.favorite == 1
+              ? SizedBox(
+                  width: 5,
+                )
+              : SizedBox(),
           SizedBox(
             height: 35,
             width: 35,
