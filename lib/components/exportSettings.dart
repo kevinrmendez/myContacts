@@ -298,7 +298,7 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
               Container(
                 width: MediaQuery.of(context).size.width * .8,
                 child: Text(
-                  " Choose the format you want to export your contacts",
+                  translatedText("settings_export_description", context),
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18),
                 ),
@@ -342,7 +342,7 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
                   RaisedButton(
                     color: Theme.of(context).primaryColor,
                     child: Text(
-                      'export',
+                      translatedText("button_export", context),
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                     onPressed: () {

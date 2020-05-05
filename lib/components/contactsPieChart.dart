@@ -64,65 +64,108 @@ class _ContactsPieChartState extends State<ContactsPieChart> {
 
   List<charts.Series<ContactCategory, int>> _createSampleData(
       BuildContext context) {
-    var themeKey = AppSettings.of(context).themeKey;
     var graphColor;
-    print("THEMEKEY: $themeKey");
-    switch (themeKey) {
-      case MyThemeKeys.BLUE:
-        {
-          graphColor = charts.MaterialPalette.blue.makeShades(4);
-          break;
-        }
-      case MyThemeKeys.BLACK:
-        {
-          graphColor = charts.MaterialPalette.gray.makeShades(4);
-          break;
-        }
-      case MyThemeKeys.GREEN:
-        {
-          graphColor = charts.MaterialPalette.green.makeShades(4);
-          break;
-        }
-      case MyThemeKeys.ORANGE:
-        {
-          graphColor = charts.MaterialPalette.deepOrange.makeShades(4);
-          break;
-        }
-      case MyThemeKeys.NAVY:
-        {
-          graphColor = charts.MaterialPalette.gray.makeShades(4);
-          break;
-        }
-      case MyThemeKeys.PINK:
+    var themeColor = AppSettings.of(context).color.value;
+    switch (themeColor) {
+      case 4293467747:
         {
           graphColor = charts.MaterialPalette.pink.makeShades(4);
           break;
         }
-      case MyThemeKeys.PURPLE:
-        {
-          graphColor = charts.MaterialPalette.purple.makeShades(4);
-          break;
-        }
-      case MyThemeKeys.RED:
+      case 4294198070:
         {
           graphColor = charts.MaterialPalette.red.makeShades(4);
           break;
         }
-      case MyThemeKeys.TEAL:
+
+      case 4284955319:
         {
-          graphColor = charts.MaterialPalette.teal.makeShades(4);
+          graphColor = charts.MaterialPalette.purple.makeShades(4);
           break;
         }
-      case MyThemeKeys.YELLOW:
+      case 4288423856:
         {
-          graphColor = charts.MaterialPalette.yellow.makeShades(4);
+          graphColor = charts.MaterialPalette.purple.makeShades(4);
           break;
         }
-      case MyThemeKeys.DARK:
+      case 4282339765:
+        {
+          graphColor = charts.MaterialPalette.indigo.makeShades(4);
+          break;
+        }
+      case 4280391411:
+        {
+          graphColor = charts.MaterialPalette.blue.makeShades(4);
+          break;
+        }
+
+      case 4278430196:
+        {
+          graphColor = charts.MaterialPalette.blue.makeShades(4);
+          break;
+        }
+      case 4278238420:
         {
           graphColor = charts.MaterialPalette.cyan.makeShades(4);
           break;
         }
+
+      case 4278228616:
+        {
+          graphColor = charts.MaterialPalette.teal.makeShades(4);
+          break;
+        }
+      case 4283215696:
+        {
+          graphColor = charts.MaterialPalette.green.makeShades(4);
+          break;
+        }
+      case 4287349578:
+        {
+          graphColor = charts.MaterialPalette.green.makeShades(4);
+          break;
+        }
+      case 4291681337:
+        {
+          graphColor = charts.MaterialPalette.lime.makeShades(4);
+          break;
+        }
+      case 4294961979:
+        {
+          graphColor = charts.MaterialPalette.yellow.makeShades(4);
+          break;
+        }
+      case 4294951175:
+        {
+          graphColor = charts.MaterialPalette.gray.makeShades(4);
+          break;
+        }
+      case 4294924066:
+        {
+          graphColor = charts.MaterialPalette.deepOrange.makeShades(4);
+          break;
+        }
+      case 4294940672:
+        {
+          graphColor = charts.MaterialPalette.gray.makeShades(4);
+          break;
+        }
+      case 4288585374:
+        {
+          graphColor = charts.MaterialPalette.gray.makeShades(4);
+          break;
+        }
+      case 4286141768:
+        {
+          graphColor = charts.MaterialPalette.gray.makeShades(4);
+          break;
+        }
+      case 4284513675:
+        {
+          graphColor = charts.MaterialPalette.gray.makeShades(4);
+          break;
+        }
+
       default:
         break;
     }

@@ -156,8 +156,8 @@ class MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return AppSettings(
         callback: callback,
-        theme: theme,
-        themeKey: themekey,
+        // theme: theme,
+        // themeKey: themekey,
         // primaryColor: color,
         // accentColor: color[200],
         color: color,

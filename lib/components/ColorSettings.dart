@@ -73,6 +73,7 @@ class _ColorPickerState extends State<ColorPicker> {
         onMainColorChange: (Color color) {
           print("COLORS");
           print(color.value);
+          print(color);
           appSettings.callback(color);
           prefs.setInt('color', color.value);
         },

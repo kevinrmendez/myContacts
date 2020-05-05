@@ -12,7 +12,7 @@ class ContactImage extends StatelessWidget {
   @override
   Widget build(context) {
     AppSettings appState = AppSettings.of(context);
-    print('MYTHEMEKEYS ${appState.themeKey}');
+    // print('MYTHEMEKEYS ${appState.themeKey}');
 
     return Container(
       padding: EdgeInsets.only(top: image == null || image == "" ? 0 : 0),
