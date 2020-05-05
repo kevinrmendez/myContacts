@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
 import 'package:kevin_app/activity/statisticsActivity.dart';
+import 'package:kevin_app/components/ColorSettings.dart';
 import 'package:kevin_app/components/expandableExportSettings.dart';
 import 'package:kevin_app/components/expandableThemeSettings.dart';
 import 'package:kevin_app/components/exportSettings.dart';
@@ -436,34 +437,7 @@ class SettingsState extends State<Settings> {
                     contactService.current.length > 0
                         ? ExportSettings()
                         : SizedBox(),
-                    WidgetUtils.settingsTile(
-                        icon: Icons.color_lens,
-                        title: translatedText("settings_theme", context),
-                        onTap: () {
-                          AppSettings appSettings = AppSettings.of(context);
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return WidgetUtils.dialog(
-                                    title: translatedText(
-                                        "settings_theme", context),
-                                    context: context,
-                                    height:
-                                        MediaQuery.of(context).size.height * .5,
-                                    child: Expanded(
-                                      child: MaterialColorPicker(
-                                        allowShades: false,
-                                        onMainColorChange: (Color color) {
-                                          print("COLORS");
-                                          print(color.value);
-                                          appSettings.callback(color);
-                                          prefs.setInt('color', color.value);
-                                        },
-                                        selectedColor: appSettings.color,
-                                      ),
-                                    ));
-                              });
-                        }),
+                    ColorSettings()
                   ],
                 ),
               ),
