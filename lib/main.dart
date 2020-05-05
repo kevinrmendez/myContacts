@@ -55,6 +55,8 @@ class MyAppState extends State<MyApp> {
   MyThemeKeys themekey;
   ThemeData theme;
   int themekeyIndex;
+  Color color;
+  // Color accentColor;
 
   @override
   void initState() {
@@ -64,6 +66,7 @@ class MyAppState extends State<MyApp> {
     themekey = MyThemeKeys.values[themekeyIndex];
     brightness = Brightness.light;
     theme = MyThemes.getThemeFromKey(themekey);
+    color = Color((prefs.getInt('color') ?? 4280391411));
     print("THEME: $theme");
 
     //init local notifications
@@ -137,10 +140,15 @@ class MyAppState extends State<MyApp> {
     flutterLocalNotificationsPlugin.cancel(contactId);
   }
 
-  callback({theme, themeKey}) {
+  // callback({theme, themeKey}) {
+  //   setState(() {
+  //     this.themekey = themeKey;
+  //     this.theme = MyThemes.getThemeFromKey(themekey);
+  //   });
+  // }
+  callback(color) {
     setState(() {
-      this.themekey = themeKey;
-      this.theme = MyThemes.getThemeFromKey(themekey);
+      this.color = color;
     });
   }
 
@@ -150,6 +158,10 @@ class MyAppState extends State<MyApp> {
         callback: callback,
         theme: theme,
         themeKey: themekey,
+        // primaryColor: color,
+        // accentColor: color[200],
+        color: color,
+        // accentColor: accentColor,
         child: AppWrapper()
 
         // _Home()
@@ -235,7 +247,10 @@ class AppWrapper extends StatelessWidget {
       },
       title: "MyContacts",
       debugShowCheckedModeBanner: false,
-      theme: AppSettings.of(context).theme,
+      // theme: AppSettings.of(context).theme,
+      theme: ThemeData(
+          primaryColor: AppSettings.of(context).color,
+          accentColor: AppSettings.of(context).color),
       // home: WillPopScope(
       //   onWillPop: _onWillPop,
       //   child: Home(),

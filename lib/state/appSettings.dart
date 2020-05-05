@@ -6,9 +6,15 @@ class AppSettings extends InheritedWidget {
   final Function callback;
   final ThemeData theme;
   final MyThemeKeys themeKey;
+  Color color;
 
   AppSettings(
-      {this.callback, this.camera, this.themeKey, this.theme, Widget child})
+      {this.callback,
+      this.camera,
+      this.themeKey,
+      this.theme,
+      Widget child,
+      this.color})
       : super(child: child);
 
   @override

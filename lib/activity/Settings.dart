@@ -9,10 +9,12 @@ import 'package:kevin_app/components/expandableThemeSettings.dart';
 import 'package:kevin_app/components/exportSettings.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/main.dart';
+import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 
 import 'dart:async';
 
@@ -434,8 +436,34 @@ class SettingsState extends State<Settings> {
                     contactService.current.length > 0
                         ? ExportSettings()
                         : SizedBox(),
-                    // ExpandableExportSettings(context),
-                    ExpandableThemeSettings(context),
+                    WidgetUtils.settingsTile(
+                        icon: Icons.color_lens,
+                        title: translatedText("settings_theme", context),
+                        onTap: () {
+                          AppSettings appSettings = AppSettings.of(context);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return WidgetUtils.dialog(
+                                    title: translatedText(
+                                        "settings_theme", context),
+                                    context: context,
+                                    height:
+                                        MediaQuery.of(context).size.height * .5,
+                                    child: Expanded(
+                                      child: MaterialColorPicker(
+                                        allowShades: false,
+                                        onMainColorChange: (Color color) {
+                                          print("COLORS");
+                                          print(color.value);
+                                          appSettings.callback(color);
+                                          prefs.setInt('color', color.value);
+                                        },
+                                        selectedColor: appSettings.color,
+                                      ),
+                                    ));
+                              });
+                        }),
                   ],
                 ),
               ),
