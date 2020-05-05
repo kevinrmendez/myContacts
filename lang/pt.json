@@ -42,7 +42,6 @@
   "button_delete": "apagar",
   "button_rate": "aplicação de taxas",
   "button_contact_details": "mostre mais",
-  "actions_import_contacts": "importar os contactos...",
   "dialog_title_importing": "importando contatos",
   "dialog_description_importing": "importando contatos ... aguarde",
   "snackbar_contact_delete_all": "Todos os teus contactos foram apagados!",

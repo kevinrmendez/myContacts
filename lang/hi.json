@@ -42,7 +42,6 @@
   "button_delete": "हटाना",
   "button_rate": "एप्लिकेशन का मूल्यांकन करें",
   "button_contact_details": "और दिखाओ",
-  "actions_import_contacts": "संपर्क आयात करना",
   "dialog_title_importing": "संपर्क आयात करना",
   "dialog_description_importing": "संपर्क आयात कर रहा है ... कृपया प्रतीक्षा करें",
   "snackbar_contact_delete_all": "आपके सभी संपर्क हटा दिए गए हैं!",
