@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
+import 'package:kevin_app/activity/backupActivity.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
 import 'package:kevin_app/activity/statisticsActivity.dart';
 import 'package:kevin_app/components/ColorSettings.dart';
@@ -437,7 +438,17 @@ class SettingsState extends State<Settings> {
                     contactService.current.length > 0
                         ? ExportSettings()
                         : SizedBox(),
-                    ColorSettings()
+                    ColorSettings(),
+                    WidgetUtils.settingsTile(
+                        title: "backup",
+                        icon: Icons.backup,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BackupActivity()),
+                          );
+                        })
                   ],
                 ),
               ),
