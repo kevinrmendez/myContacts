@@ -275,12 +275,10 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Container(
-                                child: RaisedButton(
-                                  color: Theme.of(context).primaryColor,
-                                  onPressed: () async {
-                                    // print('SAVIIIING');
-                                    // print(widget.nameController);
+                              WidgetUtils.textButton(
+                                  context: context,
+                                  title: translatedText("button_save", context),
+                                  onPress: () async {
                                     if (widget._formKey.currentState
                                         .validate()) {
                                       String name = nameController.text;
@@ -299,13 +297,7 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
                                       // widget.callback("");
                                     }
                                     // print(await db.contacts());
-                                  },
-                                  child: Text(
-                                    translatedText("button_save", context),
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ),
+                                  })
                             ],
                           ),
                         )

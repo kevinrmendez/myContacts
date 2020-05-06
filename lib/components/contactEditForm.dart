@@ -626,6 +626,23 @@ class ContactEditFormState extends State<ContactEditForm> {
     );
   }
 
+  Widget _buildFavoriteIcon() {
+    return Container(
+      height: 40,
+      width: 40,
+      child: this.favorite == 1
+          ? Icon(
+              Icons.star,
+              color: this.image == null || this.image == ""
+                  ? Theme.of(context).primaryColor
+                  : Colors.white,
+              // : Colors.white,
+              size: 40,
+            )
+          : SizedBox(),
+    );
+  }
+
   Widget _buildPreviewText() {
     return _buildBoldText(this.name);
   }
@@ -1139,44 +1156,48 @@ class ContactEditFormState extends State<ContactEditForm> {
                     image: this.image,
                   ),
                   Positioned(bottom: 5, child: _buildCamera(context)),
+                  Positioned(top: 50, right: 20, child: _buildFavoriteIcon())
                 ],
               ),
               // _buildPreviewText(),
             ],
           ),
         ),
-        DefaultTabController(
-          length: 3,
-          child: Column(
-            children: <Widget>[
-              TabBar(
-                indicatorColor: Theme.of(context).primaryColor,
-                labelColor: Theme.of(context).primaryColor,
-                unselectedLabelColor: GREY,
-                tabs: [
-                  Tab(
-                      icon: Icon(
-                    Icons.person,
-                  )),
-                  Tab(
-                      icon: Icon(
-                    Icons.assignment,
-                  )),
-                  Tab(
-                      icon: Icon(
-                    Icons.thumb_up,
-                  )),
-                ],
-              ),
-              Container(
-                  height: MediaQuery.of(context).size.height * .4,
-                  // width: MediaQuery.of(context).size.width * .82,
-                  child: TabBarView(children: [
-                    Container(child: _buildContactForm()),
-                    Container(child: _buildDetailForm()),
-                    Container(child: _buildSocialMediaForm()),
-                  ]))
-            ],
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: DefaultTabController(
+            length: 3,
+            child: Column(
+              children: <Widget>[
+                TabBar(
+                  indicatorColor: Theme.of(context).primaryColor,
+                  labelColor: Theme.of(context).primaryColor,
+                  unselectedLabelColor: GREY,
+                  tabs: [
+                    Tab(
+                        icon: Icon(
+                      Icons.person,
+                    )),
+                    Tab(
+                        icon: Icon(
+                      Icons.assignment,
+                    )),
+                    Tab(
+                        icon: Icon(
+                      Icons.thumb_up,
+                    )),
+                  ],
+                ),
+                Container(
+                    height: MediaQuery.of(context).size.height * .4,
+                    // width: MediaQuery.of(context).size.width * .82,
+                    child: TabBarView(children: [
+                      Container(child: _buildContactForm()),
+                      Container(child: _buildDetailForm()),
+                      Container(child: _buildSocialMediaForm()),
+                    ]))
+              ],
+            ),
           ),
         ),
         SizedBox(
