@@ -130,7 +130,7 @@ class WidgetUtils {
 
   static Widget urlButtons({String url, IconData icon, BuildContext context}) {
     return Container(
-      width: 100,
+      width: 90,
       height: 35,
       padding: EdgeInsets.fromLTRB(
         10,
