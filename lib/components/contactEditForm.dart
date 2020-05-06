@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/activity/cameraActivity.dart';
@@ -78,7 +79,11 @@ class ContactEditFormState extends State<ContactEditForm> {
   final organizationController = TextEditingController();
   final websiteController = TextEditingController();
   final noteController = TextEditingController();
+
+  final facebookController = TextEditingController();
   final instagramController = TextEditingController();
+  final linkedinController = TextEditingController();
+  final twitterController = TextEditingController();
 
   String name;
   String phone;
@@ -93,6 +98,10 @@ class ContactEditFormState extends State<ContactEditForm> {
   String organization;
   String website;
   String note;
+  String facebook;
+  String instagram;
+  String linkedin;
+  String twitter;
   DateTime pickedDate;
 
   int sendedNotification;
@@ -139,6 +148,11 @@ class ContactEditFormState extends State<ContactEditForm> {
     this.website = widget.contact.website;
     this.note = widget.contact.note;
 
+    this.facebook = widget.contact.facebook;
+    this.instagram = widget.contact.instagram;
+    this.linkedin = widget.contact.linkedin;
+    this.twitter = widget.contact.twitter;
+
     this.nameController.text = this.name;
     this.phoneController.text = this.phone;
     this.emailController.text = this.email;
@@ -146,7 +160,11 @@ class ContactEditFormState extends State<ContactEditForm> {
     this.addressController.text = this.address;
     this.organizationController.text = this.organization;
     this.websiteController.text = this.website;
-    this.noteController.text = this.note;
+
+    this.facebookController.text = this.facebook;
+    this.instagramController.text = this.instagram;
+    this.linkedinController.text = this.linkedin;
+    this.twitterController.text = this.twitter;
 
     category = <String>[
       translatedText("group_default", widget.context),
@@ -173,6 +191,11 @@ class ContactEditFormState extends State<ContactEditForm> {
     contact.organization = this.organization;
     contact.website = this.website;
     contact.note = this.note;
+
+    contact.facebook = this.facebook;
+    contact.instagram = this.instagram;
+    contact.linkedin = this.linkedin;
+    contact.twitter = this.twitter;
 
     // print('after update id');
     // print(contact);
@@ -554,34 +577,52 @@ class ContactEditFormState extends State<ContactEditForm> {
   }
 
   Widget _buildFormButtons() {
-    List<Widget> _buttons = [
-      RaisedButton(
-        color: Theme.of(context).primaryColor,
-        onPressed: () async {
-          _updateContact(contact);
-        },
-        child: Text(
-          translatedText("button_save", context),
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-      SizedBox(
-        width: 20,
-      ),
-      RaisedButton(
-        color: Theme.of(context).primaryColor,
-        child: Text(
-          translatedText("button_delete", context),
-          style: TextStyle(color: Colors.white),
-        ),
-        onPressed: () async {
-          await _deleteContact(contact);
-        },
-      ),
-    ];
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: _buttons,
+      children: [
+        WidgetUtils.textButton(
+            context: context,
+            title: translatedText("button_save", context),
+            onPress: () async {
+              await _updateContact(contact);
+            }),
+        // RaisedButton(
+        //   color: Theme.of(context).primaryColor,
+        //   onPressed: () async {
+        //     _updateContact(contact);
+        //   },
+        //   child: Text(
+        //     translatedText("button_save", context),
+        //     style: TextStyle(color: Colors.white),
+        //   ),
+        // ),
+        SizedBox(
+          width: 20,
+        ),
+        WidgetUtils.textButton(
+            context: context,
+            title: translatedText("button_delete", context),
+            onPress: () async {
+              await _deleteContact(contact);
+            })
+        // Container(
+        //   width: 120,
+        //   child: RaisedButton(
+        //     color: Theme.of(context).primaryColor,
+        //     child: Container(
+        //       width: 100,
+        //       child: Text(
+        //         translatedText("button_delete", context),
+        //         textAlign: TextAlign.center,
+        //         style: TextStyle(color: Colors.white),
+        //       ),
+        //     ),
+        //     onPressed: () async {
+        //       await _deleteContact(contact);
+        //     },
+        //   ),
+        // ),
+      ],
     );
   }
 
@@ -643,8 +684,8 @@ class ContactEditFormState extends State<ContactEditForm> {
 
   Widget _buildShareButton() {
     return Container(
-      width: 100,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      // width: 100,
+      // padding: EdgeInsets.symmetric(horizontal: 10),
       child: RaisedButton(
         color: Theme.of(context).primaryColor,
         child: Icon(
@@ -659,76 +700,353 @@ class ContactEditFormState extends State<ContactEditForm> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // contact = ModalRoute.of(context).settings.arguments;
-    // Build a Form widget using the _formKey created above.
+  Widget _buildContactForm() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Container(
-          // padding: EdgeInsets.symmetric(
-          //     vertical:
-          //         widget.contact.image == null || widget.contact.image == ""
-          //             ? 0
-          //             : 0
-          //             ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Stack(
-                alignment: Alignment.topCenter,
-                children: <Widget>[
-                  ContactImage(
-                    context: context,
-                    image: this.image,
-                  ),
-                  Positioned(bottom: 5, child: _buildCamera(context)),
-                ],
-              ),
-              _buildPreviewText(),
-            ],
-          ),
-        ),
-        Container(
-          height: 35,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              contact.phone != ""
-                  ? WidgetUtils.urlButtons(
-                      color: Theme.of(context).primaryColor,
-                      url: "tel:${contact.phone.toString()}",
-                      icon: Icon(
-                        Icons.phone,
-                        color: Colors.white,
-                      ))
-                  : const SizedBox(),
-              contact.email != ""
-                  ? WidgetUtils.urlButtons(
-                      color: Theme.of(context).primaryColor,
-                      url: 'mailto:${contact.email}',
-                      icon: Icon(
-                        Icons.email,
-                        color: Colors.white,
-                      ))
-                  : const SizedBox(),
-              _buildShareButton()
-            ],
-          ),
-        ),
-        _buildForm(),
         SizedBox(
           height: 20,
-        )
+        ),
+        _buildContactButtons(),
+        TextFormField(
+          onChanged: (value) {
+            this.name = value;
+            setState(() {
+              this.name = value;
+            });
+          },
+          decoration: InputDecoration(
+              hintText: translatedText("hintText_name", context),
+              icon: Icon(Icons.person)),
+          controller: nameController,
+          validator: (value) {
+            if (value.isEmpty) {
+              return translatedText("hintText_name_verification", context);
+            }
+            return null;
+          },
+        ),
+        TextFormField(
+          onChanged: (value) {
+            setState(() {
+              this.phone = value;
+            });
+          },
+          decoration: InputDecoration(
+              hintText: translatedText("hintText_phone", context),
+              icon: Icon(Icons.phone)),
+          validator: (value) {
+            if (value.isEmpty) {
+              return translatedText("hintText_phone_verification", context);
+            }
+            return null;
+          },
+          keyboardType: TextInputType.phone,
+          controller: phoneController,
+        ),
+        TextFormField(
+          onChanged: (value) {
+            setState(() {
+              this.email = value;
+            });
+          },
+          decoration: InputDecoration(
+              hintText: translatedText("hintText_email", context),
+              icon: Icon(Icons.email)),
+          keyboardType: TextInputType.emailAddress,
+          controller: emailController,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Icon(
+              Icons.group,
+              color: GREY,
+              size: 25,
+            ),
+            SizedBox(
+              width: 30,
+            ),
+            Text(
+              translatedText("hintText_group", context),
+              style: TextStyle(
+                color: GREY,
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            _dropDown()
+          ],
+        ),
+        Container(
+          height: 20,
+          child: Row(
+            children: <Widget>[
+              Icon(
+                Icons.star,
+                color: Colors.grey,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                translatedText("hintText_favorite", context),
+                style: TextStyle(color: Colors.grey),
+              ),
+              Switch(
+                onChanged: (bool value) {
+                  setState(() {
+                    this.favorite = boolToInt(value);
+                  });
+                },
+                value: intToBool(this.favorite),
+                // value: false,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSocialMediaButtons() {
+    return Wrap(
+      alignment: WrapAlignment.center,
+      children: <Widget>[
+        this.facebook != ""
+            ? WidgetUtils.urlButtons(
+                url: "${contact.facebook}",
+                icon: FontAwesomeIcons.facebook,
+                context: context)
+            : SizedBox(),
+        this.instagram != ""
+            ? WidgetUtils.urlButtons(
+                url: "${contact.instagram}",
+                icon: FontAwesomeIcons.instagram,
+                context: context)
+            : SizedBox(),
+        this.linkedin != ""
+            ? WidgetUtils.urlButtons(
+                url: "${contact.linkedin}",
+                icon: FontAwesomeIcons.linkedinIn,
+                context: context)
+            : SizedBox(),
+        this.twitter != ""
+            ? WidgetUtils.urlButtons(
+                url: "${contact.twitter}",
+                icon: FontAwesomeIcons.twitter,
+                context: context)
+            : SizedBox(),
+      ],
+    );
+  }
+
+  Widget _buildContactButtons() {
+    return Container(
+      // height: 35,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          this.phone != ""
+              ? WidgetUtils.urlButtons(
+                  url: "tel:${contact.phone.toString()}",
+                  icon: Icons.phone,
+                  context: context)
+              : const SizedBox(),
+          this.email != ""
+              ? WidgetUtils.urlButtons(
+                  url: 'mailto:${contact.email}',
+                  icon: Icons.email,
+                  context: context)
+              : const SizedBox(),
+          _buildShareButton()
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSocialMediaForm() {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 20,
+        ),
+        _buildSocialMediaButtons(),
+        TextFormField(
+          onChanged: (value) {
+            this.facebook = value;
+            setState(() {
+              this.facebook = value;
+            });
+          },
+          decoration: InputDecoration(
+              hintText: translatedText("hintText_facebook", context),
+              icon: Icon(FontAwesomeIcons.facebook)),
+          controller: facebookController,
+        ),
+        TextFormField(
+          onChanged: (value) {
+            this.instagram = value;
+            setState(() {
+              this.instagram = value;
+            });
+          },
+          decoration: InputDecoration(
+              hintText: translatedText("hintText_instagram", context),
+              icon: Icon(FontAwesomeIcons.instagram)),
+          controller: instagramController,
+        ),
+        TextFormField(
+          onChanged: (value) {
+            this.linkedin = value;
+            setState(() {
+              this.linkedin = value;
+            });
+          },
+          decoration: InputDecoration(
+              hintText: translatedText("hintText_linkedin", context),
+              icon: Icon(FontAwesomeIcons.linkedinIn)),
+          controller: linkedinController,
+        ),
+        TextFormField(
+          onChanged: (value) {
+            this.twitter = value;
+            setState(() {
+              this.twitter = value;
+            });
+          },
+          decoration: InputDecoration(
+              hintText: translatedText("hintText_twitter", context),
+              icon: Icon(FontAwesomeIcons.twitter)),
+          controller: twitterController,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDetailForm() {
+    return Column(
+      children: <Widget>[
+        TextFormField(
+          onTap: () async {
+            FocusScope.of(context).requestFocus(new FocusNode());
+
+            await _selectDate();
+          },
+          decoration: InputDecoration(
+              hintText: translatedText("hintText_birthday", context),
+              icon: Icon(Icons.calendar_today)),
+          // keyboardType: TextInputType.datetime,
+          controller: birthdayController,
+        ),
+        birthday.length > 900000000000 //hide notification
+            // birthday.length > 0 //ORIGINAL notification
+            ? Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.notifications_active,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        // translatedText("hintText_favorite", context),
+                        translatedText(
+                            "hintText_birthday_notification", context),
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      Switch(
+                        onChanged: (bool value) async {
+                          setState(() {
+                            this.showNotification = boolToInt(value);
+                            // this.isBirthdayNotificationEnable = value;
+                          });
+                          print("SHOWNOTIFICATION: ${this.showNotification}");
+                          if (showNotification == 1) {
+                            await _sendBirthdayNotification(
+                                title: translatedText(
+                                    "notification_birthday_title", context),
+                                description: translatedText(
+                                    "notification_birthday_description",
+                                    context),
+                                payload: translatedText(
+                                    "notification_birthday_payload", context));
+                            // flutterLocalNotificationsPlugin
+                            //     .cancel(contact.id);
+                          } else {
+                            print("CONTACTID: $contact.id");
+                            flutterLocalNotificationsPlugin.cancel(contact.id);
+                          }
+                        },
+                        value: intToBool(this.showNotification),
+                        // value: false,
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            : SizedBox(),
+        TextFormField(
+          onChanged: (value) {
+            setState(() {
+              this.address = value;
+            });
+          },
+          decoration: InputDecoration(
+              hintText: translatedText("hintText_address", context),
+              icon: Icon(Icons.location_city)),
+          keyboardType: TextInputType.text,
+          controller: addressController,
+        ),
+        TextFormField(
+          onChanged: (value) {
+            setState(() {
+              this.organization = value;
+            });
+          },
+          decoration: InputDecoration(
+              hintText: translatedText("hintText_organization", context),
+              icon: Icon(Icons.store)),
+          keyboardType: TextInputType.text,
+          controller: organizationController,
+        ),
+        TextFormField(
+          onChanged: (value) {
+            setState(() {
+              this.website = value;
+            });
+          },
+          decoration: InputDecoration(
+              hintText: translatedText("hintText_website", context),
+              icon: Icon(Icons.web)),
+          keyboardType: TextInputType.text,
+          controller: websiteController,
+        ),
+        Container(
+          padding: EdgeInsets.only(bottom: 10),
+          child: TextFormField(
+            onChanged: (value) {
+              setState(() {
+                this.note = value;
+              });
+            },
+            decoration: InputDecoration(
+                hintText: translatedText("hintText_note", context),
+                icon: Icon(Icons.description)),
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+            controller: noteController,
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildCamera(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 0),
       child: RaisedButton(
         color: Theme.of(context).accentColor,
         onPressed: () async {
@@ -766,6 +1084,75 @@ class ContactEditFormState extends State<ContactEditForm> {
           color: Colors.white,
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  ContactImage(
+                    context: context,
+                    image: this.image,
+                  ),
+                  Positioned(bottom: 5, child: _buildCamera(context)),
+                ],
+              ),
+              // _buildPreviewText(),
+            ],
+          ),
+        ),
+        DefaultTabController(
+          length: 3,
+          child: Column(
+            children: <Widget>[
+              TabBar(
+                indicatorColor: Theme.of(context).primaryColor,
+                labelColor: Theme.of(context).primaryColor,
+                unselectedLabelColor: GREY,
+                tabs: [
+                  Tab(
+                      icon: Icon(
+                    Icons.person,
+                  )),
+                  Tab(
+                      icon: Icon(
+                    Icons.assignment,
+                  )),
+                  Tab(
+                      icon: Icon(
+                    Icons.thumb_up,
+                  )),
+                ],
+              ),
+              Container(
+                  height: MediaQuery.of(context).size.height * .45,
+                  width: MediaQuery.of(context).size.width * .82,
+                  child: TabBarView(children: [
+                    Container(child: _buildContactForm()),
+                    Container(child: _buildDetailForm()),
+                    Container(child: _buildSocialMediaForm()),
+                  ]))
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        _buildFormButtons(),
+        // SizedBox(
+        //   height: 20,
+        // )
+      ],
     );
   }
 }

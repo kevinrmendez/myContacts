@@ -11,6 +11,10 @@ class Contact {
   String organization;
   String website;
   String note;
+  String facebook;
+  String instagram;
+  String linkedin;
+  String twitter;
   int showNotification;
   int favorite;
 
@@ -39,6 +43,10 @@ class Contact {
     this.organization = "",
     this.note = "",
     this.website = "",
+    this.facebook = "",
+    this.instagram = "",
+    this.linkedin = "",
+    this.twitter = "",
     this.favorite = 0,
     this.showNotification = 0,
   }) {
@@ -62,6 +70,10 @@ class Contact {
       'address': address,
       'organization': organization,
       'website': website,
+      'facebook': facebook,
+      'instagram': instagram,
+      'linkedin': linkedin,
+      'twitter': twitter,
       'note': note,
       'favorite': favorite,
       'showNotification': showNotification,
@@ -72,6 +84,6 @@ class Contact {
   // each dog when using the print statement.
   @override
   String toString() {
-    return 'Contact{id: $id, name: $name, phone: $phone,email: $email, category: $category, birthday: $birthday, address: $address,organization: $organization, website: $website ,image: $image, favorite $favorite, showNotification: $showNotification}';
+    return 'Contact{id: $id, name: $name, phone: $phone,email: $email, category: $category, birthday: $birthday, address: $address,organization: $organization, website: $website ,facebook: $facebook, instagram: $instagram,linkedin: $linkedin, twitter: $twitter, image: $image, favorite $favorite, showNotification: $showNotification}';
   }
 }

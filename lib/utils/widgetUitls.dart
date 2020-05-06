@@ -128,14 +128,23 @@ class WidgetUtils {
     );
   }
 
-  static Widget urlButtons(
-      {String url, Icon icon, BuildContext context, Color color}) {
+  static Widget urlButtons({String url, IconData icon, BuildContext context}) {
     return Container(
       width: 100,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      height: 35,
+      padding: EdgeInsets.fromLTRB(
+        10,
+        2,
+        10,
+        2,
+      ),
       child: RaisedButton(
-        color: color,
-        child: icon,
+        color: Theme.of(context).primaryColor,
+        child: Icon(
+          icon,
+          size: 20,
+          color: Colors.white,
+        ),
         onPressed: () async {
           if (await canLaunch(url)) {
             await launch(url);
@@ -200,6 +209,25 @@ class WidgetUtils {
             showAd ? AdmobUtils.admobBanner() : SizedBox()
           ],
         ),
+      ),
+    );
+  }
+
+  static Widget textButton(
+      {BuildContext context, String title, Function onPress}) {
+    return Container(
+      width: 120,
+      child: RaisedButton(
+        color: Theme.of(context).primaryColor,
+        child: Container(
+          width: 100,
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        onPressed: onPress,
       ),
     );
   }
