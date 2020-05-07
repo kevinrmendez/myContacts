@@ -14,6 +14,7 @@ import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
+import 'package:kevin_app/utils/permissionsUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
@@ -34,17 +35,6 @@ final snackBar = (text) => SnackBar(content: Text(text));
 
 class Settings extends StatefulWidget {
   final PermissionHandler _permissionHandler = PermissionHandler();
-
-  Future<bool> _requestContactPermission() async {
-    var result =
-        await _permissionHandler.requestPermissions([PermissionGroup.contacts]);
-
-    if (result[PermissionGroup.contacts] == PermissionStatus.granted) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   @override
   SettingsState createState() {
@@ -225,16 +215,16 @@ class SettingsState extends State<Settings> {
       return permission;
     }
 
-    Future<Map<PermissionGroup, PermissionStatus>> _requestPermission(
-        PermissionGroup permissionGroup) async {
-      // await PermissionHandler()
-      //     .shouldShowRequestPermissionRationale(PermissionGroup.contacts);
-      // await PermissionHandler().openAppSettings();
-      _permissionStatus = await _checkPermission(permissionGroup);
-      if (_permissionStatus != PermissionStatus.granted) {
-        return await PermissionHandler().requestPermissions([permissionGroup]);
-      }
-    }
+    // Future<Map<PermissionGroup, PermissionStatus>> _requestPermission(
+    //     PermissionGroup permissionGroup) async {
+    //   // await PermissionHandler()
+    //   //     .shouldShowRequestPermissionRationale(PermissionGroup.contacts);
+    //   // await PermissionHandler().openAppSettings();
+    //   _permissionStatus = await _checkPermission(permissionGroup);
+    //   if (_permissionStatus != PermissionStatus.granted) {
+    //     return await PermissionHandler().requestPermissions([permissionGroup]);
+    //   }
+    // }
 
     return WillPopScope(
       onWillPop: () {
@@ -323,7 +313,9 @@ class SettingsState extends State<Settings> {
                                   PermissionStatus.granted) {
                                 _importContacts();
                               } else {
-                                widget._requestContactPermission();
+                                PermissionsUtils.requestPermission(
+                                    widget._permissionHandler,
+                                    PermissionGroup.contacts);
                               }
                             })
                         : const SizedBox(),

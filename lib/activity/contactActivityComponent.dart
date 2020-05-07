@@ -12,6 +12,7 @@ import 'package:kevin_app/contactDb.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
+import 'package:kevin_app/utils/permissionsUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -29,17 +30,6 @@ class ContactActivityComponent extends StatefulWidget {
   @override
   ContactActivityComponentState createState() =>
       ContactActivityComponentState();
-
-  Future<bool> _requestCameraPermission() async {
-    var result =
-        await _permissionHandler.requestPermissions([PermissionGroup.camera]);
-
-    if (result[PermissionGroup.contacts] == PermissionStatus.granted) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }
 
 class ContactActivityComponentState extends State<ContactActivityComponent>
@@ -173,7 +163,8 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
                 break;
               case PermissionStatus.denied:
                 {
-                  await widget._requestCameraPermission();
+                  await PermissionsUtils.requestPermission(
+                      widget._permissionHandler, PermissionGroup.camera);
                 }
                 break;
               default:

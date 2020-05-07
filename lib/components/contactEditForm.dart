@@ -11,6 +11,7 @@ import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
+import 'package:kevin_app/utils/permissionsUtils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scidart/numdart.dart';
@@ -43,17 +44,6 @@ class ContactEditForm extends StatefulWidget {
       this.context,
       this.index,
       this.scrollController});
-
-  Future<bool> _requestCameraPermission() async {
-    var result =
-        await _permissionHandler.requestPermissions([PermissionGroup.camera]);
-
-    if (result[PermissionGroup.contacts] == PermissionStatus.granted) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   @override
   ContactEditFormState createState() {
@@ -1124,7 +1114,8 @@ class ContactEditFormState extends State<ContactEditForm> {
               break;
             case PermissionStatus.denied:
               {
-                await widget._requestCameraPermission();
+                await PermissionsUtils.requestPermission(
+                    widget._permissionHandler, PermissionGroup.camera);
               }
               break;
             default:

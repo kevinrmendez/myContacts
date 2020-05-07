@@ -6,6 +6,7 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:kevin_app/contactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
+import 'package:kevin_app/utils/permissionsUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,26 +19,14 @@ final _scaffoldKey = GlobalKey<ScaffoldState>();
 final snackBar = (text) => SnackBar(content: Text(text));
 
 class ExportSettings extends StatefulWidget {
+  final PermissionHandler _permissionHandler = PermissionHandler();
+
   @override
   _ExportSettingsState createState() => _ExportSettingsState();
 }
 
 class _ExportSettingsState extends State<ExportSettings> {
-  PermissionStatus _permissionStatus;
-  Future<PermissionStatus> _checkPermission(
-      PermissionGroup permissionGroup) async {
-    PermissionStatus permission =
-        await PermissionHandler().checkPermissionStatus(permissionGroup);
-    return permission;
-  }
-
-  Future<Map<PermissionGroup, PermissionStatus>> _requestPermission(
-      PermissionGroup permissionGroup) async {
-    _permissionStatus = await _checkPermission(permissionGroup);
-    if (_permissionStatus != PermissionStatus.granted) {
-      return await PermissionHandler().requestPermissions([permissionGroup]);
-    }
-  }
+  // PermissionStatus _permissionStatus;
 
   @override
   void initState() {
@@ -50,23 +39,27 @@ class _ExportSettingsState extends State<ExportSettings> {
         icon: Icons.import_export,
         title: translatedText("settings_export_contacts", context),
         onTap: () async {
-          PermissionStatus status =
-              await _checkPermission(PermissionGroup.storage);
-          if (status == PermissionStatus.granted) {
-            // _createContactCsv();
-            WidgetUtils.showSnackbar(
-                translatedText("snackbar_contact_exported", context), context);
-          } else {
-            Map<PermissionGroup, PermissionStatus> permission =
-                await _requestPermission(PermissionGroup.storage);
-            print(permission["permissionStatus"]);
-            if (permission["permissionStatus"] == PermissionStatus.granted) {
-              // _createContactCsv();
-            } else {
-              return null;
-            }
+          PermissionStatus permissionStatus =
+              await PermissionsUtils.checkPermission(PermissionGroup.storage);
+          print("hola");
+          print(permissionStatus);
+          switch (permissionStatus) {
+            case PermissionStatus.granted:
+              {
+                showDialog(context: context, builder: (_) => ExportDialog());
+                // WidgetUtils.showSnackbar(
+                //     translatedText("snackbar_contact_exported", context),
+                //     context);
+              }
+              break;
+            case PermissionStatus.denied:
+              {
+                await PermissionsUtils.requestPermission(
+                    widget._permissionHandler, PermissionGroup.storage);
+              }
+              break;
+            default:
           }
-          showDialog(context: context, builder: (_) => ExportDialog());
         });
   }
 }

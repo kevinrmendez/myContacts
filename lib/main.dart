@@ -5,6 +5,7 @@ import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/FavoriteContactList.dart';
 import 'package:kevin_app/activity/GroupActivity.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
+import 'package:kevin_app/activity/setupActivity.dart';
 import 'package:kevin_app/activity/statisticsActivity.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/contactDb.dart';
@@ -56,6 +57,7 @@ class MyAppState extends State<MyApp> {
   ThemeData theme;
   int themekeyIndex;
   Color color;
+  bool showSetupScreen;
   // Color accentColor;
 
   @override
@@ -68,6 +70,7 @@ class MyAppState extends State<MyApp> {
     theme = MyThemes.getThemeFromKey(themekey);
     color = Color((prefs.getInt('color') ?? 4280391411));
     print("THEME: $theme");
+    showSetupScreen = (prefs.getBool('showSetupScreen') ?? true);
 
     //init local notifications
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -146,10 +149,21 @@ class MyAppState extends State<MyApp> {
   //     this.theme = MyThemes.getThemeFromKey(themekey);
   //   });
   // }
-  callback(color) {
-    setState(() {
-      this.color = color;
-    });
+  callback({color, showSetupScreen}) {
+    if (color != null) {
+      setState(() {
+        this.color = color;
+      });
+    }
+    if (showSetupScreen != null) {
+      setState(() {
+        this.showSetupScreen = false;
+      });
+    }
+    // setState(() {
+    //   this.color = color;
+
+    // });
   }
 
   @override
@@ -161,6 +175,7 @@ class MyAppState extends State<MyApp> {
         // primaryColor: color,
         // accentColor: color[200],
         color: color,
+        showSetupScreen: showSetupScreen,
         // accentColor: accentColor,
         child: AppWrapper()
 
@@ -257,7 +272,8 @@ class AppWrapper extends StatelessWidget {
       // ),
       home: WillPopScope(
         onWillPop: _onWillPop,
-        child: Home(),
+        child:
+            AppSettings.of(context).showSetupScreen ? SetupActivity() : Home(),
       ),
     );
   }
