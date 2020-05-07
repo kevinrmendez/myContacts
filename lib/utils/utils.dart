@@ -90,6 +90,7 @@ importContacts(BuildContext context) {
     });
   }).then((onValue) {
     print(onValue);
+
     // setState(() {
     //   importedContacts = true;
     //   prefs.setBool('importedContacts', importedContacts);

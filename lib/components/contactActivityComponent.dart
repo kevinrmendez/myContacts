@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/Settings.dart';
+import 'package:kevin_app/activity/cameraActivity.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/components/contactImage.dart';
@@ -18,7 +19,6 @@ import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../app_localizations.dart';
-import 'cameraActivity.dart';
 
 class ContactActivityComponent extends StatefulWidget {
   final PermissionHandler _permissionHandler = PermissionHandler();
