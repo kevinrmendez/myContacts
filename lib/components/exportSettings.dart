@@ -1,19 +1,15 @@
 import 'dart:io';
 
-import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:kevin_app/contactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
-import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/fileUtils.dart';
 import 'package:kevin_app/utils/permissionsUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:vcard/vcard.dart';
-import 'package:pdf/widgets.dart' as p;
 
 final ContactDb db = ContactDb();
 final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -42,15 +38,14 @@ class _ExportSettingsState extends State<ExportSettings> {
         onTap: () async {
           PermissionStatus permissionStatus =
               await PermissionsUtils.checkPermission(PermissionGroup.storage);
-          print("hola");
           print(permissionStatus);
           switch (permissionStatus) {
             case PermissionStatus.granted:
               {
                 showDialog(context: context, builder: (_) => ExportDialog());
-                // WidgetUtils.showSnackbar(
-                //     translatedText("snackbar_contact_exported", context),
-                //     context);
+                WidgetUtils.showSnackbar(
+                    translatedText("snackbar_contact_exported", context),
+                    context);
               }
               break;
             case PermissionStatus.denied:
@@ -98,172 +93,47 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
 
   void _exportContacts() async {
     if (isPdfSelected) {
-      Directory dir = await getExternalStorageDirectory();
-      String file = await FileUtils.createPdf(dir);
-      widget.filepaths.add(file);
-      // _createPdf();
+      await _createPdf();
     }
     if (isCsvSelected) {
-      Directory dir = await getExternalStorageDirectory();
-      String file = await FileUtils.createContactCsv(dir);
-      widget.filepaths.add(file);
-
-      // _createContactCsv();
+      await _createCsv();
     }
     if (isVcfSelected) {
-      Directory dir = await getExternalStorageDirectory();
-      String file = await FileUtils.createVcard(dir);
-      widget.filepaths.add(file);
-      // _createVcard();
+      await _createVcard();
     }
     _sendEmail(filePaths: widget.filepaths);
   }
 
-  _sendEmail({List<String> filePaths}) {
+  _sendEmail({List<String> filePaths}) async {
     print("FILEPATHS: ${filePaths.toString()}");
 
-    // Directory dir = await getExternalStorageDirectory();
-    // String path = dir.absolute.path;
     final Email email = Email(
         // body: translatedText("text", context),
         // subject: translatedText("email_csv_subject", context),
         // recipients: ['example@example.com'],
-        // attachmentPaths: [
-        //   "$path/myContacts.csv",
-        //   "$path/myContacts.pdf",
-        //   "$path/myContacts.vcf"
-        // ],
         attachmentPaths: filePaths);
     print("FILEPATHS: ${filePaths.toString()}");
-    FlutterEmailSender.send(email);
-    _scaffoldKey.currentState.showSnackBar(
-        snackBar(translatedText("snackbar_contact_exported", context)));
+    await FlutterEmailSender.send(email);
+    // _scaffoldKey.currentState.showSnackBar(
+    //     snackBar(translatedText("snackbar_contact_exported", context)));
   }
 
-  void _createContactCsv() async {
-    List<dynamic> contacts = await db.contacts();
-    List<List<dynamic>> rows = List<List<dynamic>>();
-    for (int i = 0; i < contacts.length; i++) {
-      List<dynamic> row = List();
-      row.add(contacts[i].name);
-      row.add(contacts[i].phone);
-      row.add(contacts[i].email);
-      row.add(contacts[i].category);
-      rows.add(row);
-    }
-    print('CONTACTS EXPORTED');
+  Future<void> _createCsv() async {
     Directory dir = await getExternalStorageDirectory();
-    // var dir = await getApplicationDocumentsDirectory();
-
-    String path = dir.absolute.path;
-    print(path);
-    File file = File('${path}/myContacts.csv');
-
-    print(file);
-    String csv = const ListToCsvConverter().convert(rows);
-
-    file.writeAsString(csv);
-    String filePath = '${path}/myContacts.csv';
-    widget.filepaths.add(filePath);
+    String file = await FileUtils.createContactCsv(dir);
+    widget.filepaths.add(file);
   }
 
-  Future<List<dynamic>> _generateTable() async {
-    List<dynamic> contacts = await db.contacts();
-    List<p.Widget> rows = List();
-    // List<p.Widget> row = List();
-
-    p.Text _text(text) {
-      return p.Text('$text ||', style: p.TextStyle(fontSize: 12));
-    }
-
-    for (int i = 0; i < contacts.length; i++) {
-      var text = p.Row(
-        children: [
-          p.Text('${i + 1})', style: p.TextStyle(fontSize: 12)),
-          _text('${contacts[i].name}'),
-          _text('${contacts[i].phone}'),
-          _text('${contacts[i].email}'),
-        ],
-      );
-
-      rows.add(text);
-    }
-    return rows;
-  }
-
-  void _createPdf() async {
+  Future<void> _createPdf() async {
     Directory dir = await getExternalStorageDirectory();
-    String path = dir.absolute.path;
-    File file = File('${path}/myContacts.pdf');
-
-    print("PDF FILE: $file");
-    final p.Document pdfDocument = p.Document();
-    var data = await _generateTable();
-
-    pdfDocument.addPage(p.MultiPage(header: (p.Context context) {
-      return p.Header(
-          level: 1,
-          child: p.Text('MyContacts', style: p.TextStyle(fontSize: 20)));
-    }, build: (p.Context context) {
-      return data;
-    }));
-    file.writeAsBytesSync(pdfDocument.save());
-    String filePath = '${path}/myContacts.pdf';
-    widget.filepaths.add(filePath);
+    String file = await FileUtils.createPdf(dir);
+    widget.filepaths.add(file);
   }
 
-  void _createVcard() async {
+  Future<void> _createVcard() async {
     Directory dir = await getExternalStorageDirectory();
-    String path = dir.absolute.path;
-
-    File file = File('$path/myContacts.vcf');
-
-    file.writeAsStringSync("", mode: FileMode.write);
-
-    String content;
-
-    var vCard = VCard();
-    List<dynamic> contacts = await db.contacts();
-
-    contacts.forEach((contact) {
-      // var name;
-      // var firstName;
-      // var lastName;
-      // if (contact.name != null) {
-      // name = contact.name.split(" ");
-      // print("CONTACT NAME: $name");
-      // print(name.length);
-      // firstName = name[0];
-      // if (name.length > 1) {
-      //   lastName = name[1];
-      // } else {
-      //   lastName = "";
-      // }
-      // } else {
-      //   name = [];
-      //   firstName = "";
-      //   lastName = "";
-      // }
-      // print("CONTACT: ${contact}");
-      vCard.firstName = contact.name == null ? "no name" : contact.name;
-      // vCard.firstName = firstName;
-      // vCard.middleName = 'MiddleName';
-      // vCard.lastName = lastName;
-      // vCard.organization = 'ActivSpaces Labs';
-      // vCard.photo.attachFromUrl(
-      //     'https://www.activspaces.com/wp-content/uploads/2019/01/ActivSpaces-Logo_Dark.png',
-      //     'PNG');
-      vCard.workPhone = contact.phone == null ? "no phone" : contact.phone;
-      // vCard.birthday = DateTime.now();
-      // vCard.jobTitle = 'Software Developer';
-      vCard.email = contact.email == null ? "no email" : contact.email;
-      // vCard.note = 'Notes on contact';
-
-      content = vCard.getFormattedString();
-      file.writeAsStringSync(content, mode: FileMode.append);
-    });
-    String filePath = '${path}/myContacts.vcf';
-    widget.filepaths.add(filePath);
+    String file = await FileUtils.createVcard(dir);
+    widget.filepaths.add(file);
   }
 
   @override
