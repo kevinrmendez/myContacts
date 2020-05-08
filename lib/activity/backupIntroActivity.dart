@@ -128,6 +128,7 @@ class BackupActivityIntroState extends State<BackupActivityIntro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(title: Text(translatedText("app_title_about", context))),
       body: Center(
         child: SingleChildScrollView(
@@ -141,6 +142,8 @@ class BackupActivityIntroState extends State<BackupActivityIntro> {
                       title: "create backup",
                       onPressed: () {
                         _createBackup();
+                        _scaffoldKey.currentState.showSnackBar(
+                            new SnackBar(content: Text("backup created")));
                       },
                       textColor: Colors.white,
                       color: Theme.of(context).primaryColor),
