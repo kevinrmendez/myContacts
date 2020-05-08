@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/backupActivity.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
+import 'package:kevin_app/activity/homeActivity.dart';
 import 'package:kevin_app/activity/statisticsActivity.dart';
 import 'package:kevin_app/components/ColorSettings.dart';
 import 'package:kevin_app/components/expandableExportSettings.dart';
