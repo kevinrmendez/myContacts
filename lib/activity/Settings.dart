@@ -433,7 +433,7 @@ class SettingsState extends State<Settings> {
                         : SizedBox(),
                     ColorSettings(),
                     WidgetUtils.settingsTile(
-                        title: "backup",
+                        title: translatedText("settings_backup", context),
                         icon: Icons.backup,
                         onTap: () {
                           Navigator.push(

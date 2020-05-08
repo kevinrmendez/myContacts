@@ -142,9 +142,12 @@ class _BackupActivityListState extends State<BackupActivityList> {
   List<Widget> _buildListDirectories() {
     return directories.map((directory) {
       String fileName = directory.split('/').last;
+      String dateString = fileName.split('_').last;
+      String backupName =
+          "${translatedText("text_backup", context)} $dateString";
 
       return ListTile(
-        title: Text(fileName),
+        title: Text(backupName),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -173,24 +176,51 @@ class _BackupActivityListState extends State<BackupActivityList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(translatedText("app_title_about", context))),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("BACKUP LIST"),
-              Column(children: [
-                directories.length == 0
-                    ? SizedBox()
-                    : Column(
-                        children: _buildListDirectories(),
-                      )
-              ])
-            ],
-          ),
-        ),
-      ),
+      appBar: AppBar(title: Text(translatedText("app_title_backup", context))),
+      body: directories.length > 0
+          ? SingleChildScrollView(
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Text(
+                    translatedText("title_backup_list", context),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 26),
+                  ),
+                ),
+                Column(children: [
+                  Column(
+                    children: _buildListDirectories(),
+                  )
+                ])
+              ],
+            ))
+          : Center(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      // padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Text(
+                        translatedText("title_backup_list", context),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 26),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      translatedText("text_backup_empty", context),
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    )
+                  ]),
+            ),
     );
   }
 }

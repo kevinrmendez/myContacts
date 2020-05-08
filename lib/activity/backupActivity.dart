@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kevin_app/activity/backupActivityList.dart';
+import 'package:kevin_app/state/appState.dart';
+import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/fileUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
@@ -52,6 +55,8 @@ class BackupActivityState extends State<BackupActivity> {
     Directory dir = await getExternalStorageDirectory();
     String path = dir.absolute.path;
     DateTime date = DateTime.now();
+    // String dateFormatted = DateFormat("dd-MM-yyyy").format(date);
+    // String folderName = "mycontacts_$dateFormatted";
     String folderName = "mycontacts_$date";
     Directory newDir = Directory("$path/$folderName");
     newDir.create();
@@ -74,27 +79,61 @@ class BackupActivityState extends State<BackupActivity> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(title: Text(translatedText("app_title_about", context))),
+      appBar: AppBar(title: Text(translatedText("app_title_backup", context))),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('backup'),
+              Text(
+                translatedText("title_backup", context),
+                style: TextStyle(fontSize: 28),
+              ),
               Column(
                 children: <Widget>[
-                  WidgetUtils.largeButton(
-                      title: "create backup",
-                      onPressed: () {
-                        _createBackup();
-                        _scaffoldKey.currentState.showSnackBar(
-                            new SnackBar(content: Text("backup created")));
-                      },
-                      textColor: Colors.white,
-                      color: Theme.of(context).primaryColor),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Icon(
+                      Icons.backup,
+                      size: 60,
+                      color: GREY,
+                    ),
+                  ),
+                  contactService.current.length > 0
+                      ? WidgetUtils.largeButton(
+                          title:
+                              translatedText("button_backup_create", context),
+                          onPressed: () {
+                            _createBackup();
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                content: Text(translatedText(
+                                    "snackbar_contact_backup_created",
+                                    context))));
+                          },
+                          textColor: Colors.white,
+                          color: Theme.of(context).primaryColor)
+                      : Container(
+                          width: MediaQuery.of(context).size.width * .8,
+                          child: Column(children: [
+                            Text(
+                              translatedText("text_backup_empty_list", context),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 22,
+                              ),
+                            ),
+                            Text(
+                              translatedText(
+                                  "text_backup_empty_list_instructions",
+                                  context),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 16),
+                            )
+                          ]),
+                        ),
                   directories.length > 0
                       ? WidgetUtils.largeButton(
-                          title: "check backups",
+                          title: translatedText("button_backup_list", context),
                           onPressed: () {
                             Navigator.push(
                               context,
