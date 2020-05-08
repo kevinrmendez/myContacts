@@ -18,12 +18,14 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
 
   _buildButton({String title, Function onPressed}) {
     return Container(
+      padding: EdgeInsets.only(top: 10),
       width: 200,
       child: RaisedButton(
           elevation: 10,
           color: Colors.white,
           child: Text(
             title,
+            textAlign: TextAlign.center,
             style: TextStyle(color: Colors.blue, fontSize: 22),
           ),
           onPressed: onPressed),
@@ -135,22 +137,29 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
     isContactedImported = false;
   }
 
-  Route _createRoute() {
-    return PageRouteBuilder(
-      transitionDuration: Duration(seconds: 2),
-      pageBuilder: (context, animation, secondaryAnimation) => Home(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(1.0, 0.0);
-        var end = Offset.zero;
-        var curve = Curves.easeIn;
+  // Route _createRoute() {
+  //   return PageRouteBuilder(
+  //     transitionDuration: Duration(seconds: 2),
+  //     pageBuilder: (context, animation, secondaryAnimation) => Home(),
+  //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+  //       var begin = Offset(1.0, 0.0);
+  //       var end = Offset.zero;
+  //       var curve = Curves.easeIn;
 
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
-      },
+  //       var tween =
+  //           Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+  //       return SlideTransition(
+  //         position: animation.drive(tween),
+  //         child: child,
+  //       );
+  //     },
+  //   );
+  // }
+  _buildText(text) {
+    return Text(
+      text,
+      style: TextStyle(
+          color: Colors.white, fontWeight: FontWeight.bold, fontSize: 40),
     );
   }
 
@@ -159,15 +168,17 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          "Welcome to",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 40),
+        _buildText(
+          translatedText(
+            "setup_welcome",
+            context,
+          ),
         ),
-        Text(
-          "MyContacts",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 40),
+        _buildText(
+          translatedText(
+            "setup_name",
+            context,
+          ),
         ),
 
         Padding(
@@ -190,7 +201,7 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
                       Container(
                         padding: EdgeInsets.only(bottom: 20),
                         child: Text(
-                          "Your contacts have been imported",
+                          translatedText("setup_contact_import", context),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.white,
@@ -199,17 +210,12 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
                         ),
                       ),
                       _buildButton(
-                        title: "continue",
+                        title: translatedText("button_continue", context),
                         onPressed: () async {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => Home()),
                           );
-                          // Navigator.pushAndRemoveUntil(
-                          //     context,
-                          //     MaterialPageRoute(builder: (context) => Home()),
-                          //     (Route<dynamic> route) => false);
-
                           // Navigator.pushAndRemoveUntil(context, _createRoute(),
                           //     (Route<dynamic> route) => true);
                           AppSettings.of(context)
@@ -220,7 +226,7 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
                     ]),
                   )
                 : _buildButton(
-                    title: "import Contacts",
+                    title: translatedText("button_import", context),
                     onPressed: () {
                       _importContacts();
                     },
@@ -228,7 +234,7 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
             isContactedImported
                 ? SizedBox()
                 : _buildButton(
-                    title: "skip",
+                    title: translatedText("button_skip", context),
                     onPressed: () {
                       Navigator.push(
                         context,
