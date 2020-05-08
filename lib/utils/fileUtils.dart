@@ -114,7 +114,7 @@ class FileUtils {
     return filePath;
   }
 
-  static Future<String> createContactCsv(Directory directory) async {
+  static Future<String> createCsv(Directory directory) async {
     print('CONTACTS EXPORTED');
     // Directory dir = await getExternalStorageDirectory();
     // var dir = await getApplicationDocumentsDirectory();

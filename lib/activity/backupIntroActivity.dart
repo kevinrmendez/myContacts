@@ -2,6 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:kevin_app/activity/backupActivityList.dart';
+import 'package:kevin_app/backup.dart';
+import 'package:kevin_app/utils/fileUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:path_provider/path_provider.dart';
@@ -81,6 +84,14 @@ class BackupActivityIntroState extends State<BackupActivityIntro> {
       directories = dir.listSync().map((f) => f.path).toList();
     });
     directories.forEach(((f) => print("FILE $f")));
+    await FileUtils.createCsv(newDir);
+    await FileUtils.createPdf(newDir);
+    await FileUtils.createVcard(newDir);
+    List newFilelist = [];
+    newFilelist = newDir.listSync();
+    print("NEWFILELIST $newFilelist");
+    Backup backup =
+        Backup(name: folderName, directory: newDir, createdDate: date);
   }
 
   List<Widget> _buildListFiles() {
@@ -135,7 +146,13 @@ class BackupActivityIntroState extends State<BackupActivityIntro> {
                       color: Theme.of(context).primaryColor),
                   WidgetUtils.largeButton(
                       title: "check backups",
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BackupActivityList()),
+                        );
+                      },
                       textColor: Colors.white,
                       color: Theme.of(context).primaryColor),
                 ],

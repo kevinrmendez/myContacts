@@ -120,7 +120,7 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
 
   Future<void> _createCsv() async {
     Directory dir = await getExternalStorageDirectory();
-    String file = await FileUtils.createContactCsv(dir);
+    String file = await FileUtils.createCsv(dir);
     widget.filepaths.add(file);
   }
 
