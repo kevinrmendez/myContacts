@@ -33,6 +33,7 @@
   "hintText_linkedin": "linkedin id",
   "hintText_twitter": "twitter id",
   "dialog_birthday_reminder_title": "Birthday reminder",
+  "dialog_exporting_contacts": "exporting contacts...",
   "notification_birthday_title": "today is the birthday of",
   "notification_birthday_description": "Remember to say happy birthday!",
   "notification_birthday_payload": "today is the birthday of ",

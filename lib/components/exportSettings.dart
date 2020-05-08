@@ -82,6 +82,8 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
   bool isPdfSelected;
   bool isCsvSelected;
   bool isVcfSelected;
+  bool contactsExported;
+  bool contactsExporting;
 
   @override
   void initState() {
@@ -89,6 +91,8 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
     isPdfSelected = false;
     isCsvSelected = false;
     isVcfSelected = false;
+    contactsExported = false;
+    contactsExporting = false;
   }
 
   void _exportContacts() async {
@@ -102,6 +106,11 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
       await _createVcard();
     }
     _sendEmail(filePaths: widget.filepaths);
+    Navigator.of(context).pop();
+    setState(() {
+      // contactsExporting = false;
+      contactsExported = true;
+    });
   }
 
   _sendEmail({List<String> filePaths}) async {
@@ -144,73 +153,97 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width * .8,
-                child: Text(
-                  translatedText("settings_export_description", context),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+              contactsExporting
+                  ? SizedBox()
+                  : Column(children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * .8,
+                        child: Text(
+                          translatedText(
+                              "settings_export_description", context),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ]),
+              contactsExporting
+                  ? Column(children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        child: Text(
+                          translatedText("dialog_exporting_contacts", context),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      CircularProgressIndicator()
+                    ])
+                  : Column(children: [
+                      CheckboxListTile(
+                        title: Text('pdf'),
+                        value: isPdfSelected,
+                        onChanged: (bool value) {
+                          setState(() {
+                            isPdfSelected = value;
+                          });
+                        },
+                      ),
+                      CheckboxListTile(
+                        title: Text('csv'),
+                        value: isCsvSelected,
+                        onChanged: (bool value) {
+                          setState(() {
+                            isCsvSelected = value;
+                          });
+                        },
+                      ),
+                      CheckboxListTile(
+                        title: Text('vcf'),
+                        value: isVcfSelected,
+                        onChanged: (bool value) {
+                          setState(() {
+                            isVcfSelected = value;
+                          });
+                        },
+                      ),
+                    ]),
               SizedBox(
                 height: 10,
               ),
-              CheckboxListTile(
-                title: Text('pdf'),
-                value: isPdfSelected,
-                onChanged: (bool value) {
-                  setState(() {
-                    isPdfSelected = value;
-                  });
-                },
-              ),
-              CheckboxListTile(
-                title: Text('csv'),
-                value: isCsvSelected,
-                onChanged: (bool value) {
-                  setState(() {
-                    isCsvSelected = value;
-                  });
-                },
-              ),
-              CheckboxListTile(
-                title: Text('vcf'),
-                value: isVcfSelected,
-                onChanged: (bool value) {
-                  setState(() {
-                    isVcfSelected = value;
-                  });
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  RaisedButton(
-                    color: Theme.of(context).primaryColor,
-                    child: Text(
-                      translatedText("button_export", context),
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+              contactsExporting
+                  ? SizedBox()
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        RaisedButton(
+                          color: Theme.of(context).primaryColor,
+                          child: Text(
+                            translatedText("button_export", context),
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            _exportContacts();
+                            setState(() {
+                              contactsExporting = true;
+                            });
+                            // Navigator.of(context).pop();
+                          },
+                        ),
+                        RaisedButton(
+                          color: Theme.of(context).primaryColor,
+                          child: Text(
+                            translatedText("button_close", context),
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
                     ),
-                    onPressed: () {
-                      _exportContacts();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  RaisedButton(
-                    color: Theme.of(context).primaryColor,
-                    child: Text(
-                      translatedText("button_close", context),
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
             ],
           )
         ],
