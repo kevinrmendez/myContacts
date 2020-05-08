@@ -128,6 +128,23 @@ class WidgetUtils {
     );
   }
 
+  static Widget largeButton(
+      {String title, Function onPressed, Color textColor, Color color}) {
+    return Container(
+      padding: EdgeInsets.only(top: 10),
+      width: 200,
+      child: RaisedButton(
+          elevation: 10,
+          color: color,
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: textColor, fontSize: 22),
+          ),
+          onPressed: onPressed),
+    );
+  }
+
   static Widget urlButtons({String url, IconData icon, BuildContext context}) {
     return Container(
       width: 80,

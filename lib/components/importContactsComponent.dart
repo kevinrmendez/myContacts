@@ -17,22 +17,6 @@ class ImportContactsComponent extends StatefulWidget {
 class _ImportContactsComponentState extends State<ImportContactsComponent> {
   bool isContactedImported;
 
-  _buildButton({String title, Function onPressed}) {
-    return Container(
-      padding: EdgeInsets.only(top: 10),
-      width: 200,
-      child: RaisedButton(
-          elevation: 10,
-          color: Colors.white,
-          child: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.blue, fontSize: 22),
-          ),
-          onPressed: onPressed),
-    );
-  }
-
   _importContactsFromService() async {
     Iterable<a.Contact> contacts = await a.ContactsService.getContacts();
     contacts.map((value) {});
@@ -210,31 +194,33 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
                               fontSize: 28),
                         ),
                       ),
-                      _buildButton(
-                        title: translatedText("button_continue", context),
-                        onPressed: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Home()),
-                          );
-                          // Navigator.pushAndRemoveUntil(context, _createRoute(),
-                          //     (Route<dynamic> route) => true);
-                          AppSettings.of(context)
-                              .callback(showSetupScreen: false);
-                          prefs.setBool('showSetupScreen', false);
-                        },
-                      )
+                      WidgetUtils.largeButton(
+                          title: translatedText("button_continue", context),
+                          onPressed: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Home()),
+                            );
+                            // Navigator.pushAndRemoveUntil(context, _createRoute(),
+                            //     (Route<dynamic> route) => true);
+                            AppSettings.of(context)
+                                .callback(showSetupScreen: false);
+                            prefs.setBool('showSetupScreen', false);
+                          },
+                          textColor: Colors.blue,
+                          color: Colors.white)
                     ]),
                   )
-                : _buildButton(
+                : WidgetUtils.largeButton(
                     title: translatedText("button_import", context),
                     onPressed: () {
                       _importContacts();
                     },
-                  ),
+                    textColor: Colors.blue,
+                    color: Colors.white),
             isContactedImported
                 ? SizedBox()
-                : _buildButton(
+                : WidgetUtils.largeButton(
                     title: translatedText("button_skip", context),
                     onPressed: () {
                       Navigator.push(
@@ -246,7 +232,8 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
                       AppSettings.of(context).callback(showSetupScreen: false);
                       prefs.setBool('showSetupScreen', false);
                     },
-                  ),
+                    textColor: Colors.blue,
+                    color: Colors.white),
           ],
         )
       ],
