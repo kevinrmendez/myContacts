@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/activity/cameraActivity.dart';
+import 'package:kevin_app/activity/homeActivity.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';

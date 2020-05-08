@@ -72,7 +72,7 @@ class _StatisticsActivityState extends State<StatisticsActivity> {
 
   Widget _stadisticsTile({IconData icon, String text, int data}) {
     return Container(
-      padding: EdgeInsets.fromLTRB(10, 0, 20, 10),
+      padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
       child: Row(
         children: <Widget>[
           Icon(
@@ -83,13 +83,20 @@ class _StatisticsActivityState extends State<StatisticsActivity> {
           SizedBox(
             width: 10,
           ),
-          Text(
-            text,
-            style: TextStyle(fontSize: 18),
+          Flexible(
+            flex: 4,
+            child: Text(
+              "$text",
+              style: TextStyle(fontSize: 18),
+            ),
           ),
-          Text(
-            data.toString(),
-            style: TextStyle(fontSize: 18),
+          Flexible(
+            flex: 2,
+            child: Text(
+              data.toString(),
+              // "1000000000000000000000000000",
+              style: TextStyle(fontSize: 18),
+            ),
           )
         ],
       ),

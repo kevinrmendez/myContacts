@@ -132,7 +132,7 @@ class SettingsState extends State<Settings> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Container(
-                    width: MediaQuery.of(context).size.width * .8,
+                    width: MediaQuery.of(context).size.width * .7,
                     child: Text(
                       translatedText(
                         "dialog_description_importing",
