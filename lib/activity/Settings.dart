@@ -3,7 +3,6 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/backupActivity.dart';
-import 'package:kevin_app/activity/backupIntroActivity.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
 import 'package:kevin_app/activity/homeActivity.dart';
 import 'package:kevin_app/activity/statisticsActivity.dart';
@@ -443,16 +442,6 @@ class SettingsState extends State<Settings> {
                                 builder: (context) => BackupActivity()),
                           );
                         }),
-                    WidgetUtils.settingsTile(
-                        title: "backup2",
-                        icon: Icons.backup,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BackupActivityIntro()),
-                          );
-                        })
                   ],
                 ),
               ),
