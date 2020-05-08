@@ -118,9 +118,9 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
       print(onValue);
       setState(() {
         // importedContacts = true;
-        // prefs.setBool('importedContacts', importedContacts);
         // importedContactsProgress = false;
         isContactedImported = true;
+        prefs.setBool('importedContacts', isContactedImported);
       });
       // _scaffoldKey.currentState.showSnackBar(
       //     snackBar(translatedText("snackbar_contact_import", context)));
