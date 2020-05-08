@@ -6,6 +6,7 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:kevin_app/contactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
+import 'package:kevin_app/utils/fileUtils.dart';
 import 'package:kevin_app/utils/permissionsUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
@@ -73,33 +74,6 @@ class ExportDialog extends StatelessWidget {
       height: MediaQuery.of(context).size.height * .6,
       child: ExportDialogContent(),
     );
-    // return Dialog(
-    //   child: Container(
-    //     height: MediaQuery.of(context).size.height * .6,
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //       children: <Widget>[
-    //         Container(
-    //             padding: EdgeInsets.symmetric(vertical: 14),
-    //             width: MediaQuery.of(context).size.width,
-    //             color: Theme.of(context).primaryColor,
-    //             child: Text(
-    //               translatedText("settings_export_contacts", context),
-    //               textAlign: TextAlign.center,
-    //               style: TextStyle(color: Colors.white, fontSize: 22),
-    //             )),
-    //         SizedBox(
-    //           height: 10,
-    //         ),
-    //         ExportDialogContent(),
-    //         SizedBox(
-    //           height: 10,
-    //         ),
-    //         AdmobUtils.admobBanner()
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }
 
@@ -122,34 +96,46 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
     isVcfSelected = false;
   }
 
-  void _exportContacts() {
+  void _exportContacts() async {
     if (isPdfSelected) {
-      _createPdf();
+      Directory dir = await getExternalStorageDirectory();
+      String file = await FileUtils.createPdf(dir);
+      widget.filepaths.add(file);
+      // _createPdf();
     }
     if (isCsvSelected) {
-      _createContactCsv();
+      Directory dir = await getExternalStorageDirectory();
+      String file = await FileUtils.createContactCsv(dir);
+      widget.filepaths.add(file);
+
+      // _createContactCsv();
     }
     if (isVcfSelected) {
-      _createVcard();
+      Directory dir = await getExternalStorageDirectory();
+      String file = await FileUtils.createVcard(dir);
+      widget.filepaths.add(file);
+      // _createVcard();
     }
     _sendEmail(filePaths: widget.filepaths);
   }
 
-  Future<void> _sendEmail({List<String> filePaths}) async {
-    Directory dir = await getExternalStorageDirectory();
+  _sendEmail({List<String> filePaths}) {
+    print("FILEPATHS: ${filePaths.toString()}");
 
-    String path = dir.absolute.path;
+    // Directory dir = await getExternalStorageDirectory();
+    // String path = dir.absolute.path;
     final Email email = Email(
-      body: translatedText("text", context),
-      subject: translatedText("email_csv_subject", context),
-      // recipients: ['example@example.com'],
-      attachmentPaths: [
-        "$path/contacts.csv",
-        "$path/example.pdf",
-        "$path/contact.vcf"
-      ],
-    );
-    await FlutterEmailSender.send(email);
+        // body: translatedText("text", context),
+        // subject: translatedText("email_csv_subject", context),
+        // recipients: ['example@example.com'],
+        // attachmentPaths: [
+        //   "$path/myContacts.csv",
+        //   "$path/myContacts.pdf",
+        //   "$path/myContacts.vcf"
+        // ],
+        attachmentPaths: filePaths);
+    print("FILEPATHS: ${filePaths.toString()}");
+    FlutterEmailSender.send(email);
     _scaffoldKey.currentState.showSnackBar(
         snackBar(translatedText("snackbar_contact_exported", context)));
   }
@@ -171,13 +157,13 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
 
     String path = dir.absolute.path;
     print(path);
-    File file = File('${path}/contacts.csv');
+    File file = File('${path}/myContacts.csv');
 
     print(file);
     String csv = const ListToCsvConverter().convert(rows);
 
     file.writeAsString(csv);
-    String filePath = '${path}/contacts.csv';
+    String filePath = '${path}/myContacts.csv';
     widget.filepaths.add(filePath);
   }
 
@@ -208,7 +194,7 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
   void _createPdf() async {
     Directory dir = await getExternalStorageDirectory();
     String path = dir.absolute.path;
-    File file = File('${path}/example.pdf');
+    File file = File('${path}/myContacts.pdf');
 
     print("PDF FILE: $file");
     final p.Document pdfDocument = p.Document();
@@ -222,7 +208,7 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
       return data;
     }));
     file.writeAsBytesSync(pdfDocument.save());
-    String filePath = '${path}/example.pdf';
+    String filePath = '${path}/myContacts.pdf';
     widget.filepaths.add(filePath);
   }
 
@@ -230,7 +216,7 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
     Directory dir = await getExternalStorageDirectory();
     String path = dir.absolute.path;
 
-    File file = File('$path/contact.vcf');
+    File file = File('$path/myContacts.vcf');
 
     file.writeAsStringSync("", mode: FileMode.write);
 
@@ -276,7 +262,7 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
       content = vCard.getFormattedString();
       file.writeAsStringSync(content, mode: FileMode.append);
     });
-    String filePath = '${path}/contact.vcf';
+    String filePath = '${path}/myContacts.vcf';
     widget.filepaths.add(filePath);
   }
 
