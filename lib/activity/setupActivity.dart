@@ -38,7 +38,7 @@ class _SetupActivityState extends State<SetupActivity> {
     super.initState();
     isContactedImported = false;
 
-    _requestPermissions();
+    // _requestPermissions();
     _startSetup();
   }
 

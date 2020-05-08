@@ -135,6 +135,25 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
     isContactedImported = false;
   }
 
+  Route _createRoute() {
+    return PageRouteBuilder(
+      transitionDuration: Duration(seconds: 2),
+      pageBuilder: (context, animation, secondaryAnimation) => Home(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(1.0, 0.0);
+        var end = Offset.zero;
+        var curve = Curves.easeIn;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -182,10 +201,17 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
                       _buildButton(
                         title: "continue",
                         onPressed: () async {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(builder: (context) => Home()),
-                              (Route<dynamic> route) => false);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Home()),
+                          );
+                          // Navigator.pushAndRemoveUntil(
+                          //     context,
+                          //     MaterialPageRoute(builder: (context) => Home()),
+                          //     (Route<dynamic> route) => false);
+
+                          // Navigator.pushAndRemoveUntil(context, _createRoute(),
+                          //     (Route<dynamic> route) => true);
                           AppSettings.of(context)
                               .callback(showSetupScreen: false);
                           prefs.setBool('showSetupScreen', false);
@@ -197,15 +223,6 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
                     title: "import Contacts",
                     onPressed: () {
                       _importContacts();
-                      //TODO: change state after contacts
-                      // Future.delayed(const Duration(milliseconds: 700), () {
-                      //   setState(() {
-                      //     isContactedImported = true;
-                      //   });
-                      //   // Scaffold.of(context).showSnackBar(widget.snackBar);
-
-                      //   // _requestPermissions();
-                      // });
                     },
                   ),
             isContactedImported
@@ -213,17 +230,14 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
                 : _buildButton(
                     title: "skip",
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => Home()),
-                          (Route<dynamic> route) => true);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Home()),
+                      );
+                      // Navigator.pushAndRemoveUntil(context, _createRoute(),
+                      //     (Route<dynamic> route) => false);
                       AppSettings.of(context).callback(showSetupScreen: false);
-                      prefs.setBool('showSetupScreen', true);
-
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => Home()),
-                      // );
+                      prefs.setBool('showSetupScreen', false);
                     },
                   ),
           ],

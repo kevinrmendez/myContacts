@@ -157,7 +157,7 @@ class MyAppState extends State<MyApp> {
     }
     if (showSetupScreen != null) {
       setState(() {
-        this.showSetupScreen = false;
+        this.showSetupScreen = showSetupScreen;
       });
     }
     // setState(() {
@@ -228,6 +228,11 @@ class AppWrapper extends StatelessWidget {
 
     final navigatorKey = GlobalKey<NavigatorState>();
     return MaterialApp(
+      initialRoute: AppSettings.of(context).showSetupScreen ? '/setup' : '/',
+      routes: {
+        '/': (context) => Home(),
+        '/setup': (context) => SetupActivity(),
+      },
       navigatorKey: navigatorKey,
       supportedLocales: [
         const Locale('en', 'US'),
@@ -270,11 +275,12 @@ class AppWrapper extends StatelessWidget {
       //   onWillPop: _onWillPop,
       //   child: Home(),
       // ),
-      home: WillPopScope(
-        onWillPop: _onWillPop,
-        child:
-            AppSettings.of(context).showSetupScreen ? SetupActivity() : Home(),
-      ),
+      // home: WillPopScope(
+      //   onWillPop: _onWillPop,
+      //   child:
+      //       AppSettings.of(context).showSetupScreen ? SetupActivity() : Home(),
+      //       // Home(),
+      // ),
     );
   }
 }
