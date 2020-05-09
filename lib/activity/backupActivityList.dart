@@ -98,8 +98,8 @@ class _BackupActivityListState extends State<BackupActivityList> {
     }).toList();
 
     final Email email = Email(
-      body: translatedText("text", context),
-      subject: translatedText("email_csv_subject", context),
+      body: translatedText("email_body", context),
+      subject: translatedText("email_subject", context),
       // recipients: ['example@example.com'],
       attachmentPaths: filePaths,
     );

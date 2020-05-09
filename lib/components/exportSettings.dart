@@ -117,8 +117,8 @@ class _ExportDialogContentState extends State<ExportDialogContent> {
     print("FILEPATHS: ${filePaths.toString()}");
 
     final Email email = Email(
-        // body: translatedText("text", context),
-        // subject: translatedText("email_csv_subject", context),
+        body: translatedText("email_body", context),
+        subject: translatedText("email_subject", context),
         // recipients: ['example@example.com'],
         attachmentPaths: filePaths);
     print("FILEPATHS: ${filePaths.toString()}");

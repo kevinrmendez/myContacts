@@ -267,6 +267,7 @@ class AppWrapper extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // theme: AppSettings.of(context).theme,
       theme: ThemeData(
+          fontFamily: "Open Sans",
           primaryColor: AppSettings.of(context).color,
           accentColor: AppSettings.of(context).color),
       // home: WillPopScope(

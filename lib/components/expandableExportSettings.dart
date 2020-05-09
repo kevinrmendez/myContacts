@@ -70,8 +70,8 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
       file.writeAsString(csv);
 
       final Email email = Email(
-        body: translatedText("text", context),
-        subject: translatedText("email_csv_subject", context),
+        body: translatedText("email_body", context),
+        subject: translatedText("email_subject", context),
         // recipients: ['example@example.com'],
         attachmentPaths: ['${file.path}'],
       );
@@ -159,8 +159,8 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
       file.writeAsBytesSync(pdfDocument.save());
 
       final Email email = Email(
-        body: translatedText("email_pdf_body", context),
-        subject: translatedText("email_pdf_subject", context),
+        body: translatedText("email_body", context),
+        subject: translatedText("email_subject", context),
         // recipients: ['example@example.com'],
         attachmentPaths: ['${file.path}'],
       );
@@ -220,8 +220,8 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
       // print(vCard.getFormattedString());
 
       final Email email = Email(
-        body: translatedText("email_vcf_body", context),
-        subject: translatedText("email_vcf_subject", context),
+        body: translatedText("email_body", context),
+        subject: translatedText("email_subject", context),
         // recipients: ['example@example.com'],
         attachmentPaths: ["${file.path}"],
       );
