@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:csv/csv.dart';
+import 'package:flutter/services.dart';
 import 'package:kevin_app/contactDb.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as p;
+import 'package:pdf/widgets.dart';
 
 import 'package:vcard/vcard.dart';
 
@@ -68,18 +71,27 @@ class FileUtils {
   }
 
   static Future<List<dynamic>> _generateTable() async {
+    // Directory directory = await getApplicationDocumentsDirectory();
+
+    final fontData = await rootBundle.load("fonts/OpenSans-Regular.ttf");
+    final Font ttf = Font.ttf(fontData);
+
+    // final Uint8List fontData =
+    //     File('fonts/OpenSans-Regular.ttf').readAsBytesSync();
+    // final Uint8List fontDataBold = File('open-sans-bold.ttf').readAsBytesSync();
+    // final Font ttfBold = Font.ttf(fontData.buffer.asByteData());
     List<dynamic> contacts = await db.contacts();
     List<p.Widget> rows = List();
     // List<p.Widget> row = List();
 
     p.Text _text(text) {
-      return p.Text('$text ||', style: p.TextStyle(fontSize: 12));
+      return p.Text('$text ||', style: p.TextStyle(fontSize: 12, font: ttf));
     }
 
     for (int i = 0; i < contacts.length; i++) {
       var text = p.Row(
         children: [
-          p.Text('${i + 1})', style: p.TextStyle(fontSize: 12)),
+          p.Text('${i + 1})', style: p.TextStyle(fontSize: 12, font: ttf)),
           _text('${contacts[i].name}'),
           _text('${contacts[i].phone}'),
           _text('${contacts[i].email}'),
@@ -93,6 +105,15 @@ class FileUtils {
 
   static Future<String> createPdf(Directory directory) async {
     // Directory dir = await getExternalStorageDirectory();
+    final fontData = await rootBundle.load("fonts/OpenSans-Regular.ttf");
+
+    // final Uint8List fontData = File(fontPath).readAsBytesSync();
+    // final Uint8List fontData =
+    //     File('fonts/OpenSans-Regular.ttf').readAsBytesSync();
+    final Font ttf = Font.ttf(fontData);
+    // final Uint8List fontDataBold = File('open-sans-bold.ttf').readAsBytesSync();
+    // final Font ttfBold = Font.ttf(fontData.buffer.asByteData());
+    print("YES");
     String path = directory.absolute.path;
     File file = File('${path}/myContacts.pdf');
 
@@ -103,7 +124,8 @@ class FileUtils {
     pdfDocument.addPage(p.MultiPage(header: (p.Context context) {
       return p.Header(
           level: 1,
-          child: p.Text('MyContacts', style: p.TextStyle(fontSize: 20)));
+          child: p.Text('MyContacts',
+              style: p.TextStyle(fontSize: 20, font: ttf)));
     }, build: (p.Context context) {
       return data;
     }));
