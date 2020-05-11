@@ -52,7 +52,8 @@ class ContactEditForm extends StatefulWidget {
   }
 }
 
-class ContactEditFormState extends State<ContactEditForm> {
+class ContactEditFormState extends State<ContactEditForm>
+    with SingleTickerProviderStateMixin {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -75,6 +76,9 @@ class ContactEditFormState extends State<ContactEditForm> {
   final instagramController = TextEditingController();
   final linkedinController = TextEditingController();
   final twitterController = TextEditingController();
+
+  TabController _tabController;
+  int _tabIndex = 0;
 
   String name;
   String phone;
@@ -151,6 +155,7 @@ class ContactEditFormState extends State<ContactEditForm> {
     this.addressController.text = this.address;
     this.organizationController.text = this.organization;
     this.websiteController.text = this.website;
+    this.noteController.text = this.note;
 
     this.facebookController.text = this.facebook;
     this.instagramController.text = this.instagram;
@@ -167,6 +172,17 @@ class ContactEditFormState extends State<ContactEditForm> {
 
     // isBirthdayNotificationEnable = false;
     showDetails = false;
+
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_handleTabSelection);
+  }
+
+  _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      setState(() {
+        _tabIndex = _tabController.index;
+      });
+    }
   }
 
   Future<void> _updateContact(Contact contact) async {
@@ -1162,6 +1178,7 @@ class ContactEditFormState extends State<ContactEditForm> {
             child: Column(
               children: <Widget>[
                 TabBar(
+                  controller: _tabController,
                   indicatorColor: Theme.of(context).primaryColor,
                   labelColor: Theme.of(context).primaryColor,
                   unselectedLabelColor: GREY,
@@ -1180,14 +1197,13 @@ class ContactEditFormState extends State<ContactEditForm> {
                     )),
                   ],
                 ),
-                Container(
-                    height: MediaQuery.of(context).size.height * .4,
-                    // width: MediaQuery.of(context).size.width * .82,
-                    child: TabBarView(children: [
-                      Container(child: _buildContactForm()),
-                      Container(child: _buildDetailForm()),
-                      Container(child: _buildSocialMediaForm()),
-                    ]))
+                Center(
+                  child: [
+                    _buildContactForm(),
+                    _buildDetailForm(),
+                    _buildSocialMediaForm()
+                  ][_tabIndex],
+                )
               ],
             ),
           ),
