@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/components/importContactsComponent.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';
-import 'package:kevin_app/utils/permissionsUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SetupActivity extends StatefulWidget {
-  final PermissionHandler _permissionHandler = PermissionHandler();
-
   SetupActivity({Key key}) : super(key: key);
 
   @override
@@ -25,12 +22,9 @@ class _SetupActivityState extends State<SetupActivity> {
   }
 
   _requestPermissions() async {
-    await PermissionsUtils.requestPermission(
-        widget._permissionHandler, PermissionGroup.camera);
-    await PermissionsUtils.requestPermission(
-        widget._permissionHandler, PermissionGroup.contacts);
-    await PermissionsUtils.requestPermission(
-        widget._permissionHandler, PermissionGroup.storage);
+    Permission.camera.request();
+    Permission.contacts.request();
+    Permission.storage.request();
   }
 
   @override

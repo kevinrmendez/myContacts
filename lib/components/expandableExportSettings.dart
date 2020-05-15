@@ -80,40 +80,16 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
           snackBar(translatedText("snackbar_contact_exported", context)));
     }
 
-    Future<PermissionStatus> _checkPermission(
-        PermissionGroup permissionGroup) async {
-      PermissionStatus permission =
-          await PermissionHandler().checkPermissionStatus(permissionGroup);
-      return permission;
-    }
-
-    Future<Map<PermissionGroup, PermissionStatus>> _requestPermission(
-        PermissionGroup permissionGroup) async {
-      // await PermissionHandler()
-      //     .shouldShowRequestPermissionRationale(PermissionGroup.contacts);
-      // await PermissionHandler().openAppSettings();
-      _permissionStatus = await _checkPermission(permissionGroup);
-      if (_permissionStatus != PermissionStatus.granted) {
-        return await PermissionHandler().requestPermissions([permissionGroup]);
-      }
-    }
-
     void _exportContacts() async {
       // Map permission = await _requestPermission(PermissionGroup.storage);
-      PermissionStatus status = await _checkPermission(PermissionGroup.storage);
+
+      var status = await Permission.storage.status;
       if (status == PermissionStatus.granted) {
         _createContactCsv();
         WidgetUtils.showSnackbar(
             translatedText("snackbar_contact_exported", context), context);
       } else {
-        Map<PermissionGroup, PermissionStatus> permission =
-            await _requestPermission(PermissionGroup.storage);
-        print(permission["permissionStatus"]);
-        if (permission["permissionStatus"] == PermissionStatus.granted) {
-          _createContactCsv();
-        } else {
-          return null;
-        }
+        Permission.storage.request();
       }
     }
 
@@ -229,38 +205,24 @@ class ExpandableExportSettingsState extends State<ExpandableExportSettings> {
     }
 
     void _exportContactsPdf() async {
-      PermissionStatus status = await _checkPermission(PermissionGroup.storage);
+      var status = await Permission.storage.status;
       if (status == PermissionStatus.granted) {
         _createPdf();
         WidgetUtils.showSnackbar(
             translatedText("snackbar_contact_exported", context), context);
       } else {
-        Map<PermissionGroup, PermissionStatus> permission =
-            await _requestPermission(PermissionGroup.storage);
-        print(permission["permissionStatus"]);
-        if (permission["permissionStatus"] == PermissionStatus.granted) {
-          _createPdf();
-        } else {
-          return null;
-        }
+        Permission.storage.request();
       }
     }
 
     void _exportContactsVcard() async {
-      PermissionStatus status = await _checkPermission(PermissionGroup.storage);
+      var status = await Permission.storage.status;
       if (status == PermissionStatus.granted) {
         _createVcard();
         WidgetUtils.showSnackbar(
             translatedText("snackbar_contact_exported", context), context);
       } else {
-        Map<PermissionGroup, PermissionStatus> permission =
-            await _requestPermission(PermissionGroup.storage);
-        print(permission["permissionStatus"]);
-        if (permission["permissionStatus"] == PermissionStatus.granted) {
-          _createVcard();
-        } else {
-          return null;
-        }
+        Permission.storage.request();
       }
     }
 

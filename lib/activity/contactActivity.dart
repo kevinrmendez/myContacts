@@ -21,22 +21,10 @@ import '../app_localizations.dart';
 import 'cameraActivity.dart';
 
 class ContactActivity extends StatefulWidget {
-  final PermissionHandler _permissionHandler = PermissionHandler();
   final _formKey = GlobalKey<FormState>();
 
   @override
   ContactActivityState createState() => ContactActivityState();
-
-  Future<bool> _requestCameraPermission() async {
-    var result =
-        await _permissionHandler.requestPermissions([PermissionGroup.camera]);
-
-    if (result[PermissionGroup.contacts] == PermissionStatus.granted) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }
 
 class ContactActivityState extends State<ContactActivity>

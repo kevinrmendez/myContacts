@@ -13,7 +13,6 @@ import 'package:kevin_app/contactDb.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
-import 'package:kevin_app/utils/permissionsUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -21,7 +20,6 @@ import 'package:permission_handler/permission_handler.dart';
 import '../app_localizations.dart';
 
 class ContactActivityComponent extends StatefulWidget {
-  final PermissionHandler _permissionHandler = PermissionHandler();
   final _formKey = GlobalKey<FormState>();
   final BuildContext context;
 
@@ -34,7 +32,7 @@ class ContactActivityComponent extends StatefulWidget {
 
 class ContactActivityComponentState extends State<ContactActivityComponent>
     with WidgetsBindingObserver {
-  String _image = "";
+  String image = "";
   AppLifecycleState appState;
   AppLifecycleState appLifecycleState;
 
@@ -46,18 +44,11 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
   List<String> category;
 
   String action = "save";
-  String image;
   String name;
   String phone;
   String email;
   int contactId;
   String dropdownValue;
-
-  callback(value) {
-    setState(() {
-      _image = value;
-    });
-  }
 
   @override
   void initState() {
@@ -130,51 +121,10 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
     });
   }
 
-  _buildCamera() {
-    return Padding(
-        padding: EdgeInsets.symmetric(vertical: 0),
-        child: RaisedButton(
-          color: Theme.of(context).accentColor,
-          onPressed: () async {
-            var permissionStatus = await widget._permissionHandler
-                .checkPermissionStatus(PermissionGroup.camera);
-            final cameras = await availableCameras();
-            final firstCamera = cameras.first;
-
-            switch (permissionStatus) {
-              case PermissionStatus.granted:
-                {
-                  image = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CameraActivity(
-                              camera: firstCamera,
-                            )),
-                  );
-                  setState(() {
-                    _image = image;
-                  });
-                  // widget.callback(image);
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                          translatedText("message_picture_taken", context))));
-                  print(image.toString());
-                }
-                break;
-              case PermissionStatus.denied:
-                {
-                  await PermissionsUtils.requestPermission(
-                      widget._permissionHandler, PermissionGroup.camera);
-                }
-                break;
-              default:
-            }
-          },
-          child: Icon(
-            Icons.camera_alt,
-            color: Colors.white,
-          ),
-        ));
+  callback(value) {
+    setState(() {
+      image = value;
+    });
   }
 
   @override
@@ -187,10 +137,13 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
             alignment: Alignment.center,
             children: <Widget>[
               ContactImage(
-                image: _image,
+                image: image,
               ),
-              Positioned(top: 0, child: AdmobUtils.admobBanner()),
-              Positioned(bottom: 5, child: _buildCamera())
+              // Positioned(top: 0, child: AdmobUtils.admobBanner()),
+              Positioned(
+                bottom: 5,
+                child: WidgetUtils.buildCamera(image, context, callback),
+              )
             ],
           ),
           Align(
@@ -220,12 +173,6 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
                               hintText:
                                   translatedText("hintText_phone", context),
                               icon: Icon(Icons.phone)),
-                          // validator: (value) {
-                          //   if (value.isEmpty) {
-                          //     return 'Please enter the phone';
-                          //   }
-                          //   return null;
-                          // },
                           keyboardType: TextInputType.phone,
                           controller: phoneController,
                         ),
@@ -291,11 +238,15 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
                                   })
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ) // Build this out in the next steps.
                   )),
+          SizedBox(
+            height: 12,
+          ),
+          AdmobUtils.admobBanner()
         ],
       ),
     );

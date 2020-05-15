@@ -17,7 +17,6 @@ import '../app_localizations.dart';
 
 class ContactForm extends StatefulWidget {
   final BuildContext context;
-  final PermissionHandler _permissionHandler = PermissionHandler();
   String image;
   Function(String) callback;
   final nameController;
@@ -31,17 +30,6 @@ class ContactForm extends StatefulWidget {
       this.emailController,
       this.phoneController,
       this.context});
-
-  Future<bool> _requestCameraPermission() async {
-    var result =
-        await _permissionHandler.requestPermissions([PermissionGroup.camera]);
-
-    if (result[PermissionGroup.contacts] == PermissionStatus.granted) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   @override
   ContactFormState createState() {
@@ -225,9 +213,9 @@ class ContactFormState extends State<ContactForm> {
                         child: RaisedButton(
                           color: Theme.of(context).accentColor,
                           onPressed: () async {
-                            var permissionStatus = await widget
-                                ._permissionHandler
-                                .checkPermissionStatus(PermissionGroup.camera);
+                            var permissionStatus =
+                                await Permission.camera.status;
+
                             final cameras = await availableCameras();
                             final firstCamera = cameras.first;
 
@@ -250,7 +238,7 @@ class ContactFormState extends State<ContactForm> {
                                 break;
                               case PermissionStatus.denied:
                                 {
-                                  await widget._requestCameraPermission();
+                                  Permission.camera.request();
                                 }
                                 break;
                               default:

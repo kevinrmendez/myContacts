@@ -28,7 +28,7 @@ dependencies:
   firebase_core:
   share:
   contacts_service: ^0.4.6
-  permission_handler:
+  permission_handler: ^5.0.0+hotfix.6
   shared_preferences:
   csv:
   pdf:

@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/Settings.dart';
+import 'package:kevin_app/activity/cameraActivity.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WidgetUtils {
@@ -32,6 +35,53 @@ class WidgetUtils {
         // focusedBorder: UnderlineInputBorder(
         //     borderSide:
         //         BorderSide(color: Theme.of(context).accentColor)),
+      ),
+    );
+  }
+
+  static Widget buildCamera(
+      String image, BuildContext context, Function callback) {
+    return RaisedButton(
+      color: Theme.of(context).accentColor,
+      onPressed: () async {
+        var permissionStatus = await Permission.camera.status;
+
+        final cameras = await availableCameras();
+        final firstCamera = cameras.first;
+
+        switch (permissionStatus) {
+          case PermissionStatus.granted:
+            {
+              image = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CameraActivity(
+                          camera: firstCamera,
+                        )),
+              );
+              callback(image);
+              Scaffold.of(context).showSnackBar(SnackBar(
+                  content:
+                      Text(translatedText("message_picture_taken", context))));
+              print(image.toString());
+            }
+            break;
+          case PermissionStatus.undetermined:
+            {
+              Permission.camera.request();
+            }
+            break;
+          case PermissionStatus.denied:
+            {
+              Permission.camera.request();
+            }
+            break;
+          default:
+        }
+      },
+      child: Icon(
+        Icons.camera_alt,
+        color: Colors.white,
       ),
     );
   }

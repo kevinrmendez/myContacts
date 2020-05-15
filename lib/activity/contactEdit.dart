@@ -33,24 +33,12 @@ class ContactEdit extends StatelessWidget {
                     context: context,
                     index: index,
                     scrollController: scrollController),
-                Positioned(top: 0, child: AdmobUtils.admobBanner())
+                // Positioned(bottom: 0, child: AdmobUtils.admobBanner())
               ],
-            )
+            ),
+            AdmobUtils.admobBanner()
           ],
         ),
-        Positioned(
-            top: 75,
-            left: -2,
-            child: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                size: 30,
-                color: Theme.of(context).primaryColor,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ))
       ]),
     );
   }

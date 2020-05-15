@@ -15,7 +15,6 @@ import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
-import 'package:kevin_app/utils/permissionsUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
@@ -35,8 +34,6 @@ final ContactDb _db = ContactDb();
 final snackBar = (text) => SnackBar(content: Text(text));
 
 class Settings extends StatefulWidget {
-  final PermissionHandler _permissionHandler = PermissionHandler();
-
   @override
   SettingsState createState() {
     return SettingsState();
@@ -209,12 +206,12 @@ class SettingsState extends State<Settings> {
       });
     }
 
-    Future<PermissionStatus> _checkPermission(
-        PermissionGroup permissionGroup) async {
-      PermissionStatus permission =
-          await PermissionHandler().checkPermissionStatus(permissionGroup);
-      return permission;
-    }
+    // Future<PermissionStatus> _checkPermission(
+    //     PermissionGroup permissionGroup) async {
+    //   PermissionStatus permission =
+    //       await PermissionHandler().checkPermissionStatus(permissionGroup);
+    //   return permission;
+    // }
 
     // Future<Map<PermissionGroup, PermissionStatus>> _requestPermission(
     //     PermissionGroup permissionGroup) async {
@@ -305,18 +302,14 @@ class SettingsState extends State<Settings> {
                             title: translatedText(
                                 "settings_import_contacts", context),
                             onTap: () async {
-                              var permissionStatus = await widget
-                                  ._permissionHandler
-                                  .checkPermissionStatus(
-                                      PermissionGroup.contacts);
+                              var permissionStatus =
+                                  await Permission.contacts.status;
 
                               if (permissionStatus ==
                                   PermissionStatus.granted) {
                                 _importContacts();
                               } else {
-                                PermissionsUtils.requestPermission(
-                                    widget._permissionHandler,
-                                    PermissionGroup.contacts);
+                                Permission.contacts.request();
                               }
                             })
                         : const SizedBox(),

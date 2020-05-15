@@ -12,7 +12,6 @@ import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
-import 'package:kevin_app/utils/permissionsUtils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scidart/numdart.dart';
@@ -37,7 +36,6 @@ class ContactEditForm extends StatefulWidget {
     "friend",
     "coworker"
   ];
-  final PermissionHandler _permissionHandler = PermissionHandler();
   final _formKey = GlobalKey<FormState>();
 
   ContactEditForm(
@@ -1103,47 +1101,10 @@ class ContactEditFormState extends State<ContactEditForm>
     );
   }
 
-  Widget _buildCamera(BuildContext context) {
-    return Container(
-      child: RaisedButton(
-        color: Theme.of(context).accentColor,
-        onPressed: () async {
-          var permissionStatus = await widget._permissionHandler
-              .checkPermissionStatus(PermissionGroup.camera);
-          final cameras = await availableCameras();
-          final firstCamera = cameras.first;
-
-          switch (permissionStatus) {
-            case PermissionStatus.granted:
-              {
-                image = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CameraActivity(
-                            camera: firstCamera,
-                          )),
-                );
-                Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                        translatedText("message_picture_taken", context))));
-                print(image.toString());
-              }
-              break;
-            case PermissionStatus.denied:
-              {
-                await PermissionsUtils.requestPermission(
-                    widget._permissionHandler, PermissionGroup.camera);
-              }
-              break;
-            default:
-          }
-        },
-        child: Icon(
-          Icons.camera_alt,
-          color: Colors.white,
-        ),
-      ),
-    );
+  callback(value) {
+    setState(() {
+      image = value;
+    });
   }
 
   @override
@@ -1159,11 +1120,31 @@ class ContactEditFormState extends State<ContactEditForm>
               Stack(
                 alignment: Alignment.topCenter,
                 children: <Widget>[
-                  ContactImage(
-                    context: context,
-                    image: this.image,
+                  Align(
+                    alignment: Alignment.center,
+                    child: ContactImage(
+                      context: context,
+                      image: this.image,
+                    ),
                   ),
-                  Positioned(bottom: 5, child: _buildCamera(context)),
+                  Positioned(
+                      top: 25,
+                      left: -2,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          size: 30,
+                          color: this.image == null || this.image == ""
+                              ? Theme.of(context).primaryColor
+                              : Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      )),
+                  Positioned(
+                      bottom: 5,
+                      child: WidgetUtils.buildCamera(image, context, callback)),
                   Positioned(top: 50, right: 20, child: _buildFavoriteIcon())
                 ],
               ),
@@ -1212,9 +1193,9 @@ class ContactEditFormState extends State<ContactEditForm>
           height: 5,
         ),
         _buildFormButtons(),
-        // SizedBox(
-        //   height: 20,
-        // )
+        SizedBox(
+          height: 5,
+        ),
       ],
     );
   }

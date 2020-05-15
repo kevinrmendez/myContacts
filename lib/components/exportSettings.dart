@@ -5,7 +5,6 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:kevin_app/contactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/fileUtils.dart';
-import 'package:kevin_app/utils/permissionsUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,8 +15,6 @@ final _scaffoldKey = GlobalKey<ScaffoldState>();
 final snackBar = (text) => SnackBar(content: Text(text));
 
 class ExportSettings extends StatefulWidget {
-  final PermissionHandler _permissionHandler = PermissionHandler();
-
   @override
   _ExportSettingsState createState() => _ExportSettingsState();
 }
@@ -36,8 +33,7 @@ class _ExportSettingsState extends State<ExportSettings> {
         icon: Icons.import_export,
         title: translatedText("settings_export_contacts", context),
         onTap: () async {
-          PermissionStatus permissionStatus =
-              await PermissionsUtils.checkPermission(PermissionGroup.storage);
+          var permissionStatus = await Permission.storage.status;
           print(permissionStatus);
           switch (permissionStatus) {
             case PermissionStatus.granted:
@@ -48,10 +44,14 @@ class _ExportSettingsState extends State<ExportSettings> {
                     context);
               }
               break;
+            case PermissionStatus.undetermined:
+              {
+                Permission.storage.request();
+              }
+              break;
             case PermissionStatus.denied:
               {
-                await PermissionsUtils.requestPermission(
-                    widget._permissionHandler, PermissionGroup.storage);
+                Permission.storage.request();
               }
               break;
             default:
