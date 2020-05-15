@@ -5,10 +5,14 @@ import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:contacts_service/contacts_service.dart' as a;
 import 'package:kevin_app/state/appState.dart';
+import 'package:kevin_app/utils/permissionsUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ImportContactsComponent extends StatefulWidget {
+  final PermissionHandler _permissionHandler = PermissionHandler();
+
   @override
   _ImportContactsComponentState createState() =>
       _ImportContactsComponentState();
@@ -213,8 +217,17 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
                   )
                 : WidgetUtils.largeButton(
                     title: translatedText("button_import", context),
-                    onPressed: () {
-                      _importContacts();
+                    onPressed: () async {
+                      var permissionStatus = await widget._permissionHandler
+                          .checkPermissionStatus(PermissionGroup.contacts);
+
+                      if (permissionStatus == PermissionStatus.granted) {
+                        _importContacts();
+                      } else {
+                        PermissionsUtils.requestPermission(
+                            widget._permissionHandler,
+                            PermissionGroup.contacts);
+                      }
                     },
                     textColor: Colors.blue,
                     color: Colors.white),

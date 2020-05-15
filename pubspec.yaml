@@ -27,7 +27,7 @@ dependencies:
   admob_flutter:
   firebase_core:
   share:
-  contacts_service:
+  contacts_service: ^0.4.6
   permission_handler:
   shared_preferences:
   csv:
