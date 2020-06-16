@@ -22,9 +22,9 @@ class _SetupActivityState extends State<SetupActivity> {
   }
 
   _requestPermissions() async {
-    Permission.camera.request();
-    Permission.contacts.request();
-    Permission.storage.request();
+    await Permission.camera.request();
+    await Permission.contacts.request();
+    await Permission.storage.request();
   }
 
   @override

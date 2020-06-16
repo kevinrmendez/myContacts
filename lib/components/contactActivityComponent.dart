@@ -244,7 +244,7 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
                   ) // Build this out in the next steps.
                   )),
           SizedBox(
-            height: 12,
+            height: 7,
           ),
           AdmobUtils.admobBanner()
         ],
