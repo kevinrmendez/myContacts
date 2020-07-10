@@ -17,6 +17,8 @@ import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
+import 'package:contacts_service/contacts_service.dart' as a;
+
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 
 import 'dart:async';
@@ -45,7 +47,7 @@ class SettingsState extends State<Settings> {
   bool importedContactsProgress;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final ContactDb db = ContactDb();
-  PermissionStatus _permissionStatus;
+  bool _lights = false;
 
   // ThemeData _theme;
   // MyThemeKeys themekey;
@@ -67,6 +69,36 @@ class SettingsState extends State<Settings> {
     // getSharePreferences();
     // themekeyprefs = Prefs.getIntF('themekey') ?? 0;
     // themekey = MyThemeKeys.values[themekeyprefs];
+  }
+
+  saveContactsToSim() async {
+    a.Item item = a.Item(label: "phone", value: "1234");
+
+    Iterable<a.Contact> phoneContacts = await a.ContactsService.getContacts();
+    var contactlist = phoneContacts.toList();
+
+    var contactsApp = await db.contacts();
+
+    var contactsAppName = contactsApp.map((contact) => contact.name);
+
+    contactlist.forEach((contact) {
+      if (contactsAppName.contains(contact.givenName)) {
+        print("contact exists");
+      } else {
+        print("contact does not exist");
+      }
+      print(contact.givenName);
+    });
+
+    a.Contact contactos = a.Contact(
+        givenName: "kev",
+        familyName: "tek",
+        displayName: 'kevtek',
+        middleName: "rik",
+        phones: [item]);
+    await a.ContactsService.addContact(contactos);
+    print("save contacts");
+    print(contactos.middleName);
   }
 
   @override
@@ -205,24 +237,6 @@ class SettingsState extends State<Settings> {
         print(e);
       });
     }
-
-    // Future<PermissionStatus> _checkPermission(
-    //     PermissionGroup permissionGroup) async {
-    //   PermissionStatus permission =
-    //       await PermissionHandler().checkPermissionStatus(permissionGroup);
-    //   return permission;
-    // }
-
-    // Future<Map<PermissionGroup, PermissionStatus>> _requestPermission(
-    //     PermissionGroup permissionGroup) async {
-    //   // await PermissionHandler()
-    //   //     .shouldShowRequestPermissionRationale(PermissionGroup.contacts);
-    //   // await PermissionHandler().openAppSettings();
-    //   _permissionStatus = await _checkPermission(permissionGroup);
-    //   if (_permissionStatus != PermissionStatus.granted) {
-    //     return await PermissionHandler().requestPermissions([permissionGroup]);
-    //   }
-    // }
 
     return WillPopScope(
       onWillPop: () {
@@ -426,6 +440,12 @@ class SettingsState extends State<Settings> {
                         : SizedBox(),
                     ColorSettings(),
                     WidgetUtils.settingsTile(
+                        title: "save contacts to SIM",
+                        icon: Icons.sim_card,
+                        onTap: () async {
+                          saveContactsToSim();
+                        }),
+                    WidgetUtils.settingsTile(
                         title: translatedText("settings_backup", context),
                         icon: Icons.backup,
                         onTap: () {
@@ -435,6 +455,19 @@ class SettingsState extends State<Settings> {
                                 builder: (context) => BackupActivity()),
                           );
                         }),
+                    SwitchListTile(
+                      title: const Text('Sync app with phone'),
+                      value: contactService.currentStatusSyncContacts,
+                      onChanged: (bool value) {
+                        setState(() {
+                          contactService.setSyncContacts(value);
+
+                          print(
+                              "current sync status: ${contactService.currentStatusSyncContacts}");
+                        });
+                      },
+                      secondary: const Icon(Icons.sync),
+                    )
                   ],
                 ),
               ),

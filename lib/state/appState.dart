@@ -11,14 +11,22 @@ class AppState {
 
   BehaviorSubject _contactsDuplicate = BehaviorSubject.seeded(0);
 
+  BehaviorSubject _syncContactsPhone = BehaviorSubject.seeded(false);
+
   Stream get streamIndex => _screenIndex.stream;
   Stream get stream => _contactList.stream;
+  Stream get streamSyncContacts => _syncContactsPhone.stream;
 
   Stream get streamContactsDuplicate => _contactsDuplicate.stream;
 
   List<Contact> get current => _contactList.value;
   int get currentIndex => _screenIndex.value;
   int get currentContactsDuplicates => _contactsDuplicate.value;
+  bool get currentStatusSyncContacts => _syncContactsPhone.value;
+
+  setSyncContacts(bool syncContacts) {
+    _syncContactsPhone.add(syncContacts);
+  }
 
   changeIndex(int index) {
     _screenIndex.add(index);
