@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:kevin_app/ContactDb.dart';
+import 'package:kevin_app/activity/aboutActivity.dart';
 import 'package:kevin_app/activity/backupActivity.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
 import 'package:kevin_app/activity/homeActivity.dart';
@@ -29,8 +30,6 @@ import 'package:contacts_service/contacts_service.dart' as a;
 import 'package:kevin_app/ContactDb.dart';
 
 import 'package:url_launcher/url_launcher.dart';
-
-import 'aboutActivity .dart';
 
 final ContactDb _db = ContactDb();
 final snackBar = (text) => SnackBar(content: Text(text));
