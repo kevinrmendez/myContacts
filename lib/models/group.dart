@@ -3,6 +3,7 @@ class Group {
   String name;
 
   Group({
+    this.id,
     this.name,
   });
 
