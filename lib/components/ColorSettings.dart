@@ -1,20 +1,10 @@
-import 'dart:io';
-
-import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
-import 'package:kevin_app/contactDb.dart';
+
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';
-import 'package:kevin_app/utils/admobUtils.dart';
-import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:vcard/vcard.dart';
-import 'package:pdf/widgets.dart' as p;
 
 class ColorSettings extends StatefulWidget {
   @override
@@ -71,9 +61,6 @@ class _ColorPickerState extends State<ColorPicker> {
       child: MaterialColorPicker(
         allowShades: false,
         onMainColorChange: (Color color) {
-          print("COLORS");
-          print(color.value);
-          print(color);
           appSettings.callback(color: color);
           prefs.setInt('color', color.value);
         },

@@ -1,5 +1,5 @@
 class Contact {
-  static int contactId = 0;
+  // static int contactId = 0;
   int id;
   String name;
   String phone;
@@ -18,19 +18,6 @@ class Contact {
   int showNotification;
   int favorite;
 
-  // Contact(
-  //     {this.name,
-  //     this.phone,
-  //     this.image = "",
-  //     this.id,
-  //     this.email = "",
-  //     this.category,
-  //     this.birthday = "",
-  //     this.address = "",
-  //     this.organization = "",
-  //     this.note = "",
-  //     this.website = "",
-  //     this.favorite = 0});
   Contact({
     this.name,
     this.phone,
@@ -50,17 +37,17 @@ class Contact {
     this.favorite = 0,
     this.showNotification = 0,
   }) {
-    if (id == null) {
-      this.id = Contact.contactId;
-      Contact.contactId++;
-    } else {
-      this.id = id;
-    }
+    // if (id == null) {
+    //   this.id = Contact.contactId;
+    //   Contact.contactId++;
+    // } else {
+    //   this.id = id;
+    // }
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      // 'id': id,
       'name': name,
       'phone': phone,
       'email': email,
@@ -80,8 +67,6 @@ class Contact {
     };
   }
 
-  // Implement toString to make it easier to see information about
-  // each dog when using the print statement.
   @override
   String toString() {
     return 'Contact{id: $id, name: $name, phone: $phone,email: $email, category: $category, birthday: $birthday, address: $address,organization: $organization, website: $website ,facebook: $facebook, instagram: $instagram,linkedin: $linkedin, twitter: $twitter, image: $image, favorite $favorite, showNotification: $showNotification}';

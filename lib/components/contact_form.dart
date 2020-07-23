@@ -11,8 +11,6 @@ import 'package:kevin_app/activity/cameraActivity.dart';
 import 'package:kevin_app/contact.dart';
 import 'package:kevin_app/ContactDb.dart';
 
-import '../app_localizations.dart';
-
 //NOT USED
 
 class ContactForm extends StatefulWidget {
@@ -40,11 +38,6 @@ class ContactForm extends StatefulWidget {
 class ContactFormState extends State<ContactForm> {
   List<String> category;
 
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a `GlobalKey<FormState>`,
-  // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
   final ContactDb db = ContactDb();

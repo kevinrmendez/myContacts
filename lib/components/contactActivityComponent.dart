@@ -105,6 +105,7 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
         content: Text(translatedText("snackbar_contact_save", context))));
     _resetFormFields();
     // contactId++;
+    print("CONTACT SAVED");
     print(contact);
     print(contactId);
     print(contact.email);
