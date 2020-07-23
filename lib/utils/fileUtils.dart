@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
-import 'package:kevin_app/contactDb.dart';
+import 'package:kevin_app/db/contactDb.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as p;
 import 'package:pdf/widgets.dart';

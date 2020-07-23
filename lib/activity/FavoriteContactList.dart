@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/admobUtils.dart';

@@ -8,6 +8,7 @@ import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/activity/cameraActivity.dart';
 import 'package:kevin_app/activity/homeActivity.dart';
+import 'package:kevin_app/db/contactDb.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
@@ -20,7 +21,6 @@ import 'package:kevin_app/utils/utils.dart';
 import 'package:share/share.dart';
 
 import 'package:kevin_app/contact.dart';
-import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:intl/intl.dart';
 import '../main.dart';
@@ -58,8 +58,6 @@ class ContactEditFormState extends State<ContactEditForm>
   // Note: This is a `GlobalKey<FormState>`,
   // not a GlobalKey<MyCustomFormState>.
   List<String> category;
-
-  final ContactDb db = ContactDb();
 
   final nameController = TextEditingController();
   final phoneController = TextEditingController();

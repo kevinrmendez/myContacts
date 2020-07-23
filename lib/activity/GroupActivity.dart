@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/ContactListGroup.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/utils/utils.dart';
@@ -16,7 +15,6 @@ class GroupActivity extends StatefulWidget {
 }
 
 class _GroupActivityState extends State<GroupActivity> {
-  final ContactDb db = ContactDb();
   Future<List<Contact>> contacts;
   List<String> category;
 

@@ -9,7 +9,6 @@ import 'dart:async';
 import 'package:kevin_app/components/contact_form.dart';
 import 'package:flutter/services.dart';
 import 'package:kevin_app/contact.dart';
-import 'package:kevin_app/contactDb.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';

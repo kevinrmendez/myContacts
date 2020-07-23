@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
@@ -9,7 +10,6 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'package:kevin_app/activity/cameraActivity.dart';
 import 'package:kevin_app/contact.dart';
-import 'package:kevin_app/ContactDb.dart';
 
 //NOT USED
 
@@ -40,7 +40,6 @@ class ContactFormState extends State<ContactForm> {
 
   final _formKey = GlobalKey<FormState>();
 
-  final ContactDb db = ContactDb();
   String action = "save";
   String image;
   String name;

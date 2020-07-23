@@ -9,7 +9,6 @@ import 'dart:async';
 import 'package:kevin_app/components/contact_form.dart';
 import 'package:flutter/services.dart';
 import 'package:kevin_app/contact.dart';
-import 'package:kevin_app/contactDb.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
@@ -18,6 +17,7 @@ import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../app_localizations.dart';
+import '../main.dart';
 
 class ContactActivityComponent extends StatefulWidget {
   final _formKey = GlobalKey<FormState>();
@@ -40,7 +40,6 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
 
-  final ContactDb db = ContactDb();
   List<String> category;
 
   String action = "save";
@@ -247,7 +246,7 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
           SizedBox(
             height: 7,
           ),
-          AdmobUtils.admobBanner()
+          // AdmobUtils.admobBanner()
         ],
       ),
     );

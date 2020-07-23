@@ -6,7 +6,7 @@ import 'package:kevin_app/activity/homeActivity.dart';
 import 'package:kevin_app/activity/setupActivity.dart';
 import 'package:kevin_app/activity/statisticsActivity.dart';
 import 'package:kevin_app/contact.dart';
-import 'package:kevin_app/contactDb.dart';
+import 'package:kevin_app/db/contactDb.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/admobUtils.dart';

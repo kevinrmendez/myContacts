@@ -1,7 +1,6 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/aboutActivity.dart';
 import 'package:kevin_app/activity/backupActivity.dart';
 import 'package:kevin_app/activity/contactActivity.dart';
@@ -12,6 +11,7 @@ import 'package:kevin_app/components/expandableExportSettings.dart';
 import 'package:kevin_app/components/expandableThemeSettings.dart';
 import 'package:kevin_app/components/exportSettings.dart';
 import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/db/contactDb.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
@@ -27,11 +27,9 @@ import 'dart:async';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:contacts_service/contacts_service.dart' as a;
-import 'package:kevin_app/ContactDb.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-final ContactDb _db = ContactDb();
 final snackBar = (text) => SnackBar(content: Text(text));
 
 class Settings extends StatefulWidget {
@@ -42,10 +40,10 @@ class Settings extends StatefulWidget {
 }
 
 class SettingsState extends State<Settings> {
+  final ContactDb _db = ContactDb();
   bool importedContacts;
   bool importedContactsProgress;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final ContactDb db = ContactDb();
   bool _lights = false;
 
   // ThemeData _theme;
@@ -76,7 +74,7 @@ class SettingsState extends State<Settings> {
     Iterable<a.Contact> phoneContacts = await a.ContactsService.getContacts();
     var contactlist = phoneContacts.toList();
 
-    var contactsApp = await db.contacts();
+    var contactsApp = await _db.contacts();
 
     var contactsAppName = contactsApp.map((contact) => contact.name);
 
@@ -212,7 +210,7 @@ class SettingsState extends State<Settings> {
             Contact newContact = Contact(
                 name: name, email: email, phone: phone, category: category);
 
-            db.insertContact(newContact);
+            _db.insertContact(newContact);
 
             print(email);
             print(contact.displayName);

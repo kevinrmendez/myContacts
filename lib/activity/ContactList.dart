@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kevin_app/ContactDb.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
+import 'package:kevin_app/main.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
@@ -23,7 +23,6 @@ class ContactList extends StatefulWidget {
 }
 
 class _ContactListState extends State<ContactList> {
-  final ContactDb db = ContactDb();
   Future<List<Contact>> contacts;
 
   int contactListLength = 0;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/app_localizations.dart';
 import 'package:contacts_service/contacts_service.dart' as a;
 import 'package:kevin_app/contact.dart';
-import 'package:kevin_app/contactDb.dart';
+import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 
@@ -62,8 +62,6 @@ importContacts(BuildContext context) {
           )));
 
   _importContactsFromService().then((contacts) {
-    ContactDb db = ContactDb();
-
     List contactList = contacts.toList();
     contactList.forEach((contact) {
       List phones = contact.phones.toList();
@@ -81,10 +79,6 @@ importContacts(BuildContext context) {
 
         db.insertContact(newContact);
 
-        print(email);
-        print(contact.displayName);
-        print(phone);
-        print(category);
         contactService.add(newContact);
       }
     });

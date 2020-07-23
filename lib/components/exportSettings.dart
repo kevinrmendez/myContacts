@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:kevin_app/contactDb.dart';
+import 'package:kevin_app/db/contactDb.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/fileUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
