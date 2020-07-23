@@ -5,9 +5,23 @@ import 'package:sqflite/sqflite.dart';
 
 import 'package:kevin_app/models/contact.dart';
 
+final String contactTable = "contacts";
+final String groupTable = "groups";
+
 class ContactDb {
-  static final String contactTable = "contacts";
-  static final String groupTable = "groups";
+  static final ContactDb dbProvider = ContactDb();
+
+  final String contactTable = "contacts";
+  final String groupTable = "groups";
+
+  Database _database;
+
+  Future<Database> get database async {
+    if (_database != null) return _database;
+    _database = await getDb();
+    return _database;
+  }
+
   Future<Database> getDb() async {
     return openDatabase(
       // Set the path to the database. Note: Using the `join` function from the
