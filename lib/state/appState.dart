@@ -1,4 +1,4 @@
-import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/models/contact.dart';
 import 'package:rxdart/rxdart.dart';
 import '../main.dart';
 

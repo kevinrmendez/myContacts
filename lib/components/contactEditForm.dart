@@ -20,7 +20,8 @@ import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:share/share.dart';
 
-import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/models/contact.dart';
+
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:intl/intl.dart';
 import '../main.dart';

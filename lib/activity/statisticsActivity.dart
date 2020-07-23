@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/components/contactsPieChart.dart';
-import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/models/contact.dart';
+
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';

@@ -9,7 +9,7 @@ import 'package:kevin_app/utils/utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:kevin_app/activity/cameraActivity.dart';
-import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/models/contact.dart';
 
 //NOT USED
 

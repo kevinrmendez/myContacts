@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kevin_app/activity/contactEdit.dart';
+import 'package:strings/strings.dart';
+
 import 'package:kevin_app/state/appState.dart';
-import 'package:kevin_app/utils/admobUtils.dart';
-import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
-import 'package:strings/strings.dart';
-import 'dart:async';
-import 'dart:io';
+import 'package:kevin_app/models/contact.dart';
 
-import '../apikeys.dart';
-import '../contact.dart';
 import 'Settings.dart';
-
-import 'package:admob_flutter/admob_flutter.dart';
 
 class ContactListGroup extends StatefulWidget {
   final String category;

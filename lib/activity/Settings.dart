@@ -10,7 +10,8 @@ import 'package:kevin_app/components/ColorSettings.dart';
 import 'package:kevin_app/components/expandableExportSettings.dart';
 import 'package:kevin_app/components/expandableThemeSettings.dart';
 import 'package:kevin_app/components/exportSettings.dart';
-import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/models/contact.dart';
+
 import 'package:kevin_app/db/contactDb.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appSettings.dart';

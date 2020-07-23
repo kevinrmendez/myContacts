@@ -9,7 +9,8 @@ import 'dart:async';
 import 'dart:io';
 
 import '../apikeys.dart';
-import '../contact.dart';
+import 'package:kevin_app/models/contact.dart';
+
 import 'Settings.dart';
 
 import 'package:admob_flutter/admob_flutter.dart';

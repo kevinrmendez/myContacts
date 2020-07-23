@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/activity/cameraActivity.dart';
 import 'package:kevin_app/activity/contactEdit.dart';
-import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/models/contact.dart';
+
 import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';

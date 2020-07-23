@@ -5,7 +5,7 @@ import 'package:kevin_app/components/contactEditForm.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
 
-import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/models/contact.dart';
 
 class ContactEdit extends StatelessWidget {
   final Contact contact;

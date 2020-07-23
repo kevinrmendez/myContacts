@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/app_localizations.dart';
 import 'package:contacts_service/contacts_service.dart' as a;
-import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/models/contact.dart';
+
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';

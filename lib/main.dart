@@ -5,7 +5,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:kevin_app/activity/homeActivity.dart';
 import 'package:kevin_app/activity/setupActivity.dart';
 import 'package:kevin_app/activity/statisticsActivity.dart';
-import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/models/contact.dart';
+
 import 'package:kevin_app/db/contactDb.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';

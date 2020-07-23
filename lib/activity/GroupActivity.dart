@@ -5,7 +5,7 @@ import 'package:kevin_app/utils/utils.dart';
 import 'package:strings/strings.dart';
 import 'dart:async';
 
-import '../contact.dart';
+import 'package:kevin_app/models/contact.dart';
 
 class GroupActivity extends StatefulWidget {
   @override

@@ -3,9 +3,11 @@ import 'package:kevin_app/state/appState.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:kevin_app/contact.dart';
+import 'package:kevin_app/models/contact.dart';
 
 class ContactDb {
+  static final String contactTable = "contacts";
+  static final String groupTable = "groups";
   Future<Database> getDb() async {
     return openDatabase(
       // Set the path to the database. Note: Using the `join` function from the
@@ -13,8 +15,10 @@ class ContactDb {
       // constructed for each platform.
       join(await getDatabasesPath(), 'contact_database.db'),
       onCreate: (db, version) {
+        db.execute(
+            "CREATE TABLE $groupTable(id INTEGER PRIMARY KEY  AUTOINCREMENT, name TEXT)");
         return db.execute(
-          "CREATE TABLE contacts(id INTEGER PRIMARY KEY  AUTOINCREMENT, name TEXT, phone TEXT, email TEXT, image TEXT, category TEXT ,birthday TEXT, address TEXT,organization TEXT,website TEXT,facebook TEXT,instagram TEXT,linkedin TEXT, twitter TEXT,  note TEXT, favorite INTEGER DEFAULT 0, showNotification INTEGER DEFAULT 0)",
+          "CREATE TABLE $groupTable(id INTEGER PRIMARY KEY  AUTOINCREMENT, name TEXT, phone TEXT, email TEXT, image TEXT, category TEXT ,birthday TEXT, address TEXT,organization TEXT,website TEXT,facebook TEXT,instagram TEXT,linkedin TEXT, twitter TEXT,  note TEXT, favorite INTEGER DEFAULT 0, showNotification INTEGER DEFAULT 0)",
         );
       },
       // Set the version. This executes the onCreate function and provides a
@@ -27,37 +31,11 @@ class ContactDb {
     final Database db = await getDb();
     ContactDb contactDb = ContactDb();
     List<Contact> contacts = await contactDb.contacts();
-    List<Contact> cleanList = [];
     print(contacts.toString());
     await db.execute(
       "DELETE FROM contacts WHERE ROWID NOT IN (SELECT MIN(ROWID) FROM contacts GROUP BY  name, phone, email)",
     );
-    // await db.execute(
-    //   "DELETE FROM contacts WHERE ROWID NOT IN (SELECT MIN(ROWID) FROM contacts GROUP BY  name, phone, email, image, category, birthday, address ,organization ,website, note , favorite, showNotification )",
-    // );
-    // int index = 0;
-    // Contact contact;
-    // contacts.forEach((currentContact) {
-    //   if (index == 0) {
-    //     contact = currentContact;
-    //   } else {
-    //     if (contact.name == currentContact.name &&
-    //         contact.phone == currentContact.phone) {
-    //       cleanList.add(contact);
-    //     } else {
-    //       cleanList.add(currentContact);
-    //       contact = currentContact;
-    //     }
-    //   }
-    //   index++;
-    // });
-    // print("cleanlist");
-    // print(cleanList);
-    // contactDb.deleteAllContacts();
-    // cleanList.forEach((contact) {
-    //   contactDb.insertContact(contact);
-    // });
-    // ContactDb contactDb = ContactDb();
+
     contacts = await contactDb.contacts();
     print(contacts.toString());
     contactService.updateContacts(contacts);

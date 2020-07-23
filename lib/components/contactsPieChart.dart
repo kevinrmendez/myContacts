@@ -5,7 +5,7 @@ import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/myThemes.dart';
 import 'package:kevin_app/utils/utils.dart';
 
-import '../contact.dart';
+import 'package:kevin_app/models/contact.dart';
 
 class ContactsPieChart extends StatefulWidget {
   // final List<charts.Series> seriesList;
