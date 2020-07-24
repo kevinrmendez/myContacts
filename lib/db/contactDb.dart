@@ -32,7 +32,7 @@ class ContactDb {
         db.execute(
             "CREATE TABLE $groupTable(id INTEGER PRIMARY KEY  AUTOINCREMENT, name TEXT)");
         return db.execute(
-          "CREATE TABLE $groupTable(id INTEGER PRIMARY KEY  AUTOINCREMENT, name TEXT, phone TEXT, email TEXT, image TEXT, category TEXT ,birthday TEXT, address TEXT,organization TEXT,website TEXT,facebook TEXT,instagram TEXT,linkedin TEXT, twitter TEXT,  note TEXT, favorite INTEGER DEFAULT 0, showNotification INTEGER DEFAULT 0)",
+          "CREATE TABLE $contactTable(id INTEGER PRIMARY KEY  AUTOINCREMENT, name TEXT, phone TEXT, email TEXT, image TEXT, category TEXT ,birthday TEXT, address TEXT,organization TEXT,website TEXT,facebook TEXT,instagram TEXT,linkedin TEXT, twitter TEXT,  note TEXT, favorite INTEGER DEFAULT 0, showNotification INTEGER DEFAULT 0)",
         );
       },
       // Set the version. This executes the onCreate function and provides a

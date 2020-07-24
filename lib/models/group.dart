@@ -14,6 +14,11 @@ class Group {
     };
   }
 
+  factory Group.fromJson(Map<String, dynamic> data) => Group(
+        id: data['id'],
+        name: data['name'],
+      );
+
   @override
   String toString() {
     return 'Contact{id: $id, name:}';

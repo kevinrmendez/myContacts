@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 
 import 'package:kevin_app/activity/homeActivity.dart';
 import 'package:kevin_app/activity/setupActivity.dart';
-import 'package:kevin_app/activity/statisticsActivity.dart';
 import 'package:kevin_app/models/contact.dart';
-
 import 'package:kevin_app/db/contactDb.dart';
 import 'package:kevin_app/state/appSettings.dart';
-import 'package:kevin_app/state/appState.dart';
-import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/myThemes.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:kevin_app/activity/Settings.dart';
-
-import 'package:kevin_app/activity/contactActivity.dart';
-import 'package:admob_flutter/admob_flutter.dart';
-import 'activity/ContactList.dart';
 import 'apikeys.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
 import 'app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 ContactDb db = ContactDb();
 List<Contact> contactsfromDb;

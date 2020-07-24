@@ -6,7 +6,7 @@ import 'package:kevin_app/models/group.dart';
 class GroupDao {
   final dbProvider = ContactDb.dbProvider;
 
-  Future<int> insertContact(Group group) async {
+  Future<int> insertGroup(Group group) async {
     final db = await dbProvider.database;
 
     var result = await db.insert(
@@ -41,6 +41,20 @@ class GroupDao {
       }
     });
     return group;
+  }
+
+  Future<int> getGroupId(Group group) async {
+    final db = await dbProvider.database;
+
+    List<Map<String, dynamic>> result;
+    if (group != null) {
+      result = await db
+          .query(groupTable, where: 'name = ?', whereArgs: ["${group.name}"]);
+    } else {
+      result = await db.query(groupTable);
+    }
+    Group groupfromDb = Group.fromJson(result[0]);
+    return groupfromDb.id;
   }
 
   Future<int> updateGroup(Group group) async {

@@ -44,6 +44,24 @@ class Contact {
     //   this.id = id;
     // }
   }
+  factory Contact.fromJson(Map<String, dynamic> data) => Contact(
+        id: data['id'],
+        name: data['name'],
+        phone: data['phone'],
+        email: data['email'],
+        image: data['image'],
+        birthday: data['birthday'],
+        address: data['address'],
+        organization: data['organization'],
+        website: data['website'],
+        facebook: data['facebook'],
+        instagram: data['instagram'],
+        linkedin: data['linkedin'],
+        twitter: data['twitter'],
+        note: data['note'],
+        favorite: data['favorite'],
+        showNotification: data['showNotification'],
+      );
 
   Map<String, dynamic> toMap() {
     return {
