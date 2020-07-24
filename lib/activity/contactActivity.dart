@@ -2,7 +2,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/bloc/group_service.dart';
-import 'package:kevin_app/components/contactActivityComponent.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/components/contactImage.dart';
@@ -114,7 +113,7 @@ class ContactActivityState extends State<ContactActivity>
 
     image = "";
     setState(() {
-      dropdownValue = groupService.currentList[0];
+      dropdownValue = null;
     });
   }
 

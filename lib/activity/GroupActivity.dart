@@ -183,10 +183,14 @@ class _AddGroupDialogState extends State<AddGroupDialog> {
                       });
                     },
                     validator: (value) {
+                      List<String> currentGroups = groupService.currentList
+                          .map((group) => group.name)
+                          .toList();
                       if (value == "") {
                         return "value empty";
                       }
-                      return null;
+                      if (currentGroups.contains(value))
+                        return "group already exists";
                     },
                   ),
                   SizedBox(
@@ -320,7 +324,7 @@ class _DeleteGroupDialogState extends State<DeleteGroupDialog> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Are you sure you want to delete this group?',
+                "Are you sure you want to delete '${widget.group.name}'  group?",
                 style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
               ),
@@ -330,20 +334,33 @@ class _DeleteGroupDialogState extends State<DeleteGroupDialog> {
                   SizedBox(
                     height: 10,
                   ),
-                  WidgetUtils.textButton(
-                      context: context,
-                      title: "delete",
-                      onPress: () async {
-                        if (_dialogformKey.currentState.validate()) {
-                          var groupId =
-                              await groupService.getgroupId(widget.group);
-                          Group group = Group(id: groupId, name: groupName);
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      WidgetUtils.textButton(
+                          buttonWidth: 90,
+                          context: context,
+                          title: "delete",
+                          onPress: () async {
+                            if (_dialogformKey.currentState.validate()) {
+                              var groupId =
+                                  await groupService.getgroupId(widget.group);
+                              Group group = Group(id: groupId, name: groupName);
 
-                          groupService.remove(group.id);
+                              groupService.remove(group.id);
 
-                          Navigator.pop(context);
-                        } else {}
-                      })
+                              Navigator.pop(context);
+                            } else {}
+                          }),
+                      WidgetUtils.textButton(
+                          buttonWidth: 90,
+                          context: context,
+                          title: "cancel",
+                          onPress: () {
+                            Navigator.pop(context);
+                          })
+                    ],
+                  ),
                 ]),
               ),
             ],

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:wasm';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -282,9 +283,12 @@ class WidgetUtils {
   }
 
   static Widget textButton(
-      {BuildContext context, String title, Function onPress}) {
+      {BuildContext context,
+      String title,
+      Function onPress,
+      double buttonWidth = 120}) {
     return Container(
-      width: 120,
+      width: buttonWidth,
       child: RaisedButton(
         color: Theme.of(context).primaryColor,
         child: Container(
