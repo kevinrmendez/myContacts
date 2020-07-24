@@ -135,10 +135,6 @@ class _GroupActivityState extends State<GroupActivity> {
                     });
               }
           }
-          // snapshot.connectionState
-          // if (snapshot.data == null || snapshot.data.length == 0) {
-
-          // }
         },
       ),
       floatingActionButton: FloatingActionButton(
