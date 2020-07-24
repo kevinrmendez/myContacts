@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/ContactListGroup.dart';
 import 'package:kevin_app/activity/Settings.dart';
+import 'package:kevin_app/bloc/group_service.dart';
+import 'package:kevin_app/models/group.dart';
 import 'package:kevin_app/utils/utils.dart';
+import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:strings/strings.dart';
 import 'dart:async';
 
 import 'package:kevin_app/models/contact.dart';
+
+enum MenuActions { delete, edit }
 
 class GroupActivity extends StatefulWidget {
   @override
@@ -15,60 +20,88 @@ class GroupActivity extends StatefulWidget {
 }
 
 class _GroupActivityState extends State<GroupActivity> {
-  Future<List<Contact>> contacts;
-  List<String> category;
+  // Future<List<Contact>> contacts;
+  // List<String> category;
 
   @override
   void initState() {
     super.initState();
   }
 
-  void _menuSelected(choice) {
-    switch (choice) {
-      case 'settings':
-        {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Settings()),
-          );
-        }
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    category = <String>[
-      translatedText("group_default", context),
-      translatedText("group_family", context),
-      translatedText("group_friend", context),
-      translatedText("group_coworker", context),
-    ];
+    // category = <String>[
+    //   translatedText("group_default", context),
+    //   translatedText("group_family", context),
+    //   translatedText("group_friend", context),
+    //   translatedText("group_coworker", context),
+    // ];
     return Scaffold(
       body: StreamBuilder(
+        stream: groupService.stream,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.data == null || snapshot.data.length == 0) {
+            return Center(
+              child: Text('group list is empty'),
+            );
+          }
           return ListView.builder(
-              itemCount: category.length,
+              itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
+                Group group = snapshot.data[index];
                 return Column(
                   children: <Widget>[
-                    // index % 10 == 0 ? AdmobUtils.admobBanner() : SizedBox(),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 6),
                       child: ListTile(
                         // leading:
                         title: Text(
-                          '${capitalize(category[index])}',
+                          '${capitalize(group.name)}',
                           style: TextStyle(fontSize: 22),
                         ),
-                        trailing: Icon(Icons.keyboard_arrow_right),
+                        trailing: PopupMenuButton<MenuActions>(
+                          onSelected: (order) {
+                            switch (order) {
+                              case MenuActions.edit:
+                                {
+                                  print('edit');
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => EditGroupDialog(group));
+                                }
+                                break;
+                              case MenuActions.delete:
+                                {
+                                  print('delete');
+
+                                  // proteinListServices.orderFoodsDescending();
+                                }
+                                break;
+                              default:
+                            }
+                          },
+                          icon: Icon(Icons.more_vert),
+                          itemBuilder: (
+                            BuildContext context,
+                          ) {
+                            return [
+                              PopupMenuItem<MenuActions>(
+                                child: Text('edit'),
+                                value: MenuActions.edit,
+                              ),
+                              PopupMenuItem<MenuActions>(
+                                child: Text('delete'),
+                                value: MenuActions.delete,
+                              ),
+                            ];
+                          },
+                        ),
                         onTap: () {
-                          print("GROUP: ${category[index]}");
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ContactListGroup(
-                                    category: category[index])),
+                                builder: (context) =>
+                                    ContactListGroup(group: group)),
                           );
                           // }));
                         },
@@ -80,9 +113,157 @@ class _GroupActivityState extends State<GroupActivity> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(context: context, builder: (_) => AddGroupDialog());
+        },
         child: Icon(Icons.add),
       ),
     );
+  }
+}
+
+class AddGroupDialog extends StatefulWidget {
+  @override
+  _AddGroupDialogState createState() => _AddGroupDialogState();
+}
+
+class _AddGroupDialogState extends State<AddGroupDialog> {
+  final _dialogformKey = GlobalKey<FormState>();
+
+  String groupName;
+  final _groupNameController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WidgetUtils.dialog(
+        context: context,
+        height: MediaQuery.of(context).size.height * .3,
+        title: 'add group',
+        showAd: false,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Form(
+                key: _dialogformKey,
+                child: Column(children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: 'group name', icon: Icon(Icons.group)),
+                    keyboardType: TextInputType.text,
+                    controller: _groupNameController,
+                    onChanged: (value) {
+                      setState(() {
+                        groupName = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == "") {
+                        return "value empty";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  WidgetUtils.textButton(
+                      context: context,
+                      title: "add",
+                      onPress: () async {
+                        if (_dialogformKey.currentState.validate()) {
+                          Group group = Group(name: groupName);
+
+                          groupService.add(group);
+
+                          Navigator.pop(context);
+                        } else {}
+                      })
+                ]),
+              ),
+            ],
+          ),
+        ));
+  }
+}
+
+class EditGroupDialog extends StatefulWidget {
+  final group;
+  EditGroupDialog(this.group);
+  @override
+  _EditGroupDialogState createState() => _EditGroupDialogState();
+}
+
+class _EditGroupDialogState extends State<EditGroupDialog> {
+  final _dialogformKey = GlobalKey<FormState>();
+
+  String groupName;
+  final _groupNameController = TextEditingController();
+  @override
+  void initState() {
+    _groupNameController.text = widget.group.name;
+    groupName = widget.group.name;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WidgetUtils.dialog(
+        context: context,
+        height: MediaQuery.of(context).size.height * .37,
+        title: 'edit group',
+        showAd: false,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Form(
+                key: _dialogformKey,
+                child: Column(children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: 'group name', icon: Icon(Icons.group)),
+                    keyboardType: TextInputType.text,
+                    controller: _groupNameController,
+                    onChanged: (value) {
+                      setState(() {
+                        groupName = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == "") {
+                        return "value empty";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  WidgetUtils.textButton(
+                      context: context,
+                      title: "add",
+                      onPress: () async {
+                        if (_dialogformKey.currentState.validate()) {
+                          var groupId =
+                              await groupService.getgroupId(widget.group);
+                          Group group = Group(id: groupId, name: groupName);
+
+                          groupService.update(group);
+
+                          Navigator.pop(context);
+                        } else {}
+                      })
+                ]),
+              ),
+            ],
+          ),
+        ));
   }
 }

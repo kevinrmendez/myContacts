@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kevin_app/models/group.dart';
 import 'package:strings/strings.dart';
 
 import 'package:kevin_app/state/appState.dart';
@@ -9,8 +10,8 @@ import 'package:kevin_app/models/contact.dart';
 import 'Settings.dart';
 
 class ContactListGroup extends StatefulWidget {
-  final String category;
-  ContactListGroup({this.category});
+  final Group group;
+  ContactListGroup({this.group});
   @override
   _ContactListGroupState createState() {
     return _ContactListGroupState();
@@ -44,7 +45,7 @@ class _ContactListGroupState extends State<ContactListGroup> {
     tempList = contactService.current;
 
     var filteredList = tempList
-        .where((contact) => contact.category == widget.category)
+        .where((contact) => contact.category == widget.group.name)
         .toList();
 
     setState(() {
@@ -109,7 +110,7 @@ class _ContactListGroupState extends State<ContactListGroup> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(capitalize(widget.category)),
+        title: Text(capitalize(widget.group.name)),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.settings),

@@ -1,7 +1,7 @@
-import 'package:kevin_app/models/contact.dart';
+import 'package:rxdart/rxdart.dart';
+
 import 'package:kevin_app/models/contact.dart';
 import 'package:kevin_app/repository/contact_repository.dart';
-import 'package:rxdart/rxdart.dart';
 
 class ContactService {
   static List<Contact> dbContacts = [];
