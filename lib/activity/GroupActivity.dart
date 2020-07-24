@@ -40,80 +40,105 @@ class _GroupActivityState extends State<GroupActivity> {
       body: StreamBuilder(
         stream: groupService.stream,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.data == null || snapshot.data.length == 0) {
-            return Center(
-              child: Text('group list is empty'),
-            );
-          }
-          return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                Group group = snapshot.data[index];
-                return Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 6),
-                      child: ListTile(
-                        // leading:
-                        title: Text(
-                          '${capitalize(group.name)}',
-                          style: TextStyle(fontSize: 22),
-                        ),
-                        trailing: PopupMenuButton<MenuActions>(
-                          onSelected: (order) {
-                            switch (order) {
-                              case MenuActions.edit:
-                                {
-                                  print('edit');
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) => EditGroupDialog(group));
-                                }
-                                break;
-                              case MenuActions.delete:
-                                {
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) => DeleteGroupDialog(group));
-
-                                  print('delete');
-
-                                  // proteinListServices.orderFoodsDescending();
-                                }
-                                break;
-                              default:
-                            }
-                          },
-                          icon: Icon(Icons.more_vert),
-                          itemBuilder: (
-                            BuildContext context,
-                          ) {
-                            return [
-                              PopupMenuItem<MenuActions>(
-                                child: Text('edit'),
-                                value: MenuActions.edit,
-                              ),
-                              PopupMenuItem<MenuActions>(
-                                child: Text('delete'),
-                                value: MenuActions.delete,
-                              ),
-                            ];
-                          },
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ContactListGroup(group: group)),
-                          );
-                          // }));
-                        },
-                      ),
-                    ),
-                  ],
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              {
+                return Center(
+                  child: Text('group list is empty'),
                 );
-              });
+              }
+
+            case ConnectionState.waiting:
+              {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+            default:
+              {
+                if (snapshot.data == null || snapshot.data.length == 0) {
+                  return Center(
+                    child: Text('group list is empty'),
+                  );
+                }
+                return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Group group = snapshot.data[index];
+                      return Column(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 6),
+                            child: ListTile(
+                              // leading:
+                              title: Text(
+                                '${capitalize(group.name)}',
+                                style: TextStyle(fontSize: 22),
+                              ),
+                              trailing: PopupMenuButton<MenuActions>(
+                                onSelected: (order) {
+                                  switch (order) {
+                                    case MenuActions.edit:
+                                      {
+                                        print('edit');
+                                        showDialog(
+                                            context: context,
+                                            builder: (_) =>
+                                                EditGroupDialog(group));
+                                      }
+                                      break;
+                                    case MenuActions.delete:
+                                      {
+                                        showDialog(
+                                            context: context,
+                                            builder: (_) =>
+                                                DeleteGroupDialog(group));
+
+                                        print('delete');
+
+                                        // proteinListServices.orderFoodsDescending();
+                                      }
+                                      break;
+                                    default:
+                                  }
+                                },
+                                icon: Icon(Icons.more_vert),
+                                itemBuilder: (
+                                  BuildContext context,
+                                ) {
+                                  return [
+                                    PopupMenuItem<MenuActions>(
+                                      child: Text('edit'),
+                                      value: MenuActions.edit,
+                                    ),
+                                    PopupMenuItem<MenuActions>(
+                                      child: Text('delete'),
+                                      value: MenuActions.delete,
+                                    ),
+                                  ];
+                                },
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ContactListGroup(group: group)),
+                                );
+                                // }));
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    });
+              }
+          }
+          // snapshot.connectionState
+          // if (snapshot.data == null || snapshot.data.length == 0) {
+
+          // }
         },
       ),
       floatingActionButton: FloatingActionButton(
