@@ -72,6 +72,10 @@ class _GroupActivityState extends State<GroupActivity> {
                                 break;
                               case MenuActions.delete:
                                 {
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => DeleteGroupDialog(group));
+
                                   print('delete');
 
                                   // proteinListServices.orderFoodsDescending();
@@ -256,6 +260,70 @@ class _EditGroupDialogState extends State<EditGroupDialog> {
                           Group group = Group(id: groupId, name: groupName);
 
                           groupService.update(group);
+
+                          Navigator.pop(context);
+                        } else {}
+                      })
+                ]),
+              ),
+            ],
+          ),
+        ));
+  }
+}
+
+class DeleteGroupDialog extends StatefulWidget {
+  final group;
+  DeleteGroupDialog(this.group);
+  @override
+  _DeleteGroupDialogState createState() => _DeleteGroupDialogState();
+}
+
+class _DeleteGroupDialogState extends State<DeleteGroupDialog> {
+  final _dialogformKey = GlobalKey<FormState>();
+
+  String groupName;
+  final _groupNameController = TextEditingController();
+  @override
+  void initState() {
+    _groupNameController.text = widget.group.name;
+    groupName = widget.group.name;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WidgetUtils.dialog(
+        context: context,
+        height: MediaQuery.of(context).size.height * .32,
+        title: 'delete group',
+        showAd: false,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Are you sure you want to delete this group?',
+                style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
+              ),
+              Form(
+                key: _dialogformKey,
+                child: Column(children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  WidgetUtils.textButton(
+                      context: context,
+                      title: "delete",
+                      onPress: () async {
+                        if (_dialogformKey.currentState.validate()) {
+                          var groupId =
+                              await groupService.getgroupId(widget.group);
+                          Group group = Group(id: groupId, name: groupName);
+
+                          groupService.remove(group.id);
 
                           Navigator.pop(context);
                         } else {}
