@@ -1,18 +1,20 @@
-import 'package:kevin_app/dao/group_dao.dart';
-import 'package:kevin_app/models/group.dart';
+import 'package:kevin_app/dao/contact_dao.dart';
+import 'package:kevin_app/dao/contact_dao.dart';
+import 'package:kevin_app/models/contact.dart';
+import 'package:kevin_app/models/contact.dart';
 
-class GroupRepository {
-  final groupDao = GroupDao();
+class ContactRepository {
+  final contactDao = ContactDao();
 
-  Future getAllGroups({String query}) => groupDao.groups();
+  Future getAllContacts({String query}) => contactDao.contacts();
 
-  Future getGroupId(Group group) => groupDao.getGroupId(group);
+  Future getContactId(Contact contact) => contactDao.getContactId(contact);
 
-  Future insertGroup(Group group) => groupDao.insertGroup(group);
+  Future insertContact(Contact contact) => contactDao.insertContact(contact);
 
-  Future updateGroup(Group group) => groupDao.updateGroup(group);
+  Future updateContact(Contact contact) => contactDao.updateContact(contact);
 
-  Future deleteGroupById(int id) => groupDao.deleteGroup(id);
+  Future deleteContactById(int id) => contactDao.deleteContact(id);
 
-  Future deleteAllGroups() => groupDao.deleteAllGroups();
+  Future deleteAllContacts() => contactDao.deleteAllContacts();
 }
