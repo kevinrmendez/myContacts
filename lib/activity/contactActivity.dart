@@ -1,26 +1,16 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/bloc/group_service.dart';
 import 'package:kevin_app/components/contactImage.dart';
-import 'package:kevin_app/components/contactImage.dart';
-import 'package:kevin_app/components/contactImage.dart';
 import 'dart:async';
-import 'package:kevin_app/components/contact_form.dart';
 import 'package:flutter/services.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/models/contact.dart';
 import 'package:kevin_app/models/group.dart';
 
 import 'package:kevin_app/state/appState.dart';
-import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
-import 'package:permission_handler/permission_handler.dart';
-
-import '../app_localizations.dart';
-import 'cameraActivity.dart';
 
 class ContactActivity extends StatefulWidget {
   final _formKey = GlobalKey<FormState>();
@@ -126,7 +116,7 @@ class ContactActivityState extends State<ContactActivity>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       body: Center(
         child: ListView(
           // mainAxisAlignment: MainAxisAlignment.center,
@@ -137,9 +127,8 @@ class ContactActivityState extends State<ContactActivity>
                 ContactImage(
                   image: image,
                 ),
-                // Positioned(top: 0, child: AdmobUtils.admobBanner()),
                 Positioned(
-                  bottom: 5,
+                  bottom: 17,
                   child: WidgetUtils.buildCamera(image, context, callback),
                 )
               ],
@@ -158,7 +147,7 @@ class ContactActivityState extends State<ContactActivity>
                                     translatedText("hintText_name", context),
                                 icon: Icon(
                                   Icons.person,
-                                  color: GREY,
+                                  color: DarkGreyColor,
                                 )),
                             controller: nameController,
                             validator: (value) {
@@ -175,7 +164,7 @@ class ContactActivityState extends State<ContactActivity>
                                     translatedText("hintText_phone", context),
                                 icon: Icon(
                                   Icons.phone,
-                                  color: GREY,
+                                  color: DarkGreyColor,
                                 )),
                             keyboardType: TextInputType.phone,
                             controller: phoneController,
@@ -186,7 +175,7 @@ class ContactActivityState extends State<ContactActivity>
                                     translatedText("hintText_email", context),
                                 icon: Icon(
                                   Icons.email,
-                                  color: GREY,
+                                  color: DarkGreyColor,
                                 )),
                             keyboardType: TextInputType.emailAddress,
                             controller: emailController,
@@ -205,16 +194,21 @@ class ContactActivityState extends State<ContactActivity>
                                   children: <Widget>[
                                     Icon(
                                       Icons.group,
-                                      color: GREY,
+                                      color: DarkGreyColor,
                                       size: 25,
                                     ),
                                     SizedBox(
-                                      width: 30,
+                                      width: 18,
                                     ),
                                     Text(
-                                      translatedText("hintText_group", context),
+                                      translatedText(
+                                        "hintText_group",
+                                        context,
+                                      ),
+                                      textAlign: TextAlign.left,
                                       style: TextStyle(
-                                        color: GREY,
+                                        fontSize: 16,
+                                        color: DarkGreyColor,
                                       ),
                                     ),
                                     SizedBox(
@@ -262,9 +256,8 @@ class ContactActivityState extends State<ContactActivity>
                     ) // Build this out in the next steps.
                     )),
             SizedBox(
-              height: 7,
+              height: 15,
             ),
-            // AdmobUtils.admobBanner()
           ],
         ),
       ),
