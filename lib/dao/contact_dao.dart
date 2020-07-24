@@ -58,6 +58,20 @@ class ContactDao {
     return contact;
   }
 
+  Future<int> getContactId(Contact contact) async {
+    final db = await dbProvider.database;
+
+    List<Map<String, dynamic>> result;
+    if (contacts != null) {
+      result = await db.query(contactTable,
+          where: 'name = ?', whereArgs: ["${contact.name}"]);
+    } else {
+      result = await db.query(contactTable);
+    }
+    Contact contactsfromDb = Contact.fromJson(result[0]);
+    return contactsfromDb.id;
+  }
+
   Future<int> updateContact(Contact contact) async {
     // Get a reference to the database.
     final db = await dbProvider.database;
