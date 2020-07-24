@@ -45,37 +45,43 @@ class _GroupActivityState extends State<GroupActivity> {
       translatedText("group_coworker", context),
     ];
     return Scaffold(
-      body: Container(
-        child: ListView.builder(
-            itemCount: category.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Column(
-                children: <Widget>[
-                  // index % 10 == 0 ? AdmobUtils.admobBanner() : SizedBox(),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 6),
-                    child: ListTile(
-                      // leading:
-                      title: Text(
-                        '${capitalize(category[index])}',
-                        style: TextStyle(fontSize: 22),
+      body: StreamBuilder(
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          return ListView.builder(
+              itemCount: category.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: <Widget>[
+                    // index % 10 == 0 ? AdmobUtils.admobBanner() : SizedBox(),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 6),
+                      child: ListTile(
+                        // leading:
+                        title: Text(
+                          '${capitalize(category[index])}',
+                          style: TextStyle(fontSize: 22),
+                        ),
+                        trailing: Icon(Icons.keyboard_arrow_right),
+                        onTap: () {
+                          print("GROUP: ${category[index]}");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ContactListGroup(
+                                    category: category[index])),
+                          );
+                          // }));
+                        },
                       ),
-                      trailing: Icon(Icons.keyboard_arrow_right),
-                      onTap: () {
-                        print("GROUP: ${category[index]}");
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ContactListGroup(category: category[index])),
-                        );
-                        // }));
-                      },
                     ),
-                  ),
-                ],
-              );
-            }),
+                  ],
+                );
+              });
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
       ),
     );
   }

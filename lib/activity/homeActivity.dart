@@ -13,12 +13,10 @@ import 'package:kevin_app/utils/utils.dart';
 
 class Home extends StatefulWidget {
   final List<Widget> _activities = [
-    // StatisticsActivity(),
     ContactActivity(),
     ContactList2(),
     FavoriteContactList(),
     GroupActivity()
-    // Settings()
   ];
 
   @override
