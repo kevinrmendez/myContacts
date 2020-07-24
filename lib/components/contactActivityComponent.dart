@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/activity/cameraActivity.dart';
+import 'package:kevin_app/bloc/group_service.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/components/contactImage.dart';
@@ -9,6 +10,7 @@ import 'dart:async';
 import 'package:kevin_app/components/contact_form.dart';
 import 'package:flutter/services.dart';
 import 'package:kevin_app/models/contact.dart';
+import 'package:kevin_app/models/group.dart';
 
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
@@ -48,20 +50,20 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
   String phone;
   String email;
   int contactId;
-  String dropdownValue;
+  Group dropdownValue;
 
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
 
     super.initState();
-    category = <String>[
-      translatedText("group_default", widget.context),
-      translatedText("group_family", widget.context),
-      translatedText("group_friend", widget.context),
-      translatedText("group_coworker", widget.context),
-    ];
-    dropdownValue = category[0];
+    // category = <String>[
+    //   translatedText("group_default", widget.context),
+    //   translatedText("group_family", widget.context),
+    //   translatedText("group_friend", widget.context),
+    //   translatedText("group_coworker", widget.context),
+    // ];
+    // dropdownValue = category[0];
     contactId = 0;
   }
 
@@ -78,24 +80,34 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
   }
 
   Widget _dropDown() {
-    return DropdownButton(
-      value: dropdownValue,
-      icon: Icon(Icons.arrow_drop_down),
-      items: category.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(
-            value,
-            style: TextStyle(color: GREY),
-          ),
-        );
-      }).toList(),
-      onChanged: (String value) {
-        setState(() {
-          dropdownValue = value;
+    return StreamBuilder<List<Group>>(
+        stream: groupService.stream,
+        builder: (context, snapshot) {
+          if (snapshot.data == null || snapshot.data.length == 0) {
+            return SizedBox(
+              height: 10,
+            );
+          }
+          List<Group> _groupList = snapshot.data;
+          return DropdownButton<Group>(
+            value: dropdownValue,
+            icon: Icon(Icons.arrow_drop_down),
+            items: _groupList.map<DropdownMenuItem<Group>>((Group value) {
+              return DropdownMenuItem<Group>(
+                value: value,
+                child: Text(
+                  value.name,
+                  style: TextStyle(color: GREY),
+                ),
+              );
+            }).toList(),
+            onChanged: (Group value) {
+              setState(() {
+                dropdownValue = value;
+              });
+            },
+          );
         });
-      },
-    );
   }
 
   Future<void> _saveContact(Contact contact) async {
@@ -118,7 +130,7 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
 
     image = "";
     setState(() {
-      dropdownValue = category[0];
+      dropdownValue = groupService.currentList[0];
     });
   }
 
@@ -228,7 +240,7 @@ class ContactActivityComponentState extends State<ContactActivityComponent>
                                           name: formattedName,
                                           phone: phoneController.text,
                                           email: emailController.text,
-                                          category: dropdownValue,
+                                          category: dropdownValue.name,
                                           image: image);
                                       _saveContact(contact);
                                       print("CONTACTID: ${contact.id}");

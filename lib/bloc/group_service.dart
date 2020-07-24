@@ -6,7 +6,7 @@ class GroupService {
   static List<Group> dbGroups = [];
   BehaviorSubject<List<Group>> _groupList = BehaviorSubject.seeded(<Group>[]);
 
-  Stream get stream => _groupList.stream;
+  Stream<List<Group>> get stream => _groupList.stream;
 
   List<Group> get currentList => _groupList.value;
 
