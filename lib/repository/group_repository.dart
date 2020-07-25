@@ -8,6 +8,8 @@ class GroupRepository {
 
   Future getGroupId(Group group) => groupDao.getGroupId(group);
 
+  Future getGroupById(int id) => groupDao.getGroupById(id);
+
   Future insertGroup(Group group) => groupDao.insertGroup(group);
 
   Future updateGroup(Group group) => groupDao.updateGroup(group);

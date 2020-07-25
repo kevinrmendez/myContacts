@@ -45,6 +45,11 @@ class GroupService {
     return id;
   }
 
+  getgroupById(int id) async {
+    Group groupDb = await _groupRepository.getGroupById(id);
+    return groupDb;
+  }
+
   void orderGroupsAscending() {
     List<Group> orderList = currentList;
     orderList.sort((a, b) => a.name.compareTo(b.name));

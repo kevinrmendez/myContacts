@@ -8,8 +8,11 @@ import 'package:kevin_app/activity/ContactList2.dart';
 import 'package:kevin_app/activity/Settings.dart';
 import 'package:kevin_app/activity/cameraActivity.dart';
 import 'package:kevin_app/activity/homeActivity.dart';
+import 'package:kevin_app/bloc/group_service.dart';
+import 'package:kevin_app/components/group_dropdown.dart';
 import 'package:kevin_app/db/contactDb.dart';
 import 'package:kevin_app/main.dart';
+import 'package:kevin_app/models/group.dart';
 import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
@@ -58,7 +61,7 @@ class ContactEditFormState extends State<ContactEditForm>
   //
   // Note: This is a `GlobalKey<FormState>`,
   // not a GlobalKey<MyCustomFormState>.
-  List<String> category;
+  // List<String> category;
 
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
@@ -98,35 +101,38 @@ class ContactEditFormState extends State<ContactEditForm>
 
   int sendedNotification;
 
-  String dropdownValue;
+  Group dropdownValue;
   // bool isBirthdayNotificationEnable;
   bool showDetails;
 
-  Widget _dropDown() {
-    return DropdownButton(
-      value: dropdownValue,
-      icon: Icon(Icons.arrow_drop_down),
-      items: category.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(
-            value,
-            style: TextStyle(color: GREY),
-          ),
-        );
-      }).toList(),
-      onChanged: (String value) {
-        setState(() {
-          dropdownValue = value;
-        });
-      },
-    );
-  }
+  // Widget _dropDown() {
+  //   return DropdownButton(
+  //     value: dropdownValue,
+  //     icon: Icon(Icons.arrow_drop_down),
+  //     items: category.map<DropdownMenuItem<String>>((String value) {
+  //       return DropdownMenuItem<String>(
+  //         value: value,
+  //         child: Text(
+  //           value,
+  //           style: TextStyle(color: GREY),
+  //         ),
+  //       );
+  //     }).toList(),
+  //     onChanged: (String value) {
+  //       setState(() {
+  //         dropdownValue = value;
+  //       });
+  //     },
+  //   );
+  // }
 
   @override
   void initState() {
     super.initState();
+    //TODO: GET INITIAL STATE OF DROPDOWN FROM CONTACT
+    getDropdownValue();
     this.contact = widget.contact;
+    // this.dropdownValue = widget.contact.category;
 
     this.name = widget.contact.name;
     this.phone = widget.contact.phone.toString();
@@ -159,19 +165,32 @@ class ContactEditFormState extends State<ContactEditForm>
     this.linkedinController.text = this.linkedin;
     this.twitterController.text = this.twitter;
 
-    category = <String>[
-      translatedText("group_default", widget.context),
-      translatedText("group_family", widget.context),
-      translatedText("group_friend", widget.context),
-      translatedText("group_coworker", widget.context),
-    ];
-    dropdownValue = contact.category;
+    // category = <String>[
+    //   translatedText("group_default", widget.context),
+    //   translatedText("group_family", widget.context),
+    //   translatedText("group_friend", widget.context),
+    //   translatedText("group_coworker", widget.context),
+    // ];
+    // dropdownValue = contact.category;
 
     // isBirthdayNotificationEnable = false;
     showDetails = false;
 
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabSelection);
+  }
+
+  getDropdownValue() async {
+    this.dropdownValue = await getGroupFromDb();
+  }
+
+  Future<Group> getGroupFromDb() async {
+    Group group = Group(name: widget.contact.category);
+    int groupId = groupService.getgroupId(group);
+
+    var result = groupService.getgroupById(groupId);
+
+    return result;
   }
 
   _handleTabSelection() {
@@ -189,7 +208,7 @@ class ContactEditFormState extends State<ContactEditForm>
     contact.image = this.image;
     contact.favorite = this.favorite;
     contact.showNotification = this.showNotification;
-    contact.category = this.dropdownValue;
+    contact.category = this.dropdownValue.name;
     contact.birthday = this.birthday;
     contact.address = this.address;
     contact.organization = this.organization;
@@ -266,6 +285,12 @@ class ContactEditFormState extends State<ContactEditForm>
     }
   }
 
+  callbackDropDown(value) {
+    setState(() {
+      dropdownValue = value;
+    });
+  }
+
   Widget _buildForm() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -326,29 +351,11 @@ class ContactEditFormState extends State<ContactEditForm>
                     keyboardType: TextInputType.emailAddress,
                     controller: emailController,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.group,
-                        color: GREY,
-                        size: 25,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        translatedText("hintText_group", context),
-                        style: TextStyle(
-                          color: GREY,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      _dropDown()
-                    ],
+                  GroupDropDown(
+                    dropDownValue: dropdownValue,
+                    callback: callbackDropDown,
                   ),
+
                   Container(
                     height: 20,
                     child: Row(
@@ -794,28 +801,9 @@ class ContactEditFormState extends State<ContactEditForm>
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Icon(
-                  Icons.group,
-                  color: GREY,
-                  size: 25,
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                Text(
-                  translatedText("hintText_group", context),
-                  style: TextStyle(
-                    color: GREY,
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                _dropDown()
-              ],
+            GroupDropDown(
+              dropDownValue: dropdownValue,
+              callback: callbackDropDown,
             ),
             Container(
               height: 20,
