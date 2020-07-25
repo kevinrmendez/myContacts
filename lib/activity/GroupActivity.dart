@@ -39,7 +39,10 @@ class _GroupActivityState extends State<GroupActivity> {
             case ConnectionState.none:
               {
                 return Center(
-                  child: Text('group list is empty'),
+                  child: WidgetUtils.emptyListText(
+                      title: 'group list is empty',
+                      description: 'add a group to your group list',
+                      context: context),
                 );
               }
 
@@ -54,7 +57,10 @@ class _GroupActivityState extends State<GroupActivity> {
               {
                 if (snapshot.data == null || snapshot.data.length == 0) {
                   return Center(
-                    child: Text('group list is empty'),
+                    child: WidgetUtils.emptyListText(
+                        title: 'group list is empty',
+                        description: 'add a group to your group list',
+                        context: context),
                   );
                 }
                 return ListView.builder(
