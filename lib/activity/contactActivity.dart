@@ -3,6 +3,7 @@ import 'package:kevin_app/bloc/group_service.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:kevin_app/components/group_dropdown.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/models/contact.dart';
 import 'package:kevin_app/models/group.dart';
@@ -44,6 +45,12 @@ class ContactActivityState extends State<ContactActivity>
     super.initState();
   }
 
+  callbackDropDown(value) {
+    setState(() {
+      dropdownValue = value;
+    });
+  }
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
@@ -54,37 +61,6 @@ class ContactActivityState extends State<ContactActivity>
   void didChangeAppLifecycleState(AppLifecycleState appLifecycleState) {
     appState = appLifecycleState;
     print(appLifecycleState);
-  }
-
-  Widget _dropDown() {
-    return StreamBuilder<List<Group>>(
-        stream: groupService.stream,
-        builder: (context, snapshot) {
-          if (snapshot.data == null || snapshot.data.length == 0) {
-            return SizedBox(
-              height: 10,
-            );
-          }
-          List<Group> _groupList = snapshot.data;
-          return DropdownButton<Group>(
-            value: dropdownValue,
-            icon: Icon(Icons.arrow_drop_down),
-            items: _groupList.map<DropdownMenuItem<Group>>((Group value) {
-              return DropdownMenuItem<Group>(
-                value: value,
-                child: Text(
-                  value.name,
-                  style: TextStyle(color: GREY),
-                ),
-              );
-            }).toList(),
-            onChanged: (Group value) {
-              setState(() {
-                dropdownValue = value;
-              });
-            },
-          );
-        });
   }
 
   Future<void> _saveContact(Contact contact) async {
@@ -150,6 +126,9 @@ class ContactActivityState extends State<ContactActivity>
                                   color: DarkGreyColor,
                                 )),
                             controller: nameController,
+                            onChanged: (value) {
+                              name = value;
+                            },
                             validator: (value) {
                               if (value.isEmpty) {
                                 return translatedText(
@@ -168,6 +147,9 @@ class ContactActivityState extends State<ContactActivity>
                                 )),
                             keyboardType: TextInputType.phone,
                             controller: phoneController,
+                            onChanged: (value) {
+                              phone = value;
+                            },
                           ),
                           TextFormField(
                             decoration: InputDecoration(
@@ -179,45 +161,14 @@ class ContactActivityState extends State<ContactActivity>
                                 )),
                             keyboardType: TextInputType.emailAddress,
                             controller: emailController,
+                            onChanged: (value) {
+                              email = value;
+                            },
                           ),
-                          StreamBuilder<List<Group>>(
-                              stream: groupService.stream,
-                              builder: (context, snapshot) {
-                                if (snapshot.data == null ||
-                                    snapshot.data.length == 0) {
-                                  return SizedBox(
-                                    height: 10,
-                                  );
-                                }
-                                return Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.group,
-                                      color: DarkGreyColor,
-                                      size: 25,
-                                    ),
-                                    SizedBox(
-                                      width: 18,
-                                    ),
-                                    Text(
-                                      translatedText(
-                                        "hintText_group",
-                                        context,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: DarkGreyColor,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    _dropDown()
-                                  ],
-                                );
-                              }),
+                          GroupDropDown(
+                            dropDownValue: dropdownValue,
+                            callback: callbackDropDown,
+                          ),
                           Container(
                             // padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                             child: Row(
@@ -231,15 +182,17 @@ class ContactActivityState extends State<ContactActivity>
                                     onPress: () async {
                                       if (widget._formKey.currentState
                                           .validate()) {
-                                        String name = nameController.text;
+                                        // String name = nameController.text;
                                         String formattedName =
                                             '${name[0].toUpperCase()}${name.substring(1)}';
                                         Contact contact = Contact(
                                             // id: contactId,
                                             name: formattedName,
-                                            phone: phoneController.text,
-                                            email: emailController.text,
-                                            category: dropdownValue.name,
+                                            phone: phone,
+                                            email: email,
+                                            category: dropdownValue == null
+                                                ? ""
+                                                : dropdownValue.name,
                                             image: image);
                                         _saveContact(contact);
                                         print("CONTACTID: ${contact.id}");

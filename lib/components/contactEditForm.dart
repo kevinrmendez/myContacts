@@ -31,12 +31,12 @@ class ContactEditForm extends StatefulWidget {
   final ScrollController scrollController;
   final Contact contact;
   final int index;
-  final List<String> category = <String>[
-    "general",
-    "family",
-    "friend",
-    "coworker"
-  ];
+  // final List<String> category = <String>[
+  //   "general",
+  //   "family",
+  //   "friend",
+  //   "coworker"
+  // ];
   final _formKey = GlobalKey<FormState>();
 
   ContactEditForm(
