@@ -258,10 +258,7 @@ class ContactEditFormState extends State<ContactEditForm>
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => Home()),
-                      (Route<dynamic> route) => false,
-                    );
+                    Navigator.pop(context);
                   })
             ],
           );
@@ -291,268 +288,268 @@ class ContactEditFormState extends State<ContactEditForm>
     });
   }
 
-  Widget _buildForm() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Form(
-            key: widget._formKey,
-            child: Container(
-              width: 280,
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    onChanged: (value) {
-                      this.name = value;
-                      setState(() {
-                        this.name = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        hintText: translatedText("hintText_name", context),
-                        icon: Icon(Icons.person)),
-                    controller: nameController,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return translatedText(
-                            "hintText_name_verification", context);
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    onChanged: (value) {
-                      setState(() {
-                        this.phone = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        hintText: translatedText("hintText_phone", context),
-                        icon: Icon(Icons.phone)),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return translatedText(
-                            "hintText_phone_verification", context);
-                      }
-                      return null;
-                    },
-                    keyboardType: TextInputType.phone,
-                    controller: phoneController,
-                  ),
-                  TextFormField(
-                    onChanged: (value) {
-                      setState(() {
-                        this.email = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                        hintText: translatedText("hintText_email", context),
-                        icon: Icon(Icons.email)),
-                    keyboardType: TextInputType.emailAddress,
-                    controller: emailController,
-                  ),
-                  GroupDropDown(
-                    dropDownValue: dropdownValue,
-                    callback: callbackDropDown,
-                  ),
+  // Widget _buildForm() {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: <Widget>[
+  //       Form(
+  //           key: widget._formKey,
+  //           child: Container(
+  //             width: 280,
+  //             child: Column(
+  //               children: <Widget>[
+  //                 TextFormField(
+  //                   onChanged: (value) {
+  //                     this.name = value;
+  //                     setState(() {
+  //                       this.name = value;
+  //                     });
+  //                   },
+  //                   decoration: InputDecoration(
+  //                       hintText: translatedText("hintText_name", context),
+  //                       icon: Icon(Icons.person)),
+  //                   controller: nameController,
+  //                   validator: (value) {
+  //                     if (value.isEmpty) {
+  //                       return translatedText(
+  //                           "hintText_name_verification", context);
+  //                     }
+  //                     return null;
+  //                   },
+  //                 ),
+  //                 TextFormField(
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       this.phone = value;
+  //                     });
+  //                   },
+  //                   decoration: InputDecoration(
+  //                       hintText: translatedText("hintText_phone", context),
+  //                       icon: Icon(Icons.phone)),
+  //                   validator: (value) {
+  //                     if (value.isEmpty) {
+  //                       return translatedText(
+  //                           "hintText_phone_verification", context);
+  //                     }
+  //                     return null;
+  //                   },
+  //                   keyboardType: TextInputType.phone,
+  //                   controller: phoneController,
+  //                 ),
+  //                 TextFormField(
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       this.email = value;
+  //                     });
+  //                   },
+  //                   decoration: InputDecoration(
+  //                       hintText: translatedText("hintText_email", context),
+  //                       icon: Icon(Icons.email)),
+  //                   keyboardType: TextInputType.emailAddress,
+  //                   controller: emailController,
+  //                 ),
+  //                 GroupDropDown(
+  //                   dropDownValue: dropdownValue,
+  //                   callback: callbackDropDown,
+  //                 ),
 
-                  Container(
-                    height: 20,
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.star,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          translatedText("hintText_favorite", context),
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        Switch(
-                          onChanged: (bool value) {
-                            setState(() {
-                              this.favorite = boolToInt(value);
-                            });
-                          },
-                          value: intToBool(this.favorite),
-                          // value: false,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 4),
-                    child: RaisedButton(
-                      color: Theme.of(context).accentColor,
-                      child: Text(
-                        translatedText("button_contact_details", context),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          showDetails = !showDetails;
-                        });
-                        if (showDetails) {
-                          widget.scrollController.animateTo(
-                              MediaQuery.of(context).size.height,
-                              duration: Duration(seconds: 1),
-                              curve: Curves.easeOut);
-                        } else {
-                          widget.scrollController.animateTo(0.0,
-                              duration: Duration(seconds: 1),
-                              curve: Curves.easeOut);
-                        }
-                      },
-                    ),
-                  ),
-                  showDetails
-                      ? Column(
-                          children: <Widget>[
-                            TextFormField(
-                              onTap: () async {
-                                FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
+  //                 Container(
+  //                   height: 20,
+  //                   child: Row(
+  //                     children: <Widget>[
+  //                       Icon(
+  //                         Icons.star,
+  //                         color: Colors.grey,
+  //                       ),
+  //                       SizedBox(
+  //                         width: 20,
+  //                       ),
+  //                       Text(
+  //                         translatedText("hintText_favorite", context),
+  //                         style: TextStyle(color: Colors.grey),
+  //                       ),
+  //                       Switch(
+  //                         onChanged: (bool value) {
+  //                           setState(() {
+  //                             this.favorite = boolToInt(value);
+  //                           });
+  //                         },
+  //                         value: intToBool(this.favorite),
+  //                         // value: false,
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ),
+  //                 Container(
+  //                   padding: EdgeInsets.only(top: 4),
+  //                   child: RaisedButton(
+  //                     color: Theme.of(context).accentColor,
+  //                     child: Text(
+  //                       translatedText("button_contact_details", context),
+  //                       style: TextStyle(color: Colors.white),
+  //                     ),
+  //                     onPressed: () {
+  //                       setState(() {
+  //                         showDetails = !showDetails;
+  //                       });
+  //                       if (showDetails) {
+  //                         widget.scrollController.animateTo(
+  //                             MediaQuery.of(context).size.height,
+  //                             duration: Duration(seconds: 1),
+  //                             curve: Curves.easeOut);
+  //                       } else {
+  //                         widget.scrollController.animateTo(0.0,
+  //                             duration: Duration(seconds: 1),
+  //                             curve: Curves.easeOut);
+  //                       }
+  //                     },
+  //                   ),
+  //                 ),
+  //                 showDetails
+  //                     ? Column(
+  //                         children: <Widget>[
+  //                           TextFormField(
+  //                             onTap: () async {
+  //                               FocusScope.of(context)
+  //                                   .requestFocus(new FocusNode());
 
-                                await _selectDate();
-                              },
-                              decoration: InputDecoration(
-                                  hintText: translatedText(
-                                      "hintText_birthday", context),
-                                  icon: Icon(Icons.calendar_today)),
-                              // keyboardType: TextInputType.datetime,
-                              controller: birthdayController,
-                            ),
-                            birthday.length > 900000000000 //hide notification
-                                // birthday.length > 0 //ORIGINAL notification
-                                ? Column(
-                                    children: <Widget>[
-                                      Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.notifications_active,
-                                            color: Colors.grey,
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Text(
-                                            // translatedText("hintText_favorite", context),
-                                            translatedText(
-                                                "hintText_birthday_notification",
-                                                context),
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          ),
-                                          Switch(
-                                            onChanged: (bool value) async {
-                                              setState(() {
-                                                this.showNotification =
-                                                    boolToInt(value);
-                                                // this.isBirthdayNotificationEnable = value;
-                                              });
-                                              print(
-                                                  "SHOWNOTIFICATION: ${this.showNotification}");
-                                              if (showNotification == 1) {
-                                                await _sendBirthdayNotification(
-                                                    title: translatedText(
-                                                        "notification_birthday_title",
-                                                        context),
-                                                    description: translatedText(
-                                                        "notification_birthday_description",
-                                                        context),
-                                                    payload: translatedText(
-                                                        "notification_birthday_payload",
-                                                        context));
-                                                // flutterLocalNotificationsPlugin
-                                                //     .cancel(contact.id);
-                                              } else {
-                                                print("CONTACTID: $contact.id");
-                                                flutterLocalNotificationsPlugin
-                                                    .cancel(contact.id);
-                                              }
-                                            },
-                                            value: intToBool(
-                                                this.showNotification),
-                                            // value: false,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                : SizedBox(),
-                            TextFormField(
-                              onChanged: (value) {
-                                setState(() {
-                                  this.address = value;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                  hintText: translatedText(
-                                      "hintText_address", context),
-                                  icon: Icon(Icons.location_city)),
-                              keyboardType: TextInputType.text,
-                              controller: addressController,
-                            ),
-                            TextFormField(
-                              onChanged: (value) {
-                                setState(() {
-                                  this.organization = value;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                  hintText: translatedText(
-                                      "hintText_organization", context),
-                                  icon: Icon(Icons.store)),
-                              keyboardType: TextInputType.text,
-                              controller: organizationController,
-                            ),
-                            TextFormField(
-                              onChanged: (value) {
-                                setState(() {
-                                  this.website = value;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                  hintText: translatedText(
-                                      "hintText_website", context),
-                                  icon: Icon(Icons.web)),
-                              keyboardType: TextInputType.text,
-                              controller: websiteController,
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: TextFormField(
-                                onChanged: (value) {
-                                  setState(() {
-                                    this.note = value;
-                                  });
-                                },
-                                decoration: InputDecoration(
-                                    hintText: translatedText(
-                                        "hintText_note", context),
-                                    icon: Icon(Icons.description)),
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                controller: noteController,
-                              ),
-                            ),
-                          ],
-                        )
-                      : SizedBox(),
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
-                  _buildFormButtons(),
-                ],
-              ),
-            ) // Build this out in the next steps.
-            ),
-      ],
-    );
-  }
+  //                               await _selectDate();
+  //                             },
+  //                             decoration: InputDecoration(
+  //                                 hintText: translatedText(
+  //                                     "hintText_birthday", context),
+  //                                 icon: Icon(Icons.calendar_today)),
+  //                             // keyboardType: TextInputType.datetime,
+  //                             controller: birthdayController,
+  //                           ),
+  //                           birthday.length > 900000000000 //hide notification
+  //                               // birthday.length > 0 //ORIGINAL notification
+  //                               ? Column(
+  //                                   children: <Widget>[
+  //                                     Row(
+  //                                       children: <Widget>[
+  //                                         Icon(
+  //                                           Icons.notifications_active,
+  //                                           color: Colors.grey,
+  //                                         ),
+  //                                         SizedBox(
+  //                                           width: 20,
+  //                                         ),
+  //                                         Text(
+  //                                           // translatedText("hintText_favorite", context),
+  //                                           translatedText(
+  //                                               "hintText_birthday_notification",
+  //                                               context),
+  //                                           style:
+  //                                               TextStyle(color: Colors.grey),
+  //                                         ),
+  //                                         Switch(
+  //                                           onChanged: (bool value) async {
+  //                                             setState(() {
+  //                                               this.showNotification =
+  //                                                   boolToInt(value);
+  //                                               // this.isBirthdayNotificationEnable = value;
+  //                                             });
+  //                                             print(
+  //                                                 "SHOWNOTIFICATION: ${this.showNotification}");
+  //                                             if (showNotification == 1) {
+  //                                               await _sendBirthdayNotification(
+  //                                                   title: translatedText(
+  //                                                       "notification_birthday_title",
+  //                                                       context),
+  //                                                   description: translatedText(
+  //                                                       "notification_birthday_description",
+  //                                                       context),
+  //                                                   payload: translatedText(
+  //                                                       "notification_birthday_payload",
+  //                                                       context));
+  //                                               // flutterLocalNotificationsPlugin
+  //                                               //     .cancel(contact.id);
+  //                                             } else {
+  //                                               print("CONTACTID: $contact.id");
+  //                                               flutterLocalNotificationsPlugin
+  //                                                   .cancel(contact.id);
+  //                                             }
+  //                                           },
+  //                                           value: intToBool(
+  //                                               this.showNotification),
+  //                                           // value: false,
+  //                                         ),
+  //                                       ],
+  //                                     ),
+  //                                   ],
+  //                                 )
+  //                               : SizedBox(),
+  //                           TextFormField(
+  //                             onChanged: (value) {
+  //                               setState(() {
+  //                                 this.address = value;
+  //                               });
+  //                             },
+  //                             decoration: InputDecoration(
+  //                                 hintText: translatedText(
+  //                                     "hintText_address", context),
+  //                                 icon: Icon(Icons.location_city)),
+  //                             keyboardType: TextInputType.text,
+  //                             controller: addressController,
+  //                           ),
+  //                           TextFormField(
+  //                             onChanged: (value) {
+  //                               setState(() {
+  //                                 this.organization = value;
+  //                               });
+  //                             },
+  //                             decoration: InputDecoration(
+  //                                 hintText: translatedText(
+  //                                     "hintText_organization", context),
+  //                                 icon: Icon(Icons.store)),
+  //                             keyboardType: TextInputType.text,
+  //                             controller: organizationController,
+  //                           ),
+  //                           TextFormField(
+  //                             onChanged: (value) {
+  //                               setState(() {
+  //                                 this.website = value;
+  //                               });
+  //                             },
+  //                             decoration: InputDecoration(
+  //                                 hintText: translatedText(
+  //                                     "hintText_website", context),
+  //                                 icon: Icon(Icons.web)),
+  //                             keyboardType: TextInputType.text,
+  //                             controller: websiteController,
+  //                           ),
+  //                           Container(
+  //                             padding: EdgeInsets.only(bottom: 10),
+  //                             child: TextFormField(
+  //                               onChanged: (value) {
+  //                                 setState(() {
+  //                                   this.note = value;
+  //                                 });
+  //                               },
+  //                               decoration: InputDecoration(
+  //                                   hintText: translatedText(
+  //                                       "hintText_note", context),
+  //                                   icon: Icon(Icons.description)),
+  //                               keyboardType: TextInputType.multiline,
+  //                               maxLines: null,
+  //                               controller: noteController,
+  //                             ),
+  //                           ),
+  //                         ],
+  //                       )
+  //                     : SizedBox(),
+  //                 // SizedBox(
+  //                 //   height: 20,
+  //                 // ),
+  //                 _buildFormButtons(),
+  //               ],
+  //             ),
+  //           ) // Build this out in the next steps.
+  //           ),
+  //     ],
+  //   );
+  // }
 
   Future _sendBirthdayNotification(
       {String title, String description, String payload}) async {

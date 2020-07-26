@@ -33,7 +33,6 @@ class ContactEdit extends StatelessWidget {
                     context: context,
                     index: index,
                     scrollController: scrollController),
-                // Positioned(bottom: 0, child: AdmobUtils.admobBanner())
               ],
             ),
             AdmobUtils.admobBanner()
