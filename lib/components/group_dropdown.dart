@@ -20,7 +20,7 @@ class _GroupDropDownState extends State<GroupDropDown> {
         builder: (context, snapshot) {
           if (snapshot.data == null || snapshot.data.length == 0) {
             return SizedBox(
-              height: 10,
+              height: 15,
             );
           }
           List<Group> _groupList = snapshot.data;
@@ -53,7 +53,7 @@ class _GroupDropDownState extends State<GroupDropDown> {
         builder: (context, snapshot) {
           if (snapshot.data == null || snapshot.data.length == 0) {
             return SizedBox(
-              height: 10,
+              height: 15,
             );
           }
           return Row(
