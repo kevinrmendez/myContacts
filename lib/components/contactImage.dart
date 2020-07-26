@@ -10,7 +10,7 @@ class ContactImage extends StatelessWidget {
 
   @override
   Widget build(context) {
-    var containerHeight = MediaQuery.of(context).size.height * .36;
+    var containerHeight = MediaQuery.of(context).size.height * .32;
     var containerWidth = MediaQuery.of(context).size.width;
     return Container(
       // color: Colors.pink,

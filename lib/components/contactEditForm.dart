@@ -56,13 +56,6 @@ class ContactEditForm extends StatefulWidget {
 
 class ContactEditFormState extends State<ContactEditForm>
     with SingleTickerProviderStateMixin {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a `GlobalKey<FormState>`,
-  // not a GlobalKey<MyCustomFormState>.
-  // List<String> category;
-
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
@@ -835,7 +828,7 @@ class ContactEditFormState extends State<ContactEditForm>
                         },
                       )),
                   Positioned(
-                      bottom: 5,
+                      bottom: -5,
                       child: WidgetUtils.buildCamera(image, context, callback)),
                   Positioned(top: 50, right: 20, child: _buildFavoriteIcon())
                 ],
@@ -882,11 +875,11 @@ class ContactEditFormState extends State<ContactEditForm>
           ),
         ),
         SizedBox(
-          height: 5,
+          height: 10,
         ),
         _buildFormButtons(),
         SizedBox(
-          height: 5,
+          height: 10,
         ),
       ],
     );

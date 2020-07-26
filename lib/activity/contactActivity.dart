@@ -104,10 +104,13 @@ class ContactActivityState extends State<ContactActivity>
                   image: image,
                 ),
                 Positioned(
-                  bottom: 17,
+                  bottom: 3,
                   child: WidgetUtils.buildCamera(image, context, callback),
                 )
               ],
+            ),
+            SizedBox(
+              height: 10,
             ),
             Align(
                 alignment: Alignment.center,
