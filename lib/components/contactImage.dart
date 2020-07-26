@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/utils/colors.dart';
 
 class ContactImage extends StatelessWidget {
