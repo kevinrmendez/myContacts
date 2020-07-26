@@ -123,8 +123,9 @@ class ContactEditFormState extends State<ContactEditForm>
   void initState() {
     super.initState();
     //TODO: GET INITIAL STATE OF DROPDOWN FROM CONTACT
-    getDropdownValue(widget.contact.category);
+
     this.contact = widget.contact;
+    // this.dropdownValue = getDropdownValue(widget.contact.category);
     // this.dropdownValue = widget.contact.category;
 
     this.name = widget.contact.name;
@@ -179,7 +180,7 @@ class ContactEditFormState extends State<ContactEditForm>
 
   Future<Group> getGroupFromDb(String groupName) async {
     Group group = Group(name: groupName);
-    int groupId = groupService.getgroupId(group);
+    int groupId = await groupService.getgroupId(group);
 
     var result = groupService.getgroupById(groupId);
 
