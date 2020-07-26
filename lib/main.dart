@@ -178,44 +178,6 @@ class MyAppState extends State<MyApp> {
 class AppWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Future<bool> _onWillPop() {
-      return showDialog(
-            context: context,
-            builder: (context) => new AlertDialog(
-              title: new Text(
-                'Do you want to close the app?',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              content: new Text(
-                  'Please share us your feedback before leaving the app, we would love hearing from you'),
-              actions: <Widget>[
-                FlatButton(
-                  onPressed: () => Navigator.of(context).pop(true),
-                  child: new Text('Yes'),
-                ),
-                FlatButton(
-                  onPressed: () async {
-                    // Navigator.of(context).pop(false);
-                    String url =
-                        "https://play.google.com/store/apps/details?id=com.kevinrmendez.contact_app";
-                    if (await canLaunch(url)) {
-                      await launch(url);
-                    } else {
-                      throw 'Could not launch $url';
-                    }
-                  },
-                  child: new Text('review app'),
-                ),
-                FlatButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: new Text('No'),
-                ),
-              ],
-            ),
-          ) ??
-          false;
-    }
-
     final navigatorKey = GlobalKey<NavigatorState>();
     return MaterialApp(
       initialRoute: AppSettings.of(context).showSetupScreen ? '/setup' : '/',
@@ -264,16 +226,6 @@ class AppWrapper extends StatelessWidget {
           fontFamily: "Open Sans",
           primaryColor: AppSettings.of(context).color,
           accentColor: AppSettings.of(context).color),
-      // home: WillPopScope(
-      //   onWillPop: _onWillPop,
-      //   child: Home(),
-      // ),
-      // home: WillPopScope(
-      //   onWillPop: _onWillPop,
-      //   child:
-      //       AppSettings.of(context).showSetupScreen ? SetupActivity() : Home(),
-      //       // Home(),
-      // ),
     );
   }
 }
