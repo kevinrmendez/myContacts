@@ -264,16 +264,6 @@ class SettingsState extends State<Settings> {
                 child: ListView(
                   children: <Widget>[
                     WidgetUtils.settingsTile(
-                        icon: Icons.info,
-                        title: translatedText("settings_about", context),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AboutActivity()),
-                          );
-                        }),
-                    WidgetUtils.settingsTile(
                       icon: Icons.remove_circle,
                       title: translatedText("settings_adfree", context),
                       onTap: () async {
@@ -287,16 +277,6 @@ class SettingsState extends State<Settings> {
                       },
                     ),
                     WidgetUtils.settingsTile(
-                        icon: Icons.assessment,
-                        title: translatedText("settings_statistics", context),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => StatisticsActivity()),
-                          );
-                        }),
-                    WidgetUtils.settingsTile(
                         icon: Icons.feedback,
                         title: translatedText("settings_rate_app", context),
                         onTap: () async {
@@ -308,6 +288,27 @@ class SettingsState extends State<Settings> {
                             throw 'Could not launch $url';
                           }
                         }),
+                    WidgetUtils.settingsTile(
+                        icon: Icons.info,
+                        title: translatedText("settings_about", context),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AboutActivity()),
+                          );
+                        }),
+                    WidgetUtils.settingsTile(
+                        icon: Icons.assessment,
+                        title: translatedText("settings_statistics", context),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => StatisticsActivity()),
+                          );
+                        }),
+
                     importedContacts == false
                         ? WidgetUtils.settingsTile(
                             icon: Icons.import_contacts,
@@ -436,13 +437,7 @@ class SettingsState extends State<Settings> {
                     contactService.current.length > 0
                         ? ExportSettings()
                         : SizedBox(),
-                    ColorSettings(),
-                    WidgetUtils.settingsTile(
-                        title: "save contacts to SIM",
-                        icon: Icons.sim_card,
-                        onTap: () async {
-                          saveContactsToSim();
-                        }),
+
                     WidgetUtils.settingsTile(
                         title: translatedText("settings_backup", context),
                         icon: Icons.backup,
@@ -453,19 +448,26 @@ class SettingsState extends State<Settings> {
                                 builder: (context) => BackupActivity()),
                           );
                         }),
-                    SwitchListTile(
-                      title: const Text('Sync app with phone'),
-                      value: contactService.currentStatusSyncContacts,
-                      onChanged: (bool value) {
-                        setState(() {
-                          contactService.setSyncContacts(value);
+                    ColorSettings(),
+                    //     WidgetUtils.settingsTile(
+                    // title: "save contacts to SIM",
+                    // icon: Icons.sim_card,
+                    // onTap: () async {
+                    //   saveContactsToSim();
+                    // }),
+                    // SwitchListTile(
+                    //   title: const Text('Sync app with phone'),
+                    //   value: contactService.currentStatusSyncContacts,
+                    //   onChanged: (bool value) {
+                    //     setState(() {
+                    //       contactService.setSyncContacts(value);
 
-                          print(
-                              "current sync status: ${contactService.currentStatusSyncContacts}");
-                        });
-                      },
-                      secondary: const Icon(Icons.sync),
-                    )
+                    //       print(
+                    //           "current sync status: ${contactService.currentStatusSyncContacts}");
+                    //     });
+                    //   },
+                    //   secondary: const Icon(Icons.sync),
+                    // )
                   ],
                 ),
               ),

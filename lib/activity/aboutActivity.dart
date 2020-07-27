@@ -50,6 +50,7 @@ class AboutActivity extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _title(translatedText("about_title", context)),
+              _text("1.2.6", context),
               _text(translatedText("about1", context), context),
               _text(translatedText("about2", context), context),
               _text(translatedText("about3", context), context),
