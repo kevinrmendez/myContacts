@@ -72,35 +72,39 @@ class _StatisticsActivityState extends State<StatisticsActivity> {
   }
 
   Widget _stadisticsTile({IconData icon, String text, int data}) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
-      child: Row(
-        children: <Widget>[
-          Icon(
-            icon,
-            size: 18,
-            color: GREY,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Flexible(
-            flex: 4,
-            child: Text(
-              "$text",
-              style: TextStyle(fontSize: 18),
+    return Column(
+      children: <Widget>[
+        Card(
+          child: Container(
+            margin: EdgeInsets.fromLTRB(30, 20, 30, 20),
+            width: MediaQuery.of(context).size.width * .7,
+            child: Column(
+              children: <Widget>[
+                Text(
+                  "$text",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                Icon(
+                  icon,
+                  size: 50,
+                  color: GREY,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  data.toString(),
+                  // "1000000000000000000000000000",
+                  style: TextStyle(fontSize: 30),
+                ),
+              ],
             ),
           ),
-          Flexible(
-            flex: 2,
-            child: Text(
-              data.toString(),
-              // "1000000000000000000000000000",
-              style: TextStyle(fontSize: 18),
-            ),
-          )
-        ],
-      ),
+        ),
+        SizedBox(
+          height: 10,
+        )
+      ],
     );
   }
 
@@ -120,45 +124,47 @@ class _StatisticsActivityState extends State<StatisticsActivity> {
       appBar:
           AppBar(title: Text(translatedText("app_title_statistics", context))),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            _boldText(translatedText("title_statistics", context)),
-            Container(
-              padding: EdgeInsets.fromLTRB(15, 10, 20, 0),
-              child: Column(
-                children: <Widget>[
-                  _stadisticsTile(
-                      icon: Icons.person,
-                      text: translatedText("statistics_total", context),
-                      data: contactListLength),
-                  _stadisticsTile(
-                      icon: Icons.people,
-                      text:
-                          translatedText("statistics_total_duplicate", context),
-                      data: contactService.currentContactsDuplicates),
-                  _stadisticsTile(
-                      icon: Icons.star,
-                      text: translatedText("statistics_favorites", context),
-                      data: favoirteQuantity),
-                ],
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              _boldText(translatedText("title_statistics", context)),
+              Container(
+                // width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: <Widget>[
+                    _stadisticsTile(
+                        icon: Icons.person,
+                        text: translatedText("statistics_total", context),
+                        data: contactListLength),
+                    _stadisticsTile(
+                        icon: Icons.people,
+                        text: translatedText(
+                            "statistics_total_duplicate", context),
+                        data: contactService.currentContactsDuplicates),
+                    _stadisticsTile(
+                        icon: Icons.star,
+                        text: translatedText("statistics_favorites", context),
+                        data: favoirteQuantity),
+                  ],
+                ),
               ),
-            ),
-            // SizedBox(
-            //   height: 10,
-            // ),
-            // contactListLength > 0
-            //     ? _boldText(translatedText("statistics_groups", context))
-            //     : SizedBox(),
-            // Container(
-            //     height: 350,
-            //     // width: MediaQuery.of(context).size.width * .7,
-            //     child: ContactsPieChart(
-            //       context,
-            //       animate: true,
-            //     )),
-            AdmobUtils.admobBanner(),
-          ],
+              // SizedBox(
+              //   height: 10,
+              // ),
+              // contactListLength > 0
+              //     ? _boldText(translatedText("statistics_groups", context))
+              //     : SizedBox(),
+              // Container(
+              //     height: 350,
+              //     // width: MediaQuery.of(context).size.width * .7,
+              //     child: ContactsPieChart(
+              //       context,
+              //       animate: true,
+              //     )),
+              // AdmobUtils.admobBanner(),
+            ],
+          ),
         ),
       ),
     );

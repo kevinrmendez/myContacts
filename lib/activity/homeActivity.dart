@@ -11,6 +11,34 @@ import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+class HomeWrapper extends StatelessWidget {
+  final Widget child;
+  HomeWrapper({this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(translatedText("app_title", context)),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Settings()),
+                );
+              })
+        ],
+      ),
+      body: child,
+      bottomNavigationBar: Container(
+          width: MediaQuery.of(context).size.width,
+          child: AdmobUtils.admobBanner()),
+    );
+  }
+}
+
 class Home extends StatefulWidget {
   final List<Widget> _activities = [
     ContactActivity(),
@@ -164,95 +192,77 @@ class HomeState extends State<Home> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: StreamBuilder(
-        stream: contactService.streamIndex,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return Scaffold(
-              appBar: AppBar(
-                title: Text(translatedText("app_title", context)),
-                actions: <Widget>[
-                  IconButton(
-                      icon: Icon(Icons.settings),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Settings()),
-                        );
-                      })
-                ],
-              ),
-              body: StreamBuilder<Object>(
-                  initialData: 0,
-                  stream: contactService.streamIndex,
-                  builder: (context, snapshot) {
-                    return widget._activities[snapshot.data];
-                  }),
-              bottomNavigationBar: Material(
-                elevation: 30,
-                child: Container(
-                  // decoration: BoxDecoration(
-                  //   border: Border(
-                  //     top: BorderSide(color: GREY),
-                  //   ),
-                  // ),
-                  height: 120,
-                  child: Stack(
-                    // mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        height: 120,
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: BottomNavigationBar(
-                              backgroundColor: Colors.white,
-                              elevation: 0,
-                              type: BottomNavigationBarType.shifting,
-                              selectedItemColor: Color(0xFF6A6A6C),
-                              unselectedItemColor: Colors.grey,
-                              selectedLabelStyle: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              unselectedLabelStyle: TextStyle(
-                                color: Colors.grey,
-                              ),
-                              showUnselectedLabels: true,
-                              currentIndex: contactService.currentIndex,
-                              onTap: onTabTapped,
-                              items: [
-                                BottomNavigationBarItem(
-                                    icon: Icon(
-                                      Icons.home,
-                                    ),
-                                    title: _bottomMenuTitle("menu_home")),
-                                BottomNavigationBarItem(
-                                    icon: Icon(Icons.contacts),
-                                    title:
-                                        _bottomMenuTitle("menu_contactList")),
-                                BottomNavigationBarItem(
-                                    icon: Icon(Icons.star),
-                                    title: _bottomMenuTitle("menu_favorite")),
-                                BottomNavigationBarItem(
-                                    icon: Icon(Icons.group),
-                                    title: _bottomMenuTitle("menu_groups")),
-                              ]),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: AdmobUtils.admobBanner()),
-                      ),
-                    ],
+    return HomeWrapper(
+      child: WillPopScope(
+        onWillPop: _onWillPop,
+        child: StreamBuilder(
+          stream: contactService.streamIndex,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return Scaffold(
+                body: StreamBuilder<Object>(
+                    initialData: 0,
+                    stream: contactService.streamIndex,
+                    builder: (context, snapshot) {
+                      return widget._activities[snapshot.data];
+                    }),
+                bottomNavigationBar: Material(
+                  elevation: 7,
+                  child: Container(
+                    // decoration: BoxDecoration(
+                    //   border: Border(
+                    //     top: BorderSide(color: GREY),
+                    //   ),
+                    // ),
+                    height: 70,
+                    child: Column(
+                      children: <Widget>[
+                        BottomNavigationBar(
+                            backgroundColor: Colors.white,
+                            elevation: 0,
+                            type: BottomNavigationBarType.shifting,
+                            selectedItemColor: Color(0xFF6A6A6C),
+                            unselectedItemColor: Colors.grey,
+                            selectedLabelStyle: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            unselectedLabelStyle: TextStyle(
+                              color: Colors.grey,
+                            ),
+                            showUnselectedLabels: true,
+                            currentIndex: contactService.currentIndex,
+                            onTap: onTabTapped,
+                            items: [
+                              BottomNavigationBarItem(
+                                  icon: Icon(
+                                    Icons.home,
+                                  ),
+                                  title: _bottomMenuTitle("menu_home")),
+                              BottomNavigationBarItem(
+                                  icon: Icon(Icons.contacts),
+                                  title: _bottomMenuTitle("menu_contactList")),
+                              BottomNavigationBarItem(
+                                  icon: Icon(Icons.star),
+                                  title: _bottomMenuTitle("menu_favorite")),
+                              BottomNavigationBarItem(
+                                  icon: Icon(Icons.group),
+                                  title: _bottomMenuTitle("menu_groups")),
+                            ]),
+                        SizedBox(
+                          height: 10,
+                        )
+                      ],
+                    ),
+
+                    // Positioned(
+                    //   bottom: 0,
+                    //   child: Container(
+                    //       width: MediaQuery.of(context).size.width,
+                    //       child: AdmobUtils.admobBanner()),
+                    // ),
                   ),
-                ),
-              ));
-        },
+                ));
+          },
+        ),
       ),
     );
   }
