@@ -85,18 +85,13 @@ class _ImportContactsComponentState extends State<ImportContactsComponent> {
         String name = contact.displayName == null || contact.displayName == ""
             ? translatedText("text_empty_name", context)
             : contact.displayName;
-        String category = translatedText("group_default", context);
+        String category = "";
 
         if (contact != null) {
           Contact newContact = Contact(
               name: name, email: email, phone: phone, category: category);
 
           db.insertContact(newContact);
-
-          print(email);
-          print(contact.displayName);
-          print(phone);
-          print(category);
           contactService.add(newContact);
         }
       });
