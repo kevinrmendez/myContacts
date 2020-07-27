@@ -753,7 +753,7 @@ class ContactEditFormState extends State<ContactEditForm>
                     ),
                   ),
                   Positioned(
-                      top: 25,
+                      top: 15,
                       left: -2,
                       child: IconButton(
                         icon: Icon(
@@ -768,9 +768,9 @@ class ContactEditFormState extends State<ContactEditForm>
                         },
                       )),
                   Positioned(
-                      bottom: -5,
+                      bottom: 4,
                       child: WidgetUtils.buildCamera(image, context, callback)),
-                  Positioned(top: 50, right: 20, child: _buildFavoriteIcon())
+                  Positioned(top: 15, right: 15, child: _buildFavoriteIcon())
                 ],
               ),
               // _buildPreviewText(),

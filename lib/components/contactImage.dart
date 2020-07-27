@@ -14,7 +14,7 @@ class ContactImage extends StatelessWidget {
     var containerWidth = MediaQuery.of(context).size.width;
     return Container(
       // color: Colors.pink,
-      padding: EdgeInsets.only(top: image == null || image == "" ? 30 : 0),
+      padding: EdgeInsets.only(top: image == null || image == "" ? 15 : 0),
       width: containerWidth,
       height: containerHeight,
       child: Stack(
