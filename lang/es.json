@@ -53,6 +53,7 @@
   "button_skip": "omitir",
   "button_backup_create": "crear respaldo",
   "button_backup_list": "lista de respaldos",
+  "button_update_app": "actualizar",
   "dialog_title_importing": "importando contactos",
   "dialog_description_importing": "importando contactos ... por favor espere",
   "dialog_exporting_contacts": "exportando contactos...",

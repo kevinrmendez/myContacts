@@ -54,6 +54,7 @@
   "button_skip": "überspringen",
   "button_backup_create": "Backup erstellen",
   "button_backup_list": "Back up liste",
+  "button_update_app": "aktualisieren",
   "dialog_title_importing": "Kontakte importieren",
   "dialog_description_importing": "Kontakte importieren ... bitte warten",
   "snackbar_contact_delete_all": "Alle Ihre Kontakte wurden gelöscht!",

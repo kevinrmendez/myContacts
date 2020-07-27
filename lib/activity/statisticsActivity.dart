@@ -144,19 +144,19 @@ class _StatisticsActivityState extends State<StatisticsActivity> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            contactListLength > 0
-                ? _boldText(translatedText("statistics_groups", context))
-                : SizedBox(),
-            Container(
-                height: 350,
-                // width: MediaQuery.of(context).size.width * .7,
-                child: ContactsPieChart(
-                  context,
-                  animate: true,
-                )),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            // contactListLength > 0
+            //     ? _boldText(translatedText("statistics_groups", context))
+            //     : SizedBox(),
+            // Container(
+            //     height: 350,
+            //     // width: MediaQuery.of(context).size.width * .7,
+            //     child: ContactsPieChart(
+            //       context,
+            //       animate: true,
+            //     )),
             AdmobUtils.admobBanner(),
           ],
         ),

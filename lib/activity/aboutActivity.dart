@@ -12,7 +12,7 @@ class AboutActivity extends StatelessWidget {
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20),
+        style: TextStyle(fontSize: 18),
       ),
     );
   }
@@ -23,21 +23,21 @@ class AboutActivity extends StatelessWidget {
       return Column(
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 40),
+            padding: const EdgeInsets.symmetric(vertical: 20),
             child: Text(
               text,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 30),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Icon(
-              Icons.info,
-              color: Theme.of(context).primaryColor,
-              size: 60,
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(bottom: 20),
+          //   child: Icon(
+          //     Icons.info,
+          //     color: Theme.of(context).primaryColor,
+          //     size: 60,
+          //   ),
+          // ),
         ],
       );
     }
@@ -59,21 +59,45 @@ class AboutActivity extends StatelessWidget {
               _text(translatedText("about7", context), context),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 20),
-                child: RaisedButton(
-                  color: Theme.of(context).primaryColor,
-                  child: Text(
-                    translatedText("button_rate", context),
-                    style: TextStyle(color: Colors.white, fontSize: 25),
-                  ),
-                  onPressed: () async {
-                    String url =
-                        "https://play.google.com/store/apps/details?id=com.kevinrmendez.contact_app";
-                    if (await canLaunch(url)) {
-                      await launch(url);
-                    } else {
-                      throw 'Could not launch $url';
-                    }
-                  },
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  children: <Widget>[
+                    RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      child: Text(
+                        translatedText("button_rate", context),
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      ),
+                      onPressed: () async {
+                        String url =
+                            "https://play.google.com/store/apps/details?id=com.kevinrmendez.contact_app";
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      child: Text(
+                        translatedText("button_update_app", context),
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      ),
+                      onPressed: () async {
+                        String url =
+                            "https://play.google.com/store/apps/details?id=com.kevinrmendez.contact_app";
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ),
             ],

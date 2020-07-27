@@ -54,6 +54,7 @@
   "button_skip": "pular",
   "button_backup_create": "Criar backup",
   "button_backup_list": "lista de backup",
+  "button_update_app": "atualizar",
   "dialog_title_importing": "importando contatos",
   "dialog_description_importing": "importando contatos ... aguarde",
   "snackbar_contact_delete_all": "Todos os teus contactos foram apagados!",
