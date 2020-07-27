@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kevin_app/activity/backupActivityList.dart';
+import 'package:kevin_app/main.dart';
 import 'package:kevin_app/state/appState.dart';
+import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/fileUtils.dart';
 import 'package:kevin_app/utils/utils.dart';
@@ -25,11 +27,13 @@ class BackupActivityState extends State<BackupActivity> {
   List directories = [];
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final snackBar = (text) => SnackBar(content: Text(text));
+  // var interstellarAd = AdmobUtils.interstitialAd();
 
   @override
   void initState() {
     super.initState();
     _getFiles();
+    // interstellarAd.load();
   }
 
   _getFiles() async {
@@ -135,6 +139,7 @@ class BackupActivityState extends State<BackupActivity> {
                       ? WidgetUtils.largeButton(
                           title: translatedText("button_backup_list", context),
                           onPressed: () {
+                            AdmobUtils.showInterstitialAd(interstellarAd);
                             Navigator.push(
                               context,
                               MaterialPageRoute(

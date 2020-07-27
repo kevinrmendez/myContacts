@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:kevin_app/utils/admobUtils.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -21,6 +22,7 @@ import 'app_localizations.dart';
 ContactDb db = ContactDb();
 List<Contact> contactsfromDb;
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+var interstellarAd;
 
 SharedPreferences prefs;
 void main() async {
@@ -31,6 +33,8 @@ void main() async {
 
   Admob.initialize(getAppId());
   runApp(MyApp());
+  interstellarAd = AdmobUtils.interstitialAd();
+  interstellarAd.load();
 }
 
 String getAppId() {

@@ -26,7 +26,7 @@ class AdmobUtils {
     );
   }
 
-  static AdmobInterstitial getInterstitialAd() {
+  static AdmobInterstitial interstitialAd() {
     return AdmobInterstitial(adUnitId: getInterstitialAdUnitId());
   }
 
@@ -41,10 +41,13 @@ class AdmobUtils {
   }
 
   static showInterstitialAdDetails(AdmobInterstitial add) async {
+    // add.show();
+
     print("ADD DETAILS: $_addCounterDetails");
-    if (_addCounterDetails % 3 == 0) {
+    if (_addCounterDetails % 2 == 0) {
       if (await add.isLoaded) {
         add.show();
+        add.load();
       }
     }
     _addCounterDetails++;
