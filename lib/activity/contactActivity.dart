@@ -33,7 +33,7 @@ class ContactActivityState extends State<ContactActivity>
   String phone;
   String email;
   int contactId;
-  Group dropdownValue;
+  String dropdownValue;
   String image = "";
 
   AppLifecycleState appState;
@@ -195,7 +195,7 @@ class ContactActivityState extends State<ContactActivity>
                                             email: email,
                                             category: dropdownValue == null
                                                 ? ""
-                                                : dropdownValue.name,
+                                                : dropdownValue,
                                             image: image);
                                         _saveContact(contact);
                                         print("CONTACTID: ${contact.id}");

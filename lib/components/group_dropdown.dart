@@ -6,7 +6,7 @@ import 'package:kevin_app/utils/utils.dart';
 
 class GroupDropDown extends StatefulWidget {
   final Function callback;
-  final Group dropDownValue;
+  final String dropDownValue;
   GroupDropDown({this.dropDownValue, this.callback});
 
   @override
@@ -24,19 +24,20 @@ class _GroupDropDownState extends State<GroupDropDown> {
             );
           }
           List<Group> _groupList = snapshot.data;
-          return DropdownButton<Group>(
+          List<String> _groupListName = _groupList.map((e) => e.name).toList();
+          return DropdownButton<String>(
             value: widget.dropDownValue,
             icon: Icon(Icons.arrow_drop_down),
-            items: _groupList.map<DropdownMenuItem<Group>>((Group value) {
-              return DropdownMenuItem<Group>(
+            items: _groupListName.map<DropdownMenuItem<String>>((value) {
+              return DropdownMenuItem<String>(
                 value: value,
                 child: Text(
-                  value.name,
+                  value,
                   style: TextStyle(color: GREY),
                 ),
               );
             }).toList(),
-            onChanged: (Group value) {
+            onChanged: (String value) {
               widget.callback(value);
               // setState(() {
               //   dropdownValue = value;

@@ -4,20 +4,14 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:kevin_app/activity/ContactList2.dart';
-import 'package:kevin_app/activity/Settings.dart';
-import 'package:kevin_app/activity/cameraActivity.dart';
-import 'package:kevin_app/activity/homeActivity.dart';
 import 'package:kevin_app/bloc/group_service.dart';
 import 'package:kevin_app/components/group_dropdown.dart';
 import 'package:kevin_app/db/contactDb.dart';
 import 'package:kevin_app/main.dart';
 import 'package:kevin_app/models/group.dart';
-import 'package:kevin_app/state/appSettings.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:scidart/numdart.dart';
 import 'package:kevin_app/components/contactImage.dart';
 import 'package:kevin_app/utils/utils.dart';
@@ -94,39 +88,16 @@ class ContactEditFormState extends State<ContactEditForm>
 
   int sendedNotification;
 
-  Group dropdownValue;
+  String dropdownValue;
   // bool isBirthdayNotificationEnable;
   bool showDetails;
-
-  // Widget _dropDown() {
-  //   return DropdownButton(
-  //     value: dropdownValue,
-  //     icon: Icon(Icons.arrow_drop_down),
-  //     items: category.map<DropdownMenuItem<String>>((String value) {
-  //       return DropdownMenuItem<String>(
-  //         value: value,
-  //         child: Text(
-  //           value,
-  //           style: TextStyle(color: GREY),
-  //         ),
-  //       );
-  //     }).toList(),
-  //     onChanged: (String value) {
-  //       setState(() {
-  //         dropdownValue = value;
-  //       });
-  //     },
-  //   );
-  // }
 
   @override
   void initState() {
     super.initState();
-    //TODO: GET INITIAL STATE OF DROPDOWN FROM CONTACT
 
     this.contact = widget.contact;
-    // this.dropdownValue = getDropdownValue(widget.contact.category);
-    // this.dropdownValue = widget.contact.category;
+    this.dropdownValue = widget.contact.category;
 
     this.name = widget.contact.name;
     this.phone = widget.contact.phone.toString();
@@ -159,32 +130,11 @@ class ContactEditFormState extends State<ContactEditForm>
     this.linkedinController.text = this.linkedin;
     this.twitterController.text = this.twitter;
 
-    // category = <String>[
-    //   translatedText("group_default", widget.context),
-    //   translatedText("group_family", widget.context),
-    //   translatedText("group_friend", widget.context),
-    //   translatedText("group_coworker", widget.context),
-    // ];
-    // dropdownValue = contact.category;
-
     // isBirthdayNotificationEnable = false;
     showDetails = false;
 
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabSelection);
-  }
-
-  getDropdownValue(String groupName) async {
-    this.dropdownValue = await getGroupFromDb(groupName);
-  }
-
-  Future<Group> getGroupFromDb(String groupName) async {
-    Group group = Group(name: groupName);
-    int groupId = await groupService.getgroupId(group);
-
-    var result = groupService.getgroupById(groupId);
-
-    return result;
   }
 
   _handleTabSelection() {
@@ -203,8 +153,7 @@ class ContactEditFormState extends State<ContactEditForm>
     contact.favorite = this.favorite;
     contact.showNotification = this.showNotification;
 
-    contact.category =
-        this.dropdownValue == null ? "" : this.dropdownValue.name;
+    contact.category = this.dropdownValue == null ? "" : this.dropdownValue;
     contact.birthday = this.birthday;
     contact.address = this.address;
     contact.organization = this.organization;
@@ -218,22 +167,16 @@ class ContactEditFormState extends State<ContactEditForm>
 
     await db.updateContact(contact);
 
-    contacts = db.contacts();
+    // contacts = db.contacts();
 
     contactService.update(contact);
     _showMessage(translatedText("message_dialog_change_contact", context));
   }
 
   Future<void> _deleteContact(Contact contact) async {
-    List<Contact> contactList;
-    AppSettings appState = AppSettings.of(context);
     await db.deleteContact(contact.id);
-
     contacts = db.contacts();
-    contactList = await contacts;
     contactService.remove(contact);
-    int contactsLength = contactList.length;
-
     _showMessage(translatedText("message_dialog_contact_deleted", context));
   }
 
@@ -353,61 +296,57 @@ class ContactEditFormState extends State<ContactEditForm>
     );
   }
 
-  Widget _buildPreviewText() {
-    return _buildBoldText(this.name);
-  }
+  // Widget _buildBoldText(String text) {
+  //   return Container(
+  //     color: contact.image == null || contact.image == ""
+  //         ? Colors.transparent
+  //         : Colors.transparent,
+  //     // : Theme.of(context).primaryColor,
+  //     // padding: EdgeInsets.symmetric(vertical: 4),
+  //     // width: MediaQuery.of(context).size.width,
+  //     width: MediaQuery.of(context).size.width * .75,
 
-  Widget _buildBoldText(String text) {
-    return Container(
-      color: contact.image == null || contact.image == ""
-          ? Colors.transparent
-          : Colors.transparent,
-      // : Theme.of(context).primaryColor,
-      // padding: EdgeInsets.symmetric(vertical: 4),
-      // width: MediaQuery.of(context).size.width,
-      width: MediaQuery.of(context).size.width * .75,
-
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Flexible(
-            // width: MediaQuery.of(context).size.width * .75,
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: contact.image == null || contact.image == ""
-                      ? Theme.of(context).primaryColor
-                      : Theme.of(context).primaryColor),
-              // : Colors.white),
-            ),
-          ),
-          this.favorite == 1
-              ? SizedBox(
-                  width: 5,
-                )
-              : SizedBox(),
-          SizedBox(
-            height: 35,
-            width: 35,
-            child: this.favorite == 1
-                ? Icon(
-                    Icons.star,
-                    color: contact.image == null || contact.image == ""
-                        ? Theme.of(context).primaryColor
-                        : Theme.of(context).primaryColor,
-                    // : Colors.white,
-                    size: 35,
-                  )
-                : SizedBox(),
-          )
-        ],
-      ),
-    );
-  }
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       crossAxisAlignment: CrossAxisAlignment.center,
+  //       children: <Widget>[
+  //         Flexible(
+  //           // width: MediaQuery.of(context).size.width * .75,
+  //           child: Text(
+  //             text,
+  //             textAlign: TextAlign.center,
+  //             style: TextStyle(
+  //                 fontSize: 28,
+  //                 fontWeight: FontWeight.bold,
+  //                 color: contact.image == null || contact.image == ""
+  //                     ? Theme.of(context).primaryColor
+  //                     : Theme.of(context).primaryColor),
+  //             // : Colors.white),
+  //           ),
+  //         ),
+  //         this.favorite == 1
+  //             ? SizedBox(
+  //                 width: 5,
+  //               )
+  //             : SizedBox(),
+  //         SizedBox(
+  //           height: 35,
+  //           width: 35,
+  //           child: this.favorite == 1
+  //               ? Icon(
+  //                   Icons.star,
+  //                   color: contact.image == null || contact.image == ""
+  //                       ? Theme.of(context).primaryColor
+  //                       : Theme.of(context).primaryColor,
+  //                   // : Colors.white,
+  //                   size: 35,
+  //                 )
+  //               : SizedBox(),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildFormContainer(Widget child) {
     return Container(
