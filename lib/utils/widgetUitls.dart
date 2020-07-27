@@ -21,22 +21,26 @@ class WidgetUtils {
 
   static Widget contactSearchTextField(
       {BuildContext context, TextEditingController filter}) {
-    return TextField(
-      style: TextStyle(color: GREY, fontSize: 17),
-      controller: filter,
-      decoration: new InputDecoration(
-        prefixIcon: new Icon(
-          Icons.search,
-          color: Theme.of(context).primaryColor,
+    return Material(
+      elevation: 10,
+      child: TextField(
+        style: TextStyle(color: GREY, fontSize: 17),
+        controller: filter,
+        decoration: new InputDecoration(
+          border: InputBorder.none,
+          prefixIcon: new Icon(
+            Icons.search,
+            color: Theme.of(context).primaryColor,
+          ),
+          hintText: translatedText("hintText_search", context),
+          hintStyle: TextStyle(color: GREY),
+          // enabledBorder: UnderlineInputBorder(
+          //   borderSide: BorderSide(color: Theme.of(context).accentColor),
+          // ),
+          // focusedBorder: UnderlineInputBorder(
+          //     borderSide:
+          //         BorderSide(color: Theme.of(context).accentColor)),
         ),
-        hintText: translatedText("hintText_search", context),
-        hintStyle: TextStyle(color: GREY),
-        // enabledBorder: UnderlineInputBorder(
-        //   borderSide: BorderSide(color: Theme.of(context).accentColor),
-        // ),
-        // focusedBorder: UnderlineInputBorder(
-        //     borderSide:
-        //         BorderSide(color: Theme.of(context).accentColor)),
       ),
     );
   }

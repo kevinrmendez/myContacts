@@ -97,7 +97,8 @@ class ContactEditFormState extends State<ContactEditForm>
     super.initState();
 
     this.contact = widget.contact;
-    this.dropdownValue = widget.contact.category;
+    this.dropdownValue =
+        widget.contact.category != "" ? widget.contact.category : null;
 
     this.name = widget.contact.name;
     this.phone = widget.contact.phone.toString();

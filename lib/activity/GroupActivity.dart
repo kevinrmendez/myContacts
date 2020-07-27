@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kevin_app/activity/ContactListGroup.dart';
 import 'package:kevin_app/bloc/group_service.dart';
 import 'package:kevin_app/models/group.dart';
+import 'package:kevin_app/utils/utils.dart';
 import 'package:kevin_app/utils/widgetUitls.dart';
 import 'package:strings/strings.dart';
 
@@ -15,9 +16,6 @@ class GroupActivity extends StatefulWidget {
 }
 
 class _GroupActivityState extends State<GroupActivity> {
-  // Future<List<Contact>> contacts;
-  // List<String> category;
-
   @override
   void initState() {
     super.initState();
@@ -25,12 +23,6 @@ class _GroupActivityState extends State<GroupActivity> {
 
   @override
   Widget build(BuildContext context) {
-    // category = <String>[
-    //   translatedText("group_default", context),
-    //   translatedText("group_family", context),
-    //   translatedText("group_friend", context),
-    //   translatedText("group_coworker", context),
-    // ];
     return Scaffold(
       body: StreamBuilder(
         stream: groupService.stream,
@@ -40,8 +32,8 @@ class _GroupActivityState extends State<GroupActivity> {
               {
                 return Center(
                   child: WidgetUtils.emptyListText(
-                      title: 'group list is empty',
-                      description: 'add a group to your group list',
+                      title: translatedText("group_empty_title", context),
+                      description: translatedText("group_empty_text", context),
                       context: context),
                 );
               }
@@ -58,8 +50,9 @@ class _GroupActivityState extends State<GroupActivity> {
                 if (snapshot.data == null || snapshot.data.length == 0) {
                   return Center(
                     child: WidgetUtils.emptyListText(
-                        title: 'group list is empty',
-                        description: 'add a group to your group list',
+                        title: translatedText("group_empty_title", context),
+                        description:
+                            translatedText("group_empty_text", context),
                         context: context),
                   );
                 }
@@ -110,11 +103,13 @@ class _GroupActivityState extends State<GroupActivity> {
                                 ) {
                                   return [
                                     PopupMenuItem<MenuActions>(
-                                      child: Text('edit'),
+                                      child: Text(translatedText(
+                                          "pop_up_item_edit", context)),
                                       value: MenuActions.edit,
                                     ),
                                     PopupMenuItem<MenuActions>(
-                                      child: Text('delete'),
+                                      child: Text(translatedText(
+                                          "pop_up_item_delete", context)),
                                       value: MenuActions.delete,
                                     ),
                                   ];
@@ -168,7 +163,7 @@ class _AddGroupDialogState extends State<AddGroupDialog> {
     return WidgetUtils.dialog(
         context: context,
         height: MediaQuery.of(context).size.height * .3,
-        title: 'add group',
+        title: translatedText("dialog_title_add_group", context),
         showAd: false,
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 40),
@@ -180,7 +175,9 @@ class _AddGroupDialogState extends State<AddGroupDialog> {
                 child: Column(children: [
                   TextFormField(
                     decoration: InputDecoration(
-                        hintText: 'group name', icon: Icon(Icons.group)),
+                        hintText:
+                            translatedText("hintText_name_group", context),
+                        icon: Icon(Icons.group)),
                     keyboardType: TextInputType.text,
                     controller: _groupNameController,
                     onChanged: (value) {
@@ -193,10 +190,10 @@ class _AddGroupDialogState extends State<AddGroupDialog> {
                           .map((group) => group.name)
                           .toList();
                       if (value == "") {
-                        return "value empty";
+                        return translatedText("error_value_empty", context);
                       }
                       if (currentGroups.contains(value))
-                        return "group already exists";
+                        return translatedText("error_group_duplicate", context);
                     },
                   ),
                   SizedBox(
@@ -204,7 +201,7 @@ class _AddGroupDialogState extends State<AddGroupDialog> {
                   ),
                   WidgetUtils.textButton(
                       context: context,
-                      title: "add",
+                      title: translatedText("button_add", context),
                       onPress: () async {
                         if (_dialogformKey.currentState.validate()) {
                           Group group = Group(name: groupName);
@@ -246,7 +243,7 @@ class _EditGroupDialogState extends State<EditGroupDialog> {
     return WidgetUtils.dialog(
         context: context,
         height: MediaQuery.of(context).size.height * .37,
-        title: 'edit group',
+        title: translatedText("dialog_title_edit_group", context),
         showAd: false,
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 40),
@@ -258,7 +255,9 @@ class _EditGroupDialogState extends State<EditGroupDialog> {
                 child: Column(children: [
                   TextFormField(
                     decoration: InputDecoration(
-                        hintText: 'group name', icon: Icon(Icons.group)),
+                        hintText:
+                            translatedText("hintText_name_group", context),
+                        icon: Icon(Icons.group)),
                     keyboardType: TextInputType.text,
                     controller: _groupNameController,
                     onChanged: (value) {
@@ -268,7 +267,7 @@ class _EditGroupDialogState extends State<EditGroupDialog> {
                     },
                     validator: (value) {
                       if (value == "") {
-                        return "value empty";
+                        return translatedText("error_value_empty", context);
                       }
                       return null;
                     },
@@ -278,7 +277,7 @@ class _EditGroupDialogState extends State<EditGroupDialog> {
                   ),
                   WidgetUtils.textButton(
                       context: context,
-                      title: "add",
+                      title: translatedText("button_add", context),
                       onPress: () async {
                         if (_dialogformKey.currentState.validate()) {
                           var groupId =
@@ -322,7 +321,7 @@ class _DeleteGroupDialogState extends State<DeleteGroupDialog> {
     return WidgetUtils.dialog(
         context: context,
         height: MediaQuery.of(context).size.height * .32,
-        title: 'delete group',
+        title: translatedText("dialog_title_delete_group", context),
         showAd: false,
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 40),
@@ -330,7 +329,7 @@ class _DeleteGroupDialogState extends State<DeleteGroupDialog> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                "Are you sure you want to delete '${widget.group.name}'  group?",
+                "${translatedText("dialog_delete_verification_1", context)}'${widget.group.name}'${translatedText("dialog_delete_verification_2", context)}?",
                 style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
               ),
@@ -346,7 +345,7 @@ class _DeleteGroupDialogState extends State<DeleteGroupDialog> {
                       WidgetUtils.textButton(
                           buttonWidth: 90,
                           context: context,
-                          title: "delete",
+                          title: translatedText("button_delete", context),
                           onPress: () async {
                             if (_dialogformKey.currentState.validate()) {
                               var groupId =
@@ -361,7 +360,7 @@ class _DeleteGroupDialogState extends State<DeleteGroupDialog> {
                       WidgetUtils.textButton(
                           buttonWidth: 90,
                           context: context,
-                          title: "cancel",
+                          title: translatedText("button_cancel", context),
                           onPress: () {
                             Navigator.pop(context);
                           })

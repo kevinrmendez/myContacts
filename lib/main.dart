@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:kevin_app/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:admob_flutter/admob_flutter.dart';
@@ -223,6 +224,7 @@ class AppWrapper extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // theme: AppSettings.of(context).theme,
       theme: ThemeData(
+          scaffoldBackgroundColor: BackgroundColor,
           fontFamily: "Open Sans",
           primaryColor: AppSettings.of(context).color,
           accentColor: AppSettings.of(context).color),
