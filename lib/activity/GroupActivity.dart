@@ -277,7 +277,7 @@ class _EditGroupDialogState extends State<EditGroupDialog> {
                   ),
                   WidgetUtils.textButton(
                       context: context,
-                      title: translatedText("button_add", context),
+                      title: translatedText("button_edit", context),
                       onPress: () async {
                         if (_dialogformKey.currentState.validate()) {
                           var groupId =

@@ -25,6 +25,7 @@
   "error_value_empty": "value empty",
   "error_group_duplicate": "group already exists",
   "button_add": "add",
+  "button_edit": "edit",
   "button_cancel": "cancel",
   "group_empty_title": "group list is empty",
   "group_empty_text": "add a group to your group list",
