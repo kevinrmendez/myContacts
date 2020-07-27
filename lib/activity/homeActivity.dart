@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kevin_app/activity/ContactList2.dart';
+import 'package:kevin_app/activity/ContactList.dart';
 import 'package:kevin_app/activity/FavoriteContactList.dart';
 import 'package:kevin_app/activity/GroupActivity.dart';
 import 'package:kevin_app/activity/Settings.dart';
@@ -8,14 +8,13 @@ import 'package:kevin_app/activity/contactActivity.dart';
 import 'package:kevin_app/app_localizations.dart';
 import 'package:kevin_app/state/appState.dart';
 import 'package:kevin_app/utils/admobUtils.dart';
-import 'package:kevin_app/utils/colors.dart';
 import 'package:kevin_app/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
   final List<Widget> _activities = [
     ContactActivity(),
-    ContactList2(),
+    ContactList(),
     FavoriteContactList(),
     GroupActivity()
   ];
@@ -225,7 +224,6 @@ class HomeState extends State<Home> {
                                 BottomNavigationBarItem(
                                     icon: Icon(
                                       Icons.home,
-                                      // color: Theme.of(context).primaryColor,
                                     ),
                                     title: _bottomMenuTitle("menu_home")),
                                 BottomNavigationBarItem(
@@ -238,9 +236,6 @@ class HomeState extends State<Home> {
                                 BottomNavigationBarItem(
                                     icon: Icon(Icons.group),
                                     title: _bottomMenuTitle("menu_groups")),
-                                // BottomNavigationBarItem(
-                                //     icon: Icon(Icons.settings),
-                                //     title: _bottomMenuTitle("menu_settings")),
                               ]),
                         ),
                       ),
