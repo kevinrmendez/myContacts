@@ -59,15 +59,17 @@ class HomeState extends State<Home> {
           context: context,
           builder: (context) => new AlertDialog(
             title: new Text(
-              'Do you want to close the app?',
+              translatedText('dialog_close_app_title', context),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             content: new Text(
-                'Please share us your feedback before leaving the app, we would love hearing from you'),
+                translatedText('dialog_close_app_description', context)),
             actions: <Widget>[
               FlatButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: new Text('Yes'),
+                child: new Text(
+                  translatedText('button_yes', context),
+                ),
               ),
               FlatButton(
                 onPressed: () async {
@@ -80,11 +82,15 @@ class HomeState extends State<Home> {
                     throw 'Could not launch $url';
                   }
                 },
-                child: new Text('review app'),
+                child: new Text(
+                  translatedText("button_review", context),
+                ),
               ),
               FlatButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
+                child: Text(
+                  translatedText('button_no', context),
+                ),
               ),
             ],
           ),
